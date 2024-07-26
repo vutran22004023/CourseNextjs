@@ -12,7 +12,7 @@ export default function sidebarHeader({
     const pageConfig = {
         showHeader: ['/'], // Hiển thị Header cho trang gốc
         showSidebar: ['/'], // Hiển thị Sidebar cho các trang được chỉ định
-        hideSidebar: ['/blog/blog-detail','/admin'], // Ẩn Sidebar cho các trang được chỉ định
+        hideSidebar: ['/blog/blog-detail','/admin','/profile'], // Ẩn Sidebar cho các trang được chỉ định
       };
       const pathname = usePathname();
 

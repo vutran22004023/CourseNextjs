@@ -10,7 +10,7 @@ interface SidebarProps {
 }
 export default function SidebarAdmin({ className, activePage }: SidebarProps) {
   const [navigation, setNavigation] = useState([
-    { name: "Dashboard", href: "/admin/dash-board",icon:LayoutDashboard, current: activePage === "dashboard" },
+    { name: "Dashboard", href: "/admin",icon:LayoutDashboard, current: activePage === "dashboard" },
     { name: "Thông tin pages", href: "/admin/information-page",icon:SquareLibrary, current: activePage === "information" },
     { name: "Khóa học", href: "/admin/courses",icon:BookOpenText, current: activePage === "courses" },
     { name: "Người dùng", href: "/admin/users",icon:Users, current: activePage === "users" },
