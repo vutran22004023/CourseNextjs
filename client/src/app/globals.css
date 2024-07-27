@@ -67,3 +67,62 @@
     @apply bg-background text-foreground;
   }
 }
+
+body {
+  color: #000;
+  font-family: "Cactus Classical Serif", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.cactus-classical-serif-regular {
+  font-family: "Cactus Classical Serif", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.cactus-classical-serif-md {
+  font-family: "Cactus Classical Serif", serif;
+  font-weight: 600;
+  font-style: normal;
+}
+
+.slide-count {
+  /* Container for the slide count text */
+  display: flex; /* Arrange text horizontally */
+  justify-content: center; /* Center text horizontally */
+  align-items: center; /* Center text vertically */
+  padding: 8px 0; /* Add vertical padding */
+  font-size: 14px; /* Set font size */
+  color: #999999; /* Muted foreground color */
+}
+
+.slide-count-current {
+  /* Style for the current slide number */
+  font-weight: bold; /* Make current slide number bold */
+}
+
+.slide-count-separator {
+  /* Separator between current and total slide numbers */
+  margin: 0 4px; /* Add horizontal spacing */
+  content: 'of'
+}
+
+.modal-enter {
+  opacity: 0;
+  transform: translateY(100%);
+}
+.modal-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 300ms, transform 300ms;
+}
+.modal-exit {
+  opacity: 1;
+  transform: translateY(0);
+}
+.modal-exit-active {
+  opacity: 0;
+  transform: translateY(100%);
+  transition: opacity 300ms, transform 300ms;
+}

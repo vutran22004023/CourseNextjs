@@ -11,7 +11,9 @@ import CardComponent from '@/components/Card/Card';
 import LoadingCard from '@/components/Loading/LoadingCard';
 import Link from 'next/link';
 import { Course, DataAllCourses } from '@/types'; // Import type definitions
+import {getTokenFromCookies} from '@/utils/auth'
 
+const token = getTokenFromCookies()
 const getAllCourses = async (search: string): Promise<DataAllCourses> => {
   const res = await GetAllCourses(search);
   return res;
@@ -27,12 +29,12 @@ const CourseList: FC<{ courses: Course[]; isLoading: boolean; user: any }> = ({ 
       ))
       : courses.map((course) => (
         <div key={course._id} className="flex-none w-full md:w-auto">
-          {user?.access_Token && user?.status === true && user?.isAdmin ? (
-            <Link href={`/courses-login/${course.slug}`}>
+          {token && user?.status === true && user?.isAdmin ? (
+            <Link href={`/course-login/${course.slug}`}>
               <CardComponent course={course} />
             </Link>
           ) : (
-            <Link href={`/courses-not-login/${course.slug}`}>
+            <Link href={`/course-not-login/${course.slug}`}>
               <CardComponent course={course} />
             </Link>
           )}

@@ -51,7 +51,6 @@ export const initializeUser = async (dispatch: AppDispatch) => {
           dispatch(updateUser({
             name: response.data.name || "",
             email: response.data.email || "",
-            access_Token: token || "", // Không nên lưu trữ access_Token trong Redux state
             avatar: response.data.avatar || "",
             _id: response.data._id || '',
             isAdmin: response.data.isAdmin || false,

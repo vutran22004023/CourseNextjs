@@ -3,6 +3,7 @@ import React from 'react'
 import HeaderLayout from '@/components/Layouts/HeaderLayout';
 import SidebarComponent from '@/components/Sidebar/sidebar';
 import { usePathname } from 'next/navigation';
+
 export default function sidebarHeader({
     children,
   }: Readonly<{
@@ -12,7 +13,8 @@ export default function sidebarHeader({
     const pageConfig = {
         showHeader: ['/'], // Hiển thị Header cho trang gốc
         showSidebar: ['/'], // Hiển thị Sidebar cho các trang được chỉ định
-        hideSidebar: ['/blog/blog-detail','/admin','/profile'], // Ẩn Sidebar cho các trang được chỉ định
+        hideHeader: ['/course-login'],
+        hideSidebar: ['/blog/blog-detail','/admin','/profile','/course-login','/course-not-login' ], // Ẩn Sidebar cho các trang được chỉ định
       };
       const pathname = usePathname();
 
@@ -24,9 +26,16 @@ export default function sidebarHeader({
         ? 'radio'
         : '';
 
-    const showHeader = pageConfig.showHeader.some(page => pathname.startsWith(page));
-    const showSidebar = !pageConfig.hideSidebar.some(page => pathname.startsWith(page)) &&
-    pageConfig.showSidebar.some(page => pathname.startsWith(page));
+// Kiểm tra nếu đường dẫn có tham số
+const isPathWithParams = pathname.includes('/[param]') || pathname.split('/').length > 2;
+
+// Điều kiện hiện header
+const showHeader = pageConfig.showHeader.some(page => pathname.startsWith(page)) && !pageConfig.hideHeader.some(page => pathname.startsWith(page));
+
+// Điều kiện hiện sidebar
+const showSidebar = !pageConfig.hideSidebar.some(page => pathname.startsWith(page)) &&
+  pageConfig.showSidebar.some(page => pathname.startsWith(page)) &&
+  !isPathWithParams;
 
   return (
     <>

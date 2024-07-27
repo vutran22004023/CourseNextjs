@@ -3,12 +3,17 @@
 import React from 'react';
 import { usePathname } from 'next/navigation';
 import SidebarAdminComponent from '@/components/Sidebar/sidebarAdmin';
-
+import { useRouter } from 'next/navigation';
+import { useSelector } from 'react-redux';
+import { RootState } from "@/redux/store";
 export default function SidebarAdmin({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const router = useRouter();
+  const user = useSelector((state: RootState) => state.user);
+  if(!user.isAdmin || !user.status) return router.push('/');
   const pathname = usePathname();
   const activePage = pathname === '/admin'
       ? 'dashboard'

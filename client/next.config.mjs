@@ -1,13 +1,10 @@
 /** @type {import('next').NextConfig} */
+const path = require('path');
 const nextConfig = {
-    async rewrites() {
-      return [
-        {
-          source: '/api/:path*', // Cấu hình cho các yêu cầu API tới "/api/*"
-          destination: 'http://localhost:3002/api/:path*', // URL tới server Node.js
-        },
-      ];
-    },
-  };
-  
-  module.exports = nextConfig;
+    webpack: (config) => {
+        config.resolve.alias['@'] = path.resolve(__dirname, 'src');
+        return config;
+      },
+};
+
+export default nextConfig;
