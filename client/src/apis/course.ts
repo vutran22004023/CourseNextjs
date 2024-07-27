@@ -39,7 +39,7 @@ export const CreateCourses = async (data: any, access_Token: any) => {
     }
   };
 
-  export const UpdateCourse = async (id: any,data: any, access_Token: any) => {
+  export const UpdateCourses = async (id: any,data: any, access_Token: any) => {
     try {
       const response: AxiosResponse = await axios.put(`${apiUrl}/api/course/update-courses/${id}`, data,{
         headers: {

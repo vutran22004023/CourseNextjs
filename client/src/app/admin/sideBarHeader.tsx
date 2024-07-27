@@ -31,8 +31,8 @@ export default function SidebarAdmin({
         className="mt-3 hidden md:flex md:flex-col gap-2 border-r border-divider z-10 w-[200px] h-[calc(100vh)] fixed top-[50px]"
         activePage={activePage}
       />
-      <div className="flex-1 mt-[50px] md:ml-[200px] h-[calc(100vh-50px)] overflow-y-auto">
-        <div className="container mt-8 w-full">
+      <div className="flex-1 mt-[30px] md:ml-[200px] h-[calc(100vh-50px)] overflow-y-auto">
+        <div className="container w-full">
           {children}
         </div>
       </div>
