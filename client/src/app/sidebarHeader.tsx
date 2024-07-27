@@ -30,7 +30,7 @@ export default function sidebarHeader({
 
   return (
     <>
-              {showHeader && <HeaderLayout />}
+      {showHeader && <HeaderLayout />}
       <div className="block md:flex w-full">
         {showSidebar  && (
           <>

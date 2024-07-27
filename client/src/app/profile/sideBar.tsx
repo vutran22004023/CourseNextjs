@@ -20,7 +20,7 @@ export default function SidebarAdmin({
       ? 'savedposts'
       : pathname.includes('/profile/information-user')
       ? 'informationuser'
-      : pathname.includes('/profile//password-and-security')
+      : pathname.includes('/profile/password-and-security')
       ? 'passwordandsecurity'
       : '';
 

@@ -16,8 +16,8 @@ export default function SidebarUser({ className, activePage }: SidebarProps) {
     { name: "Viết Blog", href: "/profile/posts-blog", icon: NotebookPen, current: activePage === "blogging" },
     { name: "Bài viết của tôi", href: "/blog", icon: Album, current: activePage === "myarticle" },
     { name: "Bài viết đã lưu", href: "/blog", icon: BookOpenText, current: activePage === "savedposts" },
-    { name: "Thông tin người dùng", href: "/information-user", icon: SquareUser, current: activePage === "informationuser" },
-    { name: "Mật khẩu và bảo mật", href: "/password-and-security", icon: KeySquare, current: activePage === "passwordandsecurity" },
+    { name: "Thông tin người dùng", href: "/profile/information-user", icon: SquareUser, current: activePage === "informationuser" },
+    { name: "Mật khẩu và bảo mật", href: "/profile/password-and-security", icon: KeySquare, current: activePage === "passwordandsecurity" },
   ]);
 
   const handleItemClick = (index: any) => {

@@ -73,7 +73,7 @@ export default function LoginComponent(style : any) {
         email: "",
         password: "",
       });
-      // document.cookie = `access_Token=${(datalogin as DataLogin)?.access_Token}`;
+       document.cookie = `access_Token=${(datalogin as DataLogin)?.access_Token}`;
       window.location.reload();
     } else if ((datalogin as DataLogin)?.status === "ERR") {
       error("Đăng nhập thất bại");

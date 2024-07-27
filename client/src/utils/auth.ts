@@ -1,10 +1,15 @@
-import { serialize, parse } from 'cookie';
-export const setCookie = (res: any, name: string, value: string, options: any) => {
-    const cookie = serialize(name, value, { path: '/', ...options });
-    res.setHeader('Set-Cookie', cookie);
-  };
-  
-  export const getCookie = (req: any, name: string) => {
-    const cookies = parse(req.headers.cookie || '');
-    return cookies[name] || null;
-  };
+import { updateUser } from '@/redux/Slides/userSide';
+import { AppDispatch } from '@/redux/store';
+import { parse } from 'cookie';
+
+export const initializeUser = (dispatch: AppDispatch) => {
+  if (typeof document !== 'undefined') {
+    const cookies = parse(document.cookie || '');
+    const userCookie = cookies.user;
+
+    if (userCookie) {
+      const user = JSON.parse(userCookie);
+      dispatch(updateUser(user));
+    }
+  }
+};
