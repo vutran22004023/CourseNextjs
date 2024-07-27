@@ -23,13 +23,17 @@ import {
 import { useRouter } from 'next/navigation';
 import IsLoadingComponment from "@/components/Loading/Loading";
 import Image from 'next/image';
+import { useDispatch } from "react-redux";
+import { updateUser } from "@/redux/Slides/userSide";
 type DataLogin = {
   status?: any;
   access_Token?: string;
-  message?: string
+  message?: string,
+  id?: string;
 };
 export default function LoginComponent(style : any) {
   const router  = useRouter();
+  const dispatch = useDispatch();
   const [isModalInputLogin, setIsModalInputLogin] = useState(true);
   const [isModalForgotPass, setIsModalForgotPass] = useState(false);
   const [isModalRegister, setIsModalRegister] = useState(false);
@@ -73,7 +77,7 @@ export default function LoginComponent(style : any) {
         email: "",
         password: "",
       });
-       document.cookie = `access_Token=${(datalogin as DataLogin)?.access_Token}`;
+      dispatch(updateUser({_id: (datalogin as DataLogin).id, access_Token:(datalogin as DataLogin).access_Token}))
       window.location.reload();
     } else if ((datalogin as DataLogin)?.status === "ERR") {
       error("Đăng nhập thất bại");

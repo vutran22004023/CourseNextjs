@@ -24,7 +24,7 @@ export const Register = async (data: Registers): Promise<Registers> => {
 
   export const LoginOut = async(): Promise<User> => {
     try{
-        const response: AxiosResponse<User> = await axios.post(`${apiUrl}/api/register`);
+        const response: AxiosResponse<User> = await axios.post(`${apiUrl}/api/login-out`);
         return response.data;
     }catch {
         throw new Error('Error login');
