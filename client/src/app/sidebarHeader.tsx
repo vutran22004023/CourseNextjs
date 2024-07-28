@@ -14,7 +14,7 @@ export default function sidebarHeader({
         showHeader: ['/'], // Hiển thị Header cho trang gốc
         showSidebar: ['/'], // Hiển thị Sidebar cho các trang được chỉ định
         hideHeader: ['/course-login'],
-        hideSidebar: ['/blog/blog-detail','/admin','/profile','/course-login','/course-not-login' ], // Ẩn Sidebar cho các trang được chỉ định
+        hideSidebar: ['/blog/blog-detail','/admin','/profile','/course-login','/course-not-login','/reset-password', '/form-status-auth' ], // Ẩn Sidebar cho các trang được chỉ định
       };
       const pathname = usePathname();
 
