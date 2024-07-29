@@ -3,6 +3,32 @@ import axios from 'axios';
 import 'dotenv/config';
 
 class AuthController {
+  async loginInGoogle (req, res) {
+    try {
+      const { displayName, email, photoURL } = req.body;
+      if(!displayName|| !email || !photoURL) {
+        return res.status(200).json({
+            status: 'ERR',
+            message: 'Chưa điền đầy đủ thông tin'
+        })
+    }
+    const response = await Login_Register_Service.loginUserGoogle(req.body);
+    const { refresh_Token, ...newResponse } = response;
+    if (refresh_Token) {
+      res.cookie('refresh_Token', refresh_Token, {
+        httpOnly: false,
+        secure: false,
+        sameSite: 'strict',
+      });
+    }
+    return res.status(200).json(newResponse);
+    }catch (err) {
+      return res.status(500).json({
+        message: err,
+      });
+    }
+  }
+
   async loginIn(req, res) {
     try {
       const { email, password } = req.body;

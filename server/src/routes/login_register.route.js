@@ -5,6 +5,7 @@ import { AuthMiddleware } from '../middlewares/index.js';
 const router = express.Router();
 
 router.post('/login-in', Login_registerController.loginIn);
+router.post('/login-in/google', Login_registerController.loginInGoogle);
 router.post('/register', Login_registerController.Register);
 router.post('/login-out', Login_registerController.logout);
 router.post('/forgot-password', Login_registerController.forgotPassword);

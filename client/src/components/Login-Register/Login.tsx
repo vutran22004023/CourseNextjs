@@ -13,7 +13,7 @@ import { Label } from "@/components/ui/label";
 import Register from "@/components/Login-Register/Register";
 import { Eye, EyeOff } from "lucide-react";
 import { useMutationHook } from "@/hooks";
-import {  Login } from "@/apis/auth";
+import {  Login ,LoginGoogle} from "@/apis/auth";
 import { LoginProps } from "@/types";
 import {
   success,
@@ -25,6 +25,10 @@ import IsLoadingComponment from "@/components/Loading/Loading";
 import Image from 'next/image';
 import { useDispatch } from "react-redux";
 import { updateUser } from "@/redux/Slides/userSide";
+import { initializeApp } from "firebase/app";
+import { getStorage } from "firebase/storage";
+import {  GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import {auth} from '@/firebase/config';
 type DataLogin = {
   status?: any;
   access_Token?: string;
@@ -129,6 +133,34 @@ export default function LoginComponent(style : any) {
     }
   };
 
+  const [userGoogle, setUserGoogle] = useState<any>()
+  const handleLoginWithGoogle = async () => {
+    const provider = new GoogleAuthProvider();
+
+    const res =  await signInWithPopup(auth, provider);
+    setUserGoogle(res)
+  }
+
+  useEffect(() => {
+    const loginUserWithGoogle = async () => {
+      const res = await LoginGoogle({
+        displayName: userGoogle?.user?.displayName,
+        email: userGoogle?.user?.email,
+        photoURL:userGoogle?.user?.photoURL
+      });
+      if(res) {
+      if ((res as DataLogin)?.status === 200) {
+          success("Bạn đã đăng nhập thành công");
+          navigate("/");
+          navigate("/");
+          dispatch(updateUser({_id: (res as DataLogin).id, access_Token:(res as DataLogin).access_Token}))
+          window.location.reload();
+        }
+    }
+    }
+    loginUserWithGoogle()
+  },[userGoogle])
+
   return (
     <ModalComponent
       triggerContent={
@@ -180,6 +212,7 @@ export default function LoginComponent(style : any) {
               <ButtonComponent
                 className="w-[350px] p-5 bg-[#fbfbfb] text-black  hover:bg-[#e5e5e5] m-0 mb-3"
                 style={{ border: "1px solid #9c9c9c" }}
+                onClick={handleLoginWithGoogle}
               >
                 <div className="flex">
                   <Image
