@@ -79,3 +79,12 @@ export const Refreshtoken = async(data : StatusAuthProps): Promise<StatusAuthPro
     }
 }
 
+export const LoginGoogle = async( data:any) => {
+    try{
+        const response: AxiosResponse<any> = await axios.post(`${apiUrl}/api/login-in/google`, data);
+        return response.data;
+    }catch {
+        throw new Error('Error login');
+    }
+}
+

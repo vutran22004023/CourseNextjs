@@ -282,7 +282,7 @@ export default function page() {
           <VideoYoutubeComponment
             style={{
               width: "100%",
-              height: "600px",
+              height: "500px",
             }}
             src={dataVideo?.video}
             title="YouTube video player"
