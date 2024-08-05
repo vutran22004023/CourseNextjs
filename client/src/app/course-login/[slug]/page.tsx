@@ -22,6 +22,7 @@ import { totalVideo } from '@/redux/Slides/timeVideoSide';
 import WordPost from "@/components/WordPost/wordPost";
 import { CSSTransition } from 'react-transition-group';
 import { useRouter } from 'next/navigation';
+import SheetMessage from './sheetMessage'
 export default function page() {
   const { slug } = useParams();
   const dispatch = useDispatch();
@@ -39,6 +40,7 @@ export default function page() {
   const [disableNextLesson,setDisableNextLesson] = useState<any>()
   const initialActiveVideoRef = useRef<any>(null); 
   const [isModalOpenEdit, setIsModalOpenEdit] = useState(false)
+  const [isModalMessage, setIsModalMessage] = useState(false)
   const mutationGetDetailCourse = useMutationHook(async (slug: any) => {
     try {
       const res = await GetDetailCourses(slug);
@@ -430,6 +432,16 @@ export default function page() {
           </div>
       </div> 
       </CSSTransition>
+      <div className="fixed bottom-[60px] left-[60%] z-10 border-b p-3 flex  items-center">
+      <ButtonComponment
+            className=""
+            style={{ marginTop: "0", borderRadius: 10 }}
+            onClick={() => setIsModalMessage(true)}
+          >
+            Hỏi đáp
+      </ButtonComponment>
+      </div>
+      <SheetMessage isOpen ={isModalMessage} onOpenChange={() => setIsModalMessage(!isModalMessage)}/>
     </div>
     </div>
   )
