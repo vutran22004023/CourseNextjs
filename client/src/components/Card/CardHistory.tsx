@@ -1,3 +1,4 @@
+import { Progress } from 'antd';
 import Image from 'next/image';
 import React from 'react'
 
@@ -10,12 +11,13 @@ export default function CardHistory() {
           alt="icon"
           width={150}  // Replace with the appropriate width
           height={60}
-          className='w-full h-[60px] rounded' // Ensuring the image covers the div
+          className='w-full h-full rounded' // Ensuring the image covers the div
         />
         </div>
         <div className='w-[70%]'>
             <div className='text-ml font-semibold'>Tên khóa học</div>
             <div className='text-sm'>Học cách đây 2 tháng trước</div>
+            <Progress percent={100} percentPosition={{ align: 'center', type: 'inner' }} size={[230, 20]} />
         </div>
     </div>
   )

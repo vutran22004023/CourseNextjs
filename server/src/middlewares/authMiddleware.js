@@ -99,7 +99,6 @@ class AuthMiddleware {
             id: user?.id,
             isAdmin: user?.isAdmin,
           });
-          console.log(newAccessToken);
           if (!newAccessToken) {
             throw new Error('Failed to generate access token');
           }
