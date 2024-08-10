@@ -16,10 +16,11 @@ class AuthController {
     const { refresh_Token, access_Token, ...newResponse } = response;
     if (refresh_Token) {
 
-      res.cookie('access_Token', access_Token, {
-        httpOnly: true,
-        secure: true, 
-        sameSite: 'strict', 
+      res.cookie('access_Token', response.access_Token, {
+        httpOnly: true, // Cookie không thể bị truy cập từ JavaScript client-side
+        secure: process.env.NODE_ENV === 'production', // Cookie chỉ được gửi qua HTTPS trong môi trường sản xuất
+        sameSite: 'Strict', // Cookie chỉ được gửi từ cùng một site
+        path: '/', // Cookie có hiệu lực trên toàn bộ trang web
       });
       res.cookie('refresh_Token', refresh_Token, {
         httpOnly: true,

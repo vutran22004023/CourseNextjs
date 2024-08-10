@@ -43,8 +43,6 @@ export const initializeUser = async (dispatch: AppDispatch) => {
 
   try {
     const token = await getTokenFromCookies(); // Lấy token từ API
-    console.log(token);
-    
     const state = store.getState();
     const id = state.user.id;
 
