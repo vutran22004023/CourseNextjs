@@ -5,7 +5,7 @@ const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 export const ResetPass = async(data : ResetPassProps): Promise<ResetPassProps> => {
     try{
-        const response: AxiosResponse<ResetPassProps> = await axios.post(`${apiUrl}/api/reset-password`, data,{
+        const response: AxiosResponse<ResetPassProps> = await axios.post(`/api/reset-password`, data,{
             headers: {
                 token: `Bearer ${data.token}`,
             }
@@ -18,7 +18,7 @@ export const ResetPass = async(data : ResetPassProps): Promise<ResetPassProps> =
 
 export const StatusAuth = async(data : StatusAuthProps): Promise<StatusAuthProps> => {
     try{
-        const response: AxiosResponse<ResetPassProps> = await axios.post(`${apiUrl}/api/authenticate-user`, data,{
+        const response: AxiosResponse<ResetPassProps> = await axios.post(`/api/authenticate-user`, data,{
             headers: {
                 token: `Bearer ${data.token}`,
             }
@@ -32,7 +32,7 @@ export const StatusAuth = async(data : StatusAuthProps): Promise<StatusAuthProps
 export const GetAllUsers = async (token: string) => {
   try {
     const response: AxiosResponse = await axios.get(
-      `${apiUrl}/api/user/get-all-users`,
+      `/api/user/get-all-users`,
       {
         headers: {
           token: `Bearer ${token}`,
@@ -48,7 +48,7 @@ export const GetAllUsers = async (token: string) => {
 export const GetDetailUser = async (id:any,token: any) => {
   try {
     const response: AxiosResponse = await axios.get(
-      `${apiUrl}/api/user/get-detail-user/${id}`,
+      `/api/user/get-detail-user/${id}`,
       {
         headers: {
           token: `Bearer ${token}`,
@@ -67,7 +67,7 @@ export const CreateUser = async (
 ) => {
   try {
     const response: AxiosResponse = await axios.post(
-      `${apiUrl}/api/user/create-user`,
+      `/api/user/create-user`,
       data,
       {
         headers: {
@@ -88,7 +88,7 @@ export const UpdateUser = async (
 ) => {
   try {
     const response: AxiosResponse = await axios.put(
-      `${apiUrl}/api/user/update-user/${id}`,
+      `/api/user/update-user/${id}`,
       data,
       {
         headers: {
@@ -105,7 +105,7 @@ export const UpdateUser = async (
 export const DeleteUser = async (id: string, token: string) => {
   try {
     const response: AxiosResponse = await axios.delete(
-      `${apiUrl}/api/user/delete-user/${id}`,
+      `/api/user/delete-user/${id}`,
       {
         headers: {
           token: `Bearer ${token}`,
@@ -121,7 +121,7 @@ export const DeleteUser = async (id: string, token: string) => {
 export const DeleteManyUser = async (ids: Array<string>) => {
   try {
     const response: AxiosResponse = await axios.post(
-      `${apiUrl}/api/user/delete-many-user`,
+      `/api/user/delete-many-user`,
       ids
     );
     return response.data;
