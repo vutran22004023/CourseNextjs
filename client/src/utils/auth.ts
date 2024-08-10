@@ -2,12 +2,22 @@ import {jwtDecode} from 'jwt-decode';
 import { AppDispatch, store } from '@/redux/store';
 import { resetUser, updateUser } from '@/redux/Slides/userSide';
 import { GetDetailUser } from '@/apis/user';
-import {getTokenFromApi} from '@/apis/auth'
+import {getTokenFromApi,getRefreshTokenFromApi,Refreshtoken} from '@/apis/auth'
 
 // Hàm lấy token từ cookies
 export const getTokenFromCookies = async (): Promise<string | null> => {
   try {
     const res = await getTokenFromApi(); // res là đối tượng có trường token
+    return res.token || null; // Trả về giá trị của trường token
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
+};
+
+export const getRefreshTokenFromCookies = async (): Promise<string | null> => {
+  try {
+    const res = await getRefreshTokenFromApi(); // res là đối tượng có trường token
     return res.token || null; // Trả về giá trị của trường token
   } catch (err) {
     console.log(err);
@@ -54,10 +64,12 @@ export const initializeUser = async (dispatch: AppDispatch) => {
   try {
     const token = await getTokenFromCookies(); // Lấy token từ cookies
 
-    if (token) {
+    if (token ) {
       if (isTokenExpired(token)) {
-        dispatch(resetUser());
-        removeTokenFromCookies(); // Xóa token khi hết hạn
+        const refreshToken = await getRefreshTokenFromCookies();
+        if (refreshToken) {
+           await Refreshtoken(refreshToken);
+        }
       } else {
         const userId = getUserIdFromToken(token);
 

@@ -17,15 +17,16 @@ class AuthController {
     if (refresh_Token) {
 
       res.cookie('access_Token', response.access_Token, {
-        httpOnly: true, // Cookie không thể bị truy cập từ JavaScript client-side
-        secure: process.env.NODE_ENV === 'production', // Cookie chỉ được gửi qua HTTPS trong môi trường sản xuất
-        sameSite: 'Strict', // Cookie chỉ được gửi từ cùng một site
-        path: '/', // Cookie có hiệu lực trên toàn bộ trang web
+        httpOnly: true, 
+        secure: process.env.NODE_ENV === 'production', 
+        sameSite: 'Strict', 
+        path: '/', 
       });
       res.cookie('refresh_Token', refresh_Token, {
-        httpOnly: true,
-        secure: true,
-        sameSite: 'strict',
+        httpOnly: true, 
+        secure: process.env.NODE_ENV === 'production', 
+        sameSite: 'Strict', 
+        path: '/', 
       });
     }
     return res.status(200).json(newResponse);
@@ -58,16 +59,17 @@ class AuthController {
       }
 
       res.cookie('access_Token', response.access_Token, {
-        httpOnly: true, // Cookie không thể bị truy cập từ JavaScript client-side
-        secure: process.env.NODE_ENV === 'production', // Cookie chỉ được gửi qua HTTPS trong môi trường sản xuất
-        sameSite: 'Strict', // Cookie chỉ được gửi từ cùng một site
-        path: '/', // Cookie có hiệu lực trên toàn bộ trang web
+        httpOnly: true, 
+        secure: process.env.NODE_ENV === 'production', 
+        sameSite: 'Strict', 
+        path: '/', 
       });
 
       res.cookie('refresh_Token', response.refresh_Token, {
-        httpOnly: true,
-        secure: false,
-        samesite: 'strict',
+        httpOnly: true, 
+        secure: process.env.NODE_ENV === 'production', 
+        sameSite: 'Strict', 
+        path: '/', 
       });
       return res.status(200).json(response);
     } catch (err) {
@@ -122,16 +124,18 @@ class AuthController {
   logout(req, res) {
     try {
       // Xóa cookie accessToken và refreshToken
-      res.clearCookie('accessToken', {
-        httpOnly: true,
-        secure: true,
-        sameSite: 'Strict',
+      res.clearCookie('access_Token', {
+        httpOnly: true, 
+        secure: process.env.NODE_ENV === 'production', 
+        sameSite: 'Strict', 
+        path: '/',
       });
 
-      res.clearCookie('refreshToken', {
-        httpOnly: true,
-        secure: true,
-        sameSite: 'Strict',
+      res.clearCookie('refresh_Token', {
+        httpOnly: true, 
+        secure: process.env.NODE_ENV === 'production', 
+        sameSite: 'Strict', 
+        path: '/',
       });
 
       return res.status(200).json({
