@@ -15,6 +15,16 @@ export const getTokenFromCookies = async (): Promise<string | null> => {
   }
 };
 
+const getUserIdFromToken = (token: string) => {
+  try {
+    const decodedToken = jwtDecode(token);
+    return decodedToken?.id || null;
+  } catch (e) {
+    console.error('Failed to decode token', e);
+    return null;
+  }
+};
+
 // Hàm lưu token vào cookies
 export const setTokenInCookies = (token: string) => {
   document.cookie = `access_Token=${token}; Secure; HttpOnly; SameSite=Strict; Path=/`;
@@ -42,30 +52,34 @@ export const initializeUser = async (dispatch: AppDispatch) => {
   };
 
   try {
-    const token = await getTokenFromCookies(); // Lấy token từ API
-    const state = store.getState();
-    const id = state.user.id;
+    const token = await getTokenFromCookies(); // Lấy token từ cookies
 
     if (token) {
       if (isTokenExpired(token)) {
         dispatch(resetUser());
         removeTokenFromCookies(); // Xóa token khi hết hạn
       } else {
-        try {
-          const response = await GetDetailUser(id, token);
+        const userId = getUserIdFromToken(token);
 
-          if (response.status === 200) {
-            dispatch(updateUser({
-              name: response.data.name || "",
-              email: response.data.email || "",
-              avatar: response.data.avatar || "",
-              _id: response.data._id || '',
-              isAdmin: response.data.isAdmin || false,
-              status: response.data.status || false,
-            }));
+        if (userId) {
+          try {
+            const response = await GetDetailUser(userId, token);
+
+            if (response.status === 200) {
+              dispatch(updateUser({
+                name: response.data.name || "",
+                email: response.data.email || "",
+                avatar: response.data.avatar || "",
+                _id: response.data._id || '',
+                isAdmin: response.data.isAdmin || false,
+                status: response.data.status || false,
+              }));
+            }
+          } catch (error) {
+            console.error('Failed to authenticate user', error);
           }
-        } catch (error) {
-          console.error('Failed to authenticate user', error);
+        } else {
+          dispatch(resetUser()); // Không có ID trong token, reset user
         }
       }
     } else {
@@ -76,3 +90,4 @@ export const initializeUser = async (dispatch: AppDispatch) => {
     dispatch(resetUser()); // Đảm bảo reset user trong trường hợp có lỗi
   }
 };
+
