@@ -36,6 +36,7 @@ import {Search} from '@/redux/Slides/searchSide'
 import { useRouter } from 'next/navigation';
 import {LoginOut} from '@/apis/auth';
 import {getTokenFromCookies} from '@/utils/auth';
+import CardHistory from '@/components/Card/CardHistory'
 export default function HeaderLayout() {
   const router = useRouter();
   const dispatch = useDispatch();
@@ -94,11 +95,14 @@ export default function HeaderLayout() {
               <HoverCardTrigger asChild>
                 <div className="cursor-pointer text-black">Khóa học của tôi</div>
               </HoverCardTrigger>
-              <HoverCardContent className="w-100 mt-2 mr-20 text-black bg-[#f0efef] rounded p-2">
-                <div className="flex justify-between space-x-4 p-2 w-[350px] h-[300px]">
+              <HoverCardContent className="w-100 mt-2 mr-20 text-black bg-[#f0efef] rounded">
+                <div className=" w-[350px] h-[300px]">
                   <div className="flex justify-between w-full">
                     <div className="text-sm font-semibold">Khóa học của tôi</div>
                     <div className="text-sm font-semibold">Xem tất cả</div>
+                  </div>
+                  <div className='w-full mt-2'>
+                    <CardHistory/>
                   </div>
                 </div>
               </HoverCardContent>
@@ -129,7 +133,7 @@ export default function HeaderLayout() {
               </DropdownMenuTrigger>
 
               <DropdownMenuContent className="w-56 mt-4 mr-7 p-2 bg-[#f0efef] rounded">
-                <DropdownMenuLabel>Xin chào, Vũ Trần</DropdownMenuLabel>
+                <DropdownMenuLabel>Xin chào, {user.name}</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
                   <Link href="/profile">

@@ -42,7 +42,7 @@ export default function Sidebar({ className, activePage }: SidebarProps) {
                 <Button
                   variant={item.current ? "default" : "secondary"}
                   className={cn(
-                    "w-full justify-start hover:bg-[#a1a1a1] mb-3 rounded",
+                    "w-full justify-start hover:bg-[#a1a1a1] mb-1 rounded",
                     item.current && "bg-[#777777] text-white"
                   )}
                 >

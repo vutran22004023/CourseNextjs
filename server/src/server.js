@@ -8,7 +8,10 @@ import passport from './configs/passport.config.js';
 import os from 'os';
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:3000',
+  credentials: true
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -23,6 +26,7 @@ app.use((req, res) => {
     message: 'Đường dẫn không tồn tại!',
   });
 });
+
 
 const port = process.env.PORT || 3002;
 const url = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.qm0ui7p.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;

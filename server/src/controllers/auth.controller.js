@@ -13,12 +13,20 @@ class AuthController {
         })
     }
     const response = await Login_Register_Service.loginUserGoogle(req.body);
-    const { refresh_Token, ...newResponse } = response;
+    const { refresh_Token, access_Token, ...newResponse } = response;
     if (refresh_Token) {
+
+      res.cookie('access_Token', response.access_Token, {
+        httpOnly: true, 
+        secure: process.env.NODE_ENV === 'production', 
+        sameSite: 'Strict', 
+        path: '/', 
+      });
       res.cookie('refresh_Token', refresh_Token, {
-        httpOnly: false,
-        secure: false,
-        sameSite: 'strict',
+        httpOnly: true, 
+        secure: process.env.NODE_ENV === 'production', 
+        sameSite: 'Strict', 
+        path: '/', 
       });
     }
     return res.status(200).json(newResponse);
@@ -51,15 +59,17 @@ class AuthController {
       }
 
       res.cookie('access_Token', response.access_Token, {
-        httpOnly: false, // Corrected property name
-        secure: false,
-        samesite: 'strict',
+        httpOnly: true, 
+        secure: process.env.NODE_ENV === 'production', 
+        sameSite: 'Strict', 
+        path: '/', 
       });
 
       res.cookie('refresh_Token', response.refresh_Token, {
-        httpOnly: false, // Corrected property name
-        secure: false,
-        samesite: 'strict',
+        httpOnly: true, 
+        secure: process.env.NODE_ENV === 'production', 
+        sameSite: 'Strict', 
+        path: '/', 
       });
       return res.status(200).json(response);
     } catch (err) {
@@ -114,16 +124,18 @@ class AuthController {
   logout(req, res) {
     try {
       // Xóa cookie accessToken và refreshToken
-      res.clearCookie('accessToken', {
-        httpOnly: true,
-        secure: true,
-        sameSite: 'Strict',
+      res.clearCookie('access_Token', {
+        httpOnly: true, 
+        secure: process.env.NODE_ENV === 'production', 
+        sameSite: 'Strict', 
+        path: '/',
       });
 
-      res.clearCookie('refreshToken', {
-        httpOnly: true,
-        secure: true,
-        sameSite: 'Strict',
+      res.clearCookie('refresh_Token', {
+        httpOnly: true, 
+        secure: process.env.NODE_ENV === 'production', 
+        sameSite: 'Strict', 
+        path: '/',
       });
 
       return res.status(200).json({
