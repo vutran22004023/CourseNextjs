@@ -497,6 +497,12 @@ export default function page() {
         <SheetMessage
           isOpen={isModalMessage}
           onOpenChange={() => setIsModalMessage(!isModalMessage)}
+<<<<<<< HEAD
+=======
+          dataChapter={mergedChapters}
+          dataVideo={dataCourseDetail}
+          dataChapVideo={dataVideo}
+>>>>>>> master
         />
       </div>
     </div>

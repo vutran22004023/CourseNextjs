@@ -4,7 +4,11 @@ import 'dotenv/config';
 class TokenMiddleware {
   async generateAccessToken(payload) {
     try {
+<<<<<<< HEAD
       const token = jwt.sign(payload, process.env.ACCESS_TOKEN, { expiresIn: '1m' });
+=======
+      const token = jwt.sign(payload, process.env.ACCESS_TOKEN, { expiresIn: '2h' });
+>>>>>>> master
       return token;
     } catch (error) {
       console.log(error);
