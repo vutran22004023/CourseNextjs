@@ -1,6 +1,6 @@
 import express from 'express';
 import UserCourseController from '../controllers/user_course.controller.js';
-import { AuthMiddleware } from '../middlewares/index.js';
+import { passportMiddleware } from '../middlewares/index.js';
 
 const router = express.Router();
 
