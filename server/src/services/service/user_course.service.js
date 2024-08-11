@@ -6,11 +6,7 @@ class UserCourseService {
   async startUserCourse(data) {
     try {
       let { userId, courseId } = data;
-<<<<<<< HEAD
 
-=======
-  
->>>>>>> master
       const course = await CourseModel.findById(courseId).populate({
         path: 'chapters',
         model: 'Chapter',
@@ -19,31 +15,19 @@ class UserCourseService {
           model: 'Video',
         },
       });
-<<<<<<< HEAD
 
-=======
-  
->>>>>>> master
       if (!course) {
         return {
           status: 'ERR',
           message: 'Khóa học không tồn tại',
         };
       }
-<<<<<<< HEAD
 
-=======
-  
->>>>>>> master
       const checkUserCourse = await UserCourse.findOne({
         userId: userId,
         courseId: courseId,
       });
-<<<<<<< HEAD
 
-=======
-  
->>>>>>> master
       if (!checkUserCourse) {
         // Khởi tạo dữ liệu nếu người dùng chưa học khóa học này
         const chapters = course.chapters.map((chapter, chapterIndex) => ({
@@ -53,42 +37,25 @@ class UserCourseService {
             status: chapterIndex === 0 && videoIndex === 0 ? 'in_progress' : 'not_started',
           })),
         }));
-<<<<<<< HEAD
 
         const userCourse = await UserCourse.create({ userId, courseId, chapters });
 
-=======
-  
-        const userCourse = await UserCourse.create({ userId, courseId, chapters });
-  
->>>>>>> master
         return {
           status: 200,
           data: userCourse,
           message: 'Đã lưu tiến độ học',
         };
       }
-<<<<<<< HEAD
 
-=======
-  
->>>>>>> master
       // Đồng bộ dữ liệu khi admin thêm chương hoặc video mới
       const userCourse = await UserCourse.findOne({
         userId: userId,
         courseId: courseId,
       });
-<<<<<<< HEAD
 
       // Đồng bộ chương
       course.chapters.forEach((courseChapter) => {
         const userChapter = userCourse.chapters.find((uc) => uc.chapterId.equals(courseChapter._id));
-=======
-  
-      // Đồng bộ chương
-      course.chapters.forEach(courseChapter => {
-        const userChapter = userCourse.chapters.find(uc => uc.chapterId.equals(courseChapter._id));
->>>>>>> master
         if (!userChapter) {
           userCourse.chapters.push({
             chapterId: courseChapter._id,
@@ -99,13 +66,8 @@ class UserCourseService {
           });
         } else {
           // Đồng bộ video trong chương
-<<<<<<< HEAD
           courseChapter.videos.forEach((courseVideo) => {
             const userVideo = userChapter.videos.find((uv) => uv.videoId.equals(courseVideo._id));
-=======
-          courseChapter.videos.forEach(courseVideo => {
-            const userVideo = userChapter.videos.find(uv => uv.videoId.equals(courseVideo._id));
->>>>>>> master
             if (!userVideo) {
               userChapter.videos.push({
                 videoId: courseVideo._id,
@@ -115,15 +77,9 @@ class UserCourseService {
           });
         }
       });
-<<<<<<< HEAD
 
       await userCourse.save();
 
-=======
-  
-      await userCourse.save();
-  
->>>>>>> master
       return {
         status: 200,
         data: userCourse,
@@ -137,21 +93,11 @@ class UserCourseService {
       };
     }
   }
-<<<<<<< HEAD
-=======
-  
-  
-  
->>>>>>> master
 
   async updateProgress(data) {
     try {
       const { userId, courseId, videoId } = data;
-<<<<<<< HEAD
 
-=======
-  
->>>>>>> master
       // Tìm và cập nhật trạng thái video hiện tại thành 'completed'
       const userCourse = await UserCourse.findOneAndUpdate(
         { userId, courseId, 'chapters.videos.videoId': videoId },
@@ -240,7 +186,6 @@ class UserCourseService {
     }
   }
 
-<<<<<<< HEAD
   async getCourseProgress(data) {
     try {
       let userCourses = await UserCourse.find({ userId: data._id })
@@ -281,8 +226,6 @@ class UserCourseService {
     }
   }
 
-=======
->>>>>>> master
   validator(err) {
     if (err.name === 'ValidationError') {
       const field = Object.keys(err.errors)[0];
