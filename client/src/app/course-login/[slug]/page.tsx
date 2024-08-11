@@ -29,6 +29,7 @@ import WordPost from "@/components/WordPost/wordPost";
 import { CSSTransition } from "react-transition-group";
 import { useRouter } from "next/navigation";
 import SheetMessage from "./sheetMessage";
+import { getTokenFromCookies } from "@/utils/auth";
 export default function page() {
   const { slug } = useParams();
   const dispatch = useDispatch();
@@ -60,10 +61,15 @@ export default function page() {
 
   const mutationStateCouses = async () => {
     try {
+      const token = await getTokenFromCookies();
+
+    if (token === null) {
+      throw new Error("No token found");
+    }
       const res = await StartCourse({
         userId: user.id,
         courseId: dataCourseDetail?._id,
-      });
+      },token);
       return res.data;
     } catch (err) {
       console.log(err);
@@ -72,7 +78,12 @@ export default function page() {
 
   const mutationUpdateCourse = useMutationHook(async (data) => {
     try {
-      const res = await UpdateUserCourse(data);
+      const token = await getTokenFromCookies();
+
+      if (token === null) {
+        throw new Error("No token found");
+      }
+      const res = await UpdateUserCourse(data,token);
       return res.data;
     } catch (err) {
       console.log(err);
@@ -497,6 +508,9 @@ export default function page() {
         <SheetMessage
           isOpen={isModalMessage}
           onOpenChange={() => setIsModalMessage(!isModalMessage)}
+          dataChapter={mergedChapters}
+          dataVideo={dataCourseDetail}
+          dataChapVideo={dataVideo}
         />
       </div>
     </div>
