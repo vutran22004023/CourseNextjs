@@ -6,7 +6,7 @@ class UserCourseService {
   async startUserCourse(data) {
     try {
       let { userId, courseId } = data;
-  
+
       const course = await CourseModel.findById(courseId).populate({
         path: 'chapters',
         model: 'Chapter',
@@ -15,19 +15,19 @@ class UserCourseService {
           model: 'Video',
         },
       });
-  
+
       if (!course) {
         return {
           status: 'ERR',
           message: 'Khóa học không tồn tại',
         };
       }
-  
+
       const checkUserCourse = await UserCourse.findOne({
         userId: userId,
         courseId: courseId,
       });
-  
+
       if (!checkUserCourse) {
         // Khởi tạo dữ liệu nếu người dùng chưa học khóa học này
         const chapters = course.chapters.map((chapter, chapterIndex) => ({
@@ -37,25 +37,25 @@ class UserCourseService {
             status: chapterIndex === 0 && videoIndex === 0 ? 'in_progress' : 'not_started',
           })),
         }));
-  
+
         const userCourse = await UserCourse.create({ userId, courseId, chapters });
-  
+
         return {
           status: 200,
           data: userCourse,
           message: 'Đã lưu tiến độ học',
         };
       }
-  
+
       // Đồng bộ dữ liệu khi admin thêm chương hoặc video mới
       const userCourse = await UserCourse.findOne({
         userId: userId,
         courseId: courseId,
       });
-  
+
       // Đồng bộ chương
-      course.chapters.forEach(courseChapter => {
-        const userChapter = userCourse.chapters.find(uc => uc.chapterId.equals(courseChapter._id));
+      course.chapters.forEach((courseChapter) => {
+        const userChapter = userCourse.chapters.find((uc) => uc.chapterId.equals(courseChapter._id));
         if (!userChapter) {
           userCourse.chapters.push({
             chapterId: courseChapter._id,
@@ -66,8 +66,8 @@ class UserCourseService {
           });
         } else {
           // Đồng bộ video trong chương
-          courseChapter.videos.forEach(courseVideo => {
-            const userVideo = userChapter.videos.find(uv => uv.videoId.equals(courseVideo._id));
+          courseChapter.videos.forEach((courseVideo) => {
+            const userVideo = userChapter.videos.find((uv) => uv.videoId.equals(courseVideo._id));
             if (!userVideo) {
               userChapter.videos.push({
                 videoId: courseVideo._id,
@@ -77,9 +77,9 @@ class UserCourseService {
           });
         }
       });
-  
+
       await userCourse.save();
-  
+
       return {
         status: 200,
         data: userCourse,
@@ -93,14 +93,11 @@ class UserCourseService {
       };
     }
   }
-  
-  
-  
 
   async updateProgress(data) {
     try {
       const { userId, courseId, videoId } = data;
-  
+
       // Tìm và cập nhật trạng thái video hiện tại thành 'completed'
       const userCourse = await UserCourse.findOneAndUpdate(
         { userId, courseId, 'chapters.videos.videoId': videoId },
@@ -179,6 +176,46 @@ class UserCourseService {
         status: 200,
         message: 'Progress updated',
         data: updatedCourse,
+      };
+    } catch (err) {
+      return {
+        status: 'ERR',
+        message: 'Đã xảy ra lỗi',
+        error: err.message,
+      };
+    }
+  }
+
+  async getCourseProgress(data) {
+    try {
+      let userCourses = await UserCourse.find({ userId: data._id })
+        .select('userId chapters.videos.status')
+        .populate({
+          path: 'courseId',
+          model: 'Course',
+          select: 'name slug image totalVideos',
+        })
+        .lean();
+
+      userCourses = userCourses.map((userCourse) => {
+        const { chapters, courseId, ...rest } = userCourse;
+
+        // Get an array of videos from all chapters
+        const allVideos = chapters.flatMap((chapter) => chapter.videos);
+
+        // Get the progress
+        const progress = allVideos.filter((video) => video.status === 'completed').length;
+
+        return {
+          ...rest,
+          courses: { ...courseId, progress },
+        };
+      });
+
+      return {
+        status: 200,
+        data: userCourses,
+        message: 'Lấy tiến độ học thành công',
       };
     } catch (err) {
       return {

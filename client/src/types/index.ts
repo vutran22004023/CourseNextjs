@@ -83,3 +83,6 @@ export interface User {
       refetch: () => Promise<void>;
     };
   }
+export interface token {
+  token: string;
+}

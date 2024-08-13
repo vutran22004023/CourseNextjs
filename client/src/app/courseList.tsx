@@ -29,7 +29,8 @@ const CourseList: FC<{ courses: Course[]; isLoading: boolean; user: any }> = ({ 
       ))
       : courses.map((course) => (
         <div key={course._id} className="flex-none w-full md:w-auto">
-          {token && user?.status === true && user?.isAdmin ? (
+
+          {token && user?.status === true ? (
             <Link href={`/course-login/${course.slug}`}>
               <CardComponent course={course} />
             </Link>

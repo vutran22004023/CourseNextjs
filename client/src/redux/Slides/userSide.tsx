@@ -25,9 +25,9 @@ const userSlice = createSlice({
       state.password = 'not password';
 
       // Lưu trữ access_Token trong memory hoặc cookies thay vì trong state
-      if (access_Token) {
-        setToken(access_Token);
-      }
+      // if (access_Token) {
+      //   setToken(access_Token);
+      // }
     },
     resetUser: (state) => {
       Object.assign(state, initialState);
@@ -36,10 +36,6 @@ const userSlice = createSlice({
   },
 });
 
-// Hàm lưu trữ token vào cookies
-const setToken = (token: string) => {
-  document.cookie = `access_Token=${token}; Secure; SameSite=Strict; Path=/`;
-};
 
 // Hàm xóa token từ cookies
 const removeToken = () => {

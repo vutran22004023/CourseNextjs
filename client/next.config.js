@@ -1,13 +1,16 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    async rewrites() {
-      return [
-        {
-          source: '/api/:path*', // Cấu hình cho các yêu cầu API tới "/api/*"
-          destination: 'http://localhost:3002/api/:path*', // URL tới server Node.js
-        },
-      ];
-    },
-  };
-  
-  module.exports = nextConfig;
+  images: {
+    domains: ['firebasestorage.googleapis.com'], // Allow images from Firebase
+  },
+  async rewrites() {
+    return [
+      {
+        source: '/api/:path*', // Configure API requests to "/api/*"
+        destination: 'http://localhost:3002/api/:path*', // URL to the Node.js server
+      },
+    ];
+  },
+};
+
+module.exports = nextConfig;

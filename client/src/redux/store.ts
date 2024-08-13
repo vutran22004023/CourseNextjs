@@ -28,7 +28,7 @@ const persistConfig = {
   key: 'root',
   version: 1,
   storage,
-  blacklist: [], // Blacklist 'user' reducer from being persisted (if needed)
+  blacklist: ['timesVideo','searchs'], // Blacklist 'user' reducer from being persisted (if needed)
 };
 
 // Create persisted reducer
