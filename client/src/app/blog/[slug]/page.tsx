@@ -1,6 +1,6 @@
-'use client'
+'use client';
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
+import { useParams } from 'next/navigation';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Heart, MessageCircle } from 'lucide-react';
 import { GetDetailBlog } from '@/apis/blog';
@@ -16,8 +16,7 @@ interface BlogDetail {
 }
 
 export default function BlogDetailPage() {
-  const router = useRouter();
-  const { slug } = router.query;
+  const { slug } = useParams();
   const [blog, setBlog] = useState<BlogDetail | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -27,7 +26,7 @@ export default function BlogDetailPage() {
       if (slug) {
         try {
           const response = await GetDetailBlog(slug as string);
-          setBlog(response);
+          setBlog(response.data);  // Access the `data` object here
         } catch (error) {
           setError('Failed to fetch blog detail');
           console.error("Failed to fetch blog detail:", error);
@@ -78,7 +77,7 @@ export default function BlogDetailPage() {
                   src="https://github.com/shadcn.png"
                   alt={blog.author}
                 />
-                <AvatarFallback>{blog.author[0]}</AvatarFallback>
+                <AvatarFallback>{blog.author ? blog.author[0] : 'A'}</AvatarFallback>
               </Avatar>
               <div className="ml-2">
                 <div className="cactus-classical-serif-md">{blog.author}</div>
@@ -113,4 +112,3 @@ export default function BlogDetailPage() {
     </div>
   );
 }
- 

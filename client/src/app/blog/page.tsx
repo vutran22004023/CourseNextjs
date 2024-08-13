@@ -65,39 +65,39 @@ export default function Blog() {
       <div className="w-full flex">
         <div className="w-[60%]">
           {blogs.map((blog) => (
-            <Link href={`/blog/blog-detail/${blog.slug}`} key={blog._id}>
-              <CardBlogComponent>
-                <div className="flex items-center mb-3">
-                  <Avatar className="w-[40px] h-[40px] mr-2">
-                    <AvatarImage
-                      src="https://github.com/shadcn.png"
-                      alt={blog.author}
-                    />
-                    <AvatarFallback>{blog.author[0]}</AvatarFallback>
-                  </Avatar>
-                  <div className="text-[14px]">{blog.author}</div>
-                </div>
-                <div className="flex">
-                  <div className="w-[70%] p-3">
-                    <div className="cactus-classical-serif-md text-[20px]">
-                      {blog.title}
-                    </div>
-                    <div className="text-[14px] mb-1">
-                      {blog.content.slice(0, 100)}...
-                    </div>
-                    <div className="text-[12px]">{blog.date} - 2 phút đọc</div>
+            <Link href={`/blog/${blog.slug}`} key={blog._id}>
+            <CardBlogComponent>
+              <div className="flex items-center mb-3">
+                <Avatar className="w-[40px] h-[40px] mr-2">
+                  <AvatarImage
+                    src="https://github.com/shadcn.png"
+                    alt={blog.author}
+                  />
+                  <AvatarFallback>{blog.author[0]}</AvatarFallback>
+                </Avatar>
+                <div className="text-[14px]">{blog.author}</div>
+              </div>
+              <div className="flex">
+                <div className="w-[70%] p-3">
+                  <div className="cactus-classical-serif-md text-[20px]">
+                    {blog.title}
                   </div>
-                  <div className="p-3">
-                    <Image
-                      src={Anh1}
-                      alt="Blog image"
-                      className="w-[200px] h-[100px] object-cover"
-                      style={{ borderRadius: "20px" }}
-                    />
+                  <div className="text-[14px] mb-1">
+                    {blog.content.slice(0, 100)}...
                   </div>
+                  <div className="text-[12px]">{blog.date} - 2 phút đọc</div>
                 </div>
-              </CardBlogComponent>
-            </Link>
+                <div className="p-3">
+                  <Image
+                    src={Anh1}
+                    alt="Blog image"
+                    className="w-[200px] h-[100px] object-cover"
+                    style={{ borderRadius: "20px" }}
+                  />
+                </div>
+              </div>
+            </CardBlogComponent>
+          </Link>
           ))}
         </div>
         <div className="flex-1 p-5">
