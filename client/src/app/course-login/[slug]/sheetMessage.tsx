@@ -8,6 +8,7 @@ import {
   SheetTrigger,
 } from "../../../components/ui/sheet";
 import ButtonComponent from "@/components/Button/Button";
+import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { SendHorizontal, MoreHorizontal } from "lucide-react";
@@ -22,6 +23,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { getTokenFromCookies } from "@/utils/auth";
 import { useQuery } from "@tanstack/react-query";
+
 interface Props {
   isOpen: boolean;
   onOpenChange: () => void;
@@ -29,6 +31,7 @@ interface Props {
   dataVideo: any;
   dataChapVideo: any;
 }
+
 export default function sheetmessage({
   isOpen,
   onOpenChange,
@@ -43,6 +46,8 @@ export default function sheetmessage({
   const [editingMessageId, setEditingMessageId] = useState<string | null>(null);
   const [editedText, setEditedText] = useState<string>("");
   const [editMessageId, setEditMessageId] = useState<string | null>(null);
+  const [showActionsId, setShowActionsId] = useState<string | null>(null);
+
   const getMessageApi = async () => {
     const token = await getTokenFromCookies();
     if (token === null) {
@@ -57,35 +62,48 @@ export default function sheetmessage({
     );
     return res;
   };
+
   const mutationPostMessage = useMutationHook(async (data) => {
     const token = await getTokenFromCookies();
-
     if (token === null) {
       throw new Error("No token found");
     }
     const res = await PostMessage(data, token);
     return res;
   });
+
   const mutationUpdateMessage = useMutationHook(async (data) => {
     const token = await getTokenFromCookies();
-
     if (token === null) {
       throw new Error("No token found");
     }
-    const res = await UpdateMessage(dataVideo?._id,dataChapter[0]._id,dataChapVideo?._id,editMessageId,data, token);
+    const res = await UpdateMessage(
+      dataVideo?._id,
+      dataChapter[0]._id,
+      dataChapVideo?._id,
+      editMessageId,
+      data,
+      token
+    );
     return res;
-  })
+  });
 
   const mutationDeleteMessage = useMutationHook(async (idMess) => {
     const token = await getTokenFromCookies();
-
     if (token === null) {
       throw new Error("No token found");
     }
-    const res = await DeleteMessage(dataVideo?._id,dataChapter[0]._id,dataChapVideo?._id,idMess, token,user?.id);
+    const res = await DeleteMessage(
+      dataVideo?._id,
+      dataChapter[0]._id,
+      dataChapVideo?._id,
+      idMess,
+      token,
+      user?.id
+    );
     return res;
-  })
-  
+  });
+
   const {
     data: dataMessage,
     isPending: isLoadingMessage,
@@ -107,20 +125,18 @@ export default function sheetmessage({
     onError: (error: any) => {
       console.error("Error fetching messages:", error.message);
     },
-    retry: 3, // Không thử lại khi có lỗi
-    refetchInterval: 1000, // Thực hiện gọi lại mỗi 500ms (0.5 giây)
+    retry: 3,
+    refetchInterval: 1000,
     onSuccess: () => {
       console.log("Success fetching messages");
     },
   });
 
   useEffect(() => {
-    // Khi video thay đổi, thực hiện refetch dữ liệu bình luận
     refetch();
   }, [dataVideo, dataChapter, dataChapVideo, isOpen]);
 
   useEffect(() => {
-    // Kết hợp dữ liệu cũ với dữ liệu mới
     if (page === 1) {
       setMessages(dataMessage?.messages || []);
     } else {
@@ -144,7 +160,7 @@ export default function sheetmessage({
       },
       {
         onSuccess: () => {
-          refetch(); // Làm mới dữ liệu bình luận sau khi gửi thành công
+          refetch();
           setText("");
         },
         onError: (error) => {
@@ -157,49 +173,52 @@ export default function sheetmessage({
   const handleScroll = useCallback(
     (event: React.UIEvent<HTMLDivElement>) => {
       const target = event.currentTarget;
-      // Kiểm tra nếu cuộn đến cuối và không vượt quá tổng số trang
       if (
         target.scrollHeight - target.scrollTop === target.clientHeight &&
         page < dataMessage?.totalPages
       ) {
-        setPage((prevPage) => prevPage + 1); // Tăng số trang
+        setPage((prevPage) => prevPage + 1);
       }
     },
     [page, dataMessage?.totalPages]
   );
 
   const handleEditClick = (message: any) => {
-    setEditingMessageId(message._id); // Đặt ID của tin nhắn đang chỉnh sửa
+    setEditingMessageId(message._id);
   };
 
-  const handleOnClickEdit =(message: any) => {
-    setEditMessageId(message._id)
+  const handleOnClickEdit = (message: any) => {
+    setEditMessageId(message._id);
     setEditedText(message.text);
-  }
+    setShowActionsId(null);
+  };
 
   const handleSaveEdit = () => {
     if (editMessageId) {
-      // Thực hiện gọi API để lưu nội dung đã chỉnh sửa
-      mutationUpdateMessage.mutate({userId: user?.id, text: editedText})
-      setEditedText(""); // Xóa nội dung đã chỉnh sửa
+      mutationUpdateMessage.mutate({ userId: user?.id, text: editedText });
+      setEditedText("");
     }
   };
 
-  const {data: dataUpdate} = mutationUpdateMessage
+  const { data: dataUpdate } = mutationUpdateMessage;
   useEffect(() => {
-    if(dataUpdate?.message === 'Message updated successfully.') {
-      setEditMessageId(null)
+    if (dataUpdate?.message === "Message updated successfully.") {
+      setEditMessageId(null);
     }
-  },[dataUpdate]) 
-  
-  const handleOnClickDelete= (message: any) => {
-    mutationDeleteMessage.mutate(message._id)
-  }
+  }, [dataUpdate]);
+
+  const handleOnClickDelete = (message: any) => {
+    mutationDeleteMessage.mutate(message._id);
+  };
+
+  const toggleActions = (id: string) => {
+    setShowActionsId((prevId) => (prevId === id ? null : id));
+  };
 
   return (
     <Sheet open={isOpen} onOpenChange={onOpenChange}>
       <SheetTrigger asChild className="text-while"></SheetTrigger>
-      <SheetContent className="bg-[#fff] pr-[20px]">
+      <SheetContent className="bg-[#fff] pr-[20px] w-[500px] max-w-full">
         <div className="text-2xl font-semibold">
           {dataMessage?.totalMessages} Bình luận
         </div>
@@ -207,14 +226,14 @@ export default function sheetmessage({
           <SheetTitle>
             <div className="flex gap-2 justify-center items-center">
               <div className="w-[80%]">
-                <Textarea
+                <Input
                   placeholder="Type your message here."
-                  onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                     setText(e.target.value)
                   }
                 />
               </div>
-              <ButtonComponent className="w-[15%]" onClick={handleButton}>
+              <ButtonComponent className="w-[15%] mt-0" onClick={handleButton}>
                 <SendHorizontal />
               </ButtonComponent>
             </div>
@@ -222,46 +241,74 @@ export default function sheetmessage({
         </SheetHeader>
         <div
           className="mt-4 w-full max-h-[500px] overflow-y-auto p-2"
-          onScroll={handleScroll}
+          
         >
           {messages?.map((message: any, index) =>
             message?.userId === user?.id ? (
-              <div className="flex gap-3 justify-end text-right mb-1 group" key={index}>
-              <div>
-                <div className="text-ml text-orange-600 font-semibold mb-1">
-                  {message?.name}
-                </div>
-                
-                {editMessageId === message._id ? (
+              <div
+                className="flex gap-3 justify-end text-right mb-1"
+                key={index}
+              >
+                <div className="flex gap-3">
+                  <div className=" mt-[37px]">
+                    <button
+                      onClick={() => toggleActions(message._id)}
+                      className="text-gray-600 hover:text-gray-900 focus:outline-none"
+                    >
+                      <MoreHorizontal />
+                    </button>
+                    {showActionsId === message._id && (
+                      <div className="absolute right-7 text-[12px] mt-1 bg-white border border-gray-200 rounded-[5px] flex shadow-lg">
+                        <div
+                          onClick={() => handleOnClickEdit(message)}
+                          className="cursor-pointer p-2 hover:bg-gray-100"
+                        >
+                          Chỉnh sửa
+                        </div>
+                        <div
+                          onClick={() => handleOnClickDelete(message)}
+                          className="cursor-pointer p-2 text-red-600 hover:bg-gray-100"
+                        >
+                          Xóa
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
                   <div>
-                    <Textarea
-                      value={editedText}
-                      onChange={(e) => setEditedText(e.target.value)}
-                      className="min-w-[400px]"
-                    />
-                    <div className='flex gap-2'>
-                    <ButtonComponent onClick={handleSaveEdit}>Lưu</ButtonComponent>
-                    <ButtonComponent onClick={()=> setEditMessageId(null)}>Thoát</ButtonComponent>
+                    <div className="text-orange-600 font-semibold mb-1 text-[14px]">
+                      {message?.name}
                     </div>
+
+                    {editMessageId === message._id ? (
+                      <div>
+                        <Textarea
+                          value={editedText}
+                          onChange={(e) => setEditedText(e.target.value)}
+                          className="min-w-[400px]"
+                        />
+                        <div className="flex gap-2">
+                          <ButtonComponent onClick={handleSaveEdit}>
+                            Lưu
+                          </ButtonComponent>
+                          <ButtonComponent
+                            onClick={() => setEditMessageId(null)}
+                          >
+                            Thoát
+                          </ButtonComponent>
+                        </div>
+                      </div>
+                    ) : (
+                      <div
+                        onClick={() => handleEditClick(message)}
+                        className="p-3 bg-slate-300 rounded-lg max-w-[300px] overflow-hidden break-words shadow-md text-left"
+                      >
+                        {message?.text}
+                      </div>
+                    )}
                   </div>
-                ) : (
-                  <div
-                    onClick={() => handleEditClick(message)}
-                    className="p-3 bg-slate-300 rounded-lg max-w-[300px] overflow-hidden break-words shadow-md text-left"
-                  >
-                    {message?.text}
-                  </div>
-                )}
-                
-                {/* Chỉ hiển thị các nút Chỉnh sửa/Xóa khi không ở trạng thái chỉnh sửa */}
-                {editMessageId !== message._id && (
-                  <div className="flex gap-2">
-                    <div onClick={() => handleOnClickEdit(message)} className='cursor-pointer'>Chỉnh sửa</div>
-                    <div  className='cursor-pointer  text-red-600' onClick={() => handleOnClickDelete(message)}>Xóa</div>
-                  </div>
-                )}
+                </div>
               </div>
-            </div>
             ) : (
               <div className="flex gap-3 mb-1" key={index}>
                 <Avatar>
@@ -269,7 +316,7 @@ export default function sheetmessage({
                   <AvatarFallback>CN</AvatarFallback>
                 </Avatar>
                 <div>
-                  <div className="text-ml text-orange-600 font-semibold">
+                  <div className="text-ml text-orange-600 font-semibold text-[14px]">
                     {message?.name}
                   </div>
                   <div className="p-3 bg-slate-200 rounded-lg max-w-[300px] overflow-hidden break-words">
