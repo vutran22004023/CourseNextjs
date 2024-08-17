@@ -102,9 +102,7 @@ const defaultValues: Partial<CourseFormValues> = {
 };
 
 export default function NewCourses({ fetchTableData }: IfetchTable) {
-  const token = async () => {
-    await getTokenFromCookies();
-  };
+  const token = getTokenFromCookies();
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const user = useSelector((state: RootState) => state.user);
@@ -135,7 +133,7 @@ export default function NewCourses({ fetchTableData }: IfetchTable) {
       const url = await getDownloadURL(snapshot.ref);
       data.image = url; // replace the File object with the URL string
     }
-    const access_Token = token;
+    const access_Token = await token;
     const res = await CreateCourses(data, access_Token);
     return res;
   });

@@ -17,7 +17,7 @@ export default function Users() {
   const token =getTokenFromCookies ()
   const user = useSelector((state: RootState) => state.user);
   const getAllUsers = async () => {
-    const res = await GetAllUsers(token as string);
+    const res = await GetAllUsers(await token as string);
     return res;
   };
 

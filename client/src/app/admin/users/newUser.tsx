@@ -77,7 +77,7 @@ export default function NewUsers({ fetchTableData }: IfetchTable) {
       const url = await getDownloadURL(snapshot.ref);
       data.avatar = url; // replace the File object with the URL string
     }
-    const res = await CreateUser(token as string, data);
+    const res = await CreateUser(await token as string, data);
     return res;
   });
 
