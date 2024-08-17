@@ -29,6 +29,7 @@ import WordPost from "@/components/WordPost/wordPost";
 import { CSSTransition } from "react-transition-group";
 import { useRouter } from "next/navigation";
 import SheetMessage from "./sheetMessage";
+import NoteSheet from "./note";
 import { getTokenFromCookies } from "@/utils/auth";
 export default function page() {
   const { slug } = useParams();
@@ -48,6 +49,7 @@ export default function page() {
   const playbackIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const [disableNextLesson, setDisableNextLesson] = useState<any>();
   const initialActiveVideoRef = useRef<any>(null);
+  const [isNoteSheetOpen, setIsNoteSheetOpen] = useState(false);
   const [isModalOpenEdit, setIsModalOpenEdit] = useState(false);
   const [isModalMessage, setIsModalMessage] = useState(false);
   const mutationGetDetailCourse = useMutationHook(async (slug: any) => {
@@ -63,13 +65,16 @@ export default function page() {
     try {
       const token = await getTokenFromCookies();
 
-    if (token === null) {
-      throw new Error("No token found");
-    }
-      const res = await StartCourse({
-        userId: user.id,
-        courseId: dataCourseDetail?._id,
-      },token);
+      if (token === null) {
+        throw new Error("No token found");
+      }
+      const res = await StartCourse(
+        {
+          userId: user.id,
+          courseId: dataCourseDetail?._id,
+        },
+        token
+      );
       return res.data;
     } catch (err) {
       console.log(err);
@@ -83,7 +88,7 @@ export default function page() {
       if (token === null) {
         throw new Error("No token found");
       }
-      const res = await UpdateUserCourse(data,token);
+      const res = await UpdateUserCourse(data, token);
       return res.data;
     } catch (err) {
       console.log(err);
@@ -321,6 +326,10 @@ export default function page() {
     setIsModalOpenEdit(!isModalOpenEdit);
   };
 
+  const handleOpenChange = () => {
+    setIsNoteSheetOpen((prev) => !prev);
+  };
+
   return (
     <div className="mt-[40px]">
       <div className="flex ">
@@ -481,12 +490,19 @@ export default function page() {
                   Hủy bỏ
                 </ButtonComponment>
                 <ButtonComponment
+                  onClick={handleOpenChange}
                   className="ml-2 p-3 w-[150px]"
                   style={{ marginTop: "0", borderRadius: 10 }}
                 >
                   Tạo ghi chú
                 </ButtonComponment>
               </div>
+              <NoteSheet
+                isOpen={isNoteSheetOpen}
+                onOpenChange={handleOpenChange}
+                dataChapter={null}
+                dataVideo={null}
+              />
             </div>
           </div>
         </CSSTransition>
