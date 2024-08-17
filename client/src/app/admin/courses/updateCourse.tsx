@@ -101,7 +101,10 @@ const courseFormSchema = z.object({
 type CourseFormValues = z.infer<typeof courseFormSchema>;
 
 const UpdateCourse: React.FC<UpdateProps> = ({ data, isOpen, onClose }) => {
-  const token = getTokenFromCookies()
+  debugger
+  const token = async () => {
+    await getTokenFromCookies();
+  };
 
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const user = useSelector((state: RootState) => state.user);

@@ -102,7 +102,9 @@ const defaultValues: Partial<CourseFormValues> = {
 };
 
 export default function NewCourses({ fetchTableData }: IfetchTable) {
-  const token = getTokenFromCookies()
+  const token = async () => {
+    await getTokenFromCookies();
+  };
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const user = useSelector((state: RootState) => state.user);
