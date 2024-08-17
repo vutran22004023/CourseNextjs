@@ -25,7 +25,9 @@ interface DeleteProps {
     onClose: () => void;
   }
 export default function deleteCourse({id,isOpen, onClose}: DeleteProps) {
-  const token = getTokenFromCookies()
+  const token = async () => {
+    await getTokenFromCookies();
+  };
   const user = useSelector((state: RootState) => state.user);
   const getAllCourses = async() => {
     const res = await GetAllCourses()
