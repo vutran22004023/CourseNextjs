@@ -9,14 +9,8 @@ function customExtractor(req) {
   return token;
 }
 
-function cookieExtractor(req) {
-  let token = null;
-  if (req.cookies.access_Token) token = req.cookies.access_Token;
-  return token;
-}
-
 const opts = {
-  jwtFromRequest: ExtractJwt.fromExtractors([customExtractor, cookieExtractor]),
+  jwtFromRequest: ExtractJwt.fromExtractors([customExtractor]),
   secretOrKey: process.env.ACCESS_TOKEN,
 };
 

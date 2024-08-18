@@ -70,7 +70,7 @@ const UpdateUser: React.FC<UpdateProps> = ({ data, isOpen, onClose }) => {
   const user = useSelector((state: RootState) => state.user);
   const token =getTokenFromCookies()
   const getAllUsers = async () => {
-    const res = await GetAllUsers(await token as string);
+    const res = await GetAllUsers(token as string);
     return res;
   };
 
