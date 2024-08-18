@@ -40,6 +40,17 @@ class UserCourseController {
       res.status(500).json({ message: error.message });
     }
   }
+
+  // Add, update or delete note
+  async updateNote(req, res) {
+    try {
+      const data = { userId: req.user.id, ...req.body };
+      const result = await UserCourseService.updateNote(data);
+      res.status(200).json(result);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  }
 }
 
 export default new UserCourseController();

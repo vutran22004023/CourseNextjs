@@ -7,5 +7,6 @@ const router = express.Router();
 router.post('/start-course', AuthMiddleware.authUser, UserCourseController.startUserCourse);
 router.post('/update-progress', AuthMiddleware.authUser, UserCourseController.updateProgress);
 router.get('/course-progress', AuthMiddleware.authUser, UserCourseController.getCourseProgress);
+router.put('/update-note', AuthMiddleware.authUser, UserCourseController.updateNote);
 
 export default router;
