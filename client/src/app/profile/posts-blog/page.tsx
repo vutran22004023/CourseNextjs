@@ -60,7 +60,7 @@ export default function PostsBlog() {
 
   const mutationBlog = useMutationHook(async(data) => {
     try {
-      const res = await CreateBlog(data, await token)
+      const res = await CreateBlog(data,token)
       return res
     }catch(e) {
       console.log(e)

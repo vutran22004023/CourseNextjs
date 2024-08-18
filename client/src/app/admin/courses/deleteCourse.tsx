@@ -25,7 +25,7 @@ interface DeleteProps {
     onClose: () => void;
   }
 export default function deleteCourse({id,isOpen, onClose}: DeleteProps) {
-  const token = getTokenFromCookies();
+  const token = getTokenFromCookies()
   const user = useSelector((state: RootState) => state.user);
   const getAllCourses = async() => {
     const res = await GetAllCourses()
@@ -34,7 +34,7 @@ export default function deleteCourse({id,isOpen, onClose}: DeleteProps) {
   const fetchTableData =useCombinedData('dataAllCoursess', getAllCourses);
   const { data: _dataAllCourses, error: _Errdata, isLoading: _isLoadingAllCourses,refetch  } = fetchTableData
   const mutationDeleteCourses = useMutationHook(async(idDelete) => {
-    const access_Token = await token;
+    const access_Token = token;
     const res = await DeleteCourses(idDelete,access_Token)
     return res
   })

@@ -43,7 +43,7 @@ export default function DeleteUsers({ id, isOpen, onClose }: DeleteProps) {
   } = fetchTableData;
 
   const mutationDeleteUsers = useMutationHook(async (idDelete: string) => {
-    const res = await DeleteUser(idDelete, await token as string);
+    const res = await DeleteUser(idDelete, token as string);
     return res;
   });
 
