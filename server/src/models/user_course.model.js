@@ -1,5 +1,16 @@
 import mongoose from 'mongoose';
 
+const note = new mongoose.Schema({
+  time: {
+    type: String,
+    required: true,
+  },
+  content: {
+    type: String,
+    required: true,
+  },
+});
+
 const videoStatusSchema = new mongoose.Schema(
   {
     videoId: {
@@ -12,6 +23,7 @@ const videoStatusSchema = new mongoose.Schema(
       default: 'not_started',
     },
     progress: { type: Number, default: 0 },
+    notes: [note],
   },
   {
     timestamps: true,
@@ -50,8 +62,6 @@ const userCourseSchema = new mongoose.Schema(
   }
 );
 
-// const VideoStatus = mongoose.model('VideoStatus', videoStatusSchema);
-// const ChapterStatus = mongoose.model('ChapterStatus', chapterStatusSchema);
 const UserCourse = mongoose.model('UserCourse', userCourseSchema);
 
 export { UserCourse };
