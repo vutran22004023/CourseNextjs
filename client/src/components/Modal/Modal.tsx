@@ -14,14 +14,15 @@ import {
     contentFooter: ReactNode;
     isOpen: boolean;
     setIsOpen: (isOpen: boolean) => void;
+    style: string;
   }
-export default function Modal({ triggerContent, contentHeader, contentBody, contentFooter, isOpen, setIsOpen }: UserDialogProps) {
+export default function Modal({ triggerContent, contentHeader, contentBody, contentFooter, isOpen, setIsOpen,style }: UserDialogProps) {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         {triggerContent}
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[355px] md:max-w-[550px] bg-slate-50 " style={{borderRadius:'10px'}}>
+      <DialogContent className={`sm:max-w-[355px] md:max-w-[550px] bg-slate-50 ${style}`} style={{borderRadius:'10px'}}>
         <DialogHeader>
           {contentHeader}
         </DialogHeader>
