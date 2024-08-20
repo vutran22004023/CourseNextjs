@@ -35,7 +35,6 @@ import { v4 } from 'uuid';
 import ImageUpload from '@/components/UpLoadImg/ImageUpload';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
-import {getTokenFromCookies} from '@/utils/auth'
 // Schema validation using Zod
 const userFormSchema = z.object({
   name: z
@@ -56,7 +55,6 @@ const defaultValues: Partial<UserFormValues> = { isAdmin: false, status: false }
 
 export default function NewUsers({ fetchTableData }: IfetchTable) {
   const user = useSelector((state: RootState) => state.user);
-    const token = getTokenFromCookies()
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const form = useForm<UserFormValues>({
@@ -77,7 +75,7 @@ export default function NewUsers({ fetchTableData }: IfetchTable) {
       const url = await getDownloadURL(snapshot.ref);
       data.avatar = url; // replace the File object with the URL string
     }
-    const res = await CreateUser(token as string, data);
+    const res = await CreateUser(data);
     return res;
   });
 

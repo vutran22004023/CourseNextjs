@@ -12,9 +12,7 @@ import { RootState } from "@/redux/store";
 import { CreateBlog } from '@/apis/blog';
 import { useSelector, useDispatch } from "react-redux";
 import {success, error} from '@/components/Message/Message'
-import {getTokenFromCookies} from '@/utils/auth'
 export default function PostsBlog() {
-  const token = getTokenFromCookies()
   const user = useSelector((state: RootState) => state.user);
   const note = {
     id: "9999",
@@ -60,7 +58,7 @@ export default function PostsBlog() {
 
   const mutationBlog = useMutationHook(async(data) => {
     try {
-      const res = await CreateBlog(data,token)
+      const res = await CreateBlog(data)
       return res
     }catch(e) {
       console.log(e)

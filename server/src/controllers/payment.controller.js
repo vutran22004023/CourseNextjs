@@ -11,23 +11,14 @@ const payos = new PayOS(`${process.env.CLIENT_ID}`, `${process.env.API_KEY}`, `$
 class PayMentController {
   // begin api thanh toans PayOS
   async createLinkPayOs(req, res) {
-    const { oderItem, fullName, address, phone, paymentMethod, itemsPrice, shippingPrice, totalPrice, user, email } =
-      req.body;
+    const { fullName, totalPrice, email } = req.body;
     const transID = Math.floor(Math.random() * 1000000000);
-    const items = oderItem.map((item) => ({
-      name: item.name,
-      quantity: item.amount,
-      price: parseFloat(item.price),
-    }));
     const order = {
       orderCode: transID,
       amount: totalPrice,
       description: `VQRIO${transID}`,
       buyerName: fullName,
       buyerEmail: email,
-      buyerPhone: phone,
-      buyerAddress: address,
-      items: items,
       cancelUrl: `${process.env.URL_CLIENT}/trang-thai`,
       returnUrl: `${process.env.URL_CLIENT}/trang-thai`,
     };

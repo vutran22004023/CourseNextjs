@@ -22,5 +22,5 @@ router.post('/transaction-refund-status',AuthMiddleware.authUser, paymentControl
 router.get('/information-course',AuthMiddleware.authAdmin, paymentController.getInformationCourse);
 router.post('/post-information-course/:id',AuthMiddleware.authUser, paymentController.postInformationCourse);
 router.put('/update-information-course/:id',AuthMiddleware.authUser, paymentController.updateInformationCourse);
-router.delete('/update-information-course/:id',AuthMiddleware.authUser, paymentController.deleteInformationCourse);
+router.delete('/delete-information-course/:id',AuthMiddleware.authUser, paymentController.deleteInformationCourse);
 export default router;

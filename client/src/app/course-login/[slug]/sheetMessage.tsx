@@ -21,7 +21,6 @@ import {
 import { useMutationHook } from "@/hooks";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
-import { getTokenFromCookies } from "@/utils/auth";
 import { useQuery } from "@tanstack/react-query";
 
 interface Props {
@@ -49,56 +48,38 @@ export default function sheetmessage({
   const [showActionsId, setShowActionsId] = useState<string | null>(null);
 
   const getMessageApi = async () => {
-    const token = await getTokenFromCookies();
-    if (token === null) {
-      throw new Error("No token found");
-    }
+
     const res = await GetMessage(
       dataVideo?._id,
       dataChapter[0]._id,
       dataChapVideo?._id,
       page,
-      token
     );
     return res;
   };
 
   const mutationPostMessage = useMutationHook(async (data) => {
-    const token = await getTokenFromCookies();
-    if (token === null) {
-      throw new Error("No token found");
-    }
-    const res = await PostMessage(data, token);
+    const res = await PostMessage(data);
     return res;
   });
 
   const mutationUpdateMessage = useMutationHook(async (data) => {
-    const token = await getTokenFromCookies();
-    if (token === null) {
-      throw new Error("No token found");
-    }
     const res = await UpdateMessage(
       dataVideo?._id,
       dataChapter[0]._id,
       dataChapVideo?._id,
       editMessageId,
-      data,
-      token
+      data
     );
     return res;
   });
 
   const mutationDeleteMessage = useMutationHook(async (idMess) => {
-    const token = await getTokenFromCookies();
-    if (token === null) {
-      throw new Error("No token found");
-    }
     const res = await DeleteMessage(
       dataVideo?._id,
       dataChapter[0]._id,
       dataChapVideo?._id,
       idMess,
-      token,
       user?.id
     );
     return res;
