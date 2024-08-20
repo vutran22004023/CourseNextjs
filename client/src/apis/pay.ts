@@ -55,10 +55,10 @@ export const ConfirmWebhookPayos = async () => {
 //end api thanh toán PayOs
 
 //begin api thanh toán ZaloPay
-export const PaymentZalopay = async () => {
+export const PaymentZalopay = async (data: any) => {
   try {
     const response: AxiosResponse = await axiosInstance.post(
-      `/api/pay/payment-zalopay`
+      `/api/pay/payment-zalopay`,data
     );
     return response.data;
   } catch {

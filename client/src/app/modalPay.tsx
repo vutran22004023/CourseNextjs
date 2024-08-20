@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ModalComponent from "@/components/Modal/Modal";
 import VideoYoutubeComponment from "@/components/VideoYoutube/VideoYoutube";
 import { formatCurrencyVND } from "@/utils/index";
@@ -14,26 +14,19 @@ import Image from "next/image";
 import IconZaloPay from "@/assets/Images/Logo-ZaloPay-Square.png";
 import IconQR from "@/assets/Images/qr.png";
 import { useMutationHook } from "@/hooks";
-import { CreateLinkPayOs } from "@/apis/pay";
+import { CreateLinkPayOs,PaymentZalopay } from "@/apis/pay";
 import { formatTime, parseTime } from "@/utils/index";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
+import { useRouter } from 'next/navigation';
 interface Props {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
   course: any;
 }
 export default function modalPay({ isOpen, setIsOpen, course }: Props) {
+  const router = useRouter();
   const user = useSelector((state: RootState) => state.user);
-
-  const mutationLinkOs = useMutationHook(async (data) => {
-    try {
-      const res = await CreateLinkPayOs(data);
-      return res;
-    } catch (err) {
-      console.log("Failed to create link");
-    }
-  });
   const totalVideos =
     course?.chapters?.reduce((total: number, chapter: any) => {
       return total + chapter.videos.length;
@@ -49,19 +42,53 @@ export default function modalPay({ isOpen, setIsOpen, course }: Props) {
       );
     }, 0) || 0;
 
+  const formattedTime = formatTime(totalTime);
+
+  const mutationLinkOs = useMutationHook(async (data) => {
+    try {
+      const res = await CreateLinkPayOs(data);
+      return res;
+    } catch (err) {
+      console.log("Failed to create link");
+    }
+  });
+
+  const mutationLinkZaloPay = useMutationHook(async (data) => {
+    try {
+      const res = await PaymentZalopay(data);
+      return res;
+    } catch (err) {
+      console.log("Failed to create link");
+    }
+  });
+
   const handPayOs = () => {
     mutationLinkOs.mutate({
-      oderItem: {
-          name: course.name,
-          price: course.priceAmount
-      },
-      fullName: user.name, 
-      totalPrice: course.priceAmount, 
-      buyerEmail: user.email
+      fullName: user.name,
+      totalPrice: course.priceAmount,
+      buyerEmail: user.email,
     });
   };
 
-  const formattedTime = formatTime(totalTime);
+  const handZaloPay = () => {
+    mutationLinkZaloPay.mutate({
+      fullName: user.name,
+      totalPrice:course.priceAmount
+    })
+  }
+  const {data: dataPayOs, isPending: isLoading} = mutationLinkOs
+  const {data: dataZaloPay, isPending: isLoadingZalo } = mutationLinkZaloPay
+  useEffect(() => {
+    if(dataPayOs) {
+      router.push(dataPayOs?.checkoutUrl)
+    }
+  }, [dataPayOs,router])
+
+  useEffect(() => {
+    if(dataZaloPay?.return_code === 1) {
+      router.push(dataZaloPay?.order_url)
+    }
+  },[dataZaloPay])
   return (
     <ModalComponent
       isOpen={isOpen}
@@ -97,7 +124,9 @@ export default function modalPay({ isOpen, setIsOpen, course }: Props) {
                 Học Javascript cơ bản phù hợp cho người chưa từng học lập trình.
                 Với hơn 100 bài học và có bài tập thực hành sau mỗi bài học.
               </div>
-              <Button className="w-full p-5 rounded-xl bg-slate-800 text-[#fff] cactus-classical-serif-md text-[18px] uppercase relative mb-3 hover:bg-slate-600">
+              <Button className="w-full p-5 rounded-xl bg-slate-800 text-[#fff] cactus-classical-serif-md text-[18px] uppercase relative mb-3 hover:bg-slate-600"
+              onClick={handZaloPay}
+              >
                 <Image
                   width={30}
                   height={30}

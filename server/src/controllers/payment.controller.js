@@ -78,14 +78,6 @@ class PayMentController {
     const embed_data = {
       redirecturl: `${process.env.URL_CLIENT}/trang-thai`,
     };
-
-    // const items = [{
-    //   itemid: "knb",
-    //   itemname: "kim nguyen bao",
-    //   itemprice: 198400,
-    //   itemquantity: 1
-    // }];
-
     const items = oderItem
       ? oderItem?.map((item) => ({
           itemid: item.productId,
