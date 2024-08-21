@@ -22,10 +22,10 @@ export const ReceiveHook = async () => {
     throw new Error("Error create courses");
   }
 };
-export const InfomationsPayment = async () => {
+export const InfomationsPayment = async (id: number) => {
   try {
     const response: AxiosResponse = await axiosInstance.get(
-      `/api/pay/get-payment-infomations/:idorder`
+      `/api/pay/get-payment-infomations/${id}`
     );
     return response.data;
   } catch {

@@ -6,14 +6,13 @@ import IconSuccPay from "@/assets/Images/payment-status.png";
 import Image from "next/image";
 import ButtonComponent from "@/components/Button/Button";
 import { useRouter, useSearchParams } from "next/navigation";
-import {StatusZalopay, PostInformationCourse} from '@/apis/pay';
+import {StatusZalopay, PostInformationCourse,InfomationsPayment} from '@/apis/pay';
 import { useMutationHook } from "@/hooks";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 
 export default function page() {
   const idCourse = useSelector((state: RootState) => state.idItemPay);
-  console.log(idCourse)
   const user = useSelector((state: RootState) => state.user);
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -38,6 +37,16 @@ export default function page() {
     }
   })
 
+  const mutationStatusPayOs = useMutationHook(async(data: any) => {
+    try {
+      const {id} = data
+      const res = await InfomationsPayment(id)
+      return res
+    }catch(err) {
+      console.log(err);
+    }
+  })
+
   const mutationPostCourse = useMutationHook(async(data: any) => {
     try {
       const res = await PostInformationCourse(data)
@@ -48,13 +57,19 @@ export default function page() {
   })
 
   useEffect(() => {
+    if(orderCode && status ==="PAID") {
+      mutationStatusPayOs.mutate({id:orderCode})
+    }
+  },[orderCode])
+
+  useEffect(() => {
     if(apptransid && status === "1") {
       mutationInfomationZalopay.mutate({id: apptransid})
     }
   },[apptransid,status ])
 
   const {data: statusZaloPay, isPending: isLoaidngZaloPay} = mutationInfomationZalopay
-
+  const {data: statusPayOs, isPending: isLoadingPayOs} = mutationStatusPayOs
   useEffect(() => {
     if(statusZaloPay?.returnmessage ==="Giao dịch thành công" && idCourse) {
       mutationPostCourse.mutate({
@@ -65,6 +80,17 @@ export default function page() {
       })
     }
   },[statusZaloPay])
+
+  useEffect(() => {
+    if(statusPayOs?.status ==="PAID") {
+      mutationPostCourse.mutate({
+        idUser: user?.id,
+        courseId: idCourse?.id,
+        paymentStatus: "completed",
+        money: statusPayOs?.amount
+      })
+    }
+  },[statusPayOs])
   return (
     <div className="w-full justify-center items-center mt-12 flex">
       {status === "CANCELLED" || status === "-49" ? (
