@@ -19,8 +19,8 @@ class PayMentController {
       description: `VQRIO${transID}`,
       buyerName: fullName,
       buyerEmail: email,
-      cancelUrl: `${process.env.URL_CLIENT}/trang-thai`,
-      returnUrl: `${process.env.URL_CLIENT}/trang-thai`,
+      cancelUrl: `${process.env.URL_CLIENT}/information-pay`,
+      returnUrl: `${process.env.URL_CLIENT}/information-pay`,
     };
     try {
       const paymentLinkData = await payos.createPaymentLink(order);
@@ -74,30 +74,27 @@ class PayMentController {
       key2: 'trMrHtvjo6myautxDUiAcYsVtaeQ8nhf',
       endpoint: 'https://sb-openapi.zalopay.vn/v2/create',
     };
-    const { oderItem, fullName, address, phone, paymentMethod, itemsPrice, shippingPrice, totalPrice, user } = req.body;
+    const { orderItem, fullName, address, phone, paymentMethod, itemsPrice, shippingPrice, totalPrice, user } = req.body;
     const embed_data = {
-      redirecturl: `${process.env.URL_CLIENT}/trang-thai`,
+      redirecturl: `${process.env.URL_CLIENT}/information-pay`,
     };
-    const items = oderItem
-      ? oderItem?.map((item) => ({
-          itemid: item.productId,
-          itemname: item.name,
-          itemprice: item.price,
-          itemquantity: item.amount,
-        }))
-      : [];
+    const items = orderItem
+    ? {
+        itemid: orderItem.productId
+      }
+    : {};
     const transID = Math.floor(Math.random() * 1000000);
     const order = {
       app_id: config.app_id,
       app_trans_id: `${moment().format('YYMMDD')}_${transID}`, // mã giao dich có định dạng yyMMdd_xxxx
       app_user: fullName,
       app_time: Date.now(), // miliseconds
-      item: JSON.stringify(items),
+      item: JSON.stringify([items]),
       embed_data: JSON.stringify(embed_data),
       amount: totalPrice,
       description: `Zalo - Thanh toán đơn hàng #${transID}`,
       // bank_code: "zalopayapp",
-      callback_url: 'https://1547-112-197-208-25.ngrok-free.app/callback-zalo',
+      callback_url: 'https://655a-118-71-134-202.ngrok-free.app/callback-zalo',
     };
 
     // appid|app_trans_id|appuser|amount|apptime|embeddata|item
@@ -119,7 +116,10 @@ class PayMentController {
 
     try {
       const result = await axios.post(config.endpoint, null, { params: order });
-      return res.status(200).json(result.data);
+      return res.status(200).json({
+        ...result.data,
+        itemid: orderItem.productId,
+      });
     } catch (err) {
       console.log(err);
       return res.status(500).json({ error: 'Internal Server Error' });

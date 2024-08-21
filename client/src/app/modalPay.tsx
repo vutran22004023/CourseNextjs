@@ -19,12 +19,15 @@ import { formatTime, parseTime } from "@/utils/index";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { useRouter } from 'next/navigation';
+import { useDispatch } from "react-redux";
+import {setItemPay} from '@/redux/Slides/itemPay'
 interface Props {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
   course: any;
 }
 export default function modalPay({ isOpen, setIsOpen, course }: Props) {
+  const dispatch = useDispatch()
   const router = useRouter();
   const user = useSelector((state: RootState) => state.user);
   const totalVideos =
@@ -68,13 +71,18 @@ export default function modalPay({ isOpen, setIsOpen, course }: Props) {
       totalPrice: course.priceAmount,
       buyerEmail: user.email,
     });
+    dispatch(setItemPay({idPayCourse:course._id}))
   };
 
   const handZaloPay = () => {
     mutationLinkZaloPay.mutate({
       fullName: user.name,
-      totalPrice:course.priceAmount
+      totalPrice:course.priceAmount,
+      orderItem: {
+        productId: course._id,
+      }
     })
+    dispatch(setItemPay({idPayCourse:course._id}))
   }
   const {data: dataPayOs, isPending: isLoading} = mutationLinkOs
   const {data: dataZaloPay, isPending: isLoadingZalo } = mutationLinkZaloPay
@@ -88,7 +96,7 @@ export default function modalPay({ isOpen, setIsOpen, course }: Props) {
     if(dataZaloPay?.return_code === 1) {
       router.push(dataZaloPay?.order_url)
     }
-  },[dataZaloPay])
+  },[dataZaloPay,router])
   return (
     <ModalComponent
       isOpen={isOpen}

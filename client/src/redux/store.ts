@@ -5,6 +5,7 @@ import storage from 'redux-persist/lib/storage';
 import userReducer from './Slides/userSide';
 import timeReducer from './Slides/timeVideoSide';
 import searchReducer from './Slides/searchSide';
+import itemReducer from './Slides/itemPay';
 import {
   persistStore,
   persistReducer,
@@ -20,6 +21,7 @@ const rootReducer = combineReducers({
   user: userReducer,
   timesVideo: timeReducer,
   searchs: searchReducer,
+  idItemPay: itemReducer
   // Add other reducers as needed
 });
 

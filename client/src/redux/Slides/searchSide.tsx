@@ -12,7 +12,6 @@ const timeSlice = createSlice({
   reducers: {
     Search: (state, { payload }) => {
       const { search} = payload;
-      console.log(search)
       state.search = search || "";
     },
 

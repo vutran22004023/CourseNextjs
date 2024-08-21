@@ -77,10 +77,10 @@ export const CallbackZalo = async () => {
   }
 };
 
-export const StatusZalopay = async () => {
+export const StatusZalopay = async (id: any) => {
   try {
     const response: AxiosResponse = await axiosInstance.post(
-      `/api/pay/order-status-zalopay/:apptransid`
+      `/api/pay/order-status-zalopay/${id}`
     );
     return response.data;
   } catch {
@@ -122,10 +122,10 @@ export const InformationCourse = async () => {
   }
 };
 
-export const PostInformationCourse = async () => {
+export const PostInformationCourse = async (data: any) => {
   try {
     const response: AxiosResponse = await axiosInstance.post(
-      `/api/pay/post-information-course/:id`
+      `/api/pay/post-information-course`, data
     );
     return response.data;
   } catch {

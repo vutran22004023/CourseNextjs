@@ -20,7 +20,7 @@ router.post('/transaction-refund-status',AuthMiddleware.authUser, paymentControl
 //end api thanh toán ZaloPay
 
 router.get('/information-course',AuthMiddleware.authAdmin, paymentController.getInformationCourse);
-router.post('/post-information-course/:id',AuthMiddleware.authUser, paymentController.postInformationCourse);
+router.post('/post-information-course',AuthMiddleware.authUser, paymentController.postInformationCourse);
 router.put('/update-information-course/:id',AuthMiddleware.authUser, paymentController.updateInformationCourse);
 router.delete('/delete-information-course/:id',AuthMiddleware.authUser, paymentController.deleteInformationCourse);
 export default router;
