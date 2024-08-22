@@ -1,17 +1,51 @@
 [
   {
-    "ten": "Chuyển đổi số sang chuỗi nhị phân",
-    "mo_ta": "Chuyển đổi một số nguyên sang chuỗi nhị phân.",
-    "level": "dễ"
+    "ten": "Tìm giá trị lớn nhất trong mảng",
+    "mo_ta": "Tìm giá trị lớn nhất trong một mảng.",
+    "level": "dễ",
+    "solution": "\n      function giaTriLonNhat(arr) {\n        return Math.max(...arr);\n      }\n  ",
+    "test_data": [
+      10,
+      100
+    ],
+    "result": 100
   },
   {
-    "ten": "Tính tổng các số lẻ trong mảng",
-    "mo_ta": "Tính tổng tất cả các số lẻ trong mảng [28, 78, 55, 75, 30, 87, 10, 8, 44, 8].",
-    "level": "vừa"
+    "ten": "Sắp xếp mảng bằng thuật toán quicksort",
+    "mo_ta": "Sắp xếp mảng [29, 15, 64, 24, 51, 28, 94, 82, 8, 76] sử dụng thuật toán quicksort.",
+    "level": "vừa",
+    "solution": "\n      function quickSort(arr) {\n        if (arr.length <= 1) return arr;\n        const pivot = arr[Math.floor(arr.length / 2)];\n        const left = arr.filter(x => x < pivot);\n        const middle = arr.filter(x => x === pivot);\n        const right = arr.filter(x => x > pivot);\n        return [...quickSort(left), ...middle, ...quickSort(right)];\n      }\n      console.log(quickSort([5, 3, 8, 1, 2])); // Kết quả: [1, 2, 3, 5, 8]\n    ",
+    "test_data": [
+      29,
+      15,
+      64,
+      24,
+      51,
+      28,
+      94,
+      82,
+      8,
+      76
+    ],
+    "result": null
   },
   {
     "ten": "Tìm số chính phương",
     "mo_ta": "Tìm số chính phương trong một khoảng cho trước.",
-    "level": "khó"
+    "level": "khó",
+    "solution": "\n      function soChinhPhuong(n) {\n        const result = [];\n        for (let i = 1; i * i <= n; i++) {\n          result.push(i * i);\n        }\n        return result;\n      }\n    ",
+    "test_data": [
+      29,
+      15,
+      64,
+      24,
+      51,
+      28,
+      94,
+      82,
+      8,
+      76
+    ],
+    "result": null
   }
 ]
