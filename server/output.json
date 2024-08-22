@@ -1,0 +1,17 @@
+[
+  {
+    "ten": "Chuyển đổi số sang chuỗi nhị phân",
+    "mo_ta": "Chuyển đổi một số nguyên sang chuỗi nhị phân.",
+    "level": "dễ"
+  },
+  {
+    "ten": "Tính tổng các số lẻ trong mảng",
+    "mo_ta": "Tính tổng tất cả các số lẻ trong mảng [28, 78, 55, 75, 30, 87, 10, 8, 44, 8].",
+    "level": "vừa"
+  },
+  {
+    "ten": "Tìm số chính phương",
+    "mo_ta": "Tìm số chính phương trong một khoảng cho trước.",
+    "level": "khó"
+  }
+]

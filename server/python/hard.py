@@ -1,8 +1,8 @@
-const hardAlgorithms = [
+hardAlgorithms = [
   {
-    name: 'Sắp xếp trộn',
-    description: 'Sắp xếp một mảng bằng thuật toán sắp xếp trộn.',
-    solution: `
+    'name': 'Sắp xếp trộn',
+    'description': 'Sắp xếp một mảng bằng thuật toán sắp xếp trộn.',
+    'solution': '''
       function sapXepTron(arr) {
         if (arr.length <= 1) return arr;
         const mid = Math.floor(arr.length / 2);
@@ -24,12 +24,12 @@ const hardAlgorithms = [
         }
         return ketQua.concat(trai.slice(i)).concat(phai.slice(j));
       }
-    `
+    '''
   },
   {
-    name: 'Bài toán ba lô',
-    description: 'Giải quyết bài toán ba lô 0/1.',
-    solution: `
+    'name': 'Bài toán ba lô',
+    'description': 'Giải quyết bài toán ba lô 0/1.',
+    'solution': '''
       function baiToanBaLo(giaTri, trongLuong, sucChua) {
         const n = giaTri.length;
         const dp = Array(n + 1).fill().map(() => Array(sucChua + 1).fill(0));
@@ -49,12 +49,12 @@ const hardAlgorithms = [
       const giaTri = [60, 100, 120];
       const trongLuong = [10, 20, 30];
       const sucChua = 50;
-    `
+    '''
   },
   {
-    name: 'Tìm đường đi ngắn nhất (Dijkstra)',
-    description: 'Tìm đường đi ngắn nhất từ một đỉnh đến tất cả các đỉnh khác trong đồ thị có trọng số.',
-    solution: `
+    'name': 'Tìm đường đi ngắn nhất (Dijkstra)',
+    'description': 'Tìm đường đi ngắn nhất từ một đỉnh đến tất cả các đỉnh khác trong đồ thị có trọng số.',
+    'solution': '''
       function dijkstra(graph, start) {
         const distances = {};
         const visited = new Set();
@@ -108,12 +108,12 @@ const hardAlgorithms = [
           return this.values.length === 0;
         }
       }
-    `
+    '''
   },
   {
-    name: 'Tìm kiếm nhị phân',
-    description: 'Tìm kiếm một giá trị trong một mảng đã được sắp xếp.',
-    solution: `
+    'name': 'Tìm kiếm nhị phân',
+    'description': 'Tìm kiếm một giá trị trong một mảng đã được sắp xếp.',
+    'solution': '''
       function timKiemNhiPhan(arr, target) {
         let left = 0, right = arr.length - 1;
         
@@ -126,12 +126,12 @@ const hardAlgorithms = [
         
         return -1;
       }
-    `
+    '''
   },
   {
-    name: 'Tính số Fibonacci (Đệ quy tối ưu)',
-    description: 'Tính số Fibonacci thứ n với tối ưu hóa.',
-    solution: `
+    'name': 'Tính số Fibonacci (Đệ quy tối ưu)',
+    'description': 'Tính số Fibonacci thứ n với tối ưu hóa.',
+    'solution': '''
       const fibonacci = (function() {
         const memo = {};
         function fib(n) {
@@ -142,12 +142,12 @@ const hardAlgorithms = [
         }
         return fib;
       })();
-    `
+    '''
   },
   {
-    name: 'Sắp xếp nhanh (Quick Sort)',
-    description: 'Sắp xếp một mảng bằng thuật toán Quick Sort.',
-    solution: `
+    'name': 'Sắp xếp nhanh (Quick Sort)',
+    'description': 'Sắp xếp một mảng bằng thuật toán Quick Sort.',
+    'solution': '''
       function quickSort(arr) {
         if (arr.length <= 1) return arr;
         const pivot = arr[Math.floor(arr.length / 2)];
@@ -156,12 +156,12 @@ const hardAlgorithms = [
         const right = arr.filter(x => x > pivot);
         return [...quickSort(left), ...middle, ...quickSort(right)];
       }
-    `
+    '''
   },
   {
-    name: 'Tìm kiếm chiều sâu (DFS)',
-    description: 'Tìm kiếm theo chiều sâu trong đồ thị.',
-    solution: `
+    'name': 'Tìm kiếm chiều sâu (DFS)',
+    'description': 'Tìm kiếm theo chiều sâu trong đồ thị.',
+    'solution': '''
       function dfs(graph, start) {
         const result = [];
         const visited = new Set();
@@ -178,12 +178,12 @@ const hardAlgorithms = [
         visit(start);
         return result;
       }
-    `
+    '''
   },
   {
-    name: 'Tìm kiếm chiều rộng (BFS)',
-    description: 'Tìm kiếm theo chiều rộng trong đồ thị.',
-    solution: `
+    'name': 'Tìm kiếm chiều rộng (BFS)',
+    'description': 'Tìm kiếm theo chiều rộng trong đồ thị.',
+    'solution': '''
       function bfs(graph, start) {
         const result = [];
         const visited = new Set();
@@ -200,21 +200,21 @@ const hardAlgorithms = [
         
         return result;
       }
-    `
+    '''
   },
   {
-    name: 'Tính tổng của ma trận',
-    description: 'Tính tổng của tất cả các phần tử trong một ma trận.',
-    solution: `
+    'name': 'Tính tổng của ma trận',
+    'description': 'Tính tổng của tất cả các phần tử trong một ma trận.',
+    'solution': '''
       function tongMaTran(matrix) {
         return matrix.flat().reduce((sum, val) => sum + val, 0);
       }
-    `
+    '''
   },
   {
-    name: 'Tìm chuỗi con dài nhất không lặp lại',
-    description: 'Tìm chuỗi con dài nhất trong một chuỗi không chứa ký tự lặp lại.',
-    solution: `
+    'name': 'Tìm chuỗi con dài nhất không lặp lại',
+    'description': 'Tìm chuỗi con dài nhất trong một chuỗi không chứa ký tự lặp lại.',
+    'solution': '''
       function chuoiConDaiNhat(str) {
         let maxLength = 0, start = 0;
         const indexMap = new Map();
@@ -229,12 +229,12 @@ const hardAlgorithms = [
         
         return maxLength;
       }
-    `
+    '''
   },
   {
-    name: 'Tính số lượng đường đi trong ma trận',
-    description: 'Tính số lượng đường đi từ góc trên bên trái đến góc dưới bên phải trong ma trận chỉ có 0 và 1.',
-    solution: `
+    'name': 'Tính số lượng đường đi trong ma trận',
+    'description': 'Tính số lượng đường đi từ góc trên bên trái đến góc dưới bên phải trong ma trận chỉ có 0 và 1.',
+    'solution': '''
       function soLuongDuongDi(matrix) {
         const rows = matrix.length;
         const cols = matrix[0].length;
@@ -252,12 +252,12 @@ const hardAlgorithms = [
         
         return dp[rows - 1][cols - 1];
       }
-    `
+    '''
   },
   {
-    name: 'Tính số lượng cách phân phối hàng hóa',
-    description: 'Tính số lượng cách phân phối hàng hóa cho các nhóm với số lượng không giới hạn.',
-    solution: `
+    'name': 'Tính số lượng cách phân phối hàng hóa',
+    'description': 'Tính số lượng cách phân phối hàng hóa cho các nhóm với số lượng không giới hạn.',
+    'solution': '''
       function phanPhoiHangHoa(n, k) {
         const dp = Array(n + 1).fill(0);
         dp[0] = 1;
@@ -270,12 +270,12 @@ const hardAlgorithms = [
         
         return dp[n];
       }
-    `
+    '''
   },
   {
-    name: 'Tìm kiếm nhị phân với điều kiện',
-    description: 'Tìm kiếm nhị phân trong mảng đã được sắp xếp theo một điều kiện nhất định.',
-    solution: `
+    'name': 'Tìm kiếm nhị phân với điều kiện',
+    'description': 'Tìm kiếm nhị phân trong mảng đã được sắp xếp theo một điều kiện nhất định.',
+    'solution': '''
       function timKiemNhiPhanDK(arr, target) {
         let left = 0, right = arr.length - 1;
         
@@ -288,12 +288,12 @@ const hardAlgorithms = [
         
         return -1;
       }
-    `
+    '''
   },
   {
-    name: 'Tìm chuỗi con chung dài nhất (LCS)',
-    description: 'Tìm chuỗi con chung dài nhất giữa hai chuỗi.',
-    solution: `
+    'name': 'Tìm chuỗi con chung dài nhất (LCS)',
+    'description': 'Tìm chuỗi con chung dài nhất giữa hai chuỗi.',
+    'solution': '''
       function chuoiConChungDaiNhat(str1, str2) {
         const m = str1.length, n = str2.length;
         const dp = Array(m + 1).fill().map(() => Array(n + 1).fill(0));
@@ -310,12 +310,12 @@ const hardAlgorithms = [
         
         return dp[m][n];
       }
-    `
+    '''
   },
   {
-    name: 'Tìm đường đi ngắn nhất (Bellman-Ford)',
-    description: 'Tìm đường đi ngắn nhất trong đồ thị với trọng số âm.',
-    solution: `
+    'name': 'Tìm đường đi ngắn nhất (Bellman-Ford)',
+    'description': 'Tìm đường đi ngắn nhất trong đồ thị với trọng số âm.',
+    'solution': '''
       function bellmanFord(graph, start) {
         const distances = {};
         const nodes = Object.keys(graph);
@@ -336,12 +336,12 @@ const hardAlgorithms = [
         
         return distances;
       }
-    `
+    '''
   },
   {
-    name: 'Tính toán đường đi ngắn nhất (Floyd-Warshall)',
-    description: 'Tính toán đường đi ngắn nhất giữa tất cả các cặp đỉnh trong đồ thị.',
-    solution: `
+    'name': 'Tính toán đường đi ngắn nhất (Floyd-Warshall)',
+    'description': 'Tính toán đường đi ngắn nhất giữa tất cả các cặp đỉnh trong đồ thị.',
+    'solution': '''
       function floydWarshall(graph) {
         const nodes = Object.keys(graph);
         const dist = {};
@@ -365,12 +365,12 @@ const hardAlgorithms = [
         
         return dist;
       }
-    `
+    '''
   },
   {
-    name: 'Tìm số nguyên tố',
-    description: 'Tìm tất cả các số nguyên tố trong một khoảng cho trước.',
-    solution: `
+    'name': 'Tìm số nguyên tố',
+    'description': 'Tìm tất cả các số nguyên tố trong một khoảng cho trước.',
+    'solution': '''
       function timSoNguyenTo(n) {
         const isPrime = Array(n + 1).fill(true);
         isPrime[0] = isPrime[1] = false;
@@ -388,12 +388,12 @@ const hardAlgorithms = [
           return primes;
         }, []);
       }
-    `
+    '''
   },
   {
-    name: 'Tìm đỉnh khớp trong đồ thị bipartite',
-    description: 'Tìm một đỉnh khớp trong đồ thị bipartite.',
-    solution: `
+    'name': 'Tìm đỉnh khớp trong đồ thị bipartite',
+    'description': 'Tìm một đỉnh khớp trong đồ thị bipartite.',
+    'solution': '''
       function bipartiteMatching(graph) {
         const match = {};
         const visited = {};
@@ -417,12 +417,12 @@ const hardAlgorithms = [
         
         return match;
       }
-    `
+    '''
   },
   {
-    name: 'Tìm tập hợp con có tổng bằng x',
-    description: 'Tìm tập hợp con của mảng sao cho tổng bằng một giá trị cho trước.',
-    solution: `
+    'name': 'Tìm tập hợp con có tổng bằng x',
+    'description': 'Tìm tập hợp con của mảng sao cho tổng bằng một giá trị cho trước.',
+    'solution': '''
       function tapHopCon(arr, target) {
         const dp = Array(arr.length + 1).fill().map(() => Array(target + 1).fill(false));
         dp[0][0] = true;
@@ -439,12 +439,12 @@ const hardAlgorithms = [
         
         return dp[arr.length][target];
       }
-    `
+    '''
   },
   {
-    name: 'Tìm số chính phương',
-    description: 'Tìm số chính phương trong một khoảng cho trước.',
-    solution: `
+    'name': 'Tìm số chính phương',
+    'description': 'Tìm số chính phương trong một khoảng cho trước.',
+    'solution': '''
       function soChinhPhuong(n) {
         const result = [];
         for (let i = 1; i * i <= n; i++) {
@@ -452,12 +452,12 @@ const hardAlgorithms = [
         }
         return result;
       }
-    `
+    '''
   },
   {
-    name: 'Tính toán chuỗi nhị phân',
-    description: 'Tính toán các phép toán trên chuỗi nhị phân, như cộng, trừ.',
-    solution: `
+    'name': 'Tính toán chuỗi nhị phân',
+    'description': 'Tính toán các phép toán trên chuỗi nhị phân, như cộng, trừ.',
+    'solution': '''
       function congNhiPhan(a, b) {
         let carry = 0, result = '';
         const maxLength = Math.max(a.length, b.length);
@@ -473,12 +473,12 @@ const hardAlgorithms = [
         if (carry) result = carry + result;
         return result;
       }
-    `
+    '''
   },
   {
-    name: 'Giải phương trình bậc hai',
-    description: 'Giải phương trình bậc hai với các hệ số cho trước.',
-    solution: `
+    'name': 'Giải phương trình bậc hai',
+    'description': 'Giải phương trình bậc hai với các hệ số cho trước.',
+    'solution': '''
       function phuongTrinhBacHai(a, b, c) {
         const delta = b * b - 4 * a * c;
         if (delta < 0) return 'Không có nghiệm thực';
@@ -486,12 +486,12 @@ const hardAlgorithms = [
         const x2 = (-b - Math.sqrt(delta)) / (2 * a);
         return [x1, x2];
       }
-    `
+    '''
   },
   {
-    name: 'Tìm đỉnh độc lập tối đa',
-    description: 'Tìm tập hợp đỉnh độc lập tối đa trong đồ thị.',
-    solution: `
+    'name': 'Tìm đỉnh độc lập tối đa',
+    'description': 'Tìm tập hợp đỉnh độc lập tối đa trong đồ thị.',
+    'solution': '''
       function dinhDocLapToiDa(graph) {
         // Giải thuật này có thể phức tạp và cần nhiều cách tiếp cận khác nhau.
         // Dưới đây là cách tiếp cận đơn giản sử dụng quy hoạch động.
@@ -512,12 +512,12 @@ const hardAlgorithms = [
         helper(0);
         return dp;
       }
-    `
+    '''
   },
   {
-    name: 'Tìm chuỗi con dài nhất với ký tự lặp lại',
-    description: 'Tìm chuỗi con dài nhất trong chuỗi cho phép có ký tự lặp lại.',
-    solution: `
+    'name': 'Tìm chuỗi con dài nhất với ký tự lặp lại',
+    'description': 'Tìm chuỗi con dài nhất trong chuỗi cho phép có ký tự lặp lại.',
+    'solution': '''
       function chuoiConDaiNhatLapLai(str) {
         let maxLength = 0;
         for (let i = 0; i < str.length; i++) {
@@ -530,12 +530,12 @@ const hardAlgorithms = [
         }
         return maxLength;
       }
-    `
+    '''
   },
   {
-    name: 'Tính toán số Fibonacci lớn',
-    description: 'Tính toán số Fibonacci lớn với số lượng lớn.',
-    solution: `
+    'name': 'Tính toán số Fibonacci lớn',
+    'description': 'Tính toán số Fibonacci lớn với số lượng lớn.',
+    'solution': '''
       function fibonacci(n) {
         if (n <= 1) return n;
         let a = 0, b = 1;
@@ -544,21 +544,21 @@ const hardAlgorithms = [
         }
         return b;
       }
-    `
+    '''
   },
   {
-    name: 'Tính toán xác suất',
-    description: 'Tính toán xác suất của một sự kiện dựa trên xác suất của các sự kiện con.',
-    solution: `
+    'name': 'Tính toán xác suất',
+    'description': 'Tính toán xác suất của một sự kiện dựa trên xác suất của các sự kiện con.',
+    'solution': '''
       function tinhXacSuat(p1, p2) {
         return p1 * p2;
       }
-    `
+    '''
   },
   {
-    name: 'Tìm tất cả các hoán vị của một chuỗi',
-    description: 'Tìm tất cả các hoán vị của một chuỗi cho trước.',
-    solution: `
+    'name': 'Tìm tất cả các hoán vị của một chuỗi',
+    'description': 'Tìm tất cả các hoán vị của một chuỗi cho trước.',
+    'solution': '''
       function hoanVi(str) {
         const result = [];
         
@@ -575,12 +575,12 @@ const hardAlgorithms = [
         permute('', str);
         return result;
       }
-    `
+    '''
   },
   {
-    name: 'Tính toán chỉ số nội bộ (Indexing)',
-    description: 'Tính toán chỉ số nội bộ cho một cấu trúc dữ liệu.',
-    solution: `
+    'name': 'Tính toán chỉ số nội bộ (Indexing)',
+    'description': 'Tính toán chỉ số nội bộ cho một cấu trúc dữ liệu.',
+    'solution': '''
       function tinhChiSoNoiBo(arr) {
         const index = {};
         arr.forEach((value, i) => {
@@ -588,12 +588,12 @@ const hardAlgorithms = [
         });
         return index;
       }
-    `
+    '''
   },
   {
-    name: 'Tính toán tổng các số nguyên tố',
-    description: 'Tính tổng của tất cả các số nguyên tố trong một khoảng cho trước.',
-    solution: `
+    'name': 'Tính toán tổng các số nguyên tố',
+    'description': 'Tính tổng của tất cả các số nguyên tố trong một khoảng cho trước.',
+    'solution': '''
       function tongSoNguyenTo(n) {
         let sum = 0;
         const isPrime = Array(n + 1).fill(true);
@@ -613,12 +613,12 @@ const hardAlgorithms = [
         
         return sum;
       }
-    `
+    '''
   },
   {
-    name: 'Tìm số chính phương gần nhất',
-    description: 'Tìm số chính phương gần nhất nhỏ hơn hoặc bằng một số cho trước.',
-    solution: `
+    'name': 'Tìm số chính phương gần nhất',
+    'description': 'Tìm số chính phương gần nhất nhỏ hơn hoặc bằng một số cho trước.',
+    'solution': '''
       function soChinhPhuongGanNhat(n) {
         let result = 0;
         for (let i = 1; i * i <= n; i++) {
@@ -626,12 +626,12 @@ const hardAlgorithms = [
         }
         return result;
       }
-    `
+    '''
   },
   {
-    name: 'Tính toán khoảng cách Levenshtein',
-    description: 'Tính khoảng cách Levenshtein giữa hai chuỗi.',
-    solution: `
+    'name': 'Tính toán khoảng cách Levenshtein',
+    'description': 'Tính khoảng cách Levenshtein giữa hai chuỗi.',
+    'solution': '''
       function khoangCachLevenshtein(a, b) {
         const dp = Array(a.length + 1).fill().map(() => Array(b.length + 1).fill(0));
         
@@ -647,8 +647,7 @@ const hardAlgorithms = [
         
         return dp[a.length][b.length];
       }
-    `
+    '''
   }
 ];
 
-export default hardAlgorithms;
