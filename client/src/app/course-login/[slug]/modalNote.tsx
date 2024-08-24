@@ -1,3 +1,4 @@
+'use client'
 import React from 'react'
 import WordPost from '@/components/WordPost/wordPost';
 import ButtonComponment from '@/components/Button/Button';

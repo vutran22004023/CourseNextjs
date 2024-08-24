@@ -1,3 +1,4 @@
+'use client'
 import React from 'react'
 import  ButtonComponment from '@/components/Button/Button';
 import { ArrowBigLeft, ArrowBigRight } from 'lucide-react';
