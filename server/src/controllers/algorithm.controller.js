@@ -2,6 +2,7 @@ import path from 'path';
 import fs from 'fs';
 import { exec } from 'child_process';
 import evaluateAlgorithm  from '../utils.js'
+import {TournamentModel} from '../models/index.js'
 const pythonScriptPath = path.resolve('python', 'generate_problem.py');
 const jsonFilePath = path.resolve('output.json');
 
@@ -51,7 +52,7 @@ class AlgorithmController {
   }
 
   async checkAlgorithms(req, res) {
-    const { ten, solution } = req.body;
+    const { ten, solution, userId } = req.body;
   
     try {
       // Đọc lại dữ liệu từ tệp JSON để đảm bảo là dữ liệu mới nhất
@@ -63,10 +64,18 @@ class AlgorithmController {
       }
   
       // Thực thi giải pháp của người dùng
-      const userResult = evaluateAlgorithm(solution, { test_data: algorithm.test_data });
+      const userResult = await evaluateAlgorithm(solution, { test_data: algorithm.test_data });
       // So sánh với kết quả dự kiến nếu có
-      const accuracy = (algorithm.result !== null && userResult === algorithm.result) ? 100 : 0;
-  
+      const accuracy = (userResult === algorithm.result) ? 100 : 0;
+      
+      await TournamentModel.create({
+        userId: userId,
+        nameAlgorithm: algorithm.ten,
+        solution: solution,
+        result: userResult,
+        expected_result: algorithm.result,
+        message: accuracy === 100 ? 'Kết quả chính xác!' : 'Kết quả sai. Vui lòng kiểm tra lại thuật toán của bạn.'
+      })
       res.json({
         algorithm_name: algorithm.ten,
         accuracy: accuracy,
