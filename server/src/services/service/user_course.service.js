@@ -228,9 +228,9 @@ class UserCourseService {
 
   async updateNote(data) {
     try {
-      const { _id, userId, videoId, notes } = data;
+      const { userId, courseId, videoId, notes } = data;
       const userCourse = await UserCourse.findOneAndUpdate(
-        { _id, userId },
+        { userId, courseId },
         {
           $set: {
             'chapters.$[].videos.$[video].notes': notes,
