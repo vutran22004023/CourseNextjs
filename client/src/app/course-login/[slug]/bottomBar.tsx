@@ -7,7 +7,7 @@ interface Props {
     handlePreviousLesson : () => void;
     disableNextLesson: boolean;
     handleNextLesson: () => void;
-    dataChildName: string;
+    dataChildName: string | undefined;
 }
 export default function bottomBar({handlePreviousLesson,disableNextLesson,handleNextLesson,dataChildName}:Props) {
   return (

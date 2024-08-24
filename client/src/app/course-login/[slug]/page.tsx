@@ -19,6 +19,7 @@ import SheetMessage from "./sheetMessage";
 import ModalNote from "./modalNote";
 import BottomBar from "./bottomBar";
 import CourseContent from "./courseContent";
+import {Course,Video} from '@/types/course'
 export default function page() {
   const { slug } = useParams();
   const dispatch = useDispatch();
@@ -26,9 +27,9 @@ export default function page() {
   const timeVideo = useSelector((state: RootState) => state.timesVideo);
   const user = useSelector((state: RootState) => state.user);
   if (!user.id || !user.email || !user.status) return router.push("/");
-  const [dataCourseDetail, setDataCourseDetail] = useState();
+  const [dataCourseDetail, setDataCourseDetail] = useState<Course>();
   const [isLoadingDetail, setIsLoadingDetail] = useState(false);
-  const [dataVideo, setDataVideo] = useState();
+  const [dataVideo, setDataVideo] = useState<Video>();
   const [activeSlug, setActiveSlug] = useState<string | null>(null);
   const [activeChapterIndex, setActiveChapterIndex] = useState<number | null>(
     null
@@ -313,7 +314,7 @@ export default function page() {
                 width: "100%",
                 height: "500px",
               }}
-              src={dataVideo?.video}
+              src={dataVideo?.video as string}
               title="YouTube video player"
             />
           </div>
