@@ -5,13 +5,6 @@ import evaluateAlgorithm  from '../utils.js'
 const pythonScriptPath = path.resolve('python', 'generate_problem.py');
 const jsonFilePath = path.resolve('output.json');
 
-function executeSolution(solution, testData) {
-  // Tạo hàm từ mã JavaScript
-  const func = new Function('arr', solution);
-  
-  // Thực thi hàm với dữ liệu kiểm tra
-  return func(testData);
-}
 
 class AlgorithmController {
   async generateAlgorithms(req, res) {
