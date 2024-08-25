@@ -42,16 +42,6 @@ class UserCourseController {
   }
 
   // Add, update or delete note
-  /* payload = {
-    _id: <user_courses_id>,
-    videoId: <video_id>,
-    notes: [
-      {
-        time: "01:02",
-        content: "Note anything"
-      }
-    ]
-  } */
   async updateNote(req, res) {
     try {
       const data = { userId: req.user.id, ...req.body };
