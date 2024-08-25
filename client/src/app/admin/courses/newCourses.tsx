@@ -37,7 +37,6 @@ import ImageUpload from "@/components/UpLoadImg/ImageUpload";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import slugify from 'slugify';
-import {getTokenFromCookies} from '@/utils/auth'
 interface IProp {
   chapter: any;
   chapterIndex: any;
@@ -102,7 +101,6 @@ const defaultValues: Partial<CourseFormValues> = {
 };
 
 export default function NewCourses({ fetchTableData }: IfetchTable) {
-  const token = getTokenFromCookies()
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const user = useSelector((state: RootState) => state.user);
@@ -133,8 +131,7 @@ export default function NewCourses({ fetchTableData }: IfetchTable) {
       const url = await getDownloadURL(snapshot.ref);
       data.image = url; // replace the File object with the URL string
     }
-    const access_Token = token;
-    const res = await CreateCourses(data, access_Token);
+    const res = await CreateCourses(data);
     return res;
   });
 

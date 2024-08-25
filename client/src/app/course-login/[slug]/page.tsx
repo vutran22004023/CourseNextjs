@@ -30,7 +30,6 @@ import { CSSTransition } from "react-transition-group";
 import { useRouter } from "next/navigation";
 import SheetMessage from "./sheetMessage";
 import NoteSheet from "./note";
-import { getTokenFromCookies } from "@/utils/auth";
 export default function page() {
   const { slug } = useParams();
   const dispatch = useDispatch();
@@ -63,17 +62,12 @@ export default function page() {
 
   const mutationStateCouses = async () => {
     try {
-      const token = await getTokenFromCookies();
-
-      if (token === null) {
-        throw new Error("No token found");
-      }
       const res = await StartCourse(
         {
           userId: user.id,
           courseId: dataCourseDetail?._id,
         },
-        token
+
       );
       return res.data;
     } catch (err) {
@@ -83,12 +77,7 @@ export default function page() {
 
   const mutationUpdateCourse = useMutationHook(async (data) => {
     try {
-      const token = await getTokenFromCookies();
-
-      if (token === null) {
-        throw new Error("No token found");
-      }
-      const res = await UpdateUserCourse(data, token);
+      const res = await UpdateUserCourse(data);
       return res.data;
     } catch (err) {
       console.log(err);

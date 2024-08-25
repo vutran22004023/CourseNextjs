@@ -18,7 +18,6 @@ import { success, error } from '@/components/Message/Message';
 import { useCombinedData } from '@/hooks/index';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
-import {getTokenFromCookies} from '@/utils/auth'
 interface DeleteProps {
   id: string;
   isOpen: boolean;
@@ -26,7 +25,6 @@ interface DeleteProps {
 }
 
 export default function DeleteUsers({ id, isOpen, onClose }: DeleteProps) {
-    const token =getTokenFromCookies()
   const user = useSelector((state: RootState) => state.user);
 
   const getAllUsers = async () => {
@@ -43,7 +41,7 @@ export default function DeleteUsers({ id, isOpen, onClose }: DeleteProps) {
   } = fetchTableData;
 
   const mutationDeleteUsers = useMutationHook(async (idDelete: string) => {
-    const res = await DeleteUser(idDelete, token as string);
+    const res = await DeleteUser(idDelete);
     return res;
   });
 

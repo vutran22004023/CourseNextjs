@@ -45,7 +45,6 @@ import ImageUpload from '@/components/UpLoadImg/ImageUpload';
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/redux/store";
 import slugify from 'slugify'
-import {getTokenFromCookies} from '@/utils/auth'
 interface UpdateProps {
   data: any;
   isOpen: boolean;
@@ -101,7 +100,6 @@ const courseFormSchema = z.object({
 type CourseFormValues = z.infer<typeof courseFormSchema>;
 
 const UpdateCourse: React.FC<UpdateProps> = ({ data, isOpen, onClose }) => {
-  const token = getTokenFromCookies()
 
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const user = useSelector((state: RootState) => state.user);
@@ -150,8 +148,7 @@ const UpdateCourse: React.FC<UpdateProps> = ({ data, isOpen, onClose }) => {
     } else if (!dataForm.image && data.image) {
       dataForm.image = data.image; // Giữ URL hình ảnh cũ nếu không có hình ảnh mới
     }
-    const access_Token = token;
-    const res = await UpdateCourses(data._id, dataForm, access_Token);
+    const res = await UpdateCourses(data._id, dataForm);
     return res;
   });
 

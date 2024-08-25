@@ -44,7 +44,6 @@ import { v4 } from 'uuid';
 import ImageUpload from '@/components/UpLoadImg/ImageUpload';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
-import {getTokenFromCookies} from '@/utils/auth'
 interface UpdateProps {
   data: any;
   isOpen: boolean;
@@ -67,10 +66,8 @@ const userFormSchema = z.object({
 type UserFormValues = z.infer<typeof userFormSchema>;
 
 const UpdateUser: React.FC<UpdateProps> = ({ data, isOpen, onClose }) => {
-  const user = useSelector((state: RootState) => state.user);
-  const token =getTokenFromCookies()
   const getAllUsers = async () => {
-    const res = await GetAllUsers(token as string);
+    const res = await GetAllUsers();
     return res;
   };
 
@@ -113,7 +110,6 @@ const UpdateUser: React.FC<UpdateProps> = ({ data, isOpen, onClose }) => {
     }
     const res = await UpdateUser(
       data._id,
-      token as string,
       dataForm
     );
     return res;

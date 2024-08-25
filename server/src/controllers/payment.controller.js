@@ -5,28 +5,20 @@ import qs from 'qs';
 import PayOS from '@payos/node';
 import * as dotenv from 'dotenv';
 dotenv.config();
+import PayCourse from '../models/paycourse.model.js';
 
 const payos = new PayOS(`${process.env.CLIENT_ID}`, `${process.env.API_KEY}`, `${process.env.CHECKSUM_KEY}`);
 class PayMentController {
   // begin api thanh toans PayOS
   async createLinkPayOs(req, res) {
-    const { oderItem, fullName, address, phone, paymentMethod, itemsPrice, shippingPrice, totalPrice, user, email } =
-      req.body;
+    const { fullName, totalPrice, email } = req.body;
     const transID = Math.floor(Math.random() * 1000000000);
-    const items = oderItem.map((item) => ({
-      name: item.name,
-      quantity: item.amount,
-      price: parseFloat(item.price),
-    }));
     const order = {
       orderCode: transID,
       amount: totalPrice,
       description: `VQRIO${transID}`,
       buyerName: fullName,
       buyerEmail: email,
-      buyerPhone: phone,
-      buyerAddress: address,
-      items: items,
       cancelUrl: `${process.env.URL_CLIENT}/trang-thai`,
       returnUrl: `${process.env.URL_CLIENT}/trang-thai`,
     };
@@ -86,14 +78,6 @@ class PayMentController {
     const embed_data = {
       redirecturl: `${process.env.URL_CLIENT}/trang-thai`,
     };
-
-    // const items = [{
-    //   itemid: "knb",
-    //   itemname: "kim nguyen bao",
-    //   itemprice: 198400,
-    //   itemquantity: 1
-    // }];
-
     const items = oderItem
       ? oderItem?.map((item) => ({
           itemid: item.productId,
@@ -262,6 +246,147 @@ class PayMentController {
   }
 
   // end api thanh toans zalopay
+
+
+  //begin thông tin thanh toán khóa học
+  async getInformationCourse(req, res) {
+    try {
+      const { page = 1, limit = 10, search = '', sort = 'desc' } = req.query;
+  
+      // Tính toán phân trang
+      const skip = (Number(page) - 1) * Number(limit);
+  
+      // Điều kiện tìm kiếm
+      const searchCondition = search
+        ? {
+            $or: [
+              { 'courseId.name': { $regex: search, $options: 'i' } },
+              { 'idUser.name': { $regex: search, $options: 'i' } },
+            ],
+          }
+        : {};
+  
+      // Tính tổng số trạng thái thanh toán
+      const totalStatus = await PayCourse.aggregate([
+        {
+          $group: {
+            _id: '$paymentStatus',
+            count: { $sum: 1 },
+          },
+        },
+      ]);
+  
+      // Tìm paycourses với phân trang, tìm kiếm và sắp xếp
+      const payCourses = await PayCourse.find(searchCondition)
+        .populate({
+          path: 'idUser',  // Populate thông tin từ bảng User
+          select: 'name email',  // Lấy các trường name và email từ bảng User
+        })
+        .populate({
+          path: 'courseId',  // Populate thông tin từ bảng Course
+          select: 'name image money',  // Lấy các trường name, image, và money từ bảng Course
+        })
+        .sort({ createdAt: sort === 'desc' ? -1 : 1 })
+        .skip(skip)
+        .limit(Number(limit));
+  
+      // Tính tổng số lượng paycourse sau khi tìm kiếm
+      const totalPayCourses = await PayCourse.countDocuments(searchCondition);
+  
+      // Trả về kết quả
+      return res.status(200).json({
+        totalStatus,
+        totalPayCourses,
+        currentPage: Number(page),
+        totalPages: Math.ceil(totalPayCourses / Number(limit)),
+        payCourses,
+      });
+    } catch (err) {
+      console.error('Lỗi khi lấy thông tin thanh toán:', err);
+      return res.status(500).json({
+        message: 'Có lỗi xảy ra trong quá trình lấy thông tin',
+        error: err.message || 'Không xác định được lỗi',
+      });
+    }
+  }
+  async postInformationCourse(req, res) {
+    try {
+      const { idUser, courseId, paymentStatus,money } = req.body;
+  
+      // Kiểm tra các giá trị đầu vào
+      if (!idUser || !courseId || !paymentStatus || !money) {
+        return res.status(400).json({ message: 'Thiếu thông tin yêu cầu' });
+      }
+  
+      // Tạo mới document PayCourse
+      const newPayCourse = new PayCourse({
+        idUser,
+        courseId,
+        paymentStatus,
+        money
+      });
+  
+      await newPayCourse.save();
+
+
+      return res.status(201).json({
+        message: 'Thanh toán thành công'
+      });
+    } catch (err) {
+      // Xử lý lỗi
+      console.error('Lỗi khi lưu dữ liệu paycourse:', err);
+      return res.status(500).json({
+        message: 'Có lỗi xảy ra trong quá trình xử lý',
+        error: err.message || 'Không xác định được lỗi',
+      });
+    }
+  }
+
+  async updateInformationCourse(req, res) {
+    try {
+      const { id } = req.params;
+      const updateData = req.body;
+  
+      // Tìm và cập nhật paycourse theo ID
+      const updatedPayCourse = await PayCourse.findByIdAndUpdate(id, updateData, { new: true });
+  
+      if (!updatedPayCourse) {
+        return res.status(404).json({ message: 'Không tìm thấy thông tin paycourse để cập nhật' });
+      }
+  
+      // Trả về thông báo thành công và dữ liệu đã cập nhật
+      return res.status(200).json({ message: 'Cập nhật thông tin paycourse thành công', data: updatedPayCourse });
+    } catch (err) {
+      console.error('Lỗi khi cập nhật thông tin thanh toán:', err);
+      return res.status(500).json({
+        message: 'Có lỗi xảy ra trong quá trình cập nhật thông tin',
+        error: err.message || 'Không xác định được lỗi',
+      });
+    }
+  }
+
+  async deleteInformationCourse(req, res) {
+    try {
+      const { id } = req.params;
+  
+      // Tìm và xóa paycourse theo ID
+      const deletedPayCourse = await PayCourse.findByIdAndDelete(id);
+  
+      if (!deletedPayCourse) {
+        return res.status(404).json({ message: 'Không tìm thấy thông tin paycourse để xóa' });
+      }
+  
+      // Trả về thông báo thành công
+      return res.status(200).json({ message: 'Xóa thông tin paycourse thành công', data: deletedPayCourse });
+    } catch (err) {
+      console.error('Lỗi khi xóa thông tin thanh toán:', err);
+      return res.status(500).json({
+        message: 'Có lỗi xảy ra trong quá trình xóa thông tin',
+        error: err.message || 'Không xác định được lỗi',
+      });
+    }
+  }
+  //end thông tin thanh toán khóa học
 }
 
 export default new PayMentController();

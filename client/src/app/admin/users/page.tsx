@@ -6,7 +6,6 @@ import { GetAllUsers } from '@/apis/user';
 import { useCombinedData } from '@/hooks/index';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
-import {getTokenFromCookies} from '@/utils/auth'
 export type IfetchDataTable = {
   dataUsers: any;
   err: any;
@@ -14,10 +13,9 @@ export type IfetchDataTable = {
 };
 
 export default function Users() {
-  const token =getTokenFromCookies ()
   const user = useSelector((state: RootState) => state.user);
   const getAllUsers = async () => {
-    const res = await GetAllUsers(token as string);
+    const res = await GetAllUsers();
     return res;
   };
 
