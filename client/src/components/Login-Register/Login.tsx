@@ -165,7 +165,7 @@ export default function LoginComponent(style : any) {
     <ModalComponent
       triggerContent={
         <Button
-        className="bg-gray-300 text-black hover:bg-gray-400 "
+        className="bg-[#FF5A00] text-[#fff] hover:bg-[#fb6f24] "
         style={{ borderRadius: "20px", ...style, }}
         >
           Đăng nhập / Đăng ký

@@ -67,13 +67,8 @@ export default function HeaderLayout() {
   };
 
   return (
-    <div className="fixed top-0 left-0 bg-[#fff] right-0 z-10 border-b text-white p-3 flex justify-between items-center">
-      <h1
-        className="text-[#040404] font-bold text-2xl"
-        onClick={() => navigate("/")}
-      >
-        Header
-      </h1>
+    <div className="fixed top-0 left-0 bg-black right-0 z-10 border-b text-white p-3 flex justify-between items-center">
+      <img className="h-[30px] pl-2" src="logo.png" alt=""/>
       <div className="flex items-center w-[500px] px-4 py-2">
         <input
           type="text"
