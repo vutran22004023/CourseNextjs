@@ -46,10 +46,10 @@ class BlogService {
   async createPost(req) {
     try {
       this.dataHandle(req.body);
-      const { title, content } = req.body;
+      const { title, content, tag = null } = req.body;
 
       // Create the new post
-      const createPost = await Post.create({ userId: req.user.id, title, content });
+      const createPost = await Post.create({ userId: req.user.id, title, content, tag });
       return {
         status: 200,
         data: createPost,
@@ -65,8 +65,8 @@ class BlogService {
   async updatePost(postId, data) {
     try {
       this.dataHandle(data);
-      const { title, content } = data;
-      const post = await Post.findOneAndUpdate({ _id: postId }, { title, content }, { new: true }).lean();
+      const { title, content, tag = null } = data;
+      const post = await Post.findOneAndUpdate({ _id: postId }, { title, content, tag }, { new: true }).lean();
       if (!post) {
         return {
           status: 'ERR',
