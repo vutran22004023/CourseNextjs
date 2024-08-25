@@ -98,9 +98,9 @@ const PageClient: FC = () => {
   return (
     <main>
       <div className="mb-5">
-        <div className="cactus-classical-serif-md text-[25px]">
+        <Text type="subtitle" className="text-[25px]">
           Khóa học Pro
-        </div>
+        </Text>
         <CourseList
           courses={dataCoursePaid}
           isLoading={isLoadingAllCourses}
@@ -109,7 +109,7 @@ const PageClient: FC = () => {
       </div>
 
       <div className="">
-        <Text className="text-[25px]">
+        <Text type="subtitle" className="text-[25px]">
           Khóa học free
         </Text>
         <CourseList
