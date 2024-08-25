@@ -1,9 +1,7 @@
 "use client";
 import VideoYoutubeComponment from "@/components/VideoYoutube/VideoYoutube";
 import ButtonComponment from "@/components/Button/Button";
-import {
-  MessageCircleQuestion,
-} from "lucide-react";
+import { MessageCircleQuestion } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useMutationHook } from "@/hooks";
 import { GetDetailCourses } from "@/apis/course";
@@ -19,7 +17,8 @@ import SheetMessage from "./sheetMessage";
 import ModalNote from "./modalNote";
 import BottomBar from "./bottomBar";
 import CourseContent from "./courseContent";
-import {Course,Video} from '@/types/course'
+import { Course, Video } from "@/types/course";
+import Text from "@/components/Text/text";
 export default function page() {
   const { slug } = useParams();
   const dispatch = useDispatch();
@@ -332,12 +331,12 @@ export default function page() {
                 Thêm ghi chú
               </ButtonComponment>
             </div>
-            <div className="mb-5">Cập nhật {dataVideo?.updatedAt}</div>
-            <div className="mb-5">
+            <Text className="mb-5">Cập nhật {dataVideo?.updatedAt}</Text>
+            <Text className="mb-5">
               Tham gia các cộng đồng để cùng học hỏi, chia sẻ và "thám thính"
               xem F8 sắp có gì mới nhé!
-            </div>
-            <div>Fanpage: https://www.facebook.com/f8vnofficial</div>
+            </Text>
+            <Text>Fanpage: https://www.facebook.com/f8vnofficial</Text>
           </div>
         </div>
 
@@ -374,7 +373,7 @@ export default function page() {
             onClick={() => setIsModalMessage(true)}
           >
             <MessageCircleQuestion />
-            <div>Hỏi đáp</div>
+            <Text>Hỏi đáp</Text>
           </ButtonComponment>
         </div>
         <SheetMessage

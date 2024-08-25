@@ -5,8 +5,8 @@ import CourseRouter from './course.route.js';
 import PayMentRouter from './payment.router.js';
 import UserCourseRouter from './user_course.route.js';
 import BlogRouter from './blog.route.js';
-import MessageRouter from './message.route.js'
-import AlgorithmRouter from './algorithm.route.js'
+import MessageRouter from './message.route.js';
+import AlgorithmRouter from './algorithm.route.js';
 const router = express.Router();
 
 router.use('/', Login_RegisterRouter);

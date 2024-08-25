@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
 import { RootState } from "@/redux/store";
 export default function SidebarAdmin({
-  children,
+  children
 }: {
   children: React.ReactNode;
 }) {

@@ -1,5 +1,5 @@
-import SidebarAdmin from './sideBarHeader';
-import React from 'react';
+import SidebarAdmin from "./sideBarHeader";
+import React from "react";
 export default function RootLayout({
   children,
 }: {
@@ -7,9 +7,7 @@ export default function RootLayout({
 }) {
   return (
     <div className="min-h-screen bg-background font-sans antialiased">
-      <SidebarAdmin>
-        {children}
-      </SidebarAdmin>
+      <SidebarAdmin>{children}</SidebarAdmin>
     </div>
   );
 }

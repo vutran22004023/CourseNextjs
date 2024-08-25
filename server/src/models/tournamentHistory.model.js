@@ -25,7 +25,7 @@ const postSchema = new mongoose.Schema(
     message: {
       type: String,
       required: [true, 'Nội dung không được để trống!'],
-    }
+    },
   },
   {
     timestamps: true,

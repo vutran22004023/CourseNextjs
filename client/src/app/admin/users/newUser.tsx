@@ -1,48 +1,44 @@
-import { useState, useEffect } from 'react';
-import ModalComponent from '@/components/Modal/Modal';
-import { Button } from '@/components/ui/button';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-// import { useDropzone } from "react-dropzone";
-import ButtonComponent from '@/components/Button/Button';
+import { useState, useEffect } from "react";
+import ModalComponent from "@/components/Modal/Modal";
+import { Button } from "@/components/ui/button";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import ButtonComponent from "@/components/Button/Button";
 import {
   Form,
   FormControl,
-  // FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-// import { Textarea } from "@/components/ui/textarea";
-// import { toast } from "@/components/ui/use-toast";
-import { CreateUser } from '@/apis/user';
-import { useMutationHook } from '@/hooks/index';
-import { success, error } from '@/components/Message/Message';
-import { IfetchTable } from '@/types/index';
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { imageDb } from '@/firebase/config';
-import { v4 } from 'uuid';
-import ImageUpload from '@/components/UpLoadImg/ImageUpload';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store';
+} from "@/components/ui/select";
+import { CreateUser } from "@/apis/user";
+import { useMutationHook } from "@/hooks/index";
+import { success, error } from "@/components/Message/Message";
+import { IfetchTable } from "@/types/index";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { imageDb } from "@/firebase/config";
+import { v4 } from "uuid";
+import ImageUpload from "@/components/UpLoadImg/ImageUpload";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
 // Schema validation using Zod
 const userFormSchema = z.object({
   name: z
     .string()
-    .min(2, 'Tên người dùng ít nhất 2 kí tự')
-    .max(30, 'Tên người dùng tối đa 30 kí tự'),
-  email: z.string().min(1, 'Email là bắt buộc').email('Email không hợp lệ'),
-  password: z.string().min(1, 'Mật khẩu là bắt buộc'),
+    .min(2, "Tên người dùng ít nhất 2 kí tự")
+    .max(30, "Tên người dùng tối đa 30 kí tự"),
+  email: z.string().min(1, "Email là bắt buộc").email("Email không hợp lệ"),
+  password: z.string().min(1, "Mật khẩu là bắt buộc"),
   isAdmin: z.boolean(),
   status: z.boolean(),
   avatar: z.instanceof(File).optional(),
@@ -51,7 +47,10 @@ const userFormSchema = z.object({
 type UserFormValues = z.infer<typeof userFormSchema>;
 
 // Default values (optional)
-const defaultValues: Partial<UserFormValues> = { isAdmin: false, status: false };
+const defaultValues: Partial<UserFormValues> = {
+  isAdmin: false,
+  status: false,
+};
 
 export default function NewUsers({ fetchTableData }: IfetchTable) {
   const user = useSelector((state: RootState) => state.user);
@@ -60,11 +59,11 @@ export default function NewUsers({ fetchTableData }: IfetchTable) {
   const form = useForm<UserFormValues>({
     resolver: zodResolver(userFormSchema),
     defaultValues,
-    mode: 'onChange',
+    mode: "onChange",
   });
 
   const handleImageUpload = (file: File) => {
-    form.setValue('avatar', file);
+    form.setValue("avatar", file);
     setImagePreview(URL.createObjectURL(file));
   };
 
@@ -87,7 +86,7 @@ export default function NewUsers({ fetchTableData }: IfetchTable) {
       setIsModalOpen(false);
       fetchTableData.refetch();
       form.reset();
-    } else if (dataCreate?.status === 'ERR') {
+    } else if (dataCreate?.status === "ERR") {
       error(`${dataCreate?.message}`);
     }
   }, [dataCreate]);
@@ -102,128 +101,128 @@ export default function NewUsers({ fetchTableData }: IfetchTable) {
       setIsOpen={setIsModalOpen}
       triggerContent={
         <Button
-          className='bg-[black] p-5 text-[#fff] hover:bg-[#6c6a6a]'
-          style={{ borderRadius: '10px' }}
+          className="bg-[black] p-5 text-[#fff] hover:bg-[#6c6a6a]"
+          style={{ borderRadius: "10px" }}
         >
           Thêm người dùng
         </Button>
       }
       contentHeader={<div>Thêm người dùng mới</div>}
       contentBody={
-        <div className='p-2 max-h-[500px] overflow-y-auto'>
+        <div className="p-2 max-h-[500px] overflow-y-auto">
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4'>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
               <FormField
                 control={form.control}
-                name='name'
+                name="name"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Tên người dùng</FormLabel>
                     <FormControl>
-                      <Input placeholder='Nhập tên người dùng' {...field} />
+                      <Input placeholder="Nhập tên người dùng" {...field} />
                     </FormControl>
-                    <FormMessage className='text-[red]' />
+                    <FormMessage className="text-[red]" />
                   </FormItem>
                 )}
               />
               <FormField
                 control={form.control}
-                name='email'
+                name="email"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input type='email' placeholder='Nhập email' {...field} />
+                      <Input type="email" placeholder="Nhập email" {...field} />
                     </FormControl>
-                    <FormMessage className='text-[red]' />
+                    <FormMessage className="text-[red]" />
                   </FormItem>
                 )}
               />
               <FormField
                 control={form.control}
-                name='password'
+                name="password"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Mật khẩu</FormLabel>
                     <FormControl>
                       <Input
-                        type='password'
-                        placeholder='Nhập mật khẩu'
+                        type="password"
+                        placeholder="Nhập mật khẩu"
                         {...field}
                       />
                     </FormControl>
-                    <FormMessage className='text-[red]' />
+                    <FormMessage className="text-[red]" />
                   </FormItem>
                 )}
               />
               <FormField
                 control={form.control}
-                name='isAdmin'
+                name="isAdmin"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Quyền của người dùng</FormLabel>
                     <FormControl>
                       <Select
-                        value={field.value ? 'true' : 'false'}
+                        value={field.value ? "true" : "false"}
                         onValueChange={(value) =>
-                          field.onChange(value === 'true')
+                          field.onChange(value === "true")
                         }
                       >
                         <SelectTrigger>
-                          <SelectValue placeholder='Chọn quyền' />
+                          <SelectValue placeholder="Chọn quyền" />
                         </SelectTrigger>
-                        <SelectContent className='bg-[#ececec]'>
-                          <SelectItem value='true'>Quản trị viên</SelectItem>
-                          <SelectItem value='false'>Người dùng</SelectItem>
+                        <SelectContent className="bg-[#ececec]">
+                          <SelectItem value="true">Quản trị viên</SelectItem>
+                          <SelectItem value="false">Người dùng</SelectItem>
                         </SelectContent>
                       </Select>
                     </FormControl>
-                    <FormMessage className='text-[red]' />
+                    <FormMessage className="text-[red]" />
                   </FormItem>
                 )}
               />
               <FormField
                 control={form.control}
-                name='status'
+                name="status"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Trạng thái</FormLabel>
                     <FormControl>
                       <Select
-                        value={field.value ? 'true' : 'false'}
+                        value={field.value ? "true" : "false"}
                         onValueChange={(value) =>
-                          field.onChange(value === 'true')
+                          field.onChange(value === "true")
                         }
                       >
                         <SelectTrigger>
-                          <SelectValue placeholder='Chọn trạng thái' />
+                          <SelectValue placeholder="Chọn trạng thái" />
                         </SelectTrigger>
-                        <SelectContent className='bg-[#ececec]'>
-                          <SelectItem value='true'>Đã xác nhận</SelectItem>
-                          <SelectItem value='false'>Chưa xác nhận</SelectItem>
+                        <SelectContent className="bg-[#ececec]">
+                          <SelectItem value="true">Đã xác nhận</SelectItem>
+                          <SelectItem value="false">Chưa xác nhận</SelectItem>
                         </SelectContent>
                       </Select>
                     </FormControl>
-                    <FormMessage className='text-[red]' />
+                    <FormMessage className="text-[red]" />
                   </FormItem>
                 )}
               />
               <ImageUpload onImageUpload={handleImageUpload} />
               <FormField
                 control={form.control}
-                name='avatar'
+                name="avatar"
                 render={({ field }) => (
                   <FormItem>
-                    <FormMessage className='text-[red]' />
+                    <FormMessage className="text-[red]" />
                   </FormItem>
                 )}
               />
               {imagePreview && (
-                <div className='mt-4'>
+                <div className="mt-4">
                   <img
                     src={imagePreview}
-                    alt='Image Preview'
-                    className='w-[200px] h-[200px] object-cover rounded-lg'
+                    alt="Image Preview"
+                    className="w-[200px] h-[200px] object-cover rounded-lg"
                   />
                 </div>
               )}
@@ -233,10 +232,10 @@ export default function NewUsers({ fetchTableData }: IfetchTable) {
       }
       contentFooter={
         <>
-          <div className='flex justify-end p-4'>
+          <div className="flex justify-end p-4">
             <ButtonComponent
-              type='submit'
-              className='w-[150px]'
+              type="submit"
+              className="w-[150px]"
               onClick={form.handleSubmit(onSubmit)}
             >
               Thêm người dùng

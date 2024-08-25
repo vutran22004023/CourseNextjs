@@ -1,9 +1,10 @@
-'use client';
-import { useEffect, useState } from 'react';
-import { useParams } from 'next/navigation';
+"use client";
+import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Heart, MessageCircle } from 'lucide-react';
-import { GetDetailBlog } from '@/apis/blog';
+import { Heart, MessageCircle } from "lucide-react";
+import { GetDetailBlog } from "@/apis/blog";
+import Text from "@/components/Text/text";
 
 interface BlogDetail {
   _id: string;
@@ -26,9 +27,9 @@ export default function BlogDetailPage() {
       if (slug) {
         try {
           const response = await GetDetailBlog(slug as string);
-          setBlog(response.data);  // Access the `data` object here
+          setBlog(response.data); // Access the `data` object here
         } catch (error) {
-          setError('Failed to fetch blog detail');
+          setError("Failed to fetch blog detail");
           console.error("Failed to fetch blog detail:", error);
         } finally {
           setLoading(false);
@@ -55,7 +56,7 @@ export default function BlogDetailPage() {
     <div className="container mt-8 w-full">
       <div className="flex justify-between">
         <div className="flex-1 p-3">
-          <div className="cactus-classical-serif-md mb-3">{blog.author}</div>
+          <Text className="mb-3">{blog.author}</Text>
           <hr />
           <div className="flex mt-4">
             <div className="flex mr-10">
@@ -67,9 +68,9 @@ export default function BlogDetailPage() {
           </div>
         </div>
         <div className="w-[800px]">
-          <h2 className="cactus-classical-serif-md text-[30px] mb-5">
+          <Text type="header" className="mb-5">
             {blog.title}
-          </h2>
+          </Text>
           <div className="flex mb-5">
             <div className="flex">
               <Avatar>
@@ -77,18 +78,18 @@ export default function BlogDetailPage() {
                   src="https://github.com/shadcn.png"
                   alt={blog.author}
                 />
-                <AvatarFallback>{blog.author ? blog.author[0] : 'A'}</AvatarFallback>
+                <AvatarFallback>
+                  {blog.author ? blog.author[0] : "A"}
+                </AvatarFallback>
               </Avatar>
               <div className="ml-2">
-                <div className="cactus-classical-serif-md">{blog.author}</div>
-                <div className="text-[14px]">{blog.date} · 2 phút đọc</div>
+                <Text className="cactus-classical-serif-md">{blog.author}</Text>
+                <Text className="text-[14px]">{blog.date} · 2 phút đọc</Text>
               </div>
             </div>
           </div>
 
-          <div className="mb-[30px]">
-            {blog.content}
-          </div>
+          <Text className="mb-[30px]">{blog.content}</Text>
 
           <div className="flex mb-10">
             <div className="flex mr-10">
@@ -102,9 +103,9 @@ export default function BlogDetailPage() {
           <hr className="bg-[red] h-1 mb-10" />
 
           <div>
-            <h2 className="cactus-classical-serif-md text-[30px] mb-5">
+            <Text type="header" className=" mb-5">
               Bài viết nổi bật khác
-            </h2>
+            </Text>
           </div>
         </div>
         <div className="flex-1"></div>

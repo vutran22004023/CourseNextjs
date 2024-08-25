@@ -14,20 +14,21 @@ import Image from "next/image";
 import IconZaloPay from "@/assets/Images/Logo-ZaloPay-Square.png";
 import IconQR from "@/assets/Images/qr.png";
 import { useMutationHook } from "@/hooks";
-import { CreateLinkPayOs,PaymentZalopay } from "@/apis/pay";
+import { CreateLinkPayOs, PaymentZalopay } from "@/apis/pay";
 import { formatTime, parseTime } from "@/utils/index";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
-import {setItemPay} from '@/redux/Slides/itemPay'
+import { setItemPay } from "@/redux/Slides/itemPay";
+import Text from "@/components/Text/text";
 interface Props {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
   course: any;
 }
 export default function modalPay({ isOpen, setIsOpen, course }: Props) {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const router = useRouter();
   const user = useSelector((state: RootState) => state.user);
   const totalVideos =
@@ -71,32 +72,32 @@ export default function modalPay({ isOpen, setIsOpen, course }: Props) {
       totalPrice: course.priceAmount,
       buyerEmail: user.email,
     });
-    dispatch(setItemPay({idPayCourse:course._id}))
+    dispatch(setItemPay({ idPayCourse: course._id }));
   };
 
   const handZaloPay = () => {
     mutationLinkZaloPay.mutate({
       fullName: user.name,
-      totalPrice:course.priceAmount,
+      totalPrice: course.priceAmount,
       orderItem: {
         productId: course._id,
-      }
-    })
-    dispatch(setItemPay({idPayCourse:course._id}))
-  }
-  const {data: dataPayOs, isPending: isLoading} = mutationLinkOs
-  const {data: dataZaloPay, isPending: isLoadingZalo } = mutationLinkZaloPay
+      },
+    });
+    dispatch(setItemPay({ idPayCourse: course._id }));
+  };
+  const { data: dataPayOs, isPending: isLoading } = mutationLinkOs;
+  const { data: dataZaloPay, isPending: isLoadingZalo } = mutationLinkZaloPay;
   useEffect(() => {
-    if(dataPayOs) {
-      router.push(dataPayOs?.checkoutUrl)
+    if (dataPayOs) {
+      router.push(dataPayOs?.checkoutUrl);
     }
-  }, [dataPayOs,router])
+  }, [dataPayOs, router]);
 
   useEffect(() => {
-    if(dataZaloPay?.return_code === 1) {
-      router.push(dataZaloPay?.order_url)
+    if (dataZaloPay?.return_code === 1) {
+      router.push(dataZaloPay?.order_url);
     }
-  },[dataZaloPay,router])
+  }, [dataZaloPay, router]);
   return (
     <ModalComponent
       isOpen={isOpen}
@@ -119,21 +120,22 @@ export default function modalPay({ isOpen, setIsOpen, course }: Props) {
               title="YouTube video player"
             />
             <div>
-              <div className="cactus-classical-serif-md text-[25px] mb-1 ">
+              <Text type="subtitle" className="mb-1 ">
                 {course?.name}
-              </div>
-              <div className="text-[#a2adbd]">
+              </Text>
+              <Text className="text-[#a2adbd]">
                 Giá bán:{" "}
                 <span className="cactus-classical-serif-md text-[25px] font-bold text-[#000]">
                   {formatCurrencyVND(course?.priceAmount)}
                 </span>
-              </div>
-              <div className="text-[15px] mb-7 ">
+              </Text>
+              <Text className="mb-7 ">
                 Học Javascript cơ bản phù hợp cho người chưa từng học lập trình.
                 Với hơn 100 bài học và có bài tập thực hành sau mỗi bài học.
-              </div>
-              <Button className="w-full p-5 rounded-xl bg-slate-800 text-[#fff] cactus-classical-serif-md text-[18px] uppercase relative mb-3 hover:bg-slate-600"
-              onClick={handZaloPay}
+              </Text>
+              <Button
+                className="w-full p-5 rounded-xl bg-slate-800 text-[#fff] cactus-classical-serif-md text-[18px] uppercase relative mb-3 hover:bg-slate-600"
+                onClick={handZaloPay}
               >
                 <Image
                   width={30}
@@ -142,7 +144,7 @@ export default function modalPay({ isOpen, setIsOpen, course }: Props) {
                   className="absolute left-6"
                   alt="Zalopay"
                 />
-                <div>Thanh toán với ZaloPay</div>
+                <Text>Thanh toán với ZaloPay</Text>
               </Button>
               <Button
                 className="w-full p-5 rounded-xl bg-slate-800 text-[#fff] cactus-classical-serif-md text-[18px] uppercase relative mb-3 hover:bg-slate-600"
@@ -155,58 +157,58 @@ export default function modalPay({ isOpen, setIsOpen, course }: Props) {
                   className="absolute left-6 text-[#fff]"
                   alt="QR"
                 />
-                <div>Thanh toán với QR</div>
+                <Text>Thanh toán với QR</Text>
               </Button>
             </div>
           </div>
           <div className="mb-5 px-9">
-            <div className="cactus-classical-serif-md text-[20px] mb-4 ">
+            <Text className="cactus-classical-serif-md text-[20px] mb-4 ">
               Bạn sẽ học được gì?
-            </div>
+            </Text>
             <div className="text-[15px] mb-7 flex justify-between ">
               <div>
                 <div className="flex mb-1">
                   <CircleCheckBig className="w-[20px] h-[20px] mr-2" />
-                  <div>Hiểu chi tiết về các khái niệm cơ bản trong JS</div>
+                  <Text>Hiểu chi tiết về các khái niệm cơ bản trong JS</Text>
                 </div>
                 <div className="flex mb-1">
                   <CircleCheckBig className="w-[20px] h-[20px] mr-2" />
-                  <div>Hiểu chi tiết về các khái niệm cơ bản trong JS</div>
+                  <Text>Hiểu chi tiết về các khái niệm cơ bản trong JS</Text>
                 </div>
                 <div className="flex mb-1">
                   <CircleCheckBig className="w-[20px] h-[20px] mr-2" />
-                  <div>Hiểu chi tiết về các khái niệm cơ bản trong JS</div>
+                  <Text>Hiểu chi tiết về các khái niệm cơ bản trong JS</Text>
                 </div>
                 <div className="flex mb-1">
                   <CircleCheckBig className="w-[20px] h-[20px] mr-2" />
-                  <div>Hiểu chi tiết về các khái niệm cơ bản trong JS</div>
+                  <Text>Hiểu chi tiết về các khái niệm cơ bản trong JS</Text>
                 </div>
                 <div className="flex mb-1">
                   <CircleCheckBig className="w-[20px] h-[20px] mr-2" />
-                  <div>Hiểu chi tiết về các khái niệm cơ bản trong JS</div>
+                  <Text>Hiểu chi tiết về các khái niệm cơ bản trong JS</Text>
                 </div>
               </div>
 
               <div>
                 <div className="flex mb-1">
                   <CircleCheckBig className="w-[20px] h-[20px] mr-2" />
-                  <div>Hiểu chi tiết về các khái niệm cơ bản trong JS</div>
+                  <Text>Hiểu chi tiết về các khái niệm cơ bản trong JS</Text>
                 </div>
                 <div className="flex mb-1">
                   <CircleCheckBig className="w-[20px] h-[20px] mr-2" />
-                  <div>Hiểu chi tiết về các khái niệm cơ bản trong JS</div>
+                  <Text>Hiểu chi tiết về các khái niệm cơ bản trong JS</Text>
                 </div>
                 <div className="flex mb-1">
                   <CircleCheckBig className="w-[20px] h-[20px] mr-2" />
-                  <div>Hiểu chi tiết về các khái niệm cơ bản trong JS</div>
+                  <Text>Hiểu chi tiết về các khái niệm cơ bản trong JS</Text>
                 </div>
                 <div className="flex mb-1">
                   <CircleCheckBig className="w-[20px] h-[20px] mr-2" />
-                  <div>Hiểu chi tiết về các khái niệm cơ bản trong JS</div>
+                  <Text>Hiểu chi tiết về các khái niệm cơ bản trong JS</Text>
                 </div>
                 <div className="flex mb-1">
                   <CircleCheckBig className="w-[20px] h-[20px] mr-2" />
-                  <div>Hiểu chi tiết về các khái niệm cơ bản trong JS</div>
+                  <Text>Hiểu chi tiết về các khái niệm cơ bản trong JS</Text>
                 </div>
               </div>
             </div>

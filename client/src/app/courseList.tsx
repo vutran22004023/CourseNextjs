@@ -1,6 +1,4 @@
-// components/PageClient.tsx
 "use client";
-
 import { FC, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
@@ -13,6 +11,7 @@ import Link from "next/link";
 import { Course, DataAllCourses } from "@/types"; // Import type definitions
 import { getTokenFromCookies } from "@/utils/auth";
 import ModalPay from "./modalPay";
+import Text from "@/components/Text/text";
 
 const token = getTokenFromCookies();
 const getAllCourses = async (search: string): Promise<DataAllCourses> => {
@@ -50,7 +49,10 @@ const CourseList: FC<{ courses: Course[]; isLoading: boolean; user: any }> = ({
               {token && user?.status === true ? (
                 <>
                   {course.price === "paid" ? (
-                    <div onClick={() => handleIsModal(course)} className="cursor-pointer">
+                    <div
+                      onClick={() => handleIsModal(course)}
+                      className="cursor-pointer"
+                    >
                       <CardComponent course={course} />
                     </div>
                   ) : (
@@ -66,7 +68,7 @@ const CourseList: FC<{ courses: Course[]; isLoading: boolean; user: any }> = ({
               )}
             </div>
           ))}
-        {selectedCourse && (
+      {selectedCourse && (
         <ModalPay
           isOpen={isOpenModal}
           setIsOpen={setIsOpenModal}
@@ -107,9 +109,9 @@ const PageClient: FC = () => {
       </div>
 
       <div className="">
-        <div className="cactus-classical-serif-md text-[25px]">
+        <Text className="text-[25px]">
           Khóa học free
-        </div>
+        </Text>
         <CourseList
           courses={dataCourseFree}
           isLoading={isLoadingAllCourses}

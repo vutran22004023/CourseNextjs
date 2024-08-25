@@ -1,5 +1,5 @@
-'use client';
-import Link from 'next/link';
+"use client";
+import Link from "next/link";
 import {
   BellRing,
   LogOut,
@@ -10,7 +10,6 @@ import {
   NotebookPen,
   Lock,
 } from "lucide-react";
-// import { CalendarDays } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import {
   HoverCard,
@@ -32,17 +31,18 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/redux/store";
 import { resetUser } from "@/redux/Slides/userSide";
 import { useEffect, useState } from "react";
-import {Search} from '@/redux/Slides/searchSide'
-import { useRouter } from 'next/navigation';
-import {LoginOut} from '@/apis/auth';
-import {getTokenFromCookies} from '@/utils/auth';
-import CardHistory from '@/components/Card/CardHistory'
+import { Search } from "@/redux/Slides/searchSide";
+import { useRouter } from "next/navigation";
+import { LoginOut } from "@/apis/auth";
+import { getTokenFromCookies } from "@/utils/auth";
+import CardHistory from "@/components/Card/CardHistory";
+import Text from "../Text/text";
 export default function HeaderLayout() {
   const router = useRouter();
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.user);
-  const [search, setSearch] = useState('');
-  const token = getTokenFromCookies()
+  const [search, setSearch] = useState("");
+  const token = getTokenFromCookies();
   const navigate = (path: string) => {
     router.push(path);
   };
@@ -55,8 +55,10 @@ export default function HeaderLayout() {
     try {
       localStorage.removeItem("access_Token");
       localStorage.removeItem("refresh_Token");
-      document.cookie = "access_Token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-      document.cookie = "refresh_Token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      document.cookie =
+        "access_Token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      document.cookie =
+        "refresh_Token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 
       await LoginOut();
       dispatch(resetUser());
@@ -93,16 +95,20 @@ export default function HeaderLayout() {
           <>
             <HoverCard>
               <HoverCardTrigger asChild>
-                <div className="cursor-pointer text-black">Khóa học của tôi</div>
+                <Text className="cursor-pointer text-black">
+                  Khóa học của tôi
+                </Text>
               </HoverCardTrigger>
               <HoverCardContent className="w-100 mt-2 mr-20 text-black bg-[#f0efef] rounded">
                 <div className=" w-[350px] h-[300px]">
                   <div className="flex justify-between w-full">
-                    <div className="text-sm font-semibold">Khóa học của tôi</div>
-                    <div className="text-sm font-semibold">Xem tất cả</div>
+                    <Text className="text-sm font-semibold">
+                      Khóa học của tôi
+                    </Text>
+                    <Text className="text-sm font-semibold">Xem tất cả</Text>
                   </div>
-                  <div className='w-full mt-2'>
-                    <CardHistory/>
+                  <div className="w-full mt-2">
+                    <CardHistory />
                   </div>
                 </div>
               </HoverCardContent>
@@ -117,7 +123,9 @@ export default function HeaderLayout() {
                 <div className="flex justify-between space-x-4">
                   <div className="space-y-1">
                     <h4 className="text-sm font-semibold">@nextjs</h4>
-                    <p className="text-sm">The React Framework – created and maintained by @vercel.</p>
+                    <p className="text-sm">
+                      The React Framework – created and maintained by @vercel.
+                    </p>
                   </div>
                 </div>
               </HoverCardContent>
@@ -126,7 +134,10 @@ export default function HeaderLayout() {
               <DropdownMenuTrigger asChild>
                 <div className="cursor-pointer mr-2">
                   <Avatar>
-                    <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+                    <AvatarImage
+                      src="https://github.com/shadcn.png"
+                      alt="@shadcn"
+                    />
                     <AvatarFallback>CN</AvatarFallback>
                   </Avatar>
                 </div>
@@ -139,7 +150,9 @@ export default function HeaderLayout() {
                   <Link href="/profile">
                     <DropdownMenuItem className="cursor-pointer">
                       <User className="mr-2 h-4 w-4" />
-                      <span className="hover:text-[#a1a1a1]">Trang cá nhân</span>
+                      <span className="hover:text-[#a1a1a1]">
+                        Trang cá nhân
+                      </span>
                     </DropdownMenuItem>
                   </Link>
 
@@ -151,11 +164,15 @@ export default function HeaderLayout() {
                   </Link>
                   <DropdownMenuItem className="cursor-pointer">
                     <Album className="mr-2 h-4 w-4" />
-                    <span className="hover:text-[#a1a1a1]">Bài viết của tôi</span>
+                    <span className="hover:text-[#a1a1a1]">
+                      Bài viết của tôi
+                    </span>
                   </DropdownMenuItem>
                   <DropdownMenuItem className="cursor-pointer">
                     <BookOpenText className="mr-2 h-4 w-4" />
-                    <span className="hover:text-[#a1a1a1]">Bài viết đã lưu</span>
+                    <span className="hover:text-[#a1a1a1]">
+                      Bài viết đã lưu
+                    </span>
                   </DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
@@ -163,7 +180,9 @@ export default function HeaderLayout() {
                   <Link href="/admin">
                     <DropdownMenuItem className="cursor-pointer">
                       <Lock className="mr-2 h-4 w-4" />
-                      <span className="hover:text-[#a1a1a1]">Thông tin trang web</span>
+                      <span className="hover:text-[#a1a1a1]">
+                        Thông tin trang web
+                      </span>
                     </DropdownMenuItem>
                   </Link>
                 )}
@@ -173,7 +192,10 @@ export default function HeaderLayout() {
                     <span className="hover:text-[#a1a1a1]">Cài đặt</span>
                   </DropdownMenuItem>
                 </Link>
-                <DropdownMenuItem className="cursor-pointer" onClick={handleLogout}>
+                <DropdownMenuItem
+                  className="cursor-pointer"
+                  onClick={handleLogout}
+                >
                   <LogOut className="mr-2 h-4 w-4" />
                   <span className="hover:text-[#a1a1a1]">Đăng xuất</span>
                 </DropdownMenuItem>

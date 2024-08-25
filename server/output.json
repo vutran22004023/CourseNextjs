@@ -1,50 +1,50 @@
 [
   {
-    "ten": "Tìm giá trị lớn nhất trong mảng",
-    "mo_ta": "Tìm giá trị lớn nhất trong một mảng.",
+    "ten": "Tính giá trị trung bình của mảng",
+    "mo_ta": "Tính giá trị trung bình của các số trong một mảng.",
     "level": "dễ",
-    "solution": "\n      function giaTriLonNhat(arr) {\n        return Math.max(...arr);\n      }\n  ",
+    "solution": "\n      function giaTriTrungBinh(arr) {\n        const tong = arr.reduce((sum, val) => sum + val, 0);\n        return tong / arr.length;\n      }\n    ",
     "test_data": [
-      10,
-      100
+      99,
+      54
     ],
-    "result": 100
+    "result": 153
   },
   {
-    "ten": "Sắp xếp mảng bằng thuật toán quicksort",
-    "mo_ta": "Sắp xếp mảng [29, 15, 64, 24, 51, 28, 94, 82, 8, 76] sử dụng thuật toán quicksort.",
+    "ten": "Tìm giá trị trung bình của mảng",
+    "mo_ta": "Tính giá trị trung bình của các số trong mảng [26, 88, 20, 17, 80, 21, 59, 32, 51, 55].",
     "level": "vừa",
-    "solution": "\n      function quickSort(arr) {\n        if (arr.length <= 1) return arr;\n        const pivot = arr[Math.floor(arr.length / 2)];\n        const left = arr.filter(x => x < pivot);\n        const middle = arr.filter(x => x === pivot);\n        const right = arr.filter(x => x > pivot);\n        return [...quickSort(left), ...middle, ...quickSort(right)];\n      }\n      console.log(quickSort([5, 3, 8, 1, 2])); // Kết quả: [1, 2, 3, 5, 8]\n    ",
+    "solution": "\n      function giaTriTrungBinh(arr) {\n        const tong = arr.reduce((sum, num) => sum + num, 0);\n        return tong / arr.length;\n      }\n      console.log(giaTriTrungBinh([1, 2, 3, 4, 5])); // Kết quả: 3\n    ",
     "test_data": [
-      29,
-      15,
-      64,
-      24,
+      26,
+      88,
+      20,
+      17,
+      80,
+      21,
+      59,
+      32,
       51,
-      28,
-      94,
-      82,
-      8,
-      76
+      55
     ],
-    "result": null
+    "result": 449
   },
   {
-    "ten": "Tìm số chính phương",
-    "mo_ta": "Tìm số chính phương trong một khoảng cho trước.",
+    "ten": "Tìm đường đi ngắn nhất (Bellman-Ford)",
+    "mo_ta": "Tìm đường đi ngắn nhất trong đồ thị với trọng số âm.",
     "level": "khó",
-    "solution": "\n      function soChinhPhuong(n) {\n        const result = [];\n        for (let i = 1; i * i <= n; i++) {\n          result.push(i * i);\n        }\n        return result;\n      }\n    ",
+    "solution": "\n      function bellmanFord(graph, start) {\n        const distances = {};\n        const nodes = Object.keys(graph);\n        \n        nodes.forEach(node => distances[node] = Infinity);\n        distances[start] = 0;\n        \n        for (let i = 0; i < nodes.length - 1; i++) {\n          nodes.forEach(node => {\n            for (let neighbor in graph[node]) {\n              const weight = graph[node][neighbor];\n              if (distances[node] + weight < distances[neighbor]) {\n                distances[neighbor] = distances[node] + weight;\n              }\n            }\n          });\n        }\n        \n        return distances;\n      }\n    ",
     "test_data": [
-      29,
-      15,
-      64,
-      24,
+      26,
+      88,
+      20,
+      17,
+      80,
+      21,
+      59,
+      32,
       51,
-      28,
-      94,
-      82,
-      8,
-      76
+      55
     ],
     "result": null
   }

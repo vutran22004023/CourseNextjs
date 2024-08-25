@@ -1,9 +1,9 @@
-'use client'
+"use client";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import Link from 'next/link';
-import { Home, LibraryBig, BookOpenText } from 'lucide-react';
+import Link from "next/link";
+import { Home, LibraryBig, BookOpenText } from "lucide-react";
 
 interface SidebarProps {
   className?: string;
@@ -12,9 +12,24 @@ interface SidebarProps {
 
 export default function Sidebar({ className, activePage }: SidebarProps) {
   const [navigation, setNavigation] = useState([
-    { name: "Trang chủ", href: "/", icon: Home, current: activePage === "listenNow" },
-    { name: "Lộ trình", href: "/learning-paths", icon: LibraryBig, current: activePage === "browse" },
-    { name: "Bài viết", href: "/blog", icon: BookOpenText, current: activePage === "radio" },
+    {
+      name: "Trang chủ",
+      href: "/",
+      icon: Home,
+      current: activePage === "listenNow",
+    },
+    {
+      name: "Lộ trình",
+      href: "/learning-paths",
+      icon: LibraryBig,
+      current: activePage === "browse",
+    },
+    {
+      name: "Bài viết",
+      href: "/blog",
+      icon: BookOpenText,
+      current: activePage === "radio",
+    },
   ]);
 
   const handleItemClick = (index: any) => {
@@ -34,7 +49,7 @@ export default function Sidebar({ className, activePage }: SidebarProps) {
         <div className="px-3 py-2">
           <div className="space-y-1">
             {navigation.map((item, index) => (
-              <Link 
+              <Link
                 key={item.name}
                 href={item.href}
                 onClick={() => handleItemClick(index)}

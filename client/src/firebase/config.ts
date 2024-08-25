@@ -1,9 +1,9 @@
 // Import the functions you need from the SDKs you need
-'use client'
+"use client";
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import {getStorage} from "firebase/storage";
-import {getAuth,GoogleAuthProvider} from 'firebase/auth';
+import { getStorage } from "firebase/storage";
+import { getAuth, GoogleAuthProvider } from "firebase/auth";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -16,12 +16,12 @@ const firebaseConfig = {
   storageBucket: "note-app-384ec.appspot.com",
   messagingSenderId: "1058758952676",
   appId: "1:1058758952676:web:cc1f5bd8786896eac14ef1",
-  measurementId: "G-L71KTZN6JM"
+  measurementId: "G-L71KTZN6JM",
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app)
-export const provider = new GoogleAuthProvider()
+export const auth = getAuth(app);
+export const provider = new GoogleAuthProvider();
 // const analytics = getAnalytics(app);
-export const imageDb = getStorage(app)
+export const imageDb = getStorage(app);

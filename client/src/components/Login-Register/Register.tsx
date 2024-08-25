@@ -7,11 +7,7 @@ import { useMutationHook } from "@/hooks/index";
 import { Register } from "@/apis/auth";
 import { Registers } from "@/types/index";
 import IsLoadingComponment from "@/components/Loading/Loading";
-import {
-  success,
-  error,
-  warning,
-} from "@/components/Message/Message";
+import { success, error, warning } from "@/components/Message/Message";
 export default function RegisterComponment() {
   const [showConfirmPassword, setConfirmPassword] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -51,7 +47,8 @@ export default function RegisterComponment() {
     if (!isError) {
       const mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
       const isEmailValid =
-        register?.email?.trim() !== "" && mailformat.test(register?.email || '');
+        register?.email?.trim() !== "" &&
+        mailformat.test(register?.email || "");
       const isPasswordMatch = register.password === register.confirmPassword;
       setIsErrEmail(isEmailValid);
       setIsErrPass(isPasswordMatch);
@@ -230,8 +227,8 @@ export default function RegisterComponment() {
                 </div>
               </div>
             )}
-            {dataRegister &&
-            (dataRegister as { status?: string }).status === 'ERR' && (
+          {dataRegister &&
+            (dataRegister as { status?: string }).status === "ERR" && (
               <div className="bg-[#eaeaea] rounded-sm p-1 text-[10px]">
                 <div className="text-[red]">
                   {(dataRegister as { message?: string })?.message}

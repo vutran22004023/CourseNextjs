@@ -7,13 +7,14 @@ import {
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {Overview} from "@/components/Overview/overview"
+import Text from "@/components/Text/text";
 
 export default function Dashboard() {
   return (
     <div className="container w-full">
-      <div className="cactus-classical-serif-md text-3xl font-bold tracking-tight">
+      <Text type="header">
         Dashboard
-      </div>
+      </Text>
       <div className="mt-5">
         <Tabs defaultValue="overview">
 
