@@ -1,23 +1,29 @@
-import  { useState, useEffect } from 'react';
-import { ContentState, EditorState, convertFromHTML, convertToRaw } from 'draft-js';
-import { Editor } from 'react-draft-wysiwyg';
-import draftToHtml from 'draftjs-to-html';
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import 'setimmediate';
+import React, { useState, useEffect } from "react";
+import {
+  ContentState,
+  EditorState,
+  convertFromHTML,
+  convertToRaw,
+} from "draft-js";
+import { Editor } from "react-draft-wysiwyg";
+import draftToHtml from "draftjs-to-html";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import "setimmediate";
 import { Input } from "@/components/ui/input";
-import ButtonComponent from '@/components/Button/Button'
+import ButtonComponent from "@/components/Button/Button";
 
+interface Props {
+  rawHTML: string;
+  setRawHTML: (data: string) => void;
+}
 
-export default function wordPost() {
-    const note = {
-        id: "9999",
-        content: '<p>dasdasdasdasdasdasdasda</p>',
-      };
+export default function wordPost({ rawHTML, setRawHTML }: Props) {
+  const [editorState, setEditorState] = useState(() =>
+    EditorState.createEmpty()
+  );
 
-    const [editorState, setEditorState] = useState(() => EditorState.createEmpty());
-  const [rawHTML, setRawHTML] = useState(note.content);
-  const [isMounted, setIsMounted] = useState(false); 
-  
+  const [isMounted, setIsMounted] = useState(false);
+
   useEffect(() => {
     setIsMounted(true);
 
@@ -27,7 +33,7 @@ export default function wordPost() {
   }, []);
 
   useEffect(() => {
-    const blocksFromHTML = convertFromHTML(note.content);
+    const blocksFromHTML = convertFromHTML(rawHTML);
     const state = ContentState.createFromBlockArray(
       blocksFromHTML.contentBlocks,
       blocksFromHTML.entityMap
@@ -35,9 +41,9 @@ export default function wordPost() {
     if (isMounted) {
       setEditorState(EditorState.createWithContent(state));
     }
-  }, [note.id, isMounted]);
+  }, [rawHTML, isMounted]);
 
-  const handleOnChange = (e :EditorState) => {
+  const handleOnChange = (e: EditorState) => {
     if (isMounted) {
       setEditorState(e);
       setRawHTML(draftToHtml(convertToRaw(e.getCurrentContent())));
@@ -46,15 +52,15 @@ export default function wordPost() {
 
   useEffect(() => {
     if (isMounted) {
-      setRawHTML(note.content);
+      setRawHTML(rawHTML);
     }
-  }, [note.content, isMounted]);
+  }, [rawHTML, isMounted]);
   return (
     <Editor
-    editorState={editorState}
-    onEditorStateChange={handleOnChange}
-    placeholder="Nhập mô tả vào đây"
-    editorStyle={{  maxWidth: '100%', width: 600 }}
-  />
-  )
+      editorState={editorState}
+      onEditorStateChange={handleOnChange}
+      placeholder="Nhập mô tả vào đây"
+      editorStyle={{ maxWidth: "100%", width: 600 }}
+    />
+  );
 }
