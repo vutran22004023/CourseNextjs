@@ -5,7 +5,7 @@ import { MessageCircleQuestion } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useMutationHook } from "@/hooks";
 import { GetDetailCourses } from "@/apis/course";
-import { StartCourse, UpdateUserCourse } from "@/apis/usercourse";
+import { StartCourse, UpdateNote, UpdateUserCourse } from "@/apis/usercourse";
 import { useEffect, useState, useRef } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
@@ -26,9 +26,9 @@ export default function page() {
   const timeVideo = useSelector((state: RootState) => state.timesVideo);
   const user = useSelector((state: RootState) => state.user);
   if (!user.id || !user.email || !user.status) return router.push("/");
-  const [dataCourseDetail, setDataCourseDetail] = useState<Course>();
+  const [dataCourseDetail, setDataCourseDetail] = useState<any>();
   const [isLoadingDetail, setIsLoadingDetail] = useState(false);
-  const [dataVideo, setDataVideo] = useState<Video>();
+  const [dataVideo, setDataVideo] = useState<any>();
   const [activeSlug, setActiveSlug] = useState<string | null>(null);
   const [activeChapterIndex, setActiveChapterIndex] = useState<number | null>(
     null
@@ -69,6 +69,28 @@ export default function page() {
       console.log(err);
     }
   });
+
+  const mutationUpdateNote = useMutationHook(async (data) => {
+    try {
+      const res = await UpdateNote(data);
+      return res.data;
+    } catch (err) {
+      console.log(err);
+    }
+  });
+
+  const handleUpdateNote = (data: string) => {
+    const note = {
+      time: timeVideo.time,
+      content: data,
+    };
+
+    mutationUpdateNote.mutate({
+      courseId: dataCourseDetail?._id,
+      videoId: dataVideo?._id,
+      notes: [...dataVideo?.notes, note],
+    });
+  };
 
   const { data: dataStateCourses, isPending: __isPendingState } = useQuery({
     queryKey: ["dataLUserCouse"],
@@ -187,6 +209,7 @@ export default function page() {
             return {
               ...video,
               status: userVideo?.status,
+              notes: userVideo?.notes,
             };
           }),
         };
@@ -360,6 +383,7 @@ export default function page() {
           isNoteSheetOpen={isNoteSheetOpen}
           setIsNoteSheetOpen={setIsNoteSheetOpen}
           handleOpenChange={handleOpenChange}
+          handleUpdateNote={handleUpdateNote}
         />
         <div className="fixed bottom-[60px] left-[60%] z-2 border-b p-3 flex  items-center">
           <ButtonComponment
