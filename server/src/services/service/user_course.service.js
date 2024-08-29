@@ -188,8 +188,8 @@ class UserCourseService {
 
   async getCourseProgress(data) {
     try {
-      let userCourses = await UserCourse.find({ userId: data._id })
-        .select('userId chapters.videos.status')
+      let userCourses = await UserCourse.find({ userId: data.id })
+        .select('chapters.videos.status updatedAt')
         .populate({
           path: 'courseId',
           model: 'Course',
@@ -208,7 +208,7 @@ class UserCourseService {
 
         return {
           ...rest,
-          courses: { ...courseId, progress },
+          course: { ...courseId, progress },
         };
       });
 
