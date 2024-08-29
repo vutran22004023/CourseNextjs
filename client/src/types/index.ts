@@ -1,23 +1,23 @@
 export interface User {
-  name?: string | "";
-  email?: string | "";
-  password: string | "";
-  isAdmin?: boolean | "";
-  status?: boolean | "";
-  avatar?: string | "";
-  confirmPassword?: string | "";
+  name?: string | '';
+  email?: string | '';
+  password: string | '';
+  isAdmin?: boolean | '';
+  status?: boolean | '';
+  avatar?: string | '';
+  confirmPassword?: string | '';
 }
 
 export interface Registers {
-  name?: string | "";
-  email?: string | "";
-  password?: string | "";
-  confirmPassword?: string | "";
+  name?: string | '';
+  email?: string | '';
+  password?: string | '';
+  confirmPassword?: string | '';
 }
 
 export interface LoginProps {
-  email?: string | "";
-  password?: string | "";
+  email?: string | '';
+  password?: string | '';
 }
 
 export interface EmailProps {
@@ -80,6 +80,12 @@ export interface IfetchTable {
     refetch: () => Promise<void>;
   };
 }
+
 export interface token {
   token: string;
+}
+
+export interface Note {
+  time: string,
+  content: string
 }
