@@ -6,14 +6,35 @@ import routes from './routes/index.js';
 import cookieParser from 'cookie-parser';
 import passport from './configs/passport.config.js';
 import os from 'os';
+
 const app = express();
 
+// Get local IP address function
+function getLocalIPAddress() {
+  const interfaces = os.networkInterfaces();
+  for (const interfaceName in interfaces) {
+    for (const interfaceInfo of interfaces[interfaceName]) {
+      if (interfaceInfo.family === 'IPv4' && !interfaceInfo.internal) {
+        return interfaceInfo.address;
+      }
+    }
+  }
+  return 'localhost';
+}
+
+const localIP = getLocalIPAddress();
+const port = process.env.PORT || 3002;
+const origin = `http://${localIP}:3002`;
+
+// Configure CORS with local IP as origin
 app.use(
   cors({
-    origin: 'http://localhost:3000',
+    origin: [origin, 'http://localhost:3000'], // Add both local IP and localhost origins
     credentials: true,
   })
 );
+
+// Middleware setup
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -29,21 +50,8 @@ app.use((req, res) => {
   });
 });
 
-const port = process.env.PORT || 3002;
+// MongoDB connection URL
 const url = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.qm0ui7p.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
-// const url = 'mongodb://localhost:27017/learning_website';
-
-function getLocalIPAddress() {
-  const interfaces = os.networkInterfaces();
-  for (const interfaceName in interfaces) {
-    for (const interfaceInfo of interfaces[interfaceName]) {
-      if (interfaceInfo.family === 'IPv4' && !interfaceInfo.internal) {
-        return interfaceInfo.address;
-      }
-    }
-  }
-  return 'localhost';
-}
 
 app.listen(port, async () => {
   await mongoose
@@ -54,7 +62,7 @@ app.listen(port, async () => {
     .catch((err) => {
       console.log(err);
     });
-  const localIP = getLocalIPAddress();
-  console.log('listening on port http://localhost:' + port);
-  console.log(`Listening on port http://${localIP}:${port}`);
+
+  console.log(`Listening on port http://${localIP}:${port} with CORS origin ${origin}`);
+  console.log(`Listening on port http://localhost:${port} with CORS origin http://localhost:3000`);
 });
