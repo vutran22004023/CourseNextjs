@@ -122,9 +122,11 @@ export default function HeaderLayout() {
                   </div>
                   <div className="w-full mt-2">
                     {courseProgress.length > 0 &&
-                      courseProgress.map((item) => (
-                        <CardHistory key={item._id} data={item} />
-                      ))}
+                      courseProgress
+                        .sort((a, b) => b.updatedAt.localeCompare(a.updatedAt))
+                        .map((item) => (
+                          <CardHistory key={item._id} data={item} />
+                        ))}
                   </div>
                 </div>
               </HoverCardContent>

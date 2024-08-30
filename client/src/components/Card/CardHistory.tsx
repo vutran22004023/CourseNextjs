@@ -2,6 +2,9 @@ import { CourseProgress } from "@/types";
 import { Progress } from "antd";
 import Image from "next/image";
 import React from "react";
+import moment from 'moment';
+import 'moment/locale/vi';
+moment.locale('vi');
 
 interface Props {
   data: CourseProgress;
@@ -10,6 +13,8 @@ interface Props {
 export default function CardHistory({ data }: Props) {
   const { course, updatedAt } = data;
   const progress = Math.round(course.progress / course.totalVideos);
+  const time = moment(updatedAt).fromNow();
+
   return (
     <div className="w-full flex justify-between gap-3 hover:bg-slate-200 rounded p-2">
       <div className="w-[30%]">
@@ -23,7 +28,7 @@ export default function CardHistory({ data }: Props) {
       </div>
       <div className="w-[70%]">
         <div className="text-ml font-semibold">{course.name}</div>
-        <div className="text-sm">{updatedAt}</div>
+        <div className="text-sm">Đã học {time}</div>
         <Progress
           percent={progress}
           percentPosition={{ align: "center", type: "inner" }}
