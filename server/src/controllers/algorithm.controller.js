@@ -1,59 +1,91 @@
-import 'dotenv/config';
-import { Random } from 'random-js';
-import easyAlgorithms from '../algorithms/easy.js';
-import mediumAlgorithms from '../algorithms/medium.js';
-import hardAlgorithms from '../algorithms/hard.js';
-
-// Tạo đối tượng Random để sinh số ngẫu nhiên
-const random = new Random();
+import path from 'path';
+import fs from 'fs';
+import { exec } from 'child_process';
+import evaluateAlgorithm from '../utils.js';
+import { TournamentModel } from '../models/index.js';
+const pythonScriptPath = path.resolve('python', 'generate_problem.py');
+const jsonFilePath = path.resolve('output.json');
 
 class AlgorithmController {
   async generateAlgorithms(req, res) {
     try {
-      // Hàm để chọn ngẫu nhiên n phần tử từ danh sách
-      const getRandomItems = (array, numItems) => {
-        const shuffled = [...array].sort(() => 0.5 - Math.random());
-        return shuffled.slice(0, numItems);
-      };
+      const command = `python "${pythonScriptPath}"`;
+      console.log('Executing command:', command);
 
-      const easySelected = getRandomItems(easyAlgorithms, 1);
-      const mediumSelected = getRandomItems(mediumAlgorithms, 1);
-      const hardSelected = getRandomItems(hardAlgorithms, 1);
+      exec(command, (error, stdout, stderr) => {
+        if (error) {
+          console.error(`exec error: ${error.message}`);
+          return res.status(500).send('Server Error');
+        }
+        if (stderr) {
+          console.error(`stderr: ${stderr}`);
+          return res.status(500).send('Server Error');
+        }
 
-      const allSelectedAlgorithms = [
-        ...easySelected,
-        ...mediumSelected,
-        ...hardSelected
-      ];
+        // Read the JSON file after the Python script has executed
+        fs.readFile(jsonFilePath, 'utf8', (readError, data) => {
+          if (readError) {
+            console.error(`Error reading JSON file: ${readError.message}`);
+            return res.status(500).send('Error reading JSON file');
+          }
 
-      const adjustAlgorithmScores = (algorithms) => {
-        return algorithms.map((algorithm) => {
-          algorithm.score = random.integer(1, 100);
-          return algorithm;
+          try {
+            const jsonData = JSON.parse(data);
+
+            // Return the JSON data as the response
+            res.setHeader('Content-Type', 'application/json');
+            res.status(200).json(jsonData);
+          } catch (parseError) {
+            console.error(`Error parsing JSON data: ${parseError.message}`);
+            res.status(500).send('Error parsing JSON data');
+          }
         });
-      };
-
-      // Điều chỉnh chỉ số của tất cả các thuật toán đã chọn
-      const adjustedAlgorithms = adjustAlgorithmScores(allSelectedAlgorithms);
-
-      // Tạo cấu trúc dữ liệu phân loại theo mức độ
-      const categorizedAlgorithms = {
-        easy: adjustedAlgorithms.filter(alg => easyAlgorithms.includes(alg)),
-        medium: adjustedAlgorithms.filter(alg => mediumAlgorithms.includes(alg)),
-        hard: adjustedAlgorithms.filter(alg => hardAlgorithms.includes(alg)),
-      };
-
-      // Trả về tất cả các thuật toán đã chọn với chỉ số đã điều chỉnh và phân loại
-      res.status(200).json({
-        success: true,
-        algorithms: categorizedAlgorithms,
       });
     } catch (error) {
-      console.error('Lỗi khi tạo thuật toán:', error);
+      console.error('Lỗi khi gọi script Python:', error.message);
       res.status(500).json({
         success: false,
         message: 'Có lỗi xảy ra khi tạo thuật toán.',
       });
+    }
+  }
+
+  async checkAlgorithms(req, res) {
+    const { ten, solution, userId } = req.body;
+
+    try {
+      // Đọc lại dữ liệu từ tệp JSON để đảm bảo là dữ liệu mới nhất
+      const algorithms = JSON.parse(fs.readFileSync(jsonFilePath, 'utf-8'));
+
+      const algorithm = algorithms.find((alg) => alg.ten === ten);
+      if (!algorithm) {
+        return res.status(404).json({ error: 'Thuật toán không tìm thấy' });
+      }
+
+      // Thực thi giải pháp của người dùng
+      const userResult = await evaluateAlgorithm(solution, { test_data: algorithm.test_data });
+      // So sánh với kết quả dự kiến nếu có
+      const accuracy = userResult === algorithm.result ? 100 : 0;
+
+      await TournamentModel.create({
+        userId: userId,
+        nameAlgorithm: algorithm.ten,
+        solution: solution,
+        result: userResult,
+        expected_result: algorithm.result,
+        message: accuracy === 100 ? 'Kết quả chính xác!' : 'Kết quả sai. Vui lòng kiểm tra lại thuật toán của bạn.',
+      });
+      res.json({
+        algorithm_name: algorithm.ten,
+        accuracy: accuracy,
+        description: algorithm.mo_ta,
+        result: userResult,
+        expected_result: algorithm.result,
+        message: accuracy === 100 ? 'Kết quả chính xác!' : 'Kết quả sai. Vui lòng kiểm tra lại thuật toán của bạn.',
+      });
+    } catch (error) {
+      console.error('Error executing solution:', error.message);
+      res.status(500).json({ error: `Lỗi khi thực thi giải pháp: ${error.message}` });
     }
   }
 }

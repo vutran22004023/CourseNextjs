@@ -1,4 +1,4 @@
-import SidebarAdmin from './sideBar';
+import SidebarAdmin from "./sideBar";
 
 export default function RootLayout({
   children,
@@ -7,9 +7,7 @@ export default function RootLayout({
 }) {
   return (
     <div className="min-h-screen bg-background font-sans antialiased">
-      <SidebarAdmin>
-        {children}
-      </SidebarAdmin>
+      <SidebarAdmin>{children}</SidebarAdmin>
     </div>
   );
 }

@@ -1,6 +1,6 @@
-'use client'
-import React, { useState, useEffect, useRef  } from "react";
-import { User, ArrowBigLeft,  } from "lucide-react";
+"use client";
+import React, { useState, useEffect, useRef } from "react";
+import { User, ArrowBigLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ModalComponent from "@/components/Modal/Modal";
 import ButtonComponent from "@/components/Button/Button";
@@ -13,30 +13,26 @@ import { Label } from "@/components/ui/label";
 import Register from "@/components/Login-Register/Register";
 import { Eye, EyeOff } from "lucide-react";
 import { useMutationHook } from "@/hooks";
-import {  Login ,LoginGoogle} from "@/apis/auth";
+import { Login, LoginGoogle } from "@/apis/auth";
 import { LoginProps } from "@/types";
-import {
-  success,
-  error,
-  warning,
-} from "@/components/Message/Message";
-import { useRouter } from 'next/navigation';
+import { success, error, warning } from "@/components/Message/Message";
+import { useRouter } from "next/navigation";
 import IsLoadingComponment from "@/components/Loading/Loading";
-import Image from 'next/image';
+import Image from "next/image";
 import { useDispatch } from "react-redux";
 import { updateUser } from "@/redux/Slides/userSide";
 import { initializeApp } from "firebase/app";
 import { getStorage } from "firebase/storage";
-import {  GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import {auth} from '@/firebase/config';
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { auth } from "@/firebase/config";
 type DataLogin = {
   status?: any;
   access_Token?: string;
-  message?: string,
+  message?: string;
   id?: string;
 };
-export default function LoginComponent(style : any) {
-  const router  = useRouter();
+export default function LoginComponent(style: any) {
+  const router = useRouter();
   const dispatch = useDispatch();
   const [isModalInputLogin, setIsModalInputLogin] = useState(true);
   const [isModalForgotPass, setIsModalForgotPass] = useState(false);
@@ -81,7 +77,12 @@ export default function LoginComponent(style : any) {
         email: "",
         password: "",
       });
-      dispatch(updateUser({_id: (datalogin as DataLogin).id, access_Token:(datalogin as DataLogin).access_Token}))
+      dispatch(
+        updateUser({
+          _id: (datalogin as DataLogin).id,
+          access_Token: (datalogin as DataLogin).access_Token,
+        })
+      );
       window.location.reload();
     } else if ((datalogin as DataLogin)?.status === "ERR") {
       error("Đăng nhập thất bại");
@@ -126,46 +127,51 @@ export default function LoginComponent(style : any) {
       if (e.target === emailRef.current) {
         passwordRef.current?.focus();
       } else if (e.target === passwordRef.current) {
-        if(login?.password?.length && login?.email?.length) {
+        if (login?.password?.length && login?.email?.length) {
           handleOnClickLogin();
         }
       }
     }
   };
 
-  const [userGoogle, setUserGoogle] = useState<any>()
+  const [userGoogle, setUserGoogle] = useState<any>();
   const handleLoginWithGoogle = async () => {
     const provider = new GoogleAuthProvider();
 
-    const res =  await signInWithPopup(auth, provider);
-    setUserGoogle(res)
-  }
+    const res = await signInWithPopup(auth, provider);
+    setUserGoogle(res);
+  };
 
   useEffect(() => {
     const loginUserWithGoogle = async () => {
       const res = await LoginGoogle({
         displayName: userGoogle?.user?.displayName,
         email: userGoogle?.user?.email,
-        photoURL:userGoogle?.user?.photoURL
+        photoURL: userGoogle?.user?.photoURL,
       });
-      if(res) {
-      if ((res as DataLogin)?.status === 200) {
+      if (res) {
+        if ((res as DataLogin)?.status === 200) {
           success("Bạn đã đăng nhập thành công");
           navigate("/");
           navigate("/");
-          dispatch(updateUser({_id: (res as DataLogin).id, access_Token:(res as DataLogin).access_Token}))
+          dispatch(
+            updateUser({
+              _id: (res as DataLogin).id,
+              access_Token: (res as DataLogin).access_Token,
+            })
+          );
           window.location.reload();
         }
-    }
-    }
-    loginUserWithGoogle()
-  },[userGoogle])
+      }
+    };
+    loginUserWithGoogle();
+  }, [userGoogle]);
 
   return (
     <ModalComponent
       triggerContent={
         <Button
-        className="bg-[#FF5A00] text-[#fff] hover:bg-[#fb6f24] "
+        className="bg-gray-300 text-black hover:bg-gray-400 "
         style={{ borderRadius: "20px", ...style, }}
         >
           Đăng nhập / Đăng ký
@@ -333,12 +339,14 @@ export default function LoginComponent(style : any) {
                     </div>
                   )}
                   <ButtonComponent
-                    type='submit'
+                    type="submit"
                     onKeyDown={handleKeyDown}
                     className="p-5 m-0 mb-4"
                     style={{ border: "1px solid #9c9c9c" }}
                     disabled={
-                      login?.password?.length && login?.email?.length ? false : true
+                      login?.password?.length && login?.email?.length
+                        ? false
+                        : true
                     }
                     onClick={handleOnClickLogin}
                   >

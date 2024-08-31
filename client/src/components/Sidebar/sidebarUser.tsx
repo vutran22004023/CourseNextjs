@@ -1,9 +1,16 @@
-'use client'
+"use client";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import Link  from 'next/link';
-import { User, BookOpenText, Album, NotebookPen, SquareUser, KeySquare } from 'lucide-react';
+import Link from "next/link";
+import {
+  User,
+  BookOpenText,
+  Album,
+  NotebookPen,
+  SquareUser,
+  KeySquare,
+} from "lucide-react";
 
 interface SidebarProps {
   className?: string;
@@ -12,12 +19,42 @@ interface SidebarProps {
 
 export default function SidebarUser({ className, activePage }: SidebarProps) {
   const [navigation, setNavigation] = useState([
-    { name: "Trang cá nhân", href: "/profile", icon: User, current: activePage === "personalpage" },
-    { name: "Viết Blog", href: "/profile/posts-blog", icon: NotebookPen, current: activePage === "blogging" },
-    { name: "Bài viết của tôi", href: "/blog", icon: Album, current: activePage === "myarticle" },
-    { name: "Bài viết đã lưu", href: "/blog", icon: BookOpenText, current: activePage === "savedposts" },
-    { name: "Thông tin người dùng", href: "/profile/information-user", icon: SquareUser, current: activePage === "informationuser" },
-    { name: "Mật khẩu và bảo mật", href: "/profile/password-and-security", icon: KeySquare, current: activePage === "passwordandsecurity" },
+    {
+      name: "Trang cá nhân",
+      href: "/profile",
+      icon: User,
+      current: activePage === "personalpage",
+    },
+    {
+      name: "Viết Blog",
+      href: "/profile/posts-blog",
+      icon: NotebookPen,
+      current: activePage === "blogging",
+    },
+    {
+      name: "Bài viết của tôi",
+      href: "/blog",
+      icon: Album,
+      current: activePage === "myarticle",
+    },
+    {
+      name: "Bài viết đã lưu",
+      href: "/blog",
+      icon: BookOpenText,
+      current: activePage === "savedposts",
+    },
+    {
+      name: "Thông tin người dùng",
+      href: "/profile/information-user",
+      icon: SquareUser,
+      current: activePage === "informationuser",
+    },
+    {
+      name: "Mật khẩu và bảo mật",
+      href: "/profile/password-and-security",
+      icon: KeySquare,
+      current: activePage === "passwordandsecurity",
+    },
   ]);
 
   const handleItemClick = (index: any) => {
@@ -37,7 +74,7 @@ export default function SidebarUser({ className, activePage }: SidebarProps) {
         <div className="px-3 py-2">
           <div className="space-y-1">
             {navigation.map((item, index) => (
-              <Link 
+              <Link
                 key={item.name}
                 href={item.href}
                 onClick={() => handleItemClick(index)}

@@ -1,9 +1,8 @@
-'use client'
+"use client";
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    search: '',
-
+  search: "",
 };
 
 const timeSlice = createSlice({
@@ -11,11 +10,9 @@ const timeSlice = createSlice({
   initialState,
   reducers: {
     Search: (state, { payload }) => {
-      const { search} = payload;
-      console.log(search)
+      const { search } = payload;
       state.search = search || "";
     },
-
   },
 });
 

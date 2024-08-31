@@ -3,34 +3,33 @@ import axios from 'axios';
 import 'dotenv/config';
 
 class AuthController {
-  async loginInGoogle (req, res) {
+  async loginInGoogle(req, res) {
     try {
       const { displayName, email, photoURL } = req.body;
-      if(!displayName|| !email || !photoURL) {
+      if (!displayName || !email || !photoURL) {
         return res.status(200).json({
-            status: 'ERR',
-            message: 'Chưa điền đầy đủ thông tin'
-        })
-    }
-    const response = await Login_Register_Service.loginUserGoogle(req.body);
-    const { refresh_Token, access_Token, ...newResponse } = response;
-    if (refresh_Token) {
-
-      res.cookie('access_Token', response.access_Token, {
-        httpOnly: true, 
-        secure: process.env.NODE_ENV === 'production', 
-        sameSite: 'Strict', 
-        path: '/', 
-      });
-      res.cookie('refresh_Token', refresh_Token, {
-        httpOnly: true, 
-        secure: process.env.NODE_ENV === 'production', 
-        sameSite: 'Strict', 
-        path: '/', 
-      });
-    }
-    return res.status(200).json(newResponse);
-    }catch (err) {
+          status: 'ERR',
+          message: 'Chưa điền đầy đủ thông tin',
+        });
+      }
+      const response = await Login_Register_Service.loginUserGoogle(req.body);
+      const { refresh_Token, access_Token, ...newResponse } = response;
+      if (refresh_Token) {
+        res.cookie('access_Token', response.access_Token, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === 'production',
+          sameSite: 'Strict',
+          path: '/',
+        });
+        res.cookie('refresh_Token', refresh_Token, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === 'production',
+          sameSite: 'Strict',
+          path: '/',
+        });
+      }
+      return res.status(200).json(newResponse);
+    } catch (err) {
       return res.status(500).json({
         message: err,
       });
@@ -59,17 +58,17 @@ class AuthController {
       }
 
       res.cookie('access_Token', response.access_Token, {
-        httpOnly: true, 
-        secure: process.env.NODE_ENV === 'production', 
-        sameSite: 'Strict', 
-        path: '/', 
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'Strict',
+        path: '/',
       });
 
       res.cookie('refresh_Token', response.refresh_Token, {
-        httpOnly: true, 
-        secure: process.env.NODE_ENV === 'production', 
-        sameSite: 'Strict', 
-        path: '/', 
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'Strict',
+        path: '/',
       });
       return res.status(200).json(response);
     } catch (err) {
@@ -125,16 +124,16 @@ class AuthController {
     try {
       // Xóa cookie accessToken và refreshToken
       res.clearCookie('access_Token', {
-        httpOnly: true, 
-        secure: process.env.NODE_ENV === 'production', 
-        sameSite: 'Strict', 
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'Strict',
         path: '/',
       });
 
       res.clearCookie('refresh_Token', {
-        httpOnly: true, 
-        secure: process.env.NODE_ENV === 'production', 
-        sameSite: 'Strict', 
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'Strict',
         path: '/',
       });
 

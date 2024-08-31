@@ -19,8 +19,8 @@ class PayMentController {
       description: `VQRIO${transID}`,
       buyerName: fullName,
       buyerEmail: email,
-      cancelUrl: `${process.env.URL_CLIENT}/trang-thai`,
-      returnUrl: `${process.env.URL_CLIENT}/trang-thai`,
+      cancelUrl: `${process.env.URL_CLIENT}/information-pay`,
+      returnUrl: `${process.env.URL_CLIENT}/information-pay`,
     };
     try {
       const paymentLinkData = await payos.createPaymentLink(order);
@@ -74,30 +74,28 @@ class PayMentController {
       key2: 'trMrHtvjo6myautxDUiAcYsVtaeQ8nhf',
       endpoint: 'https://sb-openapi.zalopay.vn/v2/create',
     };
-    const { oderItem, fullName, address, phone, paymentMethod, itemsPrice, shippingPrice, totalPrice, user } = req.body;
+    const { orderItem, fullName, address, phone, paymentMethod, itemsPrice, shippingPrice, totalPrice, user } =
+      req.body;
     const embed_data = {
-      redirecturl: `${process.env.URL_CLIENT}/trang-thai`,
+      redirecturl: `${process.env.URL_CLIENT}/information-pay`,
     };
-    const items = oderItem
-      ? oderItem?.map((item) => ({
-          itemid: item.productId,
-          itemname: item.name,
-          itemprice: item.price,
-          itemquantity: item.amount,
-        }))
-      : [];
+    const items = orderItem
+      ? {
+          itemid: orderItem.productId,
+        }
+      : {};
     const transID = Math.floor(Math.random() * 1000000);
     const order = {
       app_id: config.app_id,
       app_trans_id: `${moment().format('YYMMDD')}_${transID}`, // mã giao dich có định dạng yyMMdd_xxxx
       app_user: fullName,
       app_time: Date.now(), // miliseconds
-      item: JSON.stringify(items),
+      item: JSON.stringify([items]),
       embed_data: JSON.stringify(embed_data),
       amount: totalPrice,
       description: `Zalo - Thanh toán đơn hàng #${transID}`,
       // bank_code: "zalopayapp",
-      callback_url: 'https://1547-112-197-208-25.ngrok-free.app/callback-zalo',
+      callback_url: 'https://655a-118-71-134-202.ngrok-free.app/callback-zalo',
     };
 
     // appid|app_trans_id|appuser|amount|apptime|embeddata|item
@@ -119,7 +117,10 @@ class PayMentController {
 
     try {
       const result = await axios.post(config.endpoint, null, { params: order });
-      return res.status(200).json(result.data);
+      return res.status(200).json({
+        ...result.data,
+        itemid: orderItem.productId,
+      });
     } catch (err) {
       console.log(err);
       return res.status(500).json({ error: 'Internal Server Error' });
@@ -247,15 +248,14 @@ class PayMentController {
 
   // end api thanh toans zalopay
 
-
   //begin thông tin thanh toán khóa học
   async getInformationCourse(req, res) {
     try {
       const { page = 1, limit = 10, search = '', sort = 'desc' } = req.query;
-  
+
       // Tính toán phân trang
       const skip = (Number(page) - 1) * Number(limit);
-  
+
       // Điều kiện tìm kiếm
       const searchCondition = search
         ? {
@@ -265,7 +265,7 @@ class PayMentController {
             ],
           }
         : {};
-  
+
       // Tính tổng số trạng thái thanh toán
       const totalStatus = await PayCourse.aggregate([
         {
@@ -275,24 +275,24 @@ class PayMentController {
           },
         },
       ]);
-  
+
       // Tìm paycourses với phân trang, tìm kiếm và sắp xếp
       const payCourses = await PayCourse.find(searchCondition)
         .populate({
-          path: 'idUser',  // Populate thông tin từ bảng User
-          select: 'name email',  // Lấy các trường name và email từ bảng User
+          path: 'idUser', // Populate thông tin từ bảng User
+          select: 'name email', // Lấy các trường name và email từ bảng User
         })
         .populate({
-          path: 'courseId',  // Populate thông tin từ bảng Course
-          select: 'name image money',  // Lấy các trường name, image, và money từ bảng Course
+          path: 'courseId', // Populate thông tin từ bảng Course
+          select: 'name image money', // Lấy các trường name, image, và money từ bảng Course
         })
         .sort({ createdAt: sort === 'desc' ? -1 : 1 })
         .skip(skip)
         .limit(Number(limit));
-  
+
       // Tính tổng số lượng paycourse sau khi tìm kiếm
       const totalPayCourses = await PayCourse.countDocuments(searchCondition);
-  
+
       // Trả về kết quả
       return res.status(200).json({
         totalStatus,
@@ -311,26 +311,25 @@ class PayMentController {
   }
   async postInformationCourse(req, res) {
     try {
-      const { idUser, courseId, paymentStatus,money } = req.body;
-  
+      const { idUser, courseId, paymentStatus, money } = req.body;
+
       // Kiểm tra các giá trị đầu vào
       if (!idUser || !courseId || !paymentStatus || !money) {
         return res.status(400).json({ message: 'Thiếu thông tin yêu cầu' });
       }
-  
+
       // Tạo mới document PayCourse
       const newPayCourse = new PayCourse({
         idUser,
         courseId,
         paymentStatus,
-        money
+        money,
       });
-  
+
       await newPayCourse.save();
 
-
       return res.status(201).json({
-        message: 'Thanh toán thành công'
+        message: 'Thanh toán thành công',
       });
     } catch (err) {
       // Xử lý lỗi
@@ -346,14 +345,14 @@ class PayMentController {
     try {
       const { id } = req.params;
       const updateData = req.body;
-  
+
       // Tìm và cập nhật paycourse theo ID
       const updatedPayCourse = await PayCourse.findByIdAndUpdate(id, updateData, { new: true });
-  
+
       if (!updatedPayCourse) {
         return res.status(404).json({ message: 'Không tìm thấy thông tin paycourse để cập nhật' });
       }
-  
+
       // Trả về thông báo thành công và dữ liệu đã cập nhật
       return res.status(200).json({ message: 'Cập nhật thông tin paycourse thành công', data: updatedPayCourse });
     } catch (err) {
@@ -368,14 +367,14 @@ class PayMentController {
   async deleteInformationCourse(req, res) {
     try {
       const { id } = req.params;
-  
+
       // Tìm và xóa paycourse theo ID
       const deletedPayCourse = await PayCourse.findByIdAndDelete(id);
-  
+
       if (!deletedPayCourse) {
         return res.status(404).json({ message: 'Không tìm thấy thông tin paycourse để xóa' });
       }
-  
+
       // Trả về thông báo thành công
       return res.status(200).json({ message: 'Xóa thông tin paycourse thành công', data: deletedPayCourse });
     } catch (err) {

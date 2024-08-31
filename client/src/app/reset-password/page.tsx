@@ -5,11 +5,11 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Eye, EyeOff } from "lucide-react";
 import ButtonComponent from "@/components/Button/Button";
-import IsLoadingComponment from "@/components/Loading/Loading";
 import { ResetPassProps } from "@/types";
 import { useMutationHook } from "@/hooks";
 import { ResetPass } from "@/apis/auth";
 import { success, error, warning } from "@/components/Message/Message";
+import Text from "@/components/Text/text";
 
 interface dataResetPassProps {
   status?: any;
@@ -20,7 +20,7 @@ export default function FormResetPass() {
   const searchParams = useSearchParams();
   const tokens = searchParams.get("token");
   const name = searchParams.get("name");
-  if (!tokens || !name) return router.push('/')
+  if (!tokens || !name) return router.push("/");
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [passwordStrength, setPasswordStrength] = useState<number>(0);
@@ -127,15 +127,15 @@ export default function FormResetPass() {
         className="border-dotted w-[600px]  bg-[#fbfbfb] border-2 p-7"
         style={{ borderRadius: "20px" }}
       >
-        <div className="cactus-classical-serif-md text-[25px] mb-3">
+        <Text className="cactus-classical-serif-md text-[25px] mb-3">
           Đặt lại mật khẩu
-        </div>
-        <div className="cactus-classical-serif-md text-[15px] mb-2">
+        </Text>
+        <Text className="cactus-classical-serif-md text-[15px] mb-2">
           Xin chào, {name}
-        </div>
-        <div className="text-[12px]">
+        </Text>
+        <Text className="text-[12px]">
           Vui lòng nhập mật khẩu mới và xác nhận lại mật khẩu mới
-        </div>
+        </Text>
         <div className="mt-7">
           <div className=" grid gap-2 ml-4">
             <Label htmlFor="password" className="mb-1 text-left">
@@ -211,9 +211,9 @@ export default function FormResetPass() {
                     : ""}
                 </div>
                 {!isError && !isErrPassword && (
-                  <div className="text-[red] p-1 text-left">
+                  <Text className="text-[red] p-1 text-left">
                     Mật khẩu mới và xác nhận mật khẩu không khớp
-                  </div>
+                  </Text>
                 )}
 
                 {(dataResetPass as dataResetPassProps)?.status === "ERR" && (
@@ -255,9 +255,9 @@ export default function FormResetPass() {
               </div>
 
               {(dataResetPass as dataResetPassProps)?.status === 200 && (
-                <div className="mt-2">
+                <Text className="mt-2">
                   Bạn sẽ được chuyển hướng sau {countdown} giây
-                </div>
+                </Text>
               )}
             </div>
           </div>

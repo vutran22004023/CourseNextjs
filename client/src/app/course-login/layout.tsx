@@ -7,8 +7,8 @@ export default function RootLayout({
 }) {
   return (
     <div className="min-h-screen bg-background font-sans antialiased">
-        <HeaderLayoutCourses/>
-        {children}
+      <HeaderLayoutCourses />
+      {children}
     </div>
   );
 }

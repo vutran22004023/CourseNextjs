@@ -1,15 +1,12 @@
-import Image from "next/image";
 import CarouselComponent from "@/components/Carousel/carousel";
-import CourselList from './courseList'
-const Page= () => { 
+import CourselList from "./courseList";
+const Page = () => {
   return (
     <main>
       <CarouselComponent />
-      <CourselList/>
+      <CourselList />
     </main>
   );
-}
-
-
+};
 
 export default Page;

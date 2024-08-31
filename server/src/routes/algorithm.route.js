@@ -1,7 +1,8 @@
 import express from 'express';
-import AlgorithmController from '../controllers/algorithm.controller.js'
+import AlgorithmController from '../controllers/algorithm.controller.js';
 const router = express.Router();
 
-router.post('/new-algorithm', AlgorithmController.generateAlgorithms);
+router.get('/new-algorithm', AlgorithmController.generateAlgorithms);
+router.post('/check-algorithm', AlgorithmController.checkAlgorithms);
 
 export default router;

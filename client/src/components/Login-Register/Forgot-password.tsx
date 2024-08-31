@@ -5,11 +5,7 @@ import ButtonComponent from "@/components/Button/Button";
 import { useMutationHook } from "@/hooks";
 import { ForgotPassword } from "@/apis/auth";
 import { EmailProps } from "@/types/index";
-import {
-  success,
-  error,
-  warning,
-} from "@/components/Message/Message";
+import { success, error, warning } from "@/components/Message/Message";
 
 interface ForPassword {
   status?: any;
@@ -76,9 +72,7 @@ export default function Forgotpassword() {
           className=" p-5 m-0 mb-4"
           style={{ border: "1px solid #9c9c9c" }}
           onClick={handleButtonForPassword}
-          disabled={
-            email?.length ? false : true
-          }
+          disabled={email?.length ? false : true}
         >
           <div className="cactus-classical-serif-md">Đặt lại mật khẩu</div>
         </ButtonComponent>

@@ -1,10 +1,10 @@
-'use client'
-import * as React from "react"
+"use client";
+import * as React from "react";
 import {
   CaretSortIcon,
   ChevronDownIcon,
   DotsHorizontalIcon,
-} from "@radix-ui/react-icons"
+} from "@radix-ui/react-icons";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -16,10 +16,10 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
-} from "@tanstack/react-table"
+} from "@tanstack/react-table";
 
-import { Button } from "@/components/ui/button"
-import { Checkbox } from "@/components/ui/checkbox"
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -28,8 +28,8 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Input } from "@/components/ui/input"
+} from "@/components/ui/dropdown-menu";
+import { Input } from "@/components/ui/input";
 import {
   Table,
   TableBody,
@@ -37,20 +37,18 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
-import UpdateCourse from "./updateCourse"
-import DeleteCourse from './deleteCourse'
-import {IfetchTable} from '@/types/index'
+} from "@/components/ui/table";
+import UpdateCourse from "./updateCourse";
+import DeleteCourse from "./deleteCourse";
+import { IfetchTable } from "@/types/index";
 export type Payment = {
-  _id: string,
-  name: number,
-  price: number,
-  priceAmount: string,
-  createdAt: string,
-  updatedAt: string
-}
-
-
+  _id: string;
+  name: number;
+  price: number;
+  priceAmount: string;
+  createdAt: string;
+  updatedAt: string;
+};
 
 export const columns: ColumnDef<Payment>[] = [
   {
@@ -78,9 +76,7 @@ export const columns: ColumnDef<Payment>[] = [
   {
     accessorKey: "name",
     header: "Tên khóa học",
-    cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("name")}</div>
-    ),
+    cell: ({ row }) => <div className="capitalize">{row.getValue("name")}</div>,
   },
   {
     accessorKey: "price",
@@ -93,7 +89,7 @@ export const columns: ColumnDef<Payment>[] = [
           Kiểu khóa học
           <CaretSortIcon className="ml-2 h-4 w-4" />
         </Button>
-      )
+      );
     },
     cell: ({ row }) => <div className="lowercase">{row.getValue("price")}</div>,
   },
@@ -101,18 +97,18 @@ export const columns: ColumnDef<Payment>[] = [
     accessorKey: "priceAmount",
     header: () => <div className="text-right">Số tiền khóa học</div>,
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("priceAmount"))
+      const amount = parseFloat(row.getValue("priceAmount"));
       if (isNaN(amount) || row.getValue("priceAmount") === "") {
-        return <div className="text-right font-medium">Free</div>
+        return <div className="text-right font-medium">Free</div>;
       }
 
       // Format the amount as VND
       const formatted = new Intl.NumberFormat("en-US", {
         style: "currency",
         currency: "VND",
-      }).format(amount)
+      }).format(amount);
 
-      return <div className="text-right font-medium">{formatted}</div>
+      return <div className="text-right font-medium">{formatted}</div>;
     },
   },
   {
@@ -134,11 +130,11 @@ export const columns: ColumnDef<Payment>[] = [
     header: "Actions",
     enableHiding: false,
     cell: ({ row }) => {
-      const payment = row.original
+      const payment = row.original;
       const [isOpenUpdate, setIsOpenUpdate] = React.useState(false);
-      const [isOpenDelete, setIsOpenDelete] = React.useState(false)
-      const [dataDetailCourses, setDataDeatilCourses] = React.useState('');
-      const [idDeleteCourses, setIdDeleteCourses] = React.useState('');
+      const [isOpenDelete, setIsOpenDelete] = React.useState(false);
+      const [dataDetailCourses, setDataDeatilCourses] = React.useState("");
+      const [idDeleteCourses, setIdDeleteCourses] = React.useState("");
       const handleOpenUpdate = (payment: any) => {
         setDataDeatilCourses(payment);
         setIsOpenUpdate(true);
@@ -149,7 +145,7 @@ export const columns: ColumnDef<Payment>[] = [
       };
 
       const handleOpenDelete = (id: string) => {
-        console.log(id)
+        console.log(id);
         setIdDeleteCourses(id);
         setIsOpenDelete(true);
       };
@@ -166,34 +162,52 @@ export const columns: ColumnDef<Payment>[] = [
               <DotsHorizontalIcon className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="bg-[#e9e8e8] rounded-xl p-3">
+          <DropdownMenuContent
+            align="end"
+            className="bg-[#e9e8e8] rounded-xl p-3"
+          >
             <DropdownMenuItem
               onClick={() => handleOpenUpdate(payment)}
               className="p-3 cursor-pointer hover:bg-[#848484] rounded-xl mb-1"
             >
               Chỉnh sửa
-            </DropdownMenuItem  >
-            <DropdownMenuItem className="p-3 cursor-pointer hover:bg-[#848484] rounded-xl mb-1">Xem bình luận</DropdownMenuItem>
+            </DropdownMenuItem>
+            <DropdownMenuItem className="p-3 cursor-pointer hover:bg-[#848484] rounded-xl mb-1">
+              Xem bình luận
+            </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => handleOpenDelete(payment?._id)} className="p-3 cursor-pointer hover:bg-[#848484] rounded-xl">Xóa</DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => handleOpenDelete(payment?._id)}
+              className="p-3 cursor-pointer hover:bg-[#848484] rounded-xl"
+            >
+              Xóa
+            </DropdownMenuItem>
           </DropdownMenuContent>
-          <UpdateCourse  data={dataDetailCourses} isOpen={isOpenUpdate} onClose={handleCloseUpdate}/>
-          <DeleteCourse id={idDeleteCourses} isOpen={isOpenDelete} onClose={handleCloseDelete} />
+          <UpdateCourse
+            data={dataDetailCourses}
+            isOpen={isOpenUpdate}
+            onClose={handleCloseUpdate}
+          />
+          <DeleteCourse
+            id={idDeleteCourses}
+            isOpen={isOpenDelete}
+            onClose={handleCloseDelete}
+          />
         </DropdownMenu>
-      )
+      );
     },
   },
-]
+];
 
 export function DataTableDemo({ fetchTableData }: IfetchTable) {
-  const [sorting, setSorting] = React.useState<SortingState>([])
+  const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
-  )
+  );
 
   const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({})
-  const [rowSelection, setRowSelection] = React.useState({})
+    React.useState<VisibilityState>({});
+  const [rowSelection, setRowSelection] = React.useState({});
   const data: Payment[] = fetchTableData?.data?.data || [];
 
   const table = useReactTable({
@@ -213,7 +227,7 @@ export function DataTableDemo({ fetchTableData }: IfetchTable) {
       columnVisibility,
       rowSelection,
     },
-  })
+  });
 
   return (
     <div className="w-full">
@@ -249,7 +263,7 @@ export function DataTableDemo({ fetchTableData }: IfetchTable) {
                   >
                     {column.id}
                   </DropdownMenuCheckboxItem>
-                )
+                );
               })}
           </DropdownMenuContent>
         </DropdownMenu>
@@ -269,7 +283,7 @@ export function DataTableDemo({ fetchTableData }: IfetchTable) {
                             header.getContext()
                           )}
                     </TableHead>
-                  )
+                  );
                 })}
               </TableRow>
             ))}
@@ -329,5 +343,5 @@ export function DataTableDemo({ fetchTableData }: IfetchTable) {
         </div>
       </div>
     </div>
-  )
+  );
 }

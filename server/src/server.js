@@ -8,10 +8,12 @@ import passport from './configs/passport.config.js';
 import os from 'os';
 const app = express();
 
-app.use(cors({
-  origin: 'http://localhost:3000',
-  credentials: true
-}));
+app.use(
+  cors({
+    origin: 'http://localhost:3000',
+    credentials: true,
+  })
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -26,7 +28,6 @@ app.use((req, res) => {
     message: 'Đường dẫn không tồn tại!',
   });
 });
-
 
 const port = process.env.PORT || 3002;
 const url = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.qm0ui7p.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
@@ -53,7 +54,7 @@ app.listen(port, async () => {
     .catch((err) => {
       console.log(err);
     });
-    const localIP = getLocalIPAddress();
+  const localIP = getLocalIPAddress();
   console.log('listening on port http://localhost:' + port);
   console.log(`Listening on port http://${localIP}:${port}`);
 });

@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import React from "react";
 import Autoplay from "embla-carousel-autoplay";
 import {
@@ -10,7 +10,7 @@ import {
   type CarouselApi,
 } from "@/components/ui/carousel";
 import Anh1 from "@/assets/Images/hinh-dep.jpg";
-import Image from 'next/image';
+import Image from "next/image";
 
 export default function CustomCarousel() {
   const [api, setApi] = React.useState<CarouselApi>();
@@ -28,7 +28,9 @@ export default function CustomCarousel() {
     });
   }, [api]);
 
-  const plugin = React.useRef(Autoplay({ delay: 2000, stopOnInteraction: true }));
+  const plugin = React.useRef(
+    Autoplay({ delay: 2000, stopOnInteraction: true })
+  );
 
   return (
     <div>

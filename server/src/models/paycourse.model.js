@@ -21,8 +21,8 @@ const payCourseSchema = new mongoose.Schema(
     },
     money: {
       type: Number,
-       required: true,
-    }
+      required: true,
+    },
   },
   {
     timestamps: true,

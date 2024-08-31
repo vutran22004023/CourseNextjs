@@ -1,14 +1,12 @@
-
-import { Inter as FontSans } from "next/font/google"
+import { Inter as FontSans } from "next/font/google";
 import "./globals.css";
-import ClientProviders from '@/components/ClientProviders';
-import { cn } from "@/lib/utils"
-import SidebarHeader from './sidebarHeader'
+import ClientProviders from "@/components/ClientProviders";
+import { cn } from "@/lib/utils";
+import SidebarHeader from "./sidebarHeader";
 const fontSans = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",
-})
-
+});
 
 export default function RootLayout({
   children,
@@ -17,11 +15,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={cn("min-h-screen bg-black text-[#fff] font-sans antialiased",fontSans.variable)}>
+      <body className={cn("min-h-screen bg-background font-sans antialiased",fontSans.variable)}>
         <ClientProviders>
-          <SidebarHeader>
-            {children}
-          </SidebarHeader>
+          <SidebarHeader>{children}</SidebarHeader>
         </ClientProviders>
       </body>
     </html>

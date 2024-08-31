@@ -1,13 +1,10 @@
-'use client'
-import React, { useState, useCallback, useEffect  } from "react";
-import { Button } from "@/components/ui/button";
+"use client";
+import React, { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
   Sheet,
   SheetClose,
   SheetContent,
-  SheetDescription,
   SheetFooter,
   SheetHeader,
   SheetTitle,
@@ -18,7 +15,6 @@ import { z } from "zod";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -33,18 +29,16 @@ import {
 } from "@/components/ui/select";
 import { useFieldArray, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useDropzone } from "react-dropzone";
-import { toast } from "@/components/ui/use-toast";
 import { UpdateCourses } from "@/apis/course";
 import { useMutationHook } from "@/hooks";
-import {success, error} from '@/components/Message/Message'
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { imageDb } from '@/firebase/config';
-import { v4 } from 'uuid';
-import ImageUpload from '@/components/UpLoadImg/ImageUpload';
+import { success, error } from "@/components/Message/Message";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { imageDb } from "@/firebase/config";
+import { v4 } from "uuid";
+import ImageUpload from "@/components/UpLoadImg/ImageUpload";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/redux/store";
-import slugify from 'slugify'
+import slugify from "slugify";
 interface UpdateProps {
   data: any;
   isOpen: boolean;
@@ -62,14 +56,12 @@ const generateSlug = (str: string) => {
   // Chuyển đổi các ký tự tiếng Việt sang không dấu
   const normalizedStr = slugify(str, {
     lower: true,
-    locale: 'vi',
-    remove: /[*+~.()'"!:@]/g
+    locale: "vi",
+    remove: /[*+~.()'"!:@]/g,
   });
 
   // Thay thế các ký tự không phải là a-z0-9 bằng dấu gạch ngang
-  return normalizedStr
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/(^-|-$)/g, "");
+  return normalizedStr.replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 };
 // Schema validation using Zod
 const videoSchema = z.object({
@@ -100,9 +92,7 @@ const courseFormSchema = z.object({
 type CourseFormValues = z.infer<typeof courseFormSchema>;
 
 const UpdateCourse: React.FC<UpdateProps> = ({ data, isOpen, onClose }) => {
-
   const [imagePreview, setImagePreview] = useState<string | null>(null);
-  const user = useSelector((state: RootState) => state.user);
   const form = useForm<CourseFormValues>({
     resolver: zodResolver(courseFormSchema),
     defaultValues: {
@@ -152,28 +142,28 @@ const UpdateCourse: React.FC<UpdateProps> = ({ data, isOpen, onClose }) => {
     return res;
   });
 
-  const {data: dataUpdateCourses} = mutationUpdate
+  const { data: dataUpdateCourses } = mutationUpdate;
 
   useEffect(() => {
-    if(dataUpdateCourses?.status === 200) {
-      success(`${dataUpdateCourses?.message}`)
-      onClose()
-    }else if(dataUpdateCourses?.status === 'ERR') {
-      error(`${dataUpdateCourses?.message}`)
+    if (dataUpdateCourses?.status === 200) {
+      success(`${dataUpdateCourses?.message}`);
+      onClose();
+    } else if (dataUpdateCourses?.status === "ERR") {
+      error(`${dataUpdateCourses?.message}`);
     }
-  },[dataUpdateCourses])
+  }, [dataUpdateCourses]);
 
   const onSubmit = (formData: CourseFormValues) => {
     formData.slug = generateSlug(formData.name);
-    formData.chapters = formData.chapters.map(chapter => ({
+    formData.chapters = formData.chapters.map((chapter) => ({
       ...chapter,
       slug: generateSlug(chapter.namechapter),
-      videos: chapter.videos.map(video => ({
+      videos: chapter.videos.map((video) => ({
         ...video,
         slug: generateSlug(video.childname),
       })),
     }));
-    mutationUpdate.mutate(formData)
+    mutationUpdate.mutate(formData);
   };
 
   return (
@@ -186,7 +176,7 @@ const UpdateCourse: React.FC<UpdateProps> = ({ data, isOpen, onClose }) => {
           </SheetTitle>
         </SheetHeader>
         <div className="max-h-[580px] overflow-y-auto">
-          <Form {...form} >
+          <Form {...form}>
             <form className="space-y-4">
               <FormField
                 control={form.control}
@@ -268,7 +258,12 @@ const UpdateCourse: React.FC<UpdateProps> = ({ data, isOpen, onClose }) => {
                 )}
               />
               {imagePreview && (
-                <img src={imagePreview} alt="Preview" className="mt-2 h-[200px]" style={{ maxWidth: "100%" }} />
+                <img
+                  src={imagePreview}
+                  alt="Preview"
+                  className="mt-2 h-[200px]"
+                  style={{ maxWidth: "100%" }}
+                />
               )}
               {chapterFields.map((chapter, chapterIndex) => (
                 <ChapterField
@@ -296,7 +291,6 @@ const UpdateCourse: React.FC<UpdateProps> = ({ data, isOpen, onClose }) => {
             <ButtonComponent
               type="submit"
               onClick={form.handleSubmit(onSubmit)}
-
             >
               Chỉnh sửa
             </ButtonComponent>

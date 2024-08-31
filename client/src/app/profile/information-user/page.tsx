@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { ArrowBigRight } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -9,31 +9,30 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import ButtonComponment from '@/components/Button/Button'
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import ButtonComponment from "@/components/Button/Button";
 import { useSelector } from "react-redux";
-import { RootState } from '@/redux/store'
+import { RootState } from "@/redux/store";
+import Text from "@/components/Text/text";
 
 export default function InformationUser() {
   const user = useSelector((state: RootState) => state.user);
-  console.log(user);
-
   return (
     <div className="container mt-[60px] w-full" style={{ padding: "0 90px" }}>
-      <h2 className="cactus-classical-serif-md text-[25px]">
+      <Text className="cactus-classical-serif-md text-[25px]">
         Thông tin cá nhân
-      </h2>
-      <p className="mb-10 text-[14px]">Quản lý thông tin của bạn</p>
-      
+      </Text>
+      <Text className="mb-10 text-[14px]">Quản lý thông tin của bạn</Text>
+
       <div>
-        <h2 className="cactus-classical-serif-md text-[20px] mb-5">
+        <Text className="cactus-classical-serif-md text-[20px] mb-5">
           Thông tin cơ bản
-        </h2>
-        <p className="mb-10 text-[14px]">
+        </Text>
+        <Text className="mb-10 text-[14px]">
           Quản lý tên hiển thị, tên người dùng, desc và avatar của bạn
-        </p>
+        </Text>
       </div>
 
       <div className="w-full bg-slate-300" style={{ borderRadius: "20px" }}>
@@ -45,7 +44,7 @@ export default function InformationUser() {
             >
               <div>
                 <div className="cactus-classical-serif-md">Email</div>
-                <div className="">{user.email || 'Chưa cập nhật'}</div>
+                <div className="">{user.email || "Chưa cập nhật"}</div>
               </div>
               <div>
                 <ArrowBigRight className="w-[50px] h-[50px]" />
@@ -56,7 +55,8 @@ export default function InformationUser() {
             <DialogHeader>
               <DialogTitle>Cập nhật tên của bạn</DialogTitle>
               <DialogDescription>
-                Tên sẽ được hiển thị trên trang cá nhân, trong các bình luận và bài viết của bạn
+                Tên sẽ được hiển thị trên trang cá nhân, trong các bình luận và
+                bài viết của bạn
               </DialogDescription>
             </DialogHeader>
             <div className="grid gap-4 py-4">
@@ -64,17 +64,27 @@ export default function InformationUser() {
                 <Label htmlFor="name" className="text-right">
                   Email
                 </Label>
-                <Input id="email" value={user.email || 'Chưa cập nhật'} className="col-span-3" />
+                <Input
+                  id="email"
+                  value={user.email || "Chưa cập nhật"}
+                  className="col-span-3"
+                />
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="username" className="text-right">
                   Username
                 </Label>
-                <Input id="name" value={user.name || 'Chưa cập nhật'} className="col-span-3" />
+                <Input
+                  id="name"
+                  value={user.name || "Chưa cập nhật"}
+                  className="col-span-3"
+                />
               </div>
             </div>
             <DialogFooter>
-              <ButtonComponment className="" style={{}}>Save changes</ButtonComponment>
+              <ButtonComponment className="" style={{}}>
+                Save changes
+              </ButtonComponment>
             </DialogFooter>
           </DialogContent>
         </Dialog>
@@ -82,7 +92,7 @@ export default function InformationUser() {
         <div className="p-4 flex justify-between hover:bg-slate-200 cursor-pointer">
           <div>
             <div className="cactus-classical-serif-md">Tên người dùng</div>
-            <div className="">{user.name || 'Chưa cập nhật'}</div>
+            <div className="">{user.name || "Chưa cập nhật"}</div>
           </div>
           <div>
             <ArrowBigRight className="w-[50px] h-[50px]" />
@@ -92,7 +102,7 @@ export default function InformationUser() {
         <div className="p-4 flex justify-between hover:bg-slate-200 cursor-pointer">
           <div>
             <div className="cactus-classical-serif-md">Giới thiệu</div>
-            <div className="">{user.desc || 'Chưa cập nhật'}</div>
+            <div className="">{user.desc || "Chưa cập nhật"}</div>
           </div>
           <div>
             <ArrowBigRight className="w-[50px] h-[50px]" />
@@ -108,10 +118,10 @@ export default function InformationUser() {
             <div className="">
               <Avatar>
                 <AvatarImage
-                  src={user.avatar || 'https://github.com/shadcn.png'}
-                  alt={user.name || 'User Avatar'}
+                  src={user.avatar || "https://github.com/shadcn.png"}
+                  alt={user.name || "User Avatar"}
                 />
-                <AvatarFallback>{user.name?.charAt(0) || 'U'}</AvatarFallback>
+                <AvatarFallback>{user.name?.charAt(0) || "U"}</AvatarFallback>
               </Avatar>
             </div>
           </div>
@@ -122,12 +132,10 @@ export default function InformationUser() {
       </div>
 
       <div>
-        <h2 className="cactus-classical-serif-md text-[20px] mt-9">
-          Thông tin mạng xã hội
-        </h2>
-        <p className="mb-10 text-[14px]">
+        <Text className="text-[20px] mt-9">Thông tin mạng xã hội</Text>
+        <Text className="mb-10 text-[14px]">
           Quản lý liên kết tới các trang mạng xã hội của bạn
-        </p>
+        </Text>
       </div>
 
       <div className="w-full bg-slate-300" style={{ borderRadius: "20px" }}>
@@ -136,8 +144,8 @@ export default function InformationUser() {
           style={{ borderRadius: "20px 20px 0 0" }}
         >
           <div>
-            <div className="cactus-classical-serif-md">GitHub</div>
-            <div className="">Chưa cập nhật</div>
+            <Text className="cactus-classical-serif-md">GitHub</Text>
+            <Text className="">Chưa cập nhật</Text>
           </div>
           <div>
             <ArrowBigRight className="w-[50px] h-[50px]" />
@@ -146,8 +154,8 @@ export default function InformationUser() {
         <hr />
         <div className="p-4 flex justify-between hover:bg-slate-200 cursor-pointer">
           <div>
-            <div className="cactus-classical-serif-md">Tên người dùng</div>
-            <div className="">Chưa cập nhật</div>
+            <Text className="cactus-classical-serif-md">Tên người dùng</Text>
+            <Text className="">Chưa cập nhật</Text>
           </div>
           <div>
             <ArrowBigRight className="w-[50px] h-[50px]" />
@@ -156,8 +164,8 @@ export default function InformationUser() {
         <hr />
         <div className="p-4 flex justify-between hover:bg-slate-200 cursor-pointer">
           <div>
-            <div className="cactus-classical-serif-md">Giới thiệu</div>
-            <div className="">Chưa cập nhật</div>
+            <Text className="cactus-classical-serif-md">Giới thiệu</Text>
+            <Text className="">Chưa cập nhật</Text>
           </div>
           <div>
             <ArrowBigRight className="w-[50px] h-[50px]" />

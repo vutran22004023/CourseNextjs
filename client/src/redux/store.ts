@@ -1,10 +1,11 @@
-'use client'
-import { combineReducers } from 'redux';
-import { configureStore } from '@reduxjs/toolkit';
-import storage from 'redux-persist/lib/storage';
-import userReducer from './Slides/userSide';
-import timeReducer from './Slides/timeVideoSide';
-import searchReducer from './Slides/searchSide';
+"use client";
+import { combineReducers } from "redux";
+import { configureStore } from "@reduxjs/toolkit";
+import storage from "redux-persist/lib/storage";
+import userReducer from "./Slides/userSide";
+import timeReducer from "./Slides/timeVideoSide";
+import searchReducer from "./Slides/searchSide";
+import itemReducer from "./Slides/itemPay";
 import {
   persistStore,
   persistReducer,
@@ -14,21 +15,22 @@ import {
   PERSIST,
   PURGE,
   REGISTER,
-} from 'redux-persist'
+} from "redux-persist";
 // Combine reducers
 const rootReducer = combineReducers({
   user: userReducer,
   timesVideo: timeReducer,
   searchs: searchReducer,
+  idItemPay: itemReducer,
   // Add other reducers as needed
 });
 
 // Configure persist options
 const persistConfig = {
-  key: 'root',
+  key: "root",
   version: 1,
   storage,
-  blacklist: ['timesVideo','searchs'], // Blacklist 'user' reducer from being persisted (if needed)
+  blacklist: ["timesVideo", "searchs"], // Blacklist 'user' reducer from being persisted (if needed)
 };
 
 // Create persisted reducer
@@ -42,7 +44,7 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    })// Add checkAuthMiddleware
+    }), // Add checkAuthMiddleware
 });
 
 // Create persistor

@@ -3,7 +3,6 @@ import 'dotenv/config';
 import { TokenMiddleware } from './index.js';
 
 class AuthMiddleware {
-
   isTokenExpiringSoon = (token) => {
     try {
       const decodedToken = jwt.decode(token);
@@ -19,7 +18,7 @@ class AuthMiddleware {
       console.error('Failed to decode token', e);
       return false;
     }
-  }
+  };
 
   authAdmin = async (req, res, next) => {
     const authHeader = req.headers.token;
@@ -46,11 +45,11 @@ class AuthMiddleware {
             id: user?.id,
             isAdmin: user?.isAdmin,
           });
-        
+
           if (!newAccessToken) {
             throw new Error('Failed to generate access token');
           }
-        
+
           res.cookie('access_Token', newAccessToken, {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
@@ -71,7 +70,7 @@ class AuthMiddleware {
         });
       }
     });
-  }
+  };
 
   authUser = async (req, res, next) => {
     const authHeader = req.headers.token;
@@ -102,7 +101,7 @@ class AuthMiddleware {
           if (!newAccessToken) {
             throw new Error('Failed to generate access token');
           }
-        
+
           res.cookie('access_Token', newAccessToken, {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
@@ -123,7 +122,7 @@ class AuthMiddleware {
         });
       }
     });
-  }
+  };
 
   verifyResetToken(req, res, next) {
     const token = req.headers.token.split(' ')[1];
@@ -149,7 +148,7 @@ class AuthMiddleware {
         message: 'Token không hợp lệ hoặc không có token',
       });
     }
-    
+
     const refreshToken = authHeader.split(' ')[1]; // Nhận refreshToken từ header
     if (!refreshToken) {
       return res.status(401).json({
@@ -157,7 +156,7 @@ class AuthMiddleware {
         message: 'Không có refreshToken được cung cấp',
       });
     }
-  
+
     jwt.verify(refreshToken, process.env.REFRESH_TOKEN, async (err, user) => {
       if (err) {
         return res.status(403).json({
@@ -165,30 +164,29 @@ class AuthMiddleware {
           message: 'RefreshToken không hợp lệ',
         });
       }
-  
+
       try {
         const newAccessToken = await TokenMiddleware.generateAccessToken({
           id: user?.id,
           isAdmin: user?.isAdmin,
         });
-  
+
         if (!newAccessToken) {
           throw new Error('Failed to generate access token');
         }
-  
+
         res.cookie('access_Token', newAccessToken, {
           httpOnly: true,
           secure: process.env.NODE_ENV === 'production',
           sameSite: 'Strict',
           path: '/',
         });
-  
+
         // Trả về accessToken mới cho client
         return res.status(200).json({
           status: 'OK',
-          accessToken: newAccessToken,  // Sử dụng newAccessToken đã được định nghĩa
+          accessToken: newAccessToken, // Sử dụng newAccessToken đã được định nghĩa
         });
-  
       } catch (error) {
         console.error('Error while setting access token cookie:', error);
         return res.status(500).json({

@@ -22,6 +22,7 @@ import { useMutationHook } from "@/hooks";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { useQuery } from "@tanstack/react-query";
+import Text from "@/components/Text/text";
 
 interface Props {
   isOpen: boolean;
@@ -48,12 +49,11 @@ export default function sheetmessage({
   const [showActionsId, setShowActionsId] = useState<string | null>(null);
 
   const getMessageApi = async () => {
-
     const res = await GetMessage(
       dataVideo?._id,
       dataChapter[0]._id,
       dataChapVideo?._id,
-      page,
+      page
     );
     return res;
   };
@@ -200,9 +200,7 @@ export default function sheetmessage({
     <Sheet open={isOpen} onOpenChange={onOpenChange}>
       <SheetTrigger asChild className="text-while"></SheetTrigger>
       <SheetContent className="bg-[#fff] pr-[20px] w-[500px] max-w-full">
-        <div className="text-2xl font-semibold">
-          {dataMessage?.totalMessages} Bình luận
-        </div>
+        <Text type="subtitle">{dataMessage?.totalMessages} Bình luận</Text>
         <SheetHeader className="mb- mt-5">
           <SheetTitle>
             <div className="flex gap-2 justify-center items-center">
@@ -220,10 +218,7 @@ export default function sheetmessage({
             </div>
           </SheetTitle>
         </SheetHeader>
-        <div
-          className="mt-4 w-full max-h-[500px] overflow-y-auto p-2"
-          
-        >
+        <div className="mt-4 w-full max-h-[500px] overflow-y-auto p-2">
           {messages?.map((message: any, index) =>
             message?.userId === user?.id ? (
               <div
@@ -297,12 +292,15 @@ export default function sheetmessage({
                   <AvatarFallback>CN</AvatarFallback>
                 </Avatar>
                 <div>
-                  <div className="text-ml text-orange-600 font-semibold text-[14px]">
+                  <Text
+                    type="defaultSemiBold"
+                    className="text-ml text-orange-600 font-semibold text-[14px]"
+                  >
                     {message?.name}
-                  </div>
-                  <div className="p-3 bg-slate-200 rounded-lg max-w-[300px] overflow-hidden break-words">
+                  </Text>
+                  <Text className="p-3 bg-slate-200 rounded-lg max-w-[300px] overflow-hidden break-words">
                     {message?.text}
-                  </div>
+                  </Text>
                 </div>
               </div>
             )

@@ -238,5 +238,5 @@ export default {
   forgotPassword,
   resetPassword,
   authenticateUser,
-  loginUserGoogle
+  loginUserGoogle,
 };

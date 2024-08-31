@@ -1,0 +1,51 @@
+[
+  {
+    "ten": "Tính giá trị trung bình của mảng",
+    "mo_ta": "Tính giá trị trung bình của các số trong một mảng.",
+    "level": "dễ",
+    "solution": "\n      function giaTriTrungBinh(arr) {\n        const tong = arr.reduce((sum, val) => sum + val, 0);\n        return tong / arr.length;\n      }\n    ",
+    "test_data": [
+      99,
+      54
+    ],
+    "result": 153
+  },
+  {
+    "ten": "Tìm giá trị trung bình của mảng",
+    "mo_ta": "Tính giá trị trung bình của các số trong mảng [26, 88, 20, 17, 80, 21, 59, 32, 51, 55].",
+    "level": "vừa",
+    "solution": "\n      function giaTriTrungBinh(arr) {\n        const tong = arr.reduce((sum, num) => sum + num, 0);\n        return tong / arr.length;\n      }\n      console.log(giaTriTrungBinh([1, 2, 3, 4, 5])); // Kết quả: 3\n    ",
+    "test_data": [
+      26,
+      88,
+      20,
+      17,
+      80,
+      21,
+      59,
+      32,
+      51,
+      55
+    ],
+    "result": 449
+  },
+  {
+    "ten": "Tìm đường đi ngắn nhất (Bellman-Ford)",
+    "mo_ta": "Tìm đường đi ngắn nhất trong đồ thị với trọng số âm.",
+    "level": "khó",
+    "solution": "\n      function bellmanFord(graph, start) {\n        const distances = {};\n        const nodes = Object.keys(graph);\n        \n        nodes.forEach(node => distances[node] = Infinity);\n        distances[start] = 0;\n        \n        for (let i = 0; i < nodes.length - 1; i++) {\n          nodes.forEach(node => {\n            for (let neighbor in graph[node]) {\n              const weight = graph[node][neighbor];\n              if (distances[node] + weight < distances[neighbor]) {\n                distances[neighbor] = distances[node] + weight;\n              }\n            }\n          });\n        }\n        \n        return distances;\n      }\n    ",
+    "test_data": [
+      26,
+      88,
+      20,
+      17,
+      80,
+      21,
+      59,
+      32,
+      51,
+      55
+    ],
+    "result": null
+  }
+]

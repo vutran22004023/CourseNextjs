@@ -1,6 +1,4 @@
-// components/PageClient.tsx
 "use client";
-
 import { FC, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
@@ -13,8 +11,8 @@ import Link from "next/link";
 import { Course, DataAllCourses } from "@/types"; // Import type definitions
 import { getTokenFromCookies } from "@/utils/auth";
 import ModalPay from "./modalPay";
+import Text from "@/components/Text/text";
 
-const token = getTokenFromCookies();
 const getAllCourses = async (search: string): Promise<DataAllCourses> => {
   const res = await GetAllCourses(search);
   return res;
@@ -27,7 +25,7 @@ const CourseList: FC<{ courses: Course[]; isLoading: boolean; user: any }> = ({
 }) => {
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
-
+  const [token, setToken] = useState<string>('')
   const handleIsModal = (course: Course) => {
     setIsOpenModal(true);
     setSelectedCourse(course);
@@ -37,6 +35,17 @@ const CourseList: FC<{ courses: Course[]; isLoading: boolean; user: any }> = ({
       setSelectedCourse(null);
     }
   }, [isOpenModal]);
+  useEffect(() => {
+    const token = async() => {
+      try {
+        const tokens = await getTokenFromCookies();
+        setToken(tokens as string)
+      }catch (err) {
+        console.log(err);
+      }
+    }
+    token()
+  },[])
   return (
     <div className="flex overflow-x-auto md:grid md:grid-cols-4 gap-2 mb-3 mt-3 md:gap-4">
       {isLoading
@@ -50,7 +59,10 @@ const CourseList: FC<{ courses: Course[]; isLoading: boolean; user: any }> = ({
               {token && user?.status === true ? (
                 <>
                   {course.price === "paid" ? (
-                    <div onClick={() => handleIsModal(course)} className="cursor-pointer">
+                    <div
+                      onClick={() => handleIsModal(course)}
+                      className="cursor-pointer"
+                    >
                       <CardComponent course={course} />
                     </div>
                   ) : (
@@ -66,7 +78,7 @@ const CourseList: FC<{ courses: Course[]; isLoading: boolean; user: any }> = ({
               )}
             </div>
           ))}
-        {selectedCourse && (
+      {selectedCourse && (
         <ModalPay
           isOpen={isOpenModal}
           setIsOpen={setIsOpenModal}
@@ -84,7 +96,7 @@ const PageClient: FC = () => {
 
   const { data: dataAllCourses, isLoading: isLoadingAllCourses } = useQuery({
     queryKey: ["course", searchDebounced],
-    queryFn: () => getAllCourses(searchDebounced),
+    queryFn: () => getAllCourses(searchDebounced as any),
   });
 
   const dataCourseFree =
@@ -96,9 +108,9 @@ const PageClient: FC = () => {
   return (
     <main>
       <div className="mb-5">
-        <div className="cactus-classical-serif-md text-[25px]">
+        <Text type="subtitle" >
           Khóa học Pro
-        </div>
+        </Text>
         <CourseList
           courses={dataCoursePaid}
           isLoading={isLoadingAllCourses}
@@ -107,9 +119,9 @@ const PageClient: FC = () => {
       </div>
 
       <div className="">
-        <div className="cactus-classical-serif-md text-[25px]">
+        <Text type="subtitle">
           Khóa học free
-        </div>
+        </Text>
         <CourseList
           courses={dataCourseFree}
           isLoading={isLoadingAllCourses}

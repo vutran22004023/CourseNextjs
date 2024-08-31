@@ -1,16 +1,14 @@
-'use client'
-import React, { useCallback, useState, useEffect } from "react";
+"use client";
+import React, { useState, useEffect } from "react";
 import ModalComponent from "@/components/Modal/Modal";
 import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useFieldArray, useForm, Controller } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 import { z } from "zod";
-import { useDropzone } from "react-dropzone";
 import ButtonComponent from "@/components/Button/Button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -24,8 +22,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
-import { toast } from "@/components/ui/use-toast";
 import { CreateCourses } from "@/apis/course";
 import { useMutationHook } from "@/hooks/index";
 import { success, error } from "@/components/Message/Message";
@@ -36,7 +32,8 @@ import { v4 } from "uuid";
 import ImageUpload from "@/components/UpLoadImg/ImageUpload";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
-import slugify from 'slugify';
+import slugify from "slugify";
+import Text from "@/components/Text/text";
 interface IProp {
   chapter: any;
   chapterIndex: any;
@@ -49,14 +46,12 @@ const generateSlug = (str: string) => {
   // Chuyển đổi các ký tự tiếng Việt sang không dấu
   const normalizedStr = slugify(str, {
     lower: true,
-    locale: 'vi',
-    remove: /[*+~.()'"!:@]/g
+    locale: "vi",
+    remove: /[*+~.()'"!:@]/g,
   });
 
   // Thay thế các ký tự không phải là a-z0-9 bằng dấu gạch ngang
-  return normalizedStr
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/(^-|-$)/g, "");
+  return normalizedStr.replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 };
 
 // Schema validation using Zod
@@ -87,26 +82,12 @@ const courseFormSchema = z.object({
 
 type CourseFormValues = z.infer<typeof courseFormSchema>;
 
-// Default values (optional)
-const defaultValues: Partial<CourseFormValues> = {
-  // chapters: [
-  //   {
-  //     namechapter: "Chapter 1",
-  //     videos: [
-  //       { childname: "Video 1.1", video: "http://video-url-1", time: "10:00" },
-  //       { childname: "Video 1.2", video: "http://video-url-2", time: "15:00" },
-  //     ],
-  //   },
-  // ],
-};
-
 export default function NewCourses({ fetchTableData }: IfetchTable) {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const user = useSelector((state: RootState) => state.user);
   const form = useForm<CourseFormValues>({
     resolver: zodResolver(courseFormSchema),
-    defaultValues,
     mode: "onChange",
   });
 
@@ -176,7 +157,7 @@ export default function NewCourses({ fetchTableData }: IfetchTable) {
       }
       contentHeader={
         <>
-          <div>Thêm khóa học mới</div>
+          <Text>Thêm khóa học mới</Text>
         </>
       }
       contentBody={

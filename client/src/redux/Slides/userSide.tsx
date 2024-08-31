@@ -1,13 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  id: '',
+  id: "",
   name: "",
   email: "",
   avatar: "",
   isAdmin: false,
   status: false,
-  password: '',
+  password: "",
 };
 
 const userSlice = createSlice({
@@ -15,14 +15,15 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     updateUser: (state, { payload }) => {
-      const { name, email, access_Token, avatar, _id, isAdmin, status } = payload;
+      const { name, email, access_Token, avatar, _id, isAdmin, status } =
+        payload;
       state.name = name || "";
       state.email = email || "";
       state.avatar = avatar || "";
-      state.id = _id || '';
+      state.id = _id || "";
       state.isAdmin = isAdmin || false;
       state.status = status || false;
-      state.password = 'not password';
+      state.password = "not password";
 
       // Lưu trữ access_Token trong memory hoặc cookies thay vì trong state
       // if (access_Token) {
@@ -35,7 +36,6 @@ const userSlice = createSlice({
     },
   },
 });
-
 
 // Hàm xóa token từ cookies
 const removeToken = () => {
