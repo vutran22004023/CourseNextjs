@@ -2,9 +2,10 @@ import { CourseProgress } from "@/types";
 import { Progress } from "antd";
 import Image from "next/image";
 import React from "react";
-import moment from 'moment';
-import 'moment/locale/vi';
-moment.locale('vi');
+import moment from "moment";
+import "moment/locale/vi";
+import { useRouter } from "next/navigation";
+moment.locale("vi");
 
 interface Props {
   data: CourseProgress;
@@ -12,11 +13,18 @@ interface Props {
 
 export default function CardHistory({ data }: Props) {
   const { course, updatedAt } = data;
-  const progress = Math.round(course.progress / course.totalVideos);
+  const progress = Math.round((course.progress / course.totalVideos) * 100);
   const time = moment(updatedAt).fromNow();
+  const router = useRouter();
+  const navigate = (path: string) => {
+    router.push('/course-login/' + path);
+  };
 
   return (
-    <div className="w-full flex justify-between gap-3 hover:bg-slate-200 rounded p-2">
+    <div
+      onClick={() => navigate(course.slug)}
+      className="w-full flex justify-between gap-3 hover:bg-slate-200 rounded p-2 cursor-pointer"
+    >
       <div className="w-[30%]">
         <Image
           src={course.image}
