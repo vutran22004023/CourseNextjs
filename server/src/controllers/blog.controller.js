@@ -4,7 +4,7 @@ import mongoose from 'mongoose';
 import 'dotenv/config';
 
 class BlogController {
-  // Get all posts
+  // Get all posts for users
   async index(req, res) {
     try {
       const { limit, page, sort, filter } = req.query;
@@ -13,6 +13,21 @@ class BlogController {
       const sortArray = sort ? sort.split(':') : null;
       const filterArray = filter ? filter.split(':') : null;
       const result = await BlogService.getAllPosts(limitValue, pageValue, sortArray, filterArray);
+      res.status(200).json(result);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  }
+
+  // Get all posts for admin
+  async adminIndex(req, res) {
+    try {
+      const { limit, page, sort, filter } = req.query;
+      const limitValue = parseInt(limit) || 30;
+      const pageValue = parseInt(page) || 0;
+      const sortArray = sort ? sort.split(':') : null;
+      const filterArray = filter ? filter.split(':') : null;
+      const result = await BlogService.getAllPosts(limitValue, pageValue, sortArray, filterArray, true);
       res.status(200).json(result);
     } catch (error) {
       res.status(500).json({ message: error.message });
@@ -99,6 +114,23 @@ class BlogController {
         });
       const result = await BlogService.updatePost(id, req.body);
 
+      res.status(200).json(result);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  }
+
+  // Confirm post
+  async confirmPost(req, res) {
+    try {
+      const { id } = req.params;
+      if (!mongoose.isValidObjectId(id)) {
+        return res.status(400).json({
+          status: 400,
+          message: 'ID không hợp lệ!',
+        });
+      }
+      const result = await BlogService.confirmPost(id, req.body);
       res.status(200).json(result);
     } catch (error) {
       res.status(500).json({ message: error.message });
