@@ -45,7 +45,7 @@ export default function modalNote({
               Hủy bỏ
             </ButtonComponment>
             <ButtonComponment
-              onClick={handleNote(note)}
+              onClick={() => handleNote(note)}
               className="ml-2 p-3 w-[150px]"
               style={{ marginTop: "0", borderRadius: 10 }}
             >
