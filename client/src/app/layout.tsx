@@ -15,7 +15,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={cn("min-h-screen bg-background font-sans antialiased",fontSans.variable)}>
+      <body className={cn("min-h-screen text-black bg-white font-sans antialiased",fontSans.variable)}>
         <ClientProviders>
           <SidebarHeader>{children}</SidebarHeader>
         </ClientProviders>

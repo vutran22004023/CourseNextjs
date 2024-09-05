@@ -9,6 +9,7 @@ import {
   Album,
   NotebookPen,
   Lock,
+  SearchCheck,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import {
@@ -69,19 +70,18 @@ export default function HeaderLayout() {
   };
 
   return (
-    <div className="fixed top-0 left-0 bg-black right-0 z-10 border-b text-white p-3 flex justify-between items-center">
+    <div className="fixed top-0 left-0 bg-white right-0 z-10 border-b border-[#cfcdcd] text-white p-3 flex justify-between items-center ">
       <img className="h-[30px] pl-2" src="logo.png" alt=""/>
-      <div className="flex items-center w-[500px] px-4 py-2">
+      <div className="flex items-center w-[500px] py-1 px-3 text-[#444] rounded-full border-2 border-[#E8E8E8] focus-within:border-black transition-colors duration-300">
+        <SearchCheck />
         <input
           type="text"
           placeholder="Search"
-          className="flex-grow ml-4 text-gray-700 focus:text-gray-800"
+          className="flex-grow ml-2 focus:outline-none"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           style={{
             padding: "5px 10px",
-            border: "1px solid #000",
-            borderRadius: "10px",
           }}
         />
       </div>
@@ -90,7 +90,7 @@ export default function HeaderLayout() {
           <>
             <HoverCard>
               <HoverCardTrigger asChild>
-                <Text className="cursor-pointer text-black">
+                <Text className="cursor-pointer font-medium text-black">
                   Khóa học của tôi
                 </Text>
               </HoverCardTrigger>

@@ -2,6 +2,7 @@
 import { FC, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
+import { Crown } from 'lucide-react';
 import { useDebounce } from "@/hooks/index";
 import { useQuery } from "@tanstack/react-query";
 import { GetAllCourses } from "@/apis/course";
@@ -47,7 +48,7 @@ const CourseList: FC<{ courses: Course[]; isLoading: boolean; user: any }> = ({
     token()
   },[])
   return (
-    <div className="flex overflow-x-auto md:grid md:grid-cols-4 gap-2 mb-3 mt-3 md:gap-4">
+    <div className="flex md:grid md:grid-cols-4 gap-2 mb-3 mt-3 md:gap-4">
       {isLoading
         ? Array.from({ length: 5 }).map((_, index) => (
             <div key={index} className="flex-none w-full md:w-auto">
@@ -107,9 +108,10 @@ const PageClient: FC = () => {
 
   return (
     <main>
-      <div className="mb-5">
-        <Text type="subtitle" >
+      <div className="mb-[60px]">
+        <Text type="subtitle" className="w-[170px] relative gap-2 mb-7">
           Khóa học Pro
+          <Crown className="absolute text-yellow-400 top-[-10px] right-[-5px]"/>
         </Text>
         <CourseList
           courses={dataCoursePaid}
@@ -119,7 +121,7 @@ const PageClient: FC = () => {
       </div>
 
       <div className="">
-        <Text type="subtitle">
+        <Text type="subtitle" className="w-[170px] mb-7">
           Khóa học free
         </Text>
         <CourseList
