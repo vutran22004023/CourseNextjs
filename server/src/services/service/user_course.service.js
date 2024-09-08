@@ -1,6 +1,7 @@
 import { CourseModel } from '../../models/index.js';
 import 'dotenv/config';
 import { UserCourse } from '../../models/user_course.model.js';
+import PayCourse from '../../models/paycourse.model.js';
 
 class UserCourseService {
   async startUserCourse(data) {
@@ -29,6 +30,22 @@ class UserCourseService {
       });
 
       if (!checkUserCourse) {
+        // Kiểm tra payment
+        if (course.price === 'paid') {
+          const payCourse = await PayCourse.findOne({
+            idUser: userId,
+            courseId: courseId,
+            paymentStatus: 'completed',
+          }).lean();
+
+          if (!payCourse) {
+            return {
+              status: 'ERR',
+              message: 'Bạn chưa thanh toán khóa học này',
+            };
+          }
+        }
+
         // Khởi tạo dữ liệu nếu người dùng chưa học khóa học này
         const chapters = course.chapters.map((chapter, chapterIndex) => ({
           chapterId: chapter._id,
