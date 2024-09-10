@@ -25,7 +25,7 @@ export default function CardHistory({ data }: Props) {
       onClick={() => navigate(course.slug)}
       className="w-full flex justify-between gap-3 hover:bg-slate-200 rounded p-2 cursor-pointer"
     >
-      <div className="w-[30%]">
+      <div className="w-[30%] h-[5em]">
         <Image
           src={course.image}
           alt="icon"
