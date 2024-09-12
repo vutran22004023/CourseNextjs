@@ -38,7 +38,10 @@ import { LoginOut } from "@/apis/auth";
 import { getTokenFromCookies } from "@/utils/auth";
 import CardHistory from "@/components/Card/CardHistory";
 import Text from "../Text/text";
+import { CourseProgress } from "@/types";
+import { GetCourseProgress } from "@/apis/usercourse";
 export default function HeaderLayout() {
+  const [courseProgress, setCourseProgress] = useState<CourseProgress[]>([]);
   const router = useRouter();
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.user);
@@ -69,6 +72,16 @@ export default function HeaderLayout() {
     }
   };
 
+  useEffect(() => {
+    GetCourseProgress()
+      .then((res) => {
+        setCourseProgress(res.data);
+      })
+      .catch((error) => {
+        console.error(error.message);
+      });
+  }, []);
+
   return (
     <div className="fixed top-0 left-0 bg-white right-0 z-10 border-b border-[#cfcdcd] text-white p-3 flex justify-between items-center ">
       <img className="h-[30px] pl-2" src="logo.png" alt=""/>
@@ -90,7 +103,7 @@ export default function HeaderLayout() {
           <>
             <HoverCard>
               <HoverCardTrigger asChild>
-                <Text className="cursor-pointer font-medium text-black">
+                <Text className="cursor-pointer text-black">
                   Khóa học của tôi
                 </Text>
               </HoverCardTrigger>
@@ -103,7 +116,12 @@ export default function HeaderLayout() {
                     <Text className="text-sm font-semibold">Xem tất cả</Text>
                   </div>
                   <div className="w-full mt-2">
-                    <CardHistory />
+                    {courseProgress.length > 0 &&
+                      courseProgress
+                        .sort((a, b) => b.updatedAt.localeCompare(a.updatedAt))
+                        .map((item) => (
+                          <CardHistory key={item._id} data={item} />
+                        ))}
                   </div>
                 </div>
               </HoverCardContent>

@@ -1,16 +1,6 @@
 import { UserCourseService } from '../services/index.js';
 
 class UserCourseController {
-  // Get user-course
-  async getUserCourse(req, res) {
-    try {
-      const result = await UserCourseService.getUserCourse(req.params);
-      res.status(200).json(result);
-    } catch (error) {
-      res.status(500).json({ message: error.message });
-    }
-  }
-
   // Start user-course
   async startUserCourse(req, res) {
     try {
@@ -35,6 +25,17 @@ class UserCourseController {
   async getCourseProgress(req, res) {
     try {
       const result = await UserCourseService.getCourseProgress(req.user);
+      res.status(200).json(result);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  }
+
+  // Add, update or delete note
+  async updateNote(req, res) {
+    try {
+      const data = { userId: req.user.id, ...req.body };
+      const result = await UserCourseService.updateNote(data);
       res.status(200).json(result);
     } catch (error) {
       res.status(500).json({ message: error.message });

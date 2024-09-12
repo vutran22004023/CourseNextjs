@@ -1,6 +1,7 @@
 import { CourseModel } from '../../models/index.js';
 import 'dotenv/config';
 import { UserCourse } from '../../models/user_course.model.js';
+import PayCourse from '../../models/paycourse.model.js';
 
 class UserCourseService {
   async startUserCourse(data) {
@@ -29,6 +30,22 @@ class UserCourseService {
       });
 
       if (!checkUserCourse) {
+        // Kiểm tra payment
+        if (course.price === 'paid') {
+          const payCourse = await PayCourse.findOne({
+            idUser: userId,
+            courseId: courseId,
+            paymentStatus: 'completed',
+          }).lean();
+
+          if (!payCourse) {
+            return {
+              status: 'ERR',
+              message: 'Bạn chưa thanh toán khóa học này',
+            };
+          }
+        }
+
         // Khởi tạo dữ liệu nếu người dùng chưa học khóa học này
         const chapters = course.chapters.map((chapter, chapterIndex) => ({
           chapterId: chapter._id,
@@ -188,8 +205,8 @@ class UserCourseService {
 
   async getCourseProgress(data) {
     try {
-      let userCourses = await UserCourse.find({ userId: data._id })
-        .select('userId chapters.videos.status')
+      let userCourses = await UserCourse.find({ userId: data.id })
+        .select('chapters.videos.status updatedAt')
         .populate({
           path: 'courseId',
           model: 'Course',
@@ -208,7 +225,7 @@ class UserCourseService {
 
         return {
           ...rest,
-          courses: { ...courseId, progress },
+          course: { ...courseId, progress },
         };
       });
 
@@ -216,6 +233,43 @@ class UserCourseService {
         status: 200,
         data: userCourses,
         message: 'Lấy tiến độ học thành công',
+      };
+    } catch (err) {
+      return {
+        status: 'ERR',
+        message: 'Đã xảy ra lỗi',
+        error: err.message,
+      };
+    }
+  }
+
+  async updateNote(data) {
+    try {
+      const { userId, courseId, videoId, notes } = data;
+      const userCourse = await UserCourse.findOneAndUpdate(
+        { userId, courseId },
+        {
+          $set: {
+            'chapters.$[].videos.$[video].notes': notes,
+          },
+        },
+        {
+          new: true,
+          arrayFilters: [{ 'video.videoId': videoId }],
+        }
+      );
+
+      if (!userCourse) {
+        return {
+          status: 'ERR',
+          message: 'Khóa học không tồn tại',
+        };
+      }
+
+      return {
+        status: 200,
+        message: 'Cập nhật ghi chú thành công!',
+        data: userCourse,
       };
     } catch (err) {
       return {

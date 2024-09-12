@@ -18,6 +18,7 @@
     "incremental": true,
     "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
+    "maxNodeModuleJsDepth": 2,
     "plugins": [
       {
         "name": "next"
@@ -36,6 +37,8 @@
     ".next/types/**/*.ts"
   ],
   "exclude": [
-    "node_modules"
-  ]
+    "node_modules",
+    "**/*.test.ts",
+    "**/*.spec.ts"
+  ],
 }

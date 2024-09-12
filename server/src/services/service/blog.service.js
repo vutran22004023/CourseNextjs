@@ -2,7 +2,7 @@ import Post from '../../models/post.model.js';
 import 'dotenv/config';
 
 class BlogService {
-  async getAllPosts(limit, page, sort, filter) {
+  async getAllPosts(limit, page, sort, filter, isAdmin = false) {
     const totalPosts = await Post.countDocuments();
     const query = {};
     const options = {
@@ -15,7 +15,9 @@ class BlogService {
     if (sort) {
       options.sort = { [sort[1]]: sort[0] };
     }
-
+    if (!isAdmin) {
+      query.isConfirmed = true;
+    }
     const allPosts = await Post.find(query, null, options).populate('userId', 'name avatar isAdmin').lean();
 
     return {
@@ -46,10 +48,10 @@ class BlogService {
   async createPost(req) {
     try {
       this.dataHandle(req.body);
-      const { title, content } = req.body;
+      const { title, content, tag = null } = req.body;
 
       // Create the new post
-      const createPost = await Post.create({ userId: req.user.id, title, content });
+      const createPost = await Post.create({ userId: req.user.id, title, content, tag });
       return {
         status: 200,
         data: createPost,
@@ -65,8 +67,30 @@ class BlogService {
   async updatePost(postId, data) {
     try {
       this.dataHandle(data);
-      const { title, content } = data;
-      const post = await Post.findOneAndUpdate({ _id: postId }, { title, content }, { new: true }).lean();
+      const { title, content, tag = null } = data;
+      const post = await Post.findOneAndUpdate({ _id: postId }, { title, content, tag }, { new: true }).lean();
+      if (!post) {
+        return {
+          status: 'ERR',
+          message: 'Không tìm thấy bài đăng!',
+        };
+      }
+      return {
+        status: 200,
+        message: `Đã cập nhật bài đăng id: ${post._id}`,
+        data: post,
+      };
+    } catch (err) {
+      const error = this.validator(err);
+      if (error) return error;
+      throw err;
+    }
+  }
+
+  async confirmPost(postId, data) {
+    try {
+      const { isConfirmed } = data;
+      const post = await Post.findOneAndUpdate({ _id: postId }, { isConfirmed }, { new: true }).lean();
       if (!post) {
         return {
           status: 'ERR',

@@ -1,14 +1,33 @@
+import { CourseProgress } from "@/types";
 import { Progress } from "antd";
 import Image from "next/image";
 import React from "react";
-import Text from "../Text/text";
+import moment from "moment";
+import "moment/locale/vi";
+import { useRouter } from "next/navigation";
+moment.locale("vi");
 
-export default function CardHistory() {
+interface Props {
+  data: CourseProgress;
+}
+
+export default function CardHistory({ data }: Props) {
+  const { course, updatedAt } = data;
+  const progress = Math.round((course.progress / course.totalVideos) * 100);
+  const time = moment(updatedAt).fromNow();
+  const router = useRouter();
+  const navigate = (path: string) => {
+    router.push('/course-login/' + path);
+  };
+
   return (
-    <div className="w-full flex justify-between gap-3 hover:bg-slate-200 rounded p-2">
+    <div
+      onClick={() => navigate(course.slug)}
+      className="w-full flex justify-between gap-3 hover:bg-slate-200 rounded p-2 cursor-pointer"
+    >
       <div className="w-[30%]">
         <Image
-          src="https://firebasestorage.googleapis.com/v0/b/note-app-384ec.appspot.com/o/files%2F737c58f9-2aaf-468d-be1e-2e2370332b97?alt=media&token=9d47ff94-bb7a-47b1-97cc-c891696e194e"
+          src={course.image}
           alt="icon"
           width={150} // Replace with the appropriate width
           height={60}
@@ -16,10 +35,10 @@ export default function CardHistory() {
         />
       </div>
       <div className="w-[70%]">
-        <Text className="text-ml font-semibold">Tên khóa học</Text>
-        <Text className="text-sm">Học cách đây 2 tháng trước</Text>
+        <div className="text-ml font-semibold">{course.name}</div>
+        <div className="text-sm">Đã học {time}</div>
         <Progress
-          percent={100}
+          percent={progress}
           percentPosition={{ align: "center", type: "inner" }}
           size={[230, 20]}
         />

@@ -1,7 +1,19 @@
 "use client";
 import VideoYoutubeComponment from "@/components/VideoYoutube/VideoYoutube";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import ButtonComponment from "@/components/Button/Button";
-import { MessageCircleQuestion } from "lucide-react";
+import {
+  ArrowBigLeft,
+  ArrowBigRight,
+  CircleCheck,
+  Lock,
+  MessageCircleQuestion,
+} from "lucide-react";
 import { useParams } from "next/navigation";
 import { useMutationHook } from "@/hooks";
 import { GetDetailCourses } from "@/apis/course";
@@ -10,15 +22,15 @@ import { useEffect, useState, useRef } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { useQuery } from "@tanstack/react-query";
+import { CheckCircleFilled } from "@ant-design/icons";
 import { useDispatch } from "react-redux";
 import { totalVideo } from "@/redux/Slides/timeVideoSide";
+import WordPost from "@/components/WordPost/wordPost";
+import { CSSTransition } from "react-transition-group";
 import { useRouter } from "next/navigation";
 import SheetMessage from "./sheetMessage";
-import ModalNote from "./modalNote";
-import BottomBar from "./bottomBar";
-import CourseContent from "./courseContent";
-import { Course, Video } from "@/types/course";
-import Text from "@/components/Text/text";
+import NoteSheet from "./note";
+import { getTokenFromCookies } from "@/utils/auth";
 export default function page() {
   const { slug } = useParams();
   const dispatch = useDispatch();
@@ -26,9 +38,9 @@ export default function page() {
   const timeVideo = useSelector((state: RootState) => state.timesVideo);
   const user = useSelector((state: RootState) => state.user);
   if (!user.id || !user.email || !user.status) return router.push("/");
-  const [dataCourseDetail, setDataCourseDetail] = useState<Course>();
+  const [dataCourseDetail, setDataCourseDetail] = useState();
   const [isLoadingDetail, setIsLoadingDetail] = useState(false);
-  const [dataVideo, setDataVideo] = useState<Video>();
+  const [dataVideo, setDataVideo] = useState();
   const [activeSlug, setActiveSlug] = useState<string | null>(null);
   const [activeChapterIndex, setActiveChapterIndex] = useState<number | null>(
     null
@@ -51,10 +63,18 @@ export default function page() {
 
   const mutationStateCouses = async () => {
     try {
-      const res = await StartCourse({
-        userId: user.id,
-        courseId: dataCourseDetail?._id,
-      });
+      const token = await getTokenFromCookies();
+
+      if (token === null) {
+        throw new Error("No token found");
+      }
+      const res = await StartCourse(
+        {
+          userId: user.id,
+          courseId: dataCourseDetail?._id,
+        },
+        token
+      );
       return res.data;
     } catch (err) {
       console.log(err);
@@ -63,7 +83,12 @@ export default function page() {
 
   const mutationUpdateCourse = useMutationHook(async (data) => {
     try {
-      const res = await UpdateUserCourse(data);
+      const token = await getTokenFromCookies();
+
+      if (token === null) {
+        throw new Error("No token found");
+      }
+      const res = await UpdateUserCourse(data, token);
       return res.data;
     } catch (err) {
       console.log(err);
@@ -291,6 +316,8 @@ export default function page() {
           nextChapterIndex++;
         }
       }
+
+      // If all next videos are not started, disable the button
       setDisableNextLesson(true);
     }
   };
@@ -313,7 +340,7 @@ export default function page() {
                 width: "100%",
                 height: "500px",
               }}
-              src={dataVideo?.video as string}
+              src={dataVideo?.video}
               title="YouTube video player"
             />
           </div>
@@ -331,36 +358,154 @@ export default function page() {
                 Thêm ghi chú
               </ButtonComponment>
             </div>
-            <Text className="mb-5">Cập nhật {dataVideo?.updatedAt}</Text>
-            <Text className="mb-5">
+            <div className="mb-5">Cập nhật {dataVideo?.updatedAt}</div>
+            <div className="mb-5">
               Tham gia các cộng đồng để cùng học hỏi, chia sẻ và "thám thính"
               xem F8 sắp có gì mới nhé!
-            </Text>
-            <Text>Fanpage: https://www.facebook.com/f8vnofficial</Text>
+            </div>
+            <div>Fanpage: https://www.facebook.com/f8vnofficial</div>
           </div>
         </div>
+        <div className="flex-1 border-l-2 mt-4">
+          <div className="cactus-classical-serif-md mb-3 p-2">
+            Nội dung khóa học
+          </div>
+          <Accordion
+            type="single"
+            collapsible
+            className="w-full"
+            value={
+              activeChapterIndex !== null
+                ? `item-${activeChapterIndex}`
+                : undefined
+            }
+            onValueChange={handleAccordionChange}
+          >
+            {mergedChapters?.map((chapter: any, index: number) => (
+              <AccordionItem key={index} value={`item-${index}`}>
+                <AccordionTrigger className="bg-slate-100 px-2 hover:bg-slate-200 ">
+                  {chapter.namechapter}
+                </AccordionTrigger>
+                {chapter.videos.map((video: any, vidIndex: number) => (
+                  <AccordionContent
+                    key={vidIndex}
+                    className={`flex justify-between p-3
+                    ${video.slug === activeSlug ? "bg-slate-400" : ""}
+                    ${
+                      video.status === "not_started"
+                        ? "cursor-not-allowed"
+                        : "cursor-pointer"
+                    }
+                    ${
+                      video.status === "not_started" ? "" : "hover:bg-slate-300"
+                    }
+                    ${video.status === "not_started" ? "bg-slate-200" : ""}
+                    `}
+                    onClick={() => {
+                      if (video.status !== "not_started") {
+                        handleVideo(video?.slug);
+                      }
+                    }}
+                  >
+                    <div className="w-[80%] text-[14px]">
+                      <div className="mb-1">{video.childname}</div>
+                      <div>{video.time}</div>
+                    </div>
+                    <div className="w-[20%] justify-center items-center">
+                      {video.status === "not_started" ? (
+                        <div className="flex justify-between mr-3">
+                          <div></div>
+                          <Lock size="20" />
+                        </div>
+                      ) : video.status === "completed" ? (
+                        <div className="flex justify-between mr-3 text-center">
+                          <div></div>
+                          {/* <CircleCheck size="20" className="text-[#55c72b]" /> */}
+                          <CheckCircleFilled className="text-[#55c72b] text-[20px]" />
+                        </div>
+                      ) : (
+                        []
+                      )}
+                    </div>
+                  </AccordionContent>
+                ))}
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </div>
 
-        <CourseContent
-          activeChapterIndex={activeChapterIndex}
-          handleAccordionChange={handleAccordionChange}
-          mergedChapters={mergedChapters}
-          activeSlug={activeSlug}
-          handleVideo={handleVideo}
-        />
-
-        <BottomBar
-          disableNextLesson={disableNextLesson}
-          handlePreviousLesson={handlePreviousLesson}
-          handleNextLesson={handleNextLesson}
-          dataChildName={dataVideo?.childname}
-        />
-        <ModalNote
-          isOpen={isModalOpenEdit}
-          setIsOpen={setIsModalOpenEdit}
-          isNoteSheetOpen={isNoteSheetOpen}
-          setIsNoteSheetOpen={setIsNoteSheetOpen}
-          handleOpenChange={handleOpenChange}
-        />
+        <div className="fixed bottom-0 left-0 bg-[#dbdbdb] right-0 z-10 border-b p-3 flex  items-center">
+          <div className="flex justify-center items-center w-full">
+            <ButtonComponment
+              className="w-[200px]"
+              style={{
+                marginTop: "0",
+                borderRadius: "10px",
+                marginRight: "5px",
+              }}
+              onClick={handlePreviousLesson}
+            >
+              <ArrowBigLeft />
+              BÀI TRƯỚC
+            </ButtonComponment>
+            <ButtonComponment
+              className={`w-[200px] ${
+                disableNextLesson ? "opacity-50 cursor-not-allowed " : ""
+              }`}
+              style={{ marginTop: "0", borderRadius: "10px" }}
+              onClick={handleNextLesson}
+            >
+              BÀI TIẾP THEO
+              <ArrowBigRight />
+            </ButtonComponment>
+          </div>
+          <div className="absolute top-1/2 right-0 transform -translate-y-1/2 mr-3 flex items-center">
+            <div>{dataVideo?.childname}</div>
+            <ButtonComponment
+              className="ml-2 p-3 w-[50px]"
+              style={{ marginTop: "0", borderRadius: "60%" }}
+            >
+              <ArrowBigRight />
+            </ButtonComponment>
+          </div>
+        </div>
+        <CSSTransition
+          in={isModalOpenEdit}
+          timeout={300}
+          classNames="modal"
+          unmountOnExit
+        >
+          <div className="fixed bottom-0 left-0 bg-[#f4f4f4] right-0 z-10 border-b p-5 w-[69.5%] h-[290px] border-t border-black">
+            <div className="p-5 bg-[#fff] border  border-black rounded-xl h-[200px]">
+              <WordPost />
+            </div>
+            <div className="flex justify-between">
+              <div></div>
+              <div className="flex mt-5">
+                <ButtonComponment
+                  className="ml-2 p-3 w-[150px]"
+                  style={{ marginTop: "0", borderRadius: 10 }}
+                  onClick={() => setIsModalOpenEdit(false)}
+                >
+                  Hủy bỏ
+                </ButtonComponment>
+                <ButtonComponment
+                  onClick={handleOpenChange}
+                  className="ml-2 p-3 w-[150px]"
+                  style={{ marginTop: "0", borderRadius: 10 }}
+                >
+                  Tạo ghi chú
+                </ButtonComponment>
+              </div>
+              <NoteSheet
+                isOpen={isNoteSheetOpen}
+                onOpenChange={handleOpenChange}
+                dataChapter={null}
+                dataVideo={null}
+              />
+            </div>
+          </div>
+        </CSSTransition>
         <div className="fixed bottom-[60px] left-[60%] z-2 border-b p-3 flex  items-center">
           <ButtonComponment
             className=""
@@ -373,7 +518,7 @@ export default function page() {
             onClick={() => setIsModalMessage(true)}
           >
             <MessageCircleQuestion />
-            <Text>Hỏi đáp</Text>
+            <div>Hỏi đáp</div>
           </ButtonComponment>
         </div>
         <SheetMessage

@@ -80,6 +80,21 @@ export interface IfetchTable {
     refetch: () => Promise<void>;
   };
 }
+
 export interface token {
   token: string;
+}
+
+export interface Note {
+  time: string;
+  content: string;
+}
+
+export interface CourseProgress {
+  _id: string;
+  updatedAt: string;
+  course: Pick<Course, "_id" | "image" | "name" | "slug"> & {
+    totalVideos: number;
+    progress: number;
+  };
 }
