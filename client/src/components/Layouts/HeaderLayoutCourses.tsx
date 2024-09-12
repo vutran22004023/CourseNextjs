@@ -11,13 +11,13 @@ export default function HeaderLayoutCourses() {
   const timeVideo = useSelector((state: RootState) => state.timesVideo);
   return (
     <div className="fixed top-0 left-0 bg-[#fff] right-0 z-10 border-b p-3 flex justify-between items-center">
-      <div className="flex  justify-center items-center">
+      <div className="flex justify-center items-center">
         <Link href="/">
-          <ButtonComponent className="mr-3">
+          <ButtonComponent type="courseHeader">
             <ArrowBigLeft />
           </ButtonComponent>
         </Link>
-        <h1 className="text-[#040404] font-bold text-2xl mt-3">Header</h1>
+        <h1 className="text-[#040404] font-bold text-2xl ml-3 ">Trở về</h1>
       </div>
       <div>
         <input />

@@ -19,12 +19,12 @@ interface Idata {
 }
 export default function Cart({ course }: Idata) {
   return (
-    <div className="relative group rounded-xl border border-[#262626] hover:border-none transition-all duration-300 hover:shadow-[0_8px_16px_rgba(255,90,0,0.6)] hover:translate-y-[-5px]">
-      <div className="overflow-hidden mb-2 relative">
+    <div className="relative group rounded-xl border border-[#262626] hover:border-none transition-all duration-300 hover:shadow-[0_8px_16px_rgba(255,90,0,0.6)] hover:translate-y-[-8px]">
+      <div className="overflow-hidden relative">
         <img
           src={course?.image}
           alt={course?.name}
-          className="w-[300px] h-[150px] md:h-[200px] rounded-t-xl transition-all duration-300 group-hover:opacity-70"
+          className="w-full h-[150px] md:h-[200px] rounded-t-xl transition-all duration-300 group-hover:opacity-70"
         />
         <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 flex items-center justify-center transition-all duration-300">
           <div className="opacity-0 transform translate-y-10 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0">
@@ -34,11 +34,11 @@ export default function Cart({ course }: Idata) {
           </div>
         </div>
       </div>
-      <div className="bg-black text-white p-4 rounded-b-xl">
-        <div className="mb-1 font-medium">{course?.name}</div>
+      <div className="bg-white text-black p-4 rounded-b-xl">
+        <div className="mb-1 font-bold">{course?.name}</div>
         <div className="flex gap-2 text-[14px]">
-          <Users className="text-[12px]" />
-          <span>127.127</span>
+          <Users className="text-[12px] text-[#ff5a00]" />
+          <span className="font-bold text-[16px] text-[#ff5a00]">127.127</span>
         </div>
       </div>
     </div>

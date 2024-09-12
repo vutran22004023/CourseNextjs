@@ -16,11 +16,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Trash2 } from "lucide-react";
-import { Pencil } from "lucide-react";
+import { Trash2 } from 'lucide-react';
+import { Pencil } from 'lucide-react';
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
-import Text from "@/components/Text/text";
 
 interface Props {
   isOpen: boolean;
@@ -49,7 +48,7 @@ export default function NoteSheet({
       <SheetTrigger asChild></SheetTrigger>
       <SheetContent className="bg-white pr-[20px] w-[40%]">
         <div className="flex space-x-20">
-          <Text type="subtitle">Ghi chú của tôi</Text>
+          <div className="text-2xl font-semibold">Ghi chú của tôi</div>
           <div className="flex gap-4">
             <Select>
               <SelectTrigger className="w-[180px]">
@@ -82,16 +81,14 @@ export default function NoteSheet({
             <div className="flex gap-2 p-[15px] bg-slate-400 rounded-[10px]">
               <div className="w-full">
                 <div className="flex justify-between">
-                  <div className="flex justify-center p-1 w-[60px] h-auto rounded-[20px] bg-[#f22c3d] text-white">
-                    00:01
-                  </div>
+                  <div className="flex justify-center p-1 w-[60px] h-auto rounded-[20px] bg-[#f22c3d] text-white">00:01</div>
                   <div className="flex gap-3">
                     <Pencil />
                     <Trash2 />
                   </div>
                 </div>
-                <Text className="text-[#f22c3d]">Tìm hiểu về HTML, CSS</Text>
-                <Text>hsaudhaisdjhasdád</Text>
+                <div className="text-[#f22c3d]">Tìm hiểu về HTML, CSS</div>
+                <div>hsaudhaisdjhasdád</div>
               </div>
             </div>
           </SheetTitle>
