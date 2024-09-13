@@ -60,7 +60,7 @@ export default function Sidebar({ className, activePage }: SidebarProps) {
                     "w-full justify-start mb-1 rounded transition-all duration-300",
                     item.current
                 ? "bg-[#FF5A00] text-white border-none"
-                      : "bg-[#e8ebed] text-[#3d3d3d] border-b-2 border-[#FF5A00]",
+                      : "bg-[#fff] text-[#3d3d3d] border-b-2 border-[#FF5A00]",
                     "hover:shadow-[0_4px_12px_rgba(255,90,0,0.6)] hover:translate-y-[-2px] hover:bg-[#d7753f]"
                   )}
                 >
