@@ -2,45 +2,18 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import Link from "next/link";
-import {
-  Home,
-  LibraryBig,
-  BookOpenText,
-  LayoutDashboard,
-  SquareLibrary,
-  Users,
-} from "lucide-react";
+import Link from 'next/link';
+import { Home,LibraryBig, BookOpenText, LayoutDashboard ,SquareLibrary, Users   } from 'lucide-react';
 interface SidebarProps {
   className?: string;
   activePage: string;
 }
 export default function SidebarAdmin({ className, activePage }: SidebarProps) {
   const [navigation, setNavigation] = useState([
-    {
-      name: "Dashboard",
-      href: "/admin",
-      icon: LayoutDashboard,
-      current: activePage === "dashboard",
-    },
-    {
-      name: "Thông tin pages",
-      href: "/admin/information-page",
-      icon: SquareLibrary,
-      current: activePage === "information",
-    },
-    {
-      name: "Khóa học",
-      href: "/admin/courses",
-      icon: BookOpenText,
-      current: activePage === "courses",
-    },
-    {
-      name: "Người dùng",
-      href: "/admin/users",
-      icon: Users,
-      current: activePage === "users",
-    },
+    { name: "Dashboard", href: "/admin",icon:LayoutDashboard, current: activePage === "dashboard" },
+    { name: "Thông tin pages", href: "/admin/information-page",icon:SquareLibrary, current: activePage === "information" },
+    { name: "Khóa học", href: "/admin/courses",icon:BookOpenText, current: activePage === "courses" },
+    { name: "Người dùng", href: "/admin/users",icon:Users, current: activePage === "users" },
   ]);
 
   const handleItemClick = (index: any) => {

@@ -45,7 +45,7 @@ export default function Sidebar({ className, activePage }: SidebarProps) {
 
   return (
     <div className={cn("pb-12", className)}>
-      <div className="space-y-4 py-4">
+      <div className="space-y-4 py-1">
         <div className="px-3 py-2">
           <div className="space-y-1">
             {navigation.map((item, index) => (
@@ -57,8 +57,11 @@ export default function Sidebar({ className, activePage }: SidebarProps) {
                 <Button
                   variant={item.current ? "default" : "secondary"}
                   className={cn(
-                    "w-full justify-start hover:bg-[#a1a1a1] mb-1 rounded",
-                    item.current && "bg-[#777777] text-white"
+                    "w-full justify-start mb-1 rounded transition-all duration-300",
+                    item.current
+                ? "bg-[#FF5A00] text-white border-none"
+                      : "bg-[#fff] text-[#3d3d3d] border-b-2 border-[#FF5A00]",
+                    "hover:shadow-[0_4px_12px_rgba(255,90,0,0.6)] hover:translate-y-[-2px] hover:bg-[#d7753f]"
                   )}
                 >
                   <item.icon width={20} height={20} className="mr-1" />

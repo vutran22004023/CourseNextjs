@@ -34,19 +34,19 @@ export default function CustomCarousel() {
 
   return (
     <div>
-      <div className="flex justify-center w-full">
+      <div className="flex justify-center mt-[37px] w-full">
         <Carousel
           setApi={setApi}
           plugins={[plugin.current]}
-          className="w-[90%] rounded-xl"
+          className="w-full rounded-xl"
           onMouseEnter={() => plugin.current.stop()}
           onMouseLeave={() => plugin.current.reset()}
         >
           <CarouselContent>
             {Array.from({ length: 5 }).map((_, index) => (
               <CarouselItem key={index}>
-                <div className="p-1 w-full flex justify-center rounded-xl">
-                  <div className="">
+                <div className="p-1 w-full flex justify-center">
+                  <div className="rounded-xl">
                     <Image
                       src={Anh1}
                       alt="@shadcn"

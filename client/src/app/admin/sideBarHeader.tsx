@@ -21,6 +21,8 @@ export default function SidebarAdmin({
       ? 'information'
       : pathname.includes('/admin/courses')
       ? 'courses'
+      : pathname.includes('/admin/blogs')
+      ? 'blogs'
       : pathname.includes('/admin/users')
       ? 'users'
       : '';

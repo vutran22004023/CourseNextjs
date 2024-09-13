@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   ContentState,
   EditorState,
@@ -12,16 +12,16 @@ import "setimmediate";
 import { Input } from "@/components/ui/input";
 import ButtonComponent from "@/components/Button/Button";
 
-interface Props {
-  rawHTML: string;
-  setRawHTML: (data: string) => void;
-}
+export default function wordPost() {
+  const note = {
+    id: "9999",
+    content: "<p></p>",
+  };
 
-export default function wordPost({ rawHTML, setRawHTML }: Props) {
   const [editorState, setEditorState] = useState(() =>
     EditorState.createEmpty()
   );
-
+  const [rawHTML, setRawHTML] = useState(note.content);
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -33,7 +33,7 @@ export default function wordPost({ rawHTML, setRawHTML }: Props) {
   }, []);
 
   useEffect(() => {
-    const blocksFromHTML = convertFromHTML(rawHTML);
+    const blocksFromHTML = convertFromHTML(note.content);
     const state = ContentState.createFromBlockArray(
       blocksFromHTML.contentBlocks,
       blocksFromHTML.entityMap
@@ -41,7 +41,7 @@ export default function wordPost({ rawHTML, setRawHTML }: Props) {
     if (isMounted) {
       setEditorState(EditorState.createWithContent(state));
     }
-  }, [rawHTML, isMounted]);
+  }, [note.id, isMounted]);
 
   const handleOnChange = (e: EditorState) => {
     if (isMounted) {
@@ -52,9 +52,9 @@ export default function wordPost({ rawHTML, setRawHTML }: Props) {
 
   useEffect(() => {
     if (isMounted) {
-      setRawHTML(rawHTML);
+      setRawHTML(note.content);
     }
-  }, [rawHTML, isMounted]);
+  }, [note.content, isMounted]);
   return (
     <Editor
       editorState={editorState}

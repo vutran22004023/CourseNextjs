@@ -7,7 +7,7 @@ import Text from "@/components/Text/text";
 export default function SarningPaths() {
   return (
     <div className="container mt-8 w-full">
-      <Text type="subtitle" className="mb-3 ">
+      <Text type="header" className="mb-3 flex justify-center">
         Lộ trình học
       </Text>
       <Text className="text-[15px] mb-7 w-[1000px]">
@@ -17,7 +17,7 @@ export default function SarningPaths() {
       </Text>
 
       <div className="flex w-full">
-        <div className="w-[80%] flex gap-2">
+        <div className="w-full flex justify-between gap-6">
           <CardComponent>
             <div className="flex">
               <div className="w-[70%]">
@@ -29,7 +29,7 @@ export default function SarningPaths() {
                   websites. Trong phần này F8 sẽ chia sẻ cho bạn lộ trình để trở
                   thành lập trình viên Front-end nhé.
                 </Text>
-                <ButtonComponment className="" style={{ borderRadius: "20px" }}>
+                <ButtonComponment type="notesheet" className="bg-[#FF5A00] text-white px-3 py-1 w-[130px] flex justify-center" style={{ borderRadius: "20px" }}>
                   Xem chi tiết
                 </ButtonComponment>
               </div>
@@ -58,7 +58,7 @@ export default function SarningPaths() {
                   thành lập trình viên Front-end nhé.
                 </Text>
                 <ButtonComponment
-                  className="bg-[#000] text-[#fff] hover:text-[#000] mt-4"
+                  type="notesheet" className="bg-[#FF5A00] text-white px-3 py-1 w-[130px] flex justify-center"
                   style={{ borderRadius: "20px" }}
                 >
                   Xem chi tiết
@@ -77,7 +77,6 @@ export default function SarningPaths() {
             </div>
           </CardComponent>
         </div>
-        <div className="flex-1"></div>
       </div>
 
       <div className="flex justify-between w-full">
@@ -90,7 +89,7 @@ export default function SarningPaths() {
             hỏi đáp, chia sẻ và hỗ trợ nhau trong quá trình học nhé.
           </Text>
 
-          <ButtonComponment className="mt-1" style={{ borderRadius: "20px" }}>
+          <ButtonComponment type="notesheet" className="mt-1 bg-[#FF5A00] px-3 py-1 text-white w-[140px] flex justify-center" style={{ borderRadius: "20px" }}>
             Tham gia nhóm
           </ButtonComponment>
         </div>

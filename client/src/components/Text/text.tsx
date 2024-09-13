@@ -18,13 +18,13 @@ export default function Text({
   className,
   ...rest
 }: Prop) {
-  const baseClass = "text-[#000] cactus-classical-serif-md";
+  const baseClass = "text-[#000] cactus-classical-mono-md";
 
   const typeClasses = {
     default: "text-[16px]",
     title: "text-[32px] font-bold leading-8",
     defaultSemiBold: "text-base font-bold leading-6",
-    subtitle: "text-2xl font-bold",
+    subtitle: "text-2xl font-bold bg-[#e8ebed] border-b-2 border-[#FF5A00] text-[#3d3d3d] p-1 flex justify-center place-items-center rounded-[10px]",
     subtitleDefault: "text-2xl",
     header: "text-3xl font-bold",
   };

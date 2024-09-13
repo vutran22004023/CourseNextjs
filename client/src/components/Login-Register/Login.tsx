@@ -171,7 +171,7 @@ export default function LoginComponent(style: any) {
     <ModalComponent
       triggerContent={
         <Button
-          className="bg-gray-300 text-black hover:bg-gray-400 "
+          className="bg-[#FF5A00] text-[#fff] hover:bg-[#FF5A00] transition-transform hover:translate-y-[-2px] hover:shadow-[4px_4px_12px_rgba(255,255,255,0.6)]"
           style={{ borderRadius: "20px", ...style }}
         >
           Đăng nhập / Đăng ký
@@ -181,11 +181,11 @@ export default function LoginComponent(style: any) {
         <>
           <div className="flex justify-center items-center w-full h-full ">
             <div className="text-center">
-              <div className="cactus-classical-serif-md text-[25px]">
-                Header
+              <div className="font-bold text-[25px] flex justify-center">
+                <img className="h-[90px] pl-2" src="brain.png" alt=""/>
               </div>
-              <div className="cactus-classical-serif-md text-[25px] ">
-                Đăng nhập vào F8
+              <div className="font-bold text-[25px] text-[#FF5A00]">
+                Đăng nhập vào Courseniver
               </div>
             </div>
           </div>
@@ -204,59 +204,59 @@ export default function LoginComponent(style: any) {
               }}
             >
               <ButtonComponent
-                className="w-[350px] p-5 bg-[#fbfbfb] text-black  hover:bg-[#e5e5e5] m-0 mb-3"
-                style={{ border: "1px solid #9c9c9c" }}
+                type="courseHeader"
+                className="w-[410px] p-4 mb-3"
                 onClick={handleIsModalInputLogin}
               >
                 <div className="flex">
-                  <User className="right-20 w-[30px] h-[20px] relative" />
-                  <div className="cactus-classical-serif-md">
+                  <User className="mr-4 h-[30px] w-[30px] bg-white text-[#FF5A00] rounded-full" />
+                  <div className="font-bold flex items-center">
                     Đăng nhập email
                   </div>
                 </div>
               </ButtonComponent>
               <ButtonComponent
-                className="w-[350px] p-5 bg-[#fbfbfb] text-black  hover:bg-[#e5e5e5] m-0 mb-3"
-                style={{ border: "1px solid #9c9c9c" }}
+                type="courseHeader"
+                className="w-[410px] p-4 mb-3"
                 onClick={handleLoginWithGoogle}
               >
                 <div className="flex">
+                  <div className="font-bold flex items-center">
                   <Image
                     src={icongg}
                     alt="icon"
-                    className="mr-2 w-[30px] h-[30px] relative right-[70px]"
+                    className="mr-4 w-[30px] h-[30px] rounded-full"
                   />
-                  <div className="cactus-classical-serif-md">
                     Đăng nhập với Google
                   </div>
                 </div>
               </ButtonComponent>
               <ButtonComponent
-                className="w-[350px] p-5 bg-[#fbfbfb] text-black  hover:bg-[#e5e5e5] m-0 mb-3"
-                style={{ border: "1px solid #9c9c9c" }}
+                type="courseHeader"
+                className="w-[410px] p-4 mb-3"
               >
                 <div className="flex">
                   <Image
                     src={iconfb}
                     alt="icon"
-                    className="mr-2 w-[20px] h-[20px] relative right-[60px]"
+                    className="mr-4 w-[30px] h-[30px] rounded-full"
                   />
-                  <div className="cactus-classical-serif-md">
+                  <div className="font-bold  flex items-center">
                     Đăng nhập với Facebook
                   </div>
                 </div>
               </ButtonComponent>
               <ButtonComponent
-                className="w-[350px] p-5 bg-[#fbfbfb] text-black  hover:bg-[#e5e5e5] m-0 mb-3"
-                style={{ border: "1px solid #9c9c9c" }}
+                type="courseHeader"
+                className="w-[410px] p-4"
               >
                 <div className="flex">
                   <Image
                     src={icongit}
                     alt="icon"
-                    className="mr-2 w-[20px] h-[20px] relative right-[70px]"
+                    className="mr-4 w-[30px] h-[30px] rounded-full"
                   />
-                  <div className="cactus-classical-serif-md">
+                  <div className="font-bold  flex items-center">
                     Đăng nhập với Github
                   </div>
                 </div>
@@ -275,8 +275,8 @@ export default function LoginComponent(style: any) {
                 className="fixed p-2 top-2 left-0 cursor-pointer hover:text-[#4b4b4b]"
                 onClick={handleCloseisModalLogin}
               >
-                <div className="flex">
-                  <ArrowBigLeft /> <div>Quay lại</div>
+                <div className="flex text-[#FF5A00]">
+                  <ArrowBigLeft /> <div className="ml-3 font-bold">Quay lại</div>
                 </div>
               </div>
               <div className="grid gap-4 py-4">
@@ -339,7 +339,7 @@ export default function LoginComponent(style: any) {
                     </div>
                   )}
                   <ButtonComponent
-                    type="submit"
+                    type="courseHeader"
                     onKeyDown={handleKeyDown}
                     className="p-5 m-0 mb-4"
                     style={{ border: "1px solid #9c9c9c" }}
@@ -355,7 +355,7 @@ export default function LoginComponent(style: any) {
                         ''
                       </IsLoadingComponment>
                     ) : (
-                      <div className="cactus-classical-serif-md">Đăng nhập</div>
+                      <div className="font-bold">Đăng nhập</div>
                     )}
                   </ButtonComponent>
                 </div>
@@ -367,8 +367,8 @@ export default function LoginComponent(style: any) {
                 className="fixed p-2 top-2 left-0 cursor-pointer hover:text-[#4b4b4b]"
                 onClick={handleCloseisModalLogin}
               >
-                <div className="flex">
-                  <ArrowBigLeft /> <div>Quay lại</div>
+                <div className="flex text-[#FF5A00]">
+                  <ArrowBigLeft /> <div className="ml-3 font-bold">Quay lại</div>
                 </div>
               </div>
               <ForgotPassComponent />
@@ -379,8 +379,8 @@ export default function LoginComponent(style: any) {
                 className="fixed p-2 top-2 left-0 cursor-pointer hover:text-[#4b4b4b]"
                 onClick={handleCloseisModalLogin}
               >
-                <div className="flex">
-                  <ArrowBigLeft /> <div>Quay lại</div>
+                <div className="flex text-[#FF5A00]">
+                  <ArrowBigLeft /> <div className="ml-3 font-bold">Quay lại</div>
                 </div>
               </div>
               <Register />

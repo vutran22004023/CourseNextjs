@@ -1,15 +1,14 @@
-"use client";
-import { useEffect, useState } from "react";
+'use client';
+import { useEffect, useState } from 'react';
 import CardBlogComponent from "@/components/Card/CardBlog";
 import Anh1 from "@/assets/Images/hinh-dep.jpg";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import Link from "next/link";
+import Link from 'next/link';
 import Image from "next/image";
-import { GetAllBlog } from "@/apis/blog";
-import Text from "@/components/Text/text";
+import { GetAllBlogs } from '@/apis/blog';
 
 interface Blog {
-  _id: string;
+  id: string;
   author: string;
   title: string;
   content: string;
@@ -25,18 +24,16 @@ export default function Blog() {
   useEffect(() => {
     async function fetchBlogs() {
       try {
-        const response = await GetAllBlog();
-        console.log("Fetched response:", response); // Log toàn bộ phản hồi từ API
-
-        if (response.status === 200 && Array.isArray(response.data)) {
-          setBlogs(response.data);
+        const data = await GetAllBlogs("");  // Fetch blogs with empty search
+        console.log("Fetched blogs data:", data);  // Debug: Log the response
+        if (Array.isArray(data)) {
+          setBlogs(data);  // Only set state if data is an array
         } else {
-          setError("Unexpected response format");
-          console.error("Unexpected response format:", response); // Log để kiểm tra định dạng
+          // setError('Unexpected response format');
         }
       } catch (error) {
-        setError("Failed to fetch blogs");
-        console.error("Failed to fetch blogs:", error);
+        setError('Failed to fetch blogs');
+        console.error("Error fetching blogs:", error);
       } finally {
         setLoading(false);
       }
@@ -55,24 +52,24 @@ export default function Blog() {
 
   return (
     <div className="container mt-8 w-full">
-      <Text type="header" className="mb-1">
+      <div className="cactus-classical-serif-md text-[25px] mb-1 ">
         Bài viết nổi bật
-      </Text>
-      <Text className="mb-7">
+      </div>
+      <div className="text-[15px] mb-7">
         Tổng hợp các bài viết chia sẻ về kinh nghiệm tự học lập trình online và
         các kỹ thuật lập trình web.
-      </Text>
+      </div>
 
       <div className="w-full flex">
         <div className="w-[60%]">
           {blogs.map((blog) => (
-            <Link href={`/blog/${blog.slug}`} key={blog._id}>
+            <Link href={`/blog/blog-detail/${blog.id}`} key={blog.id}>
               <CardBlogComponent>
                 <div className="flex items-center mb-3">
                   <Avatar className="w-[40px] h-[40px] mr-2">
                     <AvatarImage
                       src="https://github.com/shadcn.png"
-                      alt={blog.author}
+                      alt="@shadcn"
                     />
                     <AvatarFallback>{blog.author[0]}</AvatarFallback>
                   </Avatar>
@@ -86,13 +83,15 @@ export default function Blog() {
                     <div className="text-[14px] mb-1">
                       {blog.content.slice(0, 100)}...
                     </div>
-                    <div className="text-[12px]">{blog.date} - 2 phút đọc</div>
+                    <div className="text-[12px]">
+                      {new Date(blog.date).toLocaleDateString()} - 2 phút đọc
+                    </div>
                   </div>
                   <div className="p-3">
                     <Image
                       src={Anh1}
-                      alt="Blog image"
-                      className="w-[200px] h-[100px] object-cover"
+                      alt="Anh 1"
+                      className="w-[200px] h-[100px]"
                       style={{ borderRadius: "20px" }}
                     />
                   </div>
@@ -100,8 +99,9 @@ export default function Blog() {
               </CardBlogComponent>
             </Link>
           ))}
+          <div></div>
         </div>
-        <div className="flex-1 p-5">
+        <div className="flex-1 p-5 ">
           <div className="text-[14px] mb-3">CÁC CHỦ ĐỀ ĐƯỢC ĐỀ XUẤT</div>
           <div className="grid gap-2 grid-cols-3">
             <div
@@ -112,7 +112,37 @@ export default function Blog() {
                 fontWeight: "500",
               }}
             >
-              Front end/ Mobile apps
+              Font end/ Mobile apps
+            </div>
+            <div
+              className="bg-[#f2f2f2] text-[14px]"
+              style={{
+                padding: "6px 16px",
+                borderRadius: "30px",
+                fontWeight: "500",
+              }}
+            >
+              Font end/ Mobile apps
+            </div>
+            <div
+              className="bg-[#f2f2f2] text-[14px]"
+              style={{
+                padding: "6px 16px",
+                borderRadius: "30px",
+                fontWeight: "500",
+              }}
+            >
+              Font end/ Mobile apps
+            </div>
+            <div
+              className="bg-[#f2f2f2] text-[14px]"
+              style={{
+                padding: "6px 16px",
+                borderRadius: "30px",
+                fontWeight: "500",
+              }}
+            >
+              Font end/ Mobile apps
             </div>
           </div>
         </div>
