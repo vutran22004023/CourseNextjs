@@ -346,12 +346,12 @@ export default function page() {
           </div>
           <div className="p-10">
             <div className="flex justify-between">
-              <div className="cactus-classical-serif-md mb-1 text-[25px]">
+              <div className="cactus-classical-serif-md font-semibold mb-1 text-[25px]">
                 {dataVideo?.childname}
               </div>
               <ButtonComponment
-                className="p-5 w-[200px]"
-                style={{ marginTop: "0", borderRadius: "10px" }}
+                type="courseHeader"
+                className="flex items-center justify-center p-2 select-none font-medium"
                 onClick={handleOpenEditBlog}
               >
                 {" "}
@@ -434,14 +434,14 @@ export default function page() {
           </Accordion>
         </div>
 
-        <div className="fixed bottom-0 left-0 bg-[#dbdbdb] right-0 z-10 border-b p-3 flex  items-center">
-          <div className="flex justify-center items-center w-full">
+        <div className="fixed bottom-0 left-0 bg-transparent right-0 z-10 border-b p-3 flex  items-center">
+          <div className="flex items-center justify-between w-full">
             <ButtonComponment
-              className="w-[200px]"
+              type="courseHeader"
+              className="flex px-4 py-3"
               style={{
                 marginTop: "0",
                 borderRadius: "10px",
-                marginRight: "5px",
               }}
               onClick={handlePreviousLesson}
             >
@@ -449,7 +449,8 @@ export default function page() {
               BÀI TRƯỚC
             </ButtonComponment>
             <ButtonComponment
-              className={`w-[200px] ${
+              type="courseHeader"
+              className={`flex px-4 py-3 ${
                 disableNextLesson ? "opacity-50 cursor-not-allowed " : ""
               }`}
               style={{ marginTop: "0", borderRadius: "10px" }}
@@ -460,7 +461,6 @@ export default function page() {
             </ButtonComponment>
           </div>
           <div className="absolute top-1/2 right-0 transform -translate-y-1/2 mr-3 flex items-center">
-            <div>{dataVideo?.childname}</div>
             <ButtonComponment
               className="ml-2 p-3 w-[50px]"
               style={{ marginTop: "0", borderRadius: "60%" }}
@@ -506,15 +506,10 @@ export default function page() {
             </div>
           </div>
         </CSSTransition>
-        <div className="fixed bottom-[60px] left-[60%] z-2 border-b p-3 flex  items-center">
+        <div className="fixed bottom-[60px] right-0 z-2 border-b p-3 flex  items-center">
           <ButtonComponment
-            className=""
-            style={{
-              marginTop: "0",
-              borderRadius: 10,
-              display: "flex",
-              gap: 4,
-            }}
+            type="courseHeader"
+            className="mt-0 rounded-[10px] flex gap-2 p-3"
             onClick={() => setIsModalMessage(true)}
           >
             <MessageCircleQuestion />

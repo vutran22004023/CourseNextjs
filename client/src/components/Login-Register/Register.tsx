@@ -136,7 +136,7 @@ export default function RegisterComponment() {
             type={showPassword ? "text" : "password"}
             className="col-span-3 w-full"
             style={{ borderRadius: "10px", padding: "20px" }}
-            placeholder="Mật khẩu mới"
+            placeholder="Mật khẩu"
             value={register.password}
             onChange={handleOnChangeregister}
             name="password"
@@ -239,14 +239,12 @@ export default function RegisterComponment() {
       </div>
       <div className="w-full">
         <ButtonComponent
+          type="courseHeader"
           className={`p-5 m-0 mb-4 `}
-          style={{
-            border: "1px solid #9c9c9c",
-          }}
           disabled={!isError && isErrPass && isErrEmail ? false : true}
           onClick={handleconfirmRegister}
         >
-          <div className="cactus-classical-serif-md">
+          <div className="font-bold">
             <IsLoadingComponment IsLoading={isLoadingdataRegister}>
               Đăng ký ngay
             </IsLoadingComponment>
