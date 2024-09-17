@@ -4,6 +4,7 @@ import axios from 'axios';
 import 'dotenv/config';
 import moment from 'moment';
 import 'moment-duration-format';
+import PayCourse from '../../models/paycourse.model.js';
 
 class CourseService {
   async getAllCourses(limit, page, sort, filter) {
@@ -20,7 +21,7 @@ class CourseService {
       options.sort = { [sort[1]]: sort[0] };
     }
 
-    const allCourses = await CourseModel.find(query, null, options).lean();
+    const allCourses = await CourseModel.find(query, null, options).select('-chapters').lean();
 
     return {
       status: 200,
@@ -32,17 +33,41 @@ class CourseService {
     };
   }
 
-  async getDetaiCourse(slug) {
-    const checkCourse = await CourseModel.findOne({ slug: slug }).lean();
-    if (!checkCourse) {
+  async getDetaiCourse(slug, user) {
+    const userId = user?.id;
+    let course;
+
+    if (userId) {
+      course = await CourseModel.findOne({ slug: slug }).lean();
+    } else {
+      course = await CourseModel.findOne({ slug: slug }).select('-chapters.videos.video').lean();
+    }
+
+    if (!course) {
       return {
         status: 'ERR',
         message: 'Khóa học không tồn tại',
       };
     }
+
+    if (userId && course.price === 'paid') {
+      const payCourse = await PayCourse.findOne({
+        idUser: userId,
+        courseId: course._id,
+        paymentStatus: 'completed',
+      }).lean();
+
+      if (!payCourse) {
+        return {
+          status: 'ERR',
+          message: 'Bạn chưa thanh toán khóa học này',
+        };
+      }
+    }
+
     return {
       status: 200,
-      data: checkCourse,
+      data: course,
       message: 'Show dữ liệu thành công',
     };
   }

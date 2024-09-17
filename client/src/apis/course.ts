@@ -19,14 +19,25 @@ export const GetAllCourses = async (search: string) => {
   }
 };
 
-export const GetDetailCourses = async (slug: StringConstructor) => {
+export const GetDetailCourses = async (slug: string) => {
   try {
-    const response: AxiosResponse = await axios.get(
+    const response: AxiosResponse = await axiosInstance.get(
       `/api/course/detail-courses/${slug}`
     );
     return response.data;
   } catch {
     throw new Error("Error login detail course");
+  }
+};
+
+export const GetDetailCoursesNotLogin = async (slug: string) => {
+  try {
+    const response: AxiosResponse = await axios.get(
+      `/api/course/detail-courses/not-login/${slug}`
+    );
+    return response.data;
+  } catch {
+    throw new Error("Error get detail course");
   }
 };
 
