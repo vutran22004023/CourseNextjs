@@ -2,7 +2,7 @@
 import { FC, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
-import { Crown } from 'lucide-react';
+import { Crown } from "lucide-react";
 import { useDebounce } from "@/hooks/index";
 import { useQuery } from "@tanstack/react-query";
 import { GetAllCourses } from "@/apis/course";
@@ -13,6 +13,8 @@ import { Course, DataAllCourses } from "@/types"; // Import type definitions
 import { getTokenFromCookies } from "@/utils/auth";
 import ModalPay from "./modalPay";
 import Text from "@/components/Text/text";
+import { useRouter } from "next/navigation";
+import { CheckPaidCourse } from "@/apis/pay";
 
 const getAllCourses = async (search: string): Promise<DataAllCourses> => {
   const res = await GetAllCourses(search);
@@ -26,10 +28,17 @@ const CourseList: FC<{ courses: Course[]; isLoading: boolean; user: any }> = ({
 }) => {
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
-  const [token, setToken] = useState<string>('')
+  const [token, setToken] = useState<string>("");
+  const router = useRouter();
   const handleIsModal = (course: Course) => {
-    setIsOpenModal(true);
-    setSelectedCourse(course);
+    CheckPaidCourse(course._id)
+      .then(() => {
+        router.push(`/course-login/${course.slug}`);
+      })
+      .catch(() => {
+        setIsOpenModal(true);
+        setSelectedCourse(course);
+      });
   };
   useEffect(() => {
     if (isOpenModal === false) {
@@ -37,16 +46,17 @@ const CourseList: FC<{ courses: Course[]; isLoading: boolean; user: any }> = ({
     }
   }, [isOpenModal]);
   useEffect(() => {
-    const token = async() => {
+    const token = async () => {
       try {
         const tokens = await getTokenFromCookies();
-        setToken(tokens as string)
-      }catch (err) {
+        setToken(tokens as string);
+      } catch (err) {
         console.log(err);
       }
-    }
-    token()
-  },[])
+    };
+    token();
+  }, []);
+
   return (
     <div className="flex md:grid md:grid-cols-4 gap-2 mb-3 mt-3 md:gap-4">
       {isLoading
@@ -111,7 +121,7 @@ const PageClient: FC = () => {
       <div className="mb-[60px]">
         <Text type="subtitle" className="w-[170px] relative gap-2 mb-7">
           Khóa học Pro
-          <Crown className="absolute text-yellow-400 top-[-10px] right-[-5px]"/>
+          <Crown className="absolute text-yellow-400 top-[-10px] right-[-5px]" />
         </Text>
         <CourseList
           courses={dataCoursePaid}

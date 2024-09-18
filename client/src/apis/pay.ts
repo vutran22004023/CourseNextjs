@@ -58,7 +58,8 @@ export const ConfirmWebhookPayos = async () => {
 export const PaymentZalopay = async (data: any) => {
   try {
     const response: AxiosResponse = await axiosInstance.post(
-      `/api/pay/payment-zalopay`,data
+      `/api/pay/payment-zalopay`,
+      data
     );
     return response.data;
   } catch {
@@ -125,7 +126,8 @@ export const InformationCourse = async () => {
 export const PostInformationCourse = async (data: any) => {
   try {
     const response: AxiosResponse = await axiosInstance.post(
-      `/api/pay/post-information-course`, data
+      `/api/pay/post-information-course`,
+      data
     );
     return response.data;
   } catch {
@@ -152,5 +154,16 @@ export const DeleteInformation = async () => {
     return response.data;
   } catch {
     throw new Error("Error create courses");
+  }
+};
+
+export const CheckPaidCourse = async (courseId: string) => {
+  try {
+    const response: AxiosResponse = await axiosInstance.get(
+      `/api/pay/check-paid-course/${courseId}`
+    );
+    return response.data;
+  } catch {
+    throw new Error("Error check paid course");
   }
 };

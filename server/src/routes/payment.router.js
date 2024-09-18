@@ -1,6 +1,6 @@
 import express from 'express';
 import paymentController from '../controllers/payment.controller.js';
-import { AuthMiddleware } from '../middlewares/index.js';
+import { AuthMiddleware, passportMiddleware } from '../middlewares/index.js';
 const router = express.Router();
 
 //begin api thanh toán PayOS
@@ -23,4 +23,5 @@ router.get('/information-course', AuthMiddleware.authAdmin, paymentController.ge
 router.post('/post-information-course', AuthMiddleware.authUser, paymentController.postInformationCourse);
 router.put('/update-information-course/:id', AuthMiddleware.authUser, paymentController.updateInformationCourse);
 router.delete('/delete-information-course/:id', AuthMiddleware.authUser, paymentController.deleteInformationCourse);
+router.get('/check-paid-course/:courseId', passportMiddleware, paymentController.checkPaidCourse);
 export default router;
