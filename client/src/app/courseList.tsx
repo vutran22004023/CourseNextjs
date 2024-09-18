@@ -5,7 +5,7 @@ import { RootState } from "@/redux/store";
 import { Crown } from "lucide-react";
 import { useDebounce } from "@/hooks/index";
 import { useQuery } from "@tanstack/react-query";
-import { GetAllCourses } from "@/apis/course";
+import { GetAllCourses, GetDetailCoursesNotLogin } from "@/apis/course";
 import CardComponent from "@/components/Card/Card";
 import LoadingCard from "@/components/Loading/LoadingCard";
 import Link from "next/link";
@@ -36,8 +36,10 @@ const CourseList: FC<{ courses: Course[]; isLoading: boolean; user: any }> = ({
         router.push(`/course-login/${course.slug}`);
       })
       .catch(() => {
-        setIsOpenModal(true);
-        setSelectedCourse(course);
+        GetDetailCoursesNotLogin(course.slug).then((res) => {
+          setSelectedCourse(res.data);
+          setIsOpenModal(true);
+        });
       });
   };
   useEffect(() => {
@@ -65,7 +67,7 @@ const CourseList: FC<{ courses: Course[]; isLoading: boolean; user: any }> = ({
               <LoadingCard />
             </div>
           ))
-        : courses.map((course) => (
+        : courses.map((course: Course) => (
             <div key={course._id} className="flex-none w-full md:w-auto">
               {token && user?.status === true ? (
                 <>
