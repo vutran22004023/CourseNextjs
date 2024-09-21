@@ -106,9 +106,9 @@ export default function HeaderLayout() {
           <>
             <HoverCard>
               <HoverCardTrigger asChild>
-                <Text className="cursor-pointer text-black">
+                <div className="cursor-pointer text-black">
                   Khóa học của tôi
-                </Text>
+                </div>
               </HoverCardTrigger>
               <HoverCardContent className="w-[30rem] h-[25rem] pt-1 flex flex-col mt-2 mr-20 text-black bg-[#f0efef] rounded">
                 <div className="p-2 flex justify-between">

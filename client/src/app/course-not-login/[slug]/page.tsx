@@ -9,28 +9,50 @@ import {
 import VideoYoutubeComponment from "@/components/VideoYoutube/VideoYoutube";
 import { useParams } from "next/navigation";
 import { useMutationHook } from "@/hooks";
-import { GetDetailCourses } from "@/apis/course";
+import { GetDetailCoursesNotLogin } from "@/apis/course";
 import React, { useEffect, useState } from "react";
 import Login_RegisterComponent from "@/components/Login-Register/Login";
 import Text from "@/components/Text/text";
 export default function CoursesNotLogin() {
-  const [dataCourseDetail, setDataCourseDetail] = useState();
+  const [dataCourseDetail, setDataCourseDetail] = useState<any>();
   const [isLoadingDetail, setIsLoadingDetail] = useState(false);
-  const { slug } = useParams();
+  const { slug } = useParams<any>();
   const parseTime = (time: string) => {
-    const [minutes, seconds] = time.split(":").map(Number);
-    return minutes * 60 + seconds;
+    const timeArray = time.split(":").map(Number);
+    switch (timeArray.length) {
+      case 3: {
+        const [hh, mm, ss] = timeArray;
+        return hh * 3600 + mm * 60 + ss;
+      }
+      case 2: {
+        const [mm, ss] = timeArray;
+        return mm * 60 + ss;
+      }
+      case 1:
+        return timeArray[0];
+      default:
+        return 0;
+    }
   };
 
   const formatTime = (totalSeconds: number) => {
     const hours = Math.floor(totalSeconds / 3600);
     const minutes = Math.floor((totalSeconds % 3600) / 60);
-    return `${hours} giờ ${minutes} phút`;
+    const seconds = totalSeconds % 60;
+    if (hours) {
+      return `${hours} giờ ${minutes} phút ${seconds} giây`;
+    } else if (minutes) {
+      return `${minutes} phút ${seconds} giây`;
+    } else if (seconds) {
+      return `${seconds} giây`;
+    } else {
+      return "";
+    }
   };
 
-  const mutationGetDetailCourse = useMutationHook(async (slug: any) => {
+  const mutationGetDetailCourse = useMutationHook(async (slug: string) => {
     try {
-      const res = await GetDetailCourses(slug);
+      const res = await GetDetailCoursesNotLogin(slug);
       return res.data;
     } catch (err) {
       console.log(err);
@@ -66,6 +88,7 @@ export default function CoursesNotLogin() {
     }, 0) || 0;
 
   const formattedTime = formatTime(totalTime);
+
   return (
     <div className="container mt-8 w-full">
       <div className="flex">
@@ -142,9 +165,7 @@ export default function CoursesNotLogin() {
                 {dataCourseDetail?.chapters?.length} chương - {totalVideos} bài
                 học - Thời lượng {formattedTime}
               </Text>
-              <Text className="text-[14px]">
-                Mở rộng tất cả
-              </Text>
+              <Text className="text-[14px]">Mở rộng tất cả</Text>
             </div>
             <div>
               <Accordion type="single" collapsible className="w-full">
@@ -169,10 +190,7 @@ export default function CoursesNotLogin() {
           </div>
 
           <div className="mb-5">
-            <Text className="text-[20px] mb-4 ">
-              Yêu cầu
-            </Text>
-
+            <Text className="text-[20px] mb-4 ">Yêu cầu</Text>
             <div className="flex mb-1">
               <CircleCheckBig className="w-[20px] h-[20px] mr-2" />
               <Text className="text-[14px]">

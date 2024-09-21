@@ -386,6 +386,31 @@ class PayMentController {
     }
   }
   //end thông tin thanh toán khóa học
+
+  async checkPaidCourse(req, res) {
+    try {
+      const { courseId } = req.params;
+
+      const paidCourse = await PayCourse.findOne({
+        idUser: req.user.id,
+        courseId: courseId,
+        paymentStatus: 'completed',
+      }).lean();
+
+      if (!paidCourse) {
+        return res.status(404).json({ message: 'Không tìm thấy thông tin paycourse' });
+      }
+
+      return res.status(200).json({ message: 'Đã thanh toán khóa học', data: paidCourse });
+    } catch (err) {
+      console.error('Lỗi khi lấy thông tin thanh toán:', err);
+      return res.status(500).json({
+        message: 'Có lỗi xảy ra trong quá trình lấy thông tin',
+        error: err.message || 'Không xác định được lỗi',
+      });
+    }
+  }
+  //end thông tin thanh toán khóa học
 }
 
 export default new PayMentController();
