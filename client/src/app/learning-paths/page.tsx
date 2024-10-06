@@ -81,7 +81,7 @@ export default function SarningPaths() {
 
       <div className="flex justify-between w-full">
         <div className="w-[500px]">
-          <Text type="subtitleDefault" className="mb-3 mt-10 ">
+          <Text type="mediumTitle" className="mb-3 mt-10 ">
             Tham gia cộng đồng học viên F8 trên Facebook
           </Text>
           <Text className="text-[15px] mb-7">

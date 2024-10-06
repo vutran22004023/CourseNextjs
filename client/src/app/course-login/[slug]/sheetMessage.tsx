@@ -200,7 +200,7 @@ export default function sheetmessage({
     <Sheet open={isOpen} onOpenChange={onOpenChange}>
       <SheetTrigger asChild className="text-while"></SheetTrigger>
       <SheetContent className="bg-[#fff] pr-[20px] w-[500px] max-w-full">
-        <Text type="subtitle">{dataMessage?.totalMessages} Bình luận</Text>
+        <Text type="largeTitle">{dataMessage?.totalMessages} Bình luận</Text>
         <SheetHeader className="mb- mt-5">
           <SheetTitle>
             <div className="flex gap-2 justify-center items-center">
@@ -293,7 +293,7 @@ export default function sheetmessage({
                 </Avatar>
                 <div>
                   <Text
-                    type="defaultSemiBold"
+                    type="defaultBold"
                     className="text-ml text-orange-600 font-semibold text-[14px]"
                   >
                     {message?.name}

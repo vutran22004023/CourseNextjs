@@ -53,7 +53,7 @@ const DialogContent = React.forwardRef<
 ))
 DialogContent.displayName = DialogPrimitive.Content.displayName
 
-const DialogHeader = ({
+const DialogsmallHeader = ({
   className,
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) => (
@@ -65,7 +65,7 @@ const DialogHeader = ({
     {...props}
   />
 )
-DialogHeader.displayName = "DialogHeader"
+DialogsmallHeader.displayName = "DialogsmallHeader"
 
 const DialogFooter = ({
   className,
@@ -115,7 +115,7 @@ export {
   DialogTrigger,
   DialogClose,
   DialogContent,
-  DialogHeader,
+  DialogsmallHeader,
   DialogFooter,
   DialogTitle,
   DialogDescription,

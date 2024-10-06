@@ -3,13 +3,13 @@ import {
   Dialog,
   DialogContent,
   DialogFooter,
-  DialogHeader,
+  DialogsmallHeader,
   DialogTrigger,
 } from "@/components/ui/dialog";
 
 interface UserDialogProps {
   triggerContent: ReactNode;
-  contentHeader: ReactNode;
+  contentsmallHeader: ReactNode;
   contentBody: ReactNode;
   contentFooter: ReactNode;
   isOpen: boolean;
@@ -18,7 +18,7 @@ interface UserDialogProps {
 }
 export default function Modal({
   triggerContent,
-  contentHeader,
+  contentsmallHeader,
   contentBody,
   contentFooter,
   isOpen,
@@ -32,7 +32,7 @@ export default function Modal({
         className={`sm:max-w-[355px] md:max-w-[550px] bg-slate-50 ${style}`}
         style={{ borderRadius: "10px" }}
       >
-        <DialogHeader>{contentHeader}</DialogHeader>
+        <DialogsmallHeader>{contentsmallHeader}</DialogsmallHeader>
         {contentBody}
         <DialogFooter>{contentFooter}</DialogFooter>
       </DialogContent>

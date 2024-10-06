@@ -177,7 +177,7 @@ export default function LoginComponent(style: any) {
           Đăng nhập / Đăng ký
         </Button>
       }
-      contentHeader={
+      contentsmallHeader={
         <>
           <div className="flex justify-center items-center w-full h-full ">
             <div className="text-center">
@@ -204,7 +204,7 @@ export default function LoginComponent(style: any) {
               }}
             >
               <ButtonComponent
-                type="courseHeader"
+                type="coursesmallHeader"
                 className="w-[410px] p-4 mb-3"
                 onClick={handleIsModalInputLogin}
               >
@@ -216,7 +216,7 @@ export default function LoginComponent(style: any) {
                 </div>
               </ButtonComponent>
               <ButtonComponent
-                type="courseHeader"
+                type="coursesmallHeader"
                 className="w-[410px] p-4 mb-3"
                 onClick={handleLoginWithGoogle}
               >
@@ -232,7 +232,7 @@ export default function LoginComponent(style: any) {
                 </div>
               </ButtonComponent>
               <ButtonComponent
-                type="courseHeader"
+                type="coursesmallHeader"
                 className="w-[410px] p-4 mb-3"
               >
                 <div className="flex">
@@ -247,7 +247,7 @@ export default function LoginComponent(style: any) {
                 </div>
               </ButtonComponent>
               <ButtonComponent
-                type="courseHeader"
+                type="coursesmallHeader"
                 className="w-[410px] p-4"
               >
                 <div className="flex">
@@ -339,7 +339,7 @@ export default function LoginComponent(style: any) {
                     </div>
                   )}
                   <ButtonComponent
-                    type="courseHeader"
+                    type="coursesmallHeader"
                     onKeyDown={handleKeyDown}
                     className="p-5 m-0 mb-4"
                     style={{ border: "1px solid #9c9c9c" }}

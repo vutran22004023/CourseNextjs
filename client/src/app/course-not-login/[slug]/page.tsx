@@ -104,7 +104,7 @@ export default function CoursesNotLogin() {
           </div>
 
           <div className="mb-5">
-            <Text type="subtitle" className="mb-4 ">
+            <Text type="largeTitle" className="mb-4 ">
               Bạn sẽ học được gì?
             </Text>
             <div className="text-[15px] mb-7 flex justify-between">
@@ -157,7 +157,7 @@ export default function CoursesNotLogin() {
           </div>
 
           <div className="mb-5">
-            <Text type="subtitle" className="mb-4">
+            <Text type="largeTitle" className="mb-4">
               Nội dung khóa học
             </Text>
             <div className="flex justify-between mb-3">

@@ -74,7 +74,7 @@ const SheetContent = React.forwardRef<
 ))
 SheetContent.displayName = SheetPrimitive.Content.displayName
 
-const SheetHeader = ({
+const SheetsmallHeader = ({
   className,
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) => (
@@ -86,7 +86,7 @@ const SheetHeader = ({
     {...props}
   />
 )
-SheetHeader.displayName = "SheetHeader"
+SheetsmallHeader.displayName = "SheetsmallHeader"
 
 const SheetFooter = ({
   className,
@@ -133,7 +133,7 @@ export {
   SheetTrigger,
   SheetClose,
   SheetContent,
-  SheetHeader,
+  SheetsmallHeader,
   SheetFooter,
   SheetTitle,
   SheetDescription,

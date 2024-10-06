@@ -239,7 +239,7 @@ export default function RegisterComponment() {
       </div>
       <div className="w-full">
         <ButtonComponent
-          type="courseHeader"
+          type="coursesmallHeader"
           className={`p-5 m-0 mb-4 `}
           disabled={!isError && isErrPass && isErrEmail ? false : true}
           onClick={handleconfirmRegister}

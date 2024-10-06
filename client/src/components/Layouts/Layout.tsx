@@ -1,25 +1,25 @@
 // src/components/Layout.tsx
 
 import SidebarComponment from "../Sidebar/sidebar";
-import HeaderLayout from "./HeaderLayout";
+import smallHeaderLayout from "./smallHeaderLayout";
 import { ReactNode } from "react";
 
 interface LayoutProps {
   children: ReactNode;
-  isHeaderVisible: boolean;
+  issmallHeaderVisible: boolean;
   isSidebarVisible: boolean;
   activePage: string;
 }
 
 const Layout = ({
   children,
-  isHeaderVisible,
+  issmallHeaderVisible,
   isSidebarVisible,
   activePage,
 }: LayoutProps) => {
   return (
     <>
-      {isHeaderVisible && <HeaderLayout />}
+      {issmallHeaderVisible && <smallHeaderLayout />}
       <div className="block md:flex w-full">
         {isSidebarVisible && (
           <>

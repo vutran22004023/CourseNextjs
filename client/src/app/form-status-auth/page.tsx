@@ -63,7 +63,7 @@ export default function FormStatusAuth() {
         className="border-dotted w-[600px]  bg-[#fbfbfb] border-2 p-7"
         style={{ borderRadius: "20px" }}
       >
-        <Text type="subtitleDefault" className="mb-3">
+        <Text type="mediumTitle" className="mb-3">
           Xác nhận tài khoản
         </Text>
         <Text className="cactus-classical-serif-md text-[15px] mb-2">

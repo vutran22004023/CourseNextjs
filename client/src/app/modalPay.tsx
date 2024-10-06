@@ -120,7 +120,7 @@ export default function modalPay({ isOpen, setIsOpen, course }: Props) {
               title="YouTube video player"
             />
             <div>
-              <Text type="subtitle" className="mb-1 ">
+              <Text type="largeTitle" className="mb-1 ">
                 {course?.name}
               </Text>
               <Text className="text-[#a2adbd]">

@@ -8,7 +8,7 @@ import ButtonComponent from "../Button/Button";
 import NoteSheet from "src/app/course-login/[slug]/note"; 
 import { RootState } from "@/redux/store";
 
-export default function HeaderLayoutCourses() {
+export default function smallHeaderLayoutCourses() {
   const timeVideo = useSelector((state: RootState) => state.timesVideo);
 
   // State to control NoteSheet visibility
@@ -23,7 +23,7 @@ export default function HeaderLayoutCourses() {
     <div className="fixed top-0 left-0 bg-[#fff] right-0 z-10 border-b p-3 flex justify-between items-center">
       <div className="flex justify-center items-center">
         <Link href="/">
-          <ButtonComponent type="courseHeader" className="px-3 py-1">
+          <ButtonComponent type="coursesmallHeader" className="px-3 py-1">
             <ArrowBigLeft />
           </ButtonComponent>
         </Link>

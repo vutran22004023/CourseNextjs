@@ -121,7 +121,7 @@ const PageClient: FC = () => {
   return (
     <main>
       <div className="mb-[60px]">
-        <Text type="subtitle" className="w-[170px] relative gap-2 mb-7">
+        <Text type="largeTitle" className="w-[170px] relative gap-2 mb-7">
           Khóa học Pro
           <Crown className="absolute text-yellow-400 top-[-10px] right-[-5px]" />
         </Text>
@@ -133,7 +133,7 @@ const PageClient: FC = () => {
       </div>
 
       <div className="">
-        <Text type="subtitle" className="w-[170px] mb-7">
+        <Text type="largeTitle" className="w-[170px] mb-7">
           Khóa học free
         </Text>
         <CourseList

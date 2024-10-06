@@ -42,7 +42,7 @@ import { CourseProgress } from "@/types";
 import { GetCourseProgress } from "@/apis/usercourse";
 import logo from '@/assets/Images/logo.png'
 import Image from 'next/image'
-export default function HeaderLayout() {
+export default function smallHeaderLayout() {
   const [courseProgress, setCourseProgress] = useState<CourseProgress[]>([]);
   const router = useRouter();
   const dispatch = useDispatch();
@@ -86,7 +86,13 @@ export default function HeaderLayout() {
 
   return (
     <div className="fixed top-0 left-0 bg-white right-0 z-10 border-b border-[#cfcdcd] text-white p-3 flex justify-between items-center ">
-      <Link href="/"><Image className="h-[30px] w-[200px] pl-2" src={logo} alt="fsdfsdf"/></Link>
+      <div className="flex gap-5">
+        <Link href="/"><Image className="h-[30px] w-[200px] pl-2" src={logo} alt="fsdfsdf"/></Link>
+        <Text type="defaultBold"> Khóa học</Text>
+        <Text type="defaultBold"> Blog</Text>
+        <Text type="defaultBold"> Học online</Text>
+        <Text type="defaultBold"> Giải đấu</Text>
+      </div>
       
       <div className="flex items-center w-[500px] py-1 px-3 text-[#444] rounded-full border-2 border-[#E8E8E8] focus-within:border-black transition-colors duration-300">
         <SearchCheck />
