@@ -89,7 +89,7 @@ export default function HeaderLayout() {
     <div className="fixed top-0 left-0 bg-white right-0 z-10 border-b border-[#cfcdcd] text-white p-3 flex justify-between items-center ">
       <div className="flex gap-3 items-center">
         <Link href="/">
-          <Image className="h-[60px] w-[150px] pl-2" src={logo} alt="fsdfsdf" />
+          <Image className="h-[60px] w-[150px] pl-2" src={logo} alt="fsdfsdf" layout="responsive" />
         </Link>
         <div className="hidden sm:flex gap-3">
           <Text type="defaultSemiBold">Khóa học</Text>
