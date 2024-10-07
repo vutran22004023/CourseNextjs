@@ -333,9 +333,9 @@ export default function page() {
   };
 
   return (
-    <div className="mt-[20px]">
-      <div className="flex ">
-        <div className="w-[70%] ">
+    <div className="md:mt-[20px]">
+      <div className="md:flex ">
+        <div className="w-full md:w-[70%] ">
           <div className="bg-black pr-[20px] pl-[20px]">
             <VideoYoutubeComponment
               style={{
@@ -346,12 +346,15 @@ export default function page() {
               title="YouTube video player"
             />
           </div>
-          <div className="p-10">
-            <div className="flex justify-between">
-              <div className="font-semibold mb-1 text-[25px]">
-                {dataVideo?.childname}
+          <div className="p-5 md:p-10">
+            <div className="md:flex justify-between">
+              <div className="mb-1">
+                <p className="font-semibold text-[25px]">
+                  {dataVideo?.childname}
+                </p>
+                <div className="mb-3 md:mb-5">Cập nhật {dataVideo?.updatedAt}</div>
               </div>
-              <div className=" flex gap-4 items-center">
+              <div className="flex gap-4 items-center">
                 <ButtonComponment
                   type="notesheet"
                   className="h-[43px] flex items-center px-3 select-none"
@@ -366,7 +369,7 @@ export default function page() {
                   className="h-[43px] flex items-center px-3 select-none"
                   onClick={() => setIsModalMessage(true)}
                 >
-                  <MessagesSquare className="mr-1"/>
+                  <MessagesSquare className="mr-1" />
                   <div>Hỏi đáp</div>
                 </ButtonComponment>
               </div>
@@ -378,7 +381,6 @@ export default function page() {
                 dataChapVideo={dataVideo}
               />
             </div>
-            <div className="mb-5">Cập nhật {dataVideo?.updatedAt}</div>
             <div className="mb-5">
               Tham gia các cộng đồng để cùng học hỏi, chia sẻ và "thám thính"
               xem F8 sắp có gì mới nhé!
@@ -386,7 +388,7 @@ export default function page() {
             <div>Fanpage: https://www.facebook.com/f8vnofficial</div>
           </div>
         </div>
-        <div className="flex-1 border-l-2 mt-4">
+        <div className="flex-1 border-l-2 my-4">
           <div className="font-semibold text-[20px] mb-3 p-2 text-center ">
             Nội dung khóa học
           </div>
@@ -457,24 +459,56 @@ export default function page() {
         </div>
 
         <div className="fixed bottom-0 left-0 bg-transparent right-0 z-10 border-b p-3 flex items-center">
-          <div className="flex items-center justify-center w-full">
+          <div className="flex items-center justify-center gap-5 w-full">
             <ButtonComponment
+              className="w-[190px] h-[43px] text-xl"
               type="hoverbutton"
-              className="flex px-4 py-3"
               onClick={handlePreviousLesson}
             >
-              <ArrowBigLeft />
-              BÀI TRƯỚC
+              <div className="bg-[#FF5A00] rounded-[30px] h-[41px] w-[40px] flex items-center justify-center absolute left-[0.5px] top-[0px] group-hover:w-[188px] z-10 duration-500">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 1024 1024"
+                  height="25px"
+                  width="25px"
+                >
+                  <path
+                    d="M224 480h640a32 32 0 1 1 0 64H224a32 32 0 0 1 0-64z"
+                    fill="#fff"
+                  ></path>
+                  <path
+                    d="m237.248 512 265.408 265.344a32 32 0 0 1-45.312 45.312l-288-288a32 32 0 0 1 0-45.312l288-288a32 32 0 1 1 45.312 45.312L237.248 512z"
+                    fill="#fff"
+                  ></path>
+                </svg>
+              </div>
+              <p className="translate-x-2 pl-3 pt-[6px] ">Bài trước</p>
             </ButtonComponment>
             <ButtonComponment
-              type="hoverbutton"
-              className={`flex px-4 py-3 ${
+              className={`w-[190px] h-[43px] text-xl ${
                 disableNextLesson ? "opacity-50 cursor-not-allowed " : ""
               }`}
+              type="hoverbutton"
               onClick={handleNextLesson}
             >
-              BÀI TIẾP THEO
-              <ArrowBigRight />
+              <p className="translate-x-2 pr-[40px] pt-[6px]">Bài tiếp theo</p>
+              <div className="bg-[#FF5A00] rounded-[30px] h-[41px] w-[40px] flex items-center justify-center absolute right-[0.5px] top-[0px] group-hover:w-[188px] z-10 duration-500">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 1024 1024"
+                  height="25px"
+                  width="25px"
+                >
+                  <path
+                    d="M224 480h640a32 32 0 1 1 0 64H224a32 32 0 0 1 0-64z"
+                    fill="#fff"
+                  ></path>
+                  <path
+                    d="M780.752 512 550.344 777.344a32 32 0 0 0 45.312 45.312l288-288a32 32 0 0 0 0-45.312l-288-288a32 32 0 1 0-45.312 45.312L780.752 512z"
+                    fill="#fff"
+                  ></path>
+                </svg>
+              </div>
             </ButtonComponment>
           </div>
           <div className="absolute top-1/2 right-0 transform -translate-y-1/2 mr-3 flex items-center">
