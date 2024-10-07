@@ -100,7 +100,6 @@ export default function HeaderLayout() {
       </div>
 
       <div className="flex items-center mx-5 ms:mx-0 w-full sm:w-[500px] py-1 px-3 text-[#444] rounded-full border-2 border-[#E8E8E8] focus-within:border-black transition-colors duration-300">
-        <SearchCheck />
         <input
           type="text"
           placeholder="Search"
@@ -111,6 +110,9 @@ export default function HeaderLayout() {
             padding: "5px 10px",
           }}
         />
+        <div className="bg-[#FF5A00] rounded-full w-8 h-8 flex items-center justify-center">
+          <SearchCheck className="w-4 h-4 text-white"/>
+        </div>
       </div>
       <div className="flex gap-4 items-center mr-4">
         {token && user.status === true ? (
