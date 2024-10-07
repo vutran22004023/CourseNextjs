@@ -60,7 +60,7 @@ const CourseList: FC<{ courses: Course[]; isLoading: boolean; user: any }> = ({
   }, []);
 
   return (
-    <div className="flex md:grid md:grid-cols-4 gap-2 mb-3 mt-3 md:gap-4">
+    <div className="flex flex-nowrap md:grid md:grid-cols-4 gap-2 mb-3 pt-10 md:gap-4 overflow-x-auto ">
       {isLoading
         ? Array.from({ length: 5 }).map((_, index) => (
             <div key={index} className="flex-none w-full md:w-auto">

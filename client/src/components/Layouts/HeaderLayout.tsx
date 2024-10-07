@@ -89,7 +89,7 @@ export default function HeaderLayout() {
     <div className="fixed top-0 left-0 bg-white right-0 z-10 border-b border-[#cfcdcd] text-white p-3 flex justify-between items-center ">
       <div className="flex gap-3 items-center">
         <Link href="/">
-          <Image className="h-[60px] w-[150px] pl-2" src={logo} alt="fsdfsdf" layout="responsive" />
+          <Image width={150} height={60} className="h-[60px] w-[150px] pl-2" src={logo} alt="fsdfsdf" objectFit="cover"  />
         </Link>
         <div className="hidden sm:flex gap-3">
           <Text type="defaultSemiBold">Khóa học</Text>
@@ -99,7 +99,7 @@ export default function HeaderLayout() {
         </div>
       </div>
 
-      <div className="flex items-center mx-5 ms:mx-0 w-full sm:w-[500px] py-1 px-3 text-[#444] rounded-full border-2 border-[#E8E8E8] focus-within:border-black transition-colors duration-300">
+      <div className="sm:flex items-center mx-5 ms:mx-0 hidden sm:w-[500px] py-1 px-3 text-[#444] rounded-full border-2 border-[#E8E8E8] focus-within:border-black transition-colors duration-300">
         <input
           type="text"
           placeholder="Search"

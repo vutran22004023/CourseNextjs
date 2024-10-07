@@ -50,7 +50,8 @@ export default function CustomCarousel() {
                     <Image
                       src={Anh1}
                       alt="@shadcn"
-                      className="w-[1500px] h-[300px] rounded-xl"
+                      className="w-[1500px] h-[150px] md:h-[300px] rounded-xl"
+                      objectFit="cover"
                     />
                   </div>
                 </div>
