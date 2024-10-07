@@ -12,7 +12,9 @@ import {
   ArrowBigRight,
   CircleCheck,
   Lock,
-  MessageCircleQuestion,
+  NotebookPen,
+  Clock,
+  MessagesSquare,
 } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useMutationHook } from "@/hooks";
@@ -331,7 +333,7 @@ export default function page() {
   };
 
   return (
-    <div className="mt-[40px]">
+    <div className="mt-[20px]">
       <div className="flex ">
         <div className="w-[70%] ">
           <div className="bg-black pr-[20px] pl-[20px]">
@@ -346,17 +348,35 @@ export default function page() {
           </div>
           <div className="p-10">
             <div className="flex justify-between">
-              <div className="cactus-classical-serif-md font-semibold mb-1 text-[25px]">
+              <div className="font-semibold mb-1 text-[25px]">
                 {dataVideo?.childname}
               </div>
-              <ButtonComponment
-                type="courseHeader"
-                className="flex items-center justify-center p-2 select-none font-medium"
-                onClick={handleOpenEditBlog}
-              >
-                {" "}
-                Thêm ghi chú
-              </ButtonComponment>
+              <div className=" flex gap-4 items-center">
+                <ButtonComponment
+                  type="notesheet"
+                  className="h-[43px] flex items-center px-3 select-none"
+                  onClick={handleOpenEditBlog}
+                >
+                  {" "}
+                  <NotebookPen className="size-[20px] mr-1" />
+                  Thêm ghi chú
+                </ButtonComponment>
+                <ButtonComponment
+                  type="notesheet"
+                  className="h-[43px] flex items-center px-3 select-none"
+                  onClick={() => setIsModalMessage(true)}
+                >
+                  <MessagesSquare className="mr-1"/>
+                  <div>Hỏi đáp</div>
+                </ButtonComponment>
+              </div>
+              <SheetMessage
+                isOpen={isModalMessage}
+                onOpenChange={() => setIsModalMessage(!isModalMessage)}
+                dataChapter={mergedChapters}
+                dataVideo={dataCourseDetail}
+                dataChapVideo={dataVideo}
+              />
             </div>
             <div className="mb-5">Cập nhật {dataVideo?.updatedAt}</div>
             <div className="mb-5">
@@ -367,7 +387,7 @@ export default function page() {
           </div>
         </div>
         <div className="flex-1 border-l-2 mt-4">
-          <div className="cactus-classical-serif-md mb-3 p-2">
+          <div className="font-semibold text-[20px] mb-3 p-2 text-center ">
             Nội dung khóa học
           </div>
           <Accordion
@@ -383,14 +403,14 @@ export default function page() {
           >
             {mergedChapters?.map((chapter: any, index: number) => (
               <AccordionItem key={index} value={`item-${index}`}>
-                <AccordionTrigger className="bg-slate-100 px-2 hover:bg-slate-200 ">
+                <AccordionTrigger className="bg-slate-100 text-[18px] px-2 hover:no-underline hover:bg-slate-200 border-b-2 border-t-2 border-black">
                   {chapter.namechapter}
                 </AccordionTrigger>
                 {chapter.videos.map((video: any, vidIndex: number) => (
                   <AccordionContent
                     key={vidIndex}
-                    className={`flex justify-between p-3
-                    ${video.slug === activeSlug ? "bg-slate-400" : ""}
+                    className={`flex justify-between h-[50px] pl-3 border-b-2 border-black
+                    ${video.slug === activeSlug ? "bg-[#FFCFAE]" : ""}
                     ${
                       video.status === "not_started"
                         ? "cursor-not-allowed"
@@ -409,19 +429,21 @@ export default function page() {
                   >
                     <div className="w-[80%] text-[14px]">
                       <div className="mb-1">{video.childname}</div>
-                      <div>{video.time}</div>
+                      <div className="flex">
+                        <Clock className="size-[20px] mr-2" /> {video.time}
+                      </div>
                     </div>
                     <div className="w-[20%] justify-center items-center">
                       {video.status === "not_started" ? (
-                        <div className="flex justify-between mr-3">
+                        <div className="flex justify-between mr-3 pt-[15px]">
                           <div></div>
-                          <Lock size="20" />
+                          <Lock size="18" />
                         </div>
                       ) : video.status === "completed" ? (
                         <div className="flex justify-between mr-3 text-center">
                           <div></div>
                           {/* <CircleCheck size="20" className="text-[#55c72b]" /> */}
-                          <CheckCircleFilled className="text-[#55c72b] text-[20px]" />
+                          <CheckCircleFilled className="text-[#55c72b] pt-[15px] text-[20px]" />
                         </div>
                       ) : (
                         []
@@ -434,26 +456,21 @@ export default function page() {
           </Accordion>
         </div>
 
-        <div className="fixed bottom-0 left-0 bg-transparent right-0 z-10 border-b p-3 flex  items-center">
-          <div className="flex items-center justify-between w-full">
+        <div className="fixed bottom-0 left-0 bg-transparent right-0 z-10 border-b p-3 flex items-center">
+          <div className="flex items-center justify-center w-full">
             <ButtonComponment
-              type="courseHeader"
+              type="hoverbutton"
               className="flex px-4 py-3"
-              style={{
-                marginTop: "0",
-                borderRadius: "10px",
-              }}
               onClick={handlePreviousLesson}
             >
               <ArrowBigLeft />
               BÀI TRƯỚC
             </ButtonComponment>
             <ButtonComponment
-              type="courseHeader"
+              type="hoverbutton"
               className={`flex px-4 py-3 ${
                 disableNextLesson ? "opacity-50 cursor-not-allowed " : ""
               }`}
-              style={{ marginTop: "0", borderRadius: "10px" }}
               onClick={handleNextLesson}
             >
               BÀI TIẾP THEO
@@ -506,23 +523,6 @@ export default function page() {
             </div>
           </div>
         </CSSTransition>
-        <div className="fixed bottom-[60px] right-0 z-2 border-b p-3 flex  items-center">
-          <ButtonComponment
-            type="courseHeader"
-            className="mt-0 rounded-[10px] flex gap-2 p-3"
-            onClick={() => setIsModalMessage(true)}
-          >
-            <MessageCircleQuestion />
-            <div>Hỏi đáp</div>
-          </ButtonComponment>
-        </div>
-        <SheetMessage
-          isOpen={isModalMessage}
-          onOpenChange={() => setIsModalMessage(!isModalMessage)}
-          dataChapter={mergedChapters}
-          dataVideo={dataCourseDetail}
-          dataChapVideo={dataVideo}
-        />
       </div>
     </div>
   );

@@ -26,8 +26,8 @@ export default function courseContent({
   handleVideo,
 }: Props) {
   return (
-    <div className="flex-1 border-l-2 mt-4">
-      <Text className=" mb-3 p-2">
+    <div className="flex-1 border-l-2">
+      <Text className=" mb-3 p-3 text-center">
         Nội dung khóa học
       </Text>
       <Accordion

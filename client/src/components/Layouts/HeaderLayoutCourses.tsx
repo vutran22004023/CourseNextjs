@@ -1,11 +1,11 @@
 "use client";
 import React, { useState } from "react";
 import Link from "next/link";
-import { ArrowBigLeft } from "lucide-react";
+import { NotebookPen, MessageCircleQuestion  } from "lucide-react";
 import { Progress } from "antd";
 import { useSelector } from "react-redux";
 import ButtonComponent from "../Button/Button";
-import NoteSheet from "src/app/course-login/[slug]/note"; 
+import NoteSheet from "src/app/course-login/[slug]/note";
 import { RootState } from "@/redux/store";
 
 export default function HeaderLayoutCourses() {
@@ -21,39 +21,67 @@ export default function HeaderLayoutCourses() {
 
   return (
     <div className="fixed top-0 left-0 bg-[#fff] right-0 z-10 border-b p-3 flex justify-between items-center">
-      <div className="flex justify-center items-center">
-        <Link href="/">
-          <ButtonComponent type="courseHeader" className="px-3 py-1">
-            <ArrowBigLeft />
-          </ButtonComponent>
-        </Link>
-        <h1 className="text-[#040404] font-bold text-2xl ml-3">Trở về</h1>
+      <div className="flex">
+        <ButtonComponent
+          className="w-[133px] h-[43px]"
+          type="hoverbutton"
+        >
+          <Link
+            href="/"
+            className="bg-[#FF5A00] rounded-[30px] h-[40px] w-[40px] flex items-center justify-center absolute left-[0.5px] top-[1px] group-hover:w-[131px] z-10 duration-500"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 1024 1024"
+              height="25px"
+              width="25px"
+            >
+              <path
+                d="M224 480h640a32 32 0 1 1 0 64H224a32 32 0 0 1 0-64z"
+                fill="#fff"
+              ></path>
+              <path
+                d="m237.248 512 265.408 265.344a32 32 0 0 1-45.312 45.312l-288-288a32 32 0 0 1 0-45.312l288-288a32 32 0 1 1 45.312 45.312L237.248 512z"
+                fill="#fff"
+              ></path>
+            </svg>
+          </Link>
+          <p className="translate-x-2 pl-2 pt-[6px] ">Trở về</p>
+        </ButtonComponent>
+        <p className="ml-[53px] flex items-center text-[24px] font-medium">
+          HTML CSS từ ZERO đến HERO
+        </p>
       </div>
-      <div>
-        <input />
-      </div>
-      <div className="flex gap-4 items-center mr-3">
+      <div className="flex gap-2 items-center mr-3">
         <div className="flex justify-center items-center">
           <Progress
             type="circle"
             percent={timeVideo?.percentCourse}
-            size={40}
+            size={50}
           />
-          <div className="ml-2">
+          <div className="ml-2 text-[18px] font-normal">
             {timeVideo?.totalcompletedVideo}/{timeVideo?.totalVideo} bài học
           </div>
         </div>
         <ButtonComponent
           onClick={handleOpenChange}
           type="notesheet"
+          className="h-[43px] flex items-center px-3 select-none"
         >
+          <NotebookPen className="size-[20px] mr-1" />
           Chú thích
         </ButtonComponent>
-        <Link href="/my-courses" className="text-black">
-          Hướng dẫn
-        </Link>
+        <ButtonComponent
+          type="notesheet"
+          className="h-[43px] flex items-center px-3 select-none"
+        >
+          <Link href="/my-courses" className="flex">
+            <MessageCircleQuestion className="size-[20px] mr-1" />
+            Hướng dẫn
+          </Link>
+        </ButtonComponent>
       </div>
-      
+
       <NoteSheet
         isOpen={isNoteSheetOpen}
         onOpenChange={handleOpenChange}

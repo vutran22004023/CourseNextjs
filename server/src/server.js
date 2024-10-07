@@ -23,8 +23,8 @@ function getLocalIPAddress() {
 }
 
 const localIP = getLocalIPAddress();
-const port = process.env.PORT || 3005;
-const origin = `http://${localIP}:3005`;
+const port = process.env.PORT || 3002;
+const origin = `http://${localIP}:3002`;
 
 // Configure CORS with local IP as origin
 app.use(
