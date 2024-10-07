@@ -106,26 +106,24 @@ export default function HeaderLayout() {
           <>
             <HoverCard>
               <HoverCardTrigger asChild>
-                <Text className="cursor-pointer text-black">
+                <div className="cursor-pointer text-black">
                   Khóa học của tôi
-                </Text>
+                </div>
               </HoverCardTrigger>
-              <HoverCardContent className="w-100 mt-2 mr-20 text-black bg-[#f0efef] rounded">
-                <div className=" w-[350px] h-[300px]">
-                  <div className="flex justify-between w-full">
-                    <Text className="text-sm font-semibold">
-                      Khóa học của tôi
-                    </Text>
-                    <Text className="text-sm font-semibold">Xem tất cả</Text>
-                  </div>
-                  <div className="w-full mt-2">
-                    {courseProgress.length > 0 &&
-                      courseProgress
-                        .sort((a, b) => b.updatedAt.localeCompare(a.updatedAt))
-                        .map((item) => (
-                          <CardHistory key={item._id} data={item} />
-                        ))}
-                  </div>
+              <HoverCardContent className="w-[30rem] h-[25rem] pt-1 flex flex-col mt-2 mr-20 text-black bg-[#f0efef] rounded">
+                <div className="p-2 flex justify-between">
+                  <Text className="text-sm font-semibold text-center">
+                    Khóa học của tôi
+                  </Text>
+                  <Text className="text-sm font-semibold text-center">Xem tất cả</Text>
+                </div>
+                <div className="overflow-y-auto flex-grow">
+                  {courseProgress.length > 0 &&
+                    courseProgress
+                      .sort((a, b) => b.updatedAt.localeCompare(a.updatedAt))
+                      .map((item) => (
+                        <CardHistory key={item._id} data={item} />
+                      ))}
                 </div>
               </HoverCardContent>
             </HoverCard>

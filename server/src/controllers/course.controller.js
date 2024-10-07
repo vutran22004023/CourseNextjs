@@ -24,12 +24,7 @@ class CourseController {
   async get(req, res) {
     try {
       const { slug } = req.params;
-      if (!slug)
-        return res.status(200).json({
-          status: 'ERR',
-          message: 'Chưa điền đầy đủ thông tin ',
-        });
-      const result = await CourseService.getDetaiCourse(slug);
+      const result = await CourseService.getDetaiCourse(slug, req?.user);
       res.status(200).json(result);
     } catch (error) {
       res.status(500).json({ message: error.message });

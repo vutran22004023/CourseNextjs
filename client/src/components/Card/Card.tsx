@@ -1,17 +1,6 @@
 import Anh1 from "@/assets/Images/hinh-dep.jpg";
+import { Course } from "@/types";
 import { Users } from "lucide-react";
-interface Course {
-  chapters: any[];
-  createdAt: string;
-  image: string;
-  name: string;
-  price: string;
-  slug: string;
-  updatedAt: string;
-  video: string;
-  __v: number;
-  _id: string;
-}
 
 // Định nghĩa kiểu dữ liệu cho props
 interface Idata {
@@ -24,7 +13,7 @@ export default function Cart({ course }: Idata) {
         <img
           src={course?.image}
           alt={course?.name}
-          className="w-full h-[150px] md:h-[200px] rounded-t-xl transition-all duration-300 group-hover:opacity-70"
+          className="w-full h-[150px] md:h-[200px] rounded-t-xl transition-all duration-300 group-hover:opacity-70 object-cover"
         />
         <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 flex items-center justify-center transition-all duration-300">
           <div className="opacity-0 transform translate-y-10 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0">
@@ -38,7 +27,7 @@ export default function Cart({ course }: Idata) {
         <div className="mb-1 font-bold">{course?.name}</div>
         <div className="flex gap-2 text-[14px]">
           <Users className="text-[12px] text-[#ff5a00]" />
-          <span className="font-bold text-[16px] text-[#ff5a00]">127.127</span>
+          <span className="font-bold text-[16px] text-[#ff5a00]">{course.view}</span>
         </div>
       </div>
     </div>

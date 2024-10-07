@@ -59,6 +59,7 @@ export interface Course {
   slug: string;
   updatedAt: string;
   video: string;
+  view: number;
   __v: number;
   _id: string;
 }

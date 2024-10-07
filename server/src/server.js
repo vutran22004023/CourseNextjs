@@ -23,8 +23,8 @@ function getLocalIPAddress() {
 }
 
 const localIP = getLocalIPAddress();
-const port = process.env.PORT || 3003;
-const origin = `http://${localIP}:3003`;
+const port = process.env.PORT || 3005;
+const origin = `http://${localIP}:3005`;
 
 // Configure CORS with local IP as origin
 app.use(
@@ -64,5 +64,5 @@ app.listen(port, async () => {
     });
 
   console.log(`Listening on port http://${localIP}:${port} with CORS origin ${origin}`);
-  console.log(`Listening on port http://localhost:${port} with CORS origin http://localhost:3000`);
+  console.log(`Listening on port http://localhost:${port} with CORS origin http://localhost:${port}`);
 });
