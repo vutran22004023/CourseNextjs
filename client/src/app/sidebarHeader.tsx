@@ -10,8 +10,8 @@ export default function sidebarHeader({
   children: React.ReactNode;
 }>) {
   const pageConfig = {
-    showHeader: ["/"], // Hiển thị Header cho trang gốc
-    showSidebar: ["/"], // Hiển thị Sidebar cho các trang được chỉ định
+    showHeader: [""], // Hiển thị Header cho trang gốc
+    showSidebar: [""], // Hiển thị Sidebar cho các trang được chỉ định
     hideHeader: ["/course-login"],
     hideSidebar: [
       "/blog/blog-detail",
@@ -22,6 +22,7 @@ export default function sidebarHeader({
       "/reset-password",
       "/form-status-auth",
       "/information-pay",
+      "/"
     ], // Ẩn Sidebar cho các trang được chỉ định
   };
   const pathname = usePathname();
