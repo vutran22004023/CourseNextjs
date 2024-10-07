@@ -60,7 +60,7 @@ const CourseList: FC<{ courses: Course[]; isLoading: boolean; user: any }> = ({
   }, []);
 
   return (
-    <div className="flex md:grid md:grid-cols-4 gap-2 mb-3 mt-3 md:gap-4">
+    <div className="flex flex-nowrap md:grid md:grid-cols-4 gap-2 mb-3 pt-10 md:gap-4 overflow-x-auto ">
       {isLoading
         ? Array.from({ length: 5 }).map((_, index) => (
             <div key={index} className="flex-none w-full md:w-auto">
@@ -106,6 +106,8 @@ const PageClient: FC = () => {
   const user = useSelector((state: RootState) => state.user);
   const search = useSelector((state: RootState) => state.searchs);
   const searchDebounced = useDebounce(search.search, 500);
+  const [activeTab, setActiveTab] = useState("Html/Css");
+  const tabs = ["Html/Css", "Javascript", "Reactjs", "Database"];
 
   const { data: dataAllCourses, isLoading: isLoadingAllCourses } = useQuery({
     queryKey: ["course", searchDebounced],
@@ -125,22 +127,74 @@ const PageClient: FC = () => {
           Khóa học Pro
           <Crown className="absolute text-yellow-400 top-[-10px] right-[-5px]" />
         </Text>
-        <CourseList
-          courses={dataCoursePaid}
-          isLoading={isLoadingAllCourses}
-          user={user}
-        />
+        <div className="flex gap-4 mt-5">
+          {tabs.map((tab, index) => (
+            <div
+              key={index}
+              onClick={() => setActiveTab(tab)}
+              className="flex flex-col items-center cursor-pointer"
+            >
+              <span
+                className={`text-lg ${activeTab === tab ? "font-bold" : ""}`}
+              >
+                {tab}
+              </span>
+              {activeTab === tab && (
+                <div className="h-1 bg-orange-500 w-full mt-1"></div>
+              )}
+            </div>
+          ))}
+        </div>
+        <div className="mt-3 rounded-xl border-2 border-[#000] p-3">
+          <Text type="defaultSemiBold">Nền tảng cơ bản cho phát triên web</Text>
+          <div className="p-2 bg-[#FF5A00] w-[180px] rounded-xl border-2 border-[#000] mt-2">
+            <Text type="defaultSemiBold" className="text-white">
+              Khám phá HTML/Css
+            </Text>
+          </div>
+          <CourseList
+            courses={dataCoursePaid}
+            isLoading={isLoadingAllCourses}
+            user={user}
+          />
+        </div>
       </div>
 
       <div className="">
         <Text type="subtitle" className="w-[170px] mb-7">
           Khóa học free
         </Text>
-        <CourseList
-          courses={dataCourseFree}
-          isLoading={isLoadingAllCourses}
-          user={user}
-        />
+        <div className="flex gap-4 mt-5">
+          {tabs.map((tab, index) => (
+            <div
+              key={index}
+              onClick={() => setActiveTab(tab)}
+              className="flex flex-col items-center cursor-pointer"
+            >
+              <span
+                className={`text-lg ${activeTab === tab ? "font-bold" : ""}`}
+              >
+                {tab}
+              </span>
+              {activeTab === tab && (
+                <div className="h-1 bg-orange-500 w-full mt-1"></div>
+              )}
+            </div>
+          ))}
+        </div>
+        <div className="mt-3 rounded-xl border-2 border-[#000] p-3">
+          <Text type="defaultSemiBold">Nền tảng cơ bản cho phát triên web</Text>
+          <div className="p-2 bg-[#FF5A00] w-[180px] rounded-xl border-2 border-[#000] mt-2">
+            <Text type="defaultSemiBold" className="text-white">
+              Khám phá HTML/Css
+            </Text>
+          </div>
+          <CourseList
+            courses={dataCourseFree}
+            isLoading={isLoadingAllCourses}
+            user={user}
+          />
+        </div>
       </div>
     </main>
   );

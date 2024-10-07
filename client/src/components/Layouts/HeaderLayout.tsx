@@ -10,6 +10,7 @@ import {
   NotebookPen,
   Lock,
   SearchCheck,
+  AlignJustify 
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import {
@@ -40,8 +41,8 @@ import CardHistory from "@/components/Card/CardHistory";
 import Text from "../Text/text";
 import { CourseProgress } from "@/types";
 import { GetCourseProgress } from "@/apis/usercourse";
-import logo from '@/assets/Images/logo.png'
-import Image from 'next/image'
+import logo from "@/assets/logo/brain 1.png";
+import Image from "next/image";
 export default function HeaderLayout() {
   const [courseProgress, setCourseProgress] = useState<CourseProgress[]>([]);
   const router = useRouter();
@@ -86,10 +87,19 @@ export default function HeaderLayout() {
 
   return (
     <div className="fixed top-0 left-0 bg-white right-0 z-10 border-b border-[#cfcdcd] text-white p-3 flex justify-between items-center ">
-      <Link href="/"><Image className="h-[30px] w-[200px] pl-2" src={logo} alt="fsdfsdf"/></Link>
-      
-      <div className="flex items-center w-[500px] py-1 px-3 text-[#444] rounded-full border-2 border-[#E8E8E8] focus-within:border-black transition-colors duration-300">
-        <SearchCheck />
+      <div className="flex gap-3 items-center">
+        <Link href="/">
+          <Image width={150} height={60} className="h-[60px] w-[150px] pl-2" src={logo} alt="fsdfsdf" objectFit="cover"  />
+        </Link>
+        <div className="hidden sm:flex gap-3">
+          <Text type="defaultSemiBold">Khóa học</Text>
+          <Text type="defaultSemiBold">Blog</Text>
+          <Text type="defaultSemiBold">Học online</Text>
+          <Text type="defaultSemiBold">Giải đấu</Text>
+        </div>
+      </div>
+
+      <div className="sm:flex items-center mx-5 ms:mx-0 hidden sm:w-[500px] py-1 px-3 text-[#444] rounded-full border-2 border-[#E8E8E8] focus-within:border-black transition-colors duration-300">
         <input
           type="text"
           placeholder="Search"
@@ -100,10 +110,14 @@ export default function HeaderLayout() {
             padding: "5px 10px",
           }}
         />
+        <div className="bg-[#FF5A00] rounded-full w-8 h-8 flex items-center justify-center">
+          <SearchCheck className="w-4 h-4 text-white"/>
+        </div>
       </div>
       <div className="flex gap-4 items-center mr-4">
         {token && user.status === true ? (
           <>
+          <div className="hidden sm:block">
             <HoverCard>
               <HoverCardTrigger asChild>
                 <div className="cursor-pointer text-black">
@@ -115,7 +129,9 @@ export default function HeaderLayout() {
                   <Text className="text-sm font-semibold text-center">
                     Khóa học của tôi
                   </Text>
-                  <Text className="text-sm font-semibold text-center">Xem tất cả</Text>
+                  <Text className="text-sm font-semibold text-center">
+                    Xem tất cả
+                  </Text>
                 </div>
                 <div className="overflow-y-auto flex-grow">
                   {courseProgress.length > 0 &&
@@ -127,6 +143,8 @@ export default function HeaderLayout() {
                 </div>
               </HoverCardContent>
             </HoverCard>
+            </div>
+            <div className="hidden sm:block">
             <HoverCard>
               <HoverCardTrigger asChild>
                 <div className="cursor-pointer">
@@ -144,6 +162,11 @@ export default function HeaderLayout() {
                 </div>
               </HoverCardContent>
             </HoverCard>
+            </div>
+            <div className="block sm:hidden">
+              <AlignJustify className="mr-2 h-6 w-6 text-[#FF5A00]"/>
+            </div>
+            <div className="hidden sm:block">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <div className="cursor-pointer mr-2">
@@ -214,7 +237,8 @@ export default function HeaderLayout() {
                   <span className="hover:text-[#a1a1a1]">Đăng xuất</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
-            </DropdownMenu>
+            </DropdownMenu>        
+            </div>
           </>
         ) : (
           <LoginComponent />
