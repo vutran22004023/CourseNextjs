@@ -24,7 +24,6 @@ import { useEffect, useState, useRef } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { useQuery } from "@tanstack/react-query";
-import { CheckCircleFilled } from "@ant-design/icons";
 import { useDispatch } from "react-redux";
 import { totalVideo } from "@/redux/Slides/timeVideoSide";
 import WordPost from "@/components/WordPost/wordPost";
@@ -32,7 +31,9 @@ import { CSSTransition } from "react-transition-group";
 import { useRouter } from "next/navigation";
 import SheetMessage from "./sheetMessage";
 import NoteSheet from "./note";
-import { getTokenFromCookies } from "@/utils/auth";
+import BottomBar from "./bottomBar";
+import CourseContent from "./courseContent";
+import {formatDate} from '@/utils/index'
 export default function page() {
   const { slug } = useParams();
   const dispatch = useDispatch();
@@ -40,9 +41,9 @@ export default function page() {
   const timeVideo = useSelector((state: RootState) => state.timesVideo);
   const user = useSelector((state: RootState) => state.user);
   if (!user.id || !user.email || !user.status) return router.push("/");
-  const [dataCourseDetail, setDataCourseDetail] = useState();
+  const [dataCourseDetail, setDataCourseDetail] = useState<any>();
   const [isLoadingDetail, setIsLoadingDetail] = useState(false);
-  const [dataVideo, setDataVideo] = useState();
+  const [dataVideo, setDataVideo] = useState<any>();
   const [activeSlug, setActiveSlug] = useState<string | null>(null);
   const [activeChapterIndex, setActiveChapterIndex] = useState<number | null>(
     null
@@ -65,17 +66,11 @@ export default function page() {
 
   const mutationStateCouses = async () => {
     try {
-      const token = await getTokenFromCookies();
-
-      if (token === null) {
-        throw new Error("No token found");
-      }
       const res = await StartCourse(
         {
           userId: user.id,
           courseId: dataCourseDetail?._id,
-        },
-        token
+        }
       );
       return res.data;
     } catch (err) {
@@ -85,12 +80,7 @@ export default function page() {
 
   const mutationUpdateCourse = useMutationHook(async (data) => {
     try {
-      const token = await getTokenFromCookies();
-
-      if (token === null) {
-        throw new Error("No token found");
-      }
-      const res = await UpdateUserCourse(data, token);
+      const res = await UpdateUserCourse(data);
       return res.data;
     } catch (err) {
       console.log(err);
@@ -352,7 +342,9 @@ export default function page() {
                 <p className="font-semibold text-[25px]">
                   {dataVideo?.childname}
                 </p>
-                <div className="mb-3 md:mb-5">Cập nhật {dataVideo?.updatedAt}</div>
+                <div className="mb-3 md:mb-5">
+                  Cập nhật: {formatDate(dataVideo?.updatedAt)}
+                </div>
               </div>
               <div className="flex gap-4 items-center">
                 <ButtonComponment
@@ -388,138 +380,18 @@ export default function page() {
             <div>Fanpage: https://www.facebook.com/f8vnofficial</div>
           </div>
         </div>
-        <div className="flex-1 border-l-2 my-4">
-          <div className="font-semibold text-[20px] mb-3 p-2 text-center ">
-            Nội dung khóa học
-          </div>
-          <Accordion
-            type="single"
-            collapsible
-            className="w-full"
-            value={
-              activeChapterIndex !== null
-                ? `item-${activeChapterIndex}`
-                : undefined
-            }
-            onValueChange={handleAccordionChange}
-          >
-            {mergedChapters?.map((chapter: any, index: number) => (
-              <AccordionItem key={index} value={`item-${index}`}>
-                <AccordionTrigger className="bg-slate-100 text-[18px] px-2 hover:no-underline hover:bg-slate-200 border-b-2 border-t-2 border-black">
-                  {chapter.namechapter}
-                </AccordionTrigger>
-                {chapter.videos.map((video: any, vidIndex: number) => (
-                  <AccordionContent
-                    key={vidIndex}
-                    className={`flex justify-between h-[50px] pl-3 border-b-2 border-black
-                    ${video.slug === activeSlug ? "bg-[#FFCFAE]" : ""}
-                    ${
-                      video.status === "not_started"
-                        ? "cursor-not-allowed"
-                        : "cursor-pointer"
-                    }
-                    ${
-                      video.status === "not_started" ? "" : "hover:bg-slate-300"
-                    }
-                    ${video.status === "not_started" ? "bg-slate-200" : ""}
-                    `}
-                    onClick={() => {
-                      if (video.status !== "not_started") {
-                        handleVideo(video?.slug);
-                      }
-                    }}
-                  >
-                    <div className="w-[80%] text-[14px]">
-                      <div className="mb-1">{video.childname}</div>
-                      <div className="flex">
-                        <Clock className="size-[20px] mr-2" /> {video.time}
-                      </div>
-                    </div>
-                    <div className="w-[20%] justify-center items-center">
-                      {video.status === "not_started" ? (
-                        <div className="flex justify-between mr-3 pt-[15px]">
-                          <div></div>
-                          <Lock size="18" />
-                        </div>
-                      ) : video.status === "completed" ? (
-                        <div className="flex justify-between mr-3 text-center">
-                          <div></div>
-                          {/* <CircleCheck size="20" className="text-[#55c72b]" /> */}
-                          <CheckCircleFilled className="text-[#55c72b] pt-[15px] text-[20px]" />
-                        </div>
-                      ) : (
-                        []
-                      )}
-                    </div>
-                  </AccordionContent>
-                ))}
-              </AccordionItem>
-            ))}
-          </Accordion>
-        </div>
-
-        <div className="fixed bottom-0 left-0 bg-transparent right-0 z-10 border-b p-3 flex items-center">
-          <div className="flex items-center justify-center gap-5 w-full">
-            <ButtonComponment
-              className="w-[190px] h-[43px] text-xl"
-              type="hoverbutton"
-              onClick={handlePreviousLesson}
-            >
-              <div className="bg-[#FF5A00] rounded-[30px] h-[41px] w-[40px] flex items-center justify-center absolute left-[0.5px] top-[0px] group-hover:w-[188px] z-10 duration-500">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 1024 1024"
-                  height="25px"
-                  width="25px"
-                >
-                  <path
-                    d="M224 480h640a32 32 0 1 1 0 64H224a32 32 0 0 1 0-64z"
-                    fill="#fff"
-                  ></path>
-                  <path
-                    d="m237.248 512 265.408 265.344a32 32 0 0 1-45.312 45.312l-288-288a32 32 0 0 1 0-45.312l288-288a32 32 0 1 1 45.312 45.312L237.248 512z"
-                    fill="#fff"
-                  ></path>
-                </svg>
-              </div>
-              <p className="translate-x-2 pl-3 pt-[6px] ">Bài trước</p>
-            </ButtonComponment>
-            <ButtonComponment
-              className={`w-[190px] h-[43px] text-xl ${
-                disableNextLesson ? "opacity-50 cursor-not-allowed " : ""
-              }`}
-              type="hoverbutton"
-              onClick={handleNextLesson}
-            >
-              <p className="translate-x-2 pr-[40px] pt-[6px]">Bài tiếp theo</p>
-              <div className="bg-[#FF5A00] rounded-[30px] h-[41px] w-[40px] flex items-center justify-center absolute right-[0.5px] top-[0px] group-hover:w-[188px] z-10 duration-500">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 1024 1024"
-                  height="25px"
-                  width="25px"
-                >
-                  <path
-                    d="M224 480h640a32 32 0 1 1 0 64H224a32 32 0 0 1 0-64z"
-                    fill="#fff"
-                  ></path>
-                  <path
-                    d="M780.752 512 550.344 777.344a32 32 0 0 0 45.312 45.312l288-288a32 32 0 0 0 0-45.312l-288-288a32 32 0 1 0-45.312 45.312L780.752 512z"
-                    fill="#fff"
-                  ></path>
-                </svg>
-              </div>
-            </ButtonComponment>
-          </div>
-          <div className="absolute top-1/2 right-0 transform -translate-y-1/2 mr-3 flex items-center">
-            <ButtonComponment
-              className="ml-2 p-3 w-[50px]"
-              style={{ marginTop: "0", borderRadius: "60%" }}
-            >
-              <ArrowBigRight />
-            </ButtonComponment>
-          </div>
-        </div>
+        <CourseContent
+          activeChapterIndex={activeChapterIndex}
+          handleAccordionChange={handleAccordionChange}
+          mergedChapters={mergedChapters}
+          activeSlug={activeSlug}
+          handleVideo={handleVideo}
+        />
+        <BottomBar
+          handlePreviousLesson={handlePreviousLesson}
+          disableNextLesson={disableNextLesson}
+          handleNextLesson={handleNextLesson}
+        />
         <CSSTransition
           in={isModalOpenEdit}
           timeout={300}

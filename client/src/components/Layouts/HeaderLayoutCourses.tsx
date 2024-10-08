@@ -56,14 +56,14 @@ export default function HeaderLayoutCourses() {
         <div className="flex justify-center items-center md:relative md:top-auto">
           <Progress
             type="circle"
-            percent={timeVideo?.percentCourse}
+            percent={timeVideo?.percentCourse }
             size={50}
           />
           <div className="hidden md:block md:ml-2 md:text-[18px] font-normal">
             {timeVideo?.totalcompletedVideo}/{timeVideo?.totalVideo} bài học
           </div>
         </div>
-        <div className="hidden md:block">
+        <div className="hidden md:flex gap-2">
           <ButtonComponent
             onClick={handleOpenChange}
             type="notesheet"
