@@ -30,7 +30,7 @@ const ClientProviders: React.FC<{ children: React.ReactNode }> = ({
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
           {children}
-          <ReactQueryDevtools initialIsOpen={false} />
+          {/* <ReactQueryDevtools initialIsOpen={false} position="top-right" /> */}
         </AuthProvider>
       </QueryClientProvider>
     </PersistGate>

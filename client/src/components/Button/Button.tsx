@@ -7,12 +7,15 @@ interface ButtonProps {
       | "courseHeader"
       | "notesheet"
     children: React.ReactNode;
-    className: string;
+    className?: string;
+    style?: React.CSSProperties;
+    onClick?: () => void;
   }
 export default function Button({
   type = "sidebar",
   children,
   className,
+  style,
   ...rest
 }: ButtonProps) {
   const baseClass = "";

@@ -6,7 +6,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Lock } from "lucide-react";
+import { Clock, Lock } from "lucide-react";
 import { CheckCircleFilled } from "@ant-design/icons";
 import Text from "@/components/Text/text";
 
@@ -26,10 +26,10 @@ export default function courseContent({
   handleVideo,
 }: Props) {
   return (
-    <div className="flex-1 border-l-2">
-      <Text className=" mb-3 p-3 text-center">
+    <div className="flex-1 border-l-2 my-4">
+      <div className="font-semibold text-[20px] mb-3 p-2 text-center ">
         Nội dung khóa học
-      </Text>
+      </div>
       <Accordion
         type="single"
         collapsible
@@ -41,14 +41,14 @@ export default function courseContent({
       >
         {mergedChapters?.map((chapter: any, index: number) => (
           <AccordionItem key={index} value={`item-${index}`}>
-            <AccordionTrigger className="bg-slate-100 px-2 hover:bg-slate-200 ">
+            <AccordionTrigger className="bg-slate-100 text-[18px] px-2 hover:no-underline hover:bg-slate-200 border-b-2 border-t-2 border-black">
               {chapter.namechapter}
             </AccordionTrigger>
             {chapter.videos.map((video: any, vidIndex: number) => (
               <AccordionContent
                 key={vidIndex}
-                className={`flex justify-between p-3
-              ${video.slug === activeSlug ? "bg-slate-400" : ""}
+                className={`flex justify-between h-[50px] pl-3 border-b-2 border-black
+              ${video.slug === activeSlug ? "bg-[#FFCFAE]" : ""}
               ${
                 video.status === "not_started"
                   ? "cursor-not-allowed"
@@ -65,18 +65,21 @@ export default function courseContent({
               >
                 <div className="w-[80%] text-[14px]">
                   <div className="mb-1">{video.childname}</div>
-                  <div>{video.time}</div>
+                  <div className="flex">
+                    <Clock className="size-[20px] mr-2" /> {video.time}
+                  </div>
                 </div>
                 <div className="w-[20%] justify-center items-center">
                   {video.status === "not_started" ? (
-                    <div className="flex justify-between mr-3">
+                    <div className="flex justify-between mr-3 pt-[15px]">
                       <div></div>
-                      <Lock size="20" />
+                      <Lock size="18" />
                     </div>
                   ) : video.status === "completed" ? (
                     <div className="flex justify-between mr-3 text-center">
                       <div></div>
-                      <CheckCircleFilled className="text-[#55c72b] text-[20px]" />
+                      {/* <CircleCheck size="20" className="text-[#55c72b]" /> */}
+                      <CheckCircleFilled className="text-[#55c72b] pt-[15px] text-[20px]" />
                     </div>
                   ) : (
                     []
