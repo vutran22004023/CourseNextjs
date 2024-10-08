@@ -24,7 +24,7 @@ export default function Text({
     default: "text-[16px]",
     title: "text-[32px] font-bold leading-8",
     defaultSemiBold: "text-base font-bold leading-6",
-    subtitle: "text-2xl font-bold leading-6 ",
+    subtitle: "text-2xl font-bold leading-6",
     subtitleDefault: "text-2xl",
     header: "text-3xl font-bold",
   };
