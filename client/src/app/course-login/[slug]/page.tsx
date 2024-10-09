@@ -25,6 +25,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { useQuery } from "@tanstack/react-query";
 import { useDispatch } from "react-redux";
+import { Progress } from "antd";
 import { totalVideo } from "@/redux/Slides/timeVideoSide";
 import WordPost from "@/components/WordPost/wordPost";
 import { CSSTransition } from "react-transition-group";
@@ -33,7 +34,8 @@ import SheetMessage from "./sheetMessage";
 import NoteSheet from "./note";
 import BottomBar from "./bottomBar";
 import CourseContent from "./courseContent";
-import {formatDate} from '@/utils/index'
+import { formatDate } from "@/utils/index";
+import useWindowSize from '@/hooks/useScreenWindow'
 export default function page() {
   const { slug } = useParams();
   const dispatch = useDispatch();
@@ -55,6 +57,7 @@ export default function page() {
   const [isNoteSheetOpen, setIsNoteSheetOpen] = useState(false);
   const [isModalOpenEdit, setIsModalOpenEdit] = useState(false);
   const [isModalMessage, setIsModalMessage] = useState(false);
+  const {width: WIDTH_WINDOW} = useWindowSize();
   const mutationGetDetailCourse = useMutationHook(async (slug: any) => {
     try {
       const res = await GetDetailCourses(slug);
@@ -66,12 +69,10 @@ export default function page() {
 
   const mutationStateCouses = async () => {
     try {
-      const res = await StartCourse(
-        {
-          userId: user.id,
-          courseId: dataCourseDetail?._id,
-        }
-      );
+      const res = await StartCourse({
+        userId: user.id,
+        courseId: dataCourseDetail?._id,
+      });
       return res.data;
     } catch (err) {
       console.log(err);
@@ -330,20 +331,30 @@ export default function page() {
             <VideoYoutubeComponment
               style={{
                 width: "100%",
-                height: "500px",
+                height: WIDTH_WINDOW <= 500 ? "250px" : "500px",
               }}
               src={dataVideo?.video}
               title="YouTube video player"
             />
           </div>
-          <div className="p-5 md:p-10">
+          <div className="p-5 md:p-10 md:mb-[60px]">
             <div className="md:flex justify-between">
-              <div className="mb-1">
-                <p className="font-semibold text-[25px]">
-                  {dataVideo?.childname}
-                </p>
-                <div className="mb-3 md:mb-5">
-                  Cập nhật: {formatDate(dataVideo?.updatedAt)}
+              <div className="mb-1 flex">
+                <div>
+                  <p className="font-semibold text-[25px]">
+                    {dataVideo?.childname}
+                  </p>
+                  <div className="mb-3 md:mb-5">
+                    Cập nhật: {formatDate(dataVideo?.updatedAt)}
+                  </div>
+                </div>
+                <div>
+                  <Progress
+                    type="circle"
+                    percent={timeVideo?.percentCourse}
+                    size={60}
+                    className="block pt-[15px] pl-[50px] md:hidden"
+                  />
                 </div>
               </div>
               <div className="flex gap-4 items-center">
@@ -398,7 +409,7 @@ export default function page() {
           classNames="modal"
           unmountOnExit
         >
-          <div className="fixed bottom-0 left-0 bg-[#f4f4f4] right-0 z-10 border-b p-5 w-[69.5%] h-[290px] border-t border-black">
+          <div className="fixed bottom-0 left-0 bg-[#f4f4f4] right-0 z-10 border-b p-5 w-full h-auto md:w-[69.5%] md:h-[290px] border-t border-black">
             <div className="p-5 bg-[#fff] border  border-black rounded-xl h-[200px]">
               <WordPost />
             </div>
@@ -406,16 +417,16 @@ export default function page() {
               <div></div>
               <div className="flex mt-5">
                 <ButtonComponment
-                  className="ml-2 p-3 w-[150px]"
-                  style={{ marginTop: "0", borderRadius: 10 }}
+                  className="ml-2 py-1 h-[35px] w-[150px] flex justify-center items-center"
                   onClick={() => setIsModalOpenEdit(false)}
+                  type="notesheet"
                 >
                   Hủy bỏ
                 </ButtonComponment>
                 <ButtonComponment
                   onClick={handleOpenChange}
-                  className="ml-2 p-3 w-[150px]"
-                  style={{ marginTop: "0", borderRadius: 10 }}
+                  className="ml-2 py-1 h-[35px] w-[150px] flex justify-center items-center"
+                  type="notesheet"
                 >
                   Tạo ghi chú
                 </ButtonComponment>
