@@ -24,12 +24,12 @@ class UserCourseService {
         };
       }
 
-      const checkUserCourse = await UserCourse.findOne({
+      const userCourse = await UserCourse.findOne({
         userId: userId,
         courseId: courseId,
       });
 
-      if (!checkUserCourse) {
+      if (!userCourse) {
         // Kiểm tra payment
         if (course.price === 'paid') {
           const payCourse = await PayCourse.findOne({
@@ -64,11 +64,8 @@ class UserCourseService {
         };
       }
 
-      // Đồng bộ dữ liệu khi admin thêm chương hoặc video mới
-      const userCourse = await UserCourse.findOne({
-        userId: userId,
-        courseId: courseId,
-      });
+      // Handle if delete chapters
+      userCourse.chapters = userCourse.chapters.filter((uc) => course.chapters.some((c) => c._id.equals(uc.chapterId)));
 
       // Đồng bộ chương
       course.chapters.forEach((courseChapter) => {
@@ -82,6 +79,11 @@ class UserCourseService {
             })),
           });
         } else {
+          // Handle if delete videos
+          userChapter.videos = userChapter.videos.filter((uv) =>
+            courseChapter.videos.some((cv) => cv._id.equals(uv.videoId))
+          );
+
           // Đồng bộ video trong chương
           courseChapter.videos.forEach((courseVideo) => {
             const userVideo = userChapter.videos.find((uv) => uv.videoId.equals(courseVideo._id));

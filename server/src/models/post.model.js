@@ -17,11 +17,11 @@ const postSchema = new mongoose.Schema(
       required: [true, 'Nội dung không được để trống!'],
     },
     tag: {
-      type: String
+      type: String,
     },
     isConfirmed: {
       type: Boolean,
-      default: false
+      default: false,
     },
     slug: {
       type: String,
