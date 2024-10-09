@@ -212,7 +212,7 @@ export default function sheetmessage({
                   }
                 />
               </div>
-              <ButtonComponent className="w-[15%] mt-0" onClick={handleButton}>
+              <ButtonComponent className="w-[15%] h-[40px] flex justify-center items-center rounded-[8px]" type="notesheet" onClick={handleButton}>
                 <SendHorizontal />
               </ButtonComponent>
             </div>

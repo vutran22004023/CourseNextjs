@@ -46,12 +46,12 @@ export default function NoteSheet({
   return (
     <Sheet open={isOpen} onOpenChange={onOpenChange}>
       <SheetTrigger asChild></SheetTrigger>
-      <SheetContent className="bg-white pr-[20px] w-[40%]">
-        <div className="flex space-x-20">
-          <div className="text-2xl font-semibold">Ghi chú của tôi</div>
+      <SheetContent className="bg-white pr-[20px] w-full md:w-[40%]">
+        <div className="flex md:space-x-20">
+          <div className="text-[18px] md:text-2xl pt-1 md:pt-0 font-semibold">Ghi chú của tôi</div>
           <div className="flex gap-4">
             <Select>
-              <SelectTrigger className="w-[180px]">
+              <SelectTrigger className="w-[120px] text md:w-[180px]">
                 <SelectValue placeholder="Trong chương hiện tại" />
               </SelectTrigger>
               <SelectContent>

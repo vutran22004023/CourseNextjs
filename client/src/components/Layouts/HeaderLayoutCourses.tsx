@@ -1,12 +1,21 @@
 "use client";
 import React, { useState } from "react";
 import Link from "next/link";
-import { NotebookPen, MessageCircleQuestion } from "lucide-react";
+import { NotebookPen, MessageCircleQuestion, Menu } from "lucide-react";
 import { Progress } from "antd";
 import { useSelector } from "react-redux";
 import ButtonComponent from "../Button/Button";
 import NoteSheet from "src/app/course-login/[slug]/note";
 import { RootState } from "@/redux/store";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
 
 export default function HeaderLayoutCourses() {
   const timeVideo = useSelector((state: RootState) => state.timesVideo);
@@ -56,8 +65,9 @@ export default function HeaderLayoutCourses() {
         <div className="flex justify-center items-center md:relative md:top-auto">
           <Progress
             type="circle"
-            percent={timeVideo?.percentCourse }
+            percent={timeVideo?.percentCourse}
             size={50}
+            className="hidden md:block"
           />
           <div className="hidden md:block md:ml-2 md:text-[18px] font-normal">
             {timeVideo?.totalcompletedVideo}/{timeVideo?.totalVideo} bài học
@@ -83,6 +93,40 @@ export default function HeaderLayoutCourses() {
           </ButtonComponent>
         </div>
       </div>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <div className="md:hidden rounded-full border-2 border-[#FF5A00] p-2">
+            <Menu />
+          </div>
+        </DropdownMenuTrigger>
+
+        <DropdownMenuContent className="w-[140px] border-none bg-transparent rounded">
+          <DropdownMenuGroup>
+              <DropdownMenuItem className="cursor-pointer justify-end">
+                <ButtonComponent
+                  onClick={handleOpenChange}
+                  type="notesheet"
+                  className="h-[35px] text-[12px] flex items-center px-3 select-none"
+                >
+                  <NotebookPen className="size-[20px] mr-1" />
+                  Chú thích
+                </ButtonComponent>
+              </DropdownMenuItem>
+
+              <DropdownMenuItem className="cursor-pointer justify-end">
+                <ButtonComponent
+                  type="notesheet"
+                  className="h-[35px] text-[12px] flex items-center px-3 select-none"
+                >
+                  <Link href="/my-courses" className="flex">
+                    <MessageCircleQuestion className="size-[20px] mr-1" />
+                    Hướng dẫn
+                  </Link>
+                </ButtonComponent>
+              </DropdownMenuItem>
+          </DropdownMenuGroup>
+        </DropdownMenuContent>
+      </DropdownMenu>
 
       <NoteSheet
         isOpen={isNoteSheetOpen}
