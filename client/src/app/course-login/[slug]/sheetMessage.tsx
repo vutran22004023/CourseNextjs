@@ -85,11 +85,7 @@ export default function sheetmessage({
     return res;
   });
 
-  const {
-    data: dataMessage,
-    isPending: isLoadingMessage,
-    refetch,
-  } = useQuery({
+  const { data: dataMessage, isPending: isLoadingMessage } = useQuery({
     queryKey: [
       "message",
       dataVideo?._id,
@@ -103,19 +99,10 @@ export default function sheetmessage({
       !!dataChapter[0]?._id &&
       !!dataChapVideo?._id &&
       isOpen,
-    onError: (error: any) => {
-      console.error("Error fetching messages:", error.message);
-    },
     retry: 3,
+    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
     refetchInterval: 1000,
-    onSuccess: () => {
-      console.log("Success fetching messages");
-    },
   });
-
-  useEffect(() => {
-    refetch();
-  }, [dataVideo, dataChapter, dataChapVideo, isOpen]);
 
   useEffect(() => {
     if (page === 1) {
@@ -141,7 +128,6 @@ export default function sheetmessage({
       },
       {
         onSuccess: () => {
-          refetch();
           setText("");
         },
         onError: (error) => {
@@ -149,6 +135,7 @@ export default function sheetmessage({
         },
       }
     );
+    setText("");
   };
 
   const handleScroll = useCallback(
@@ -212,7 +199,11 @@ export default function sheetmessage({
                   }
                 />
               </div>
-              <ButtonComponent className="w-[15%] h-[40px] flex justify-center items-center rounded-[8px]" type="notesheet" onClick={handleButton}>
+              <ButtonComponent
+                className="w-[15%] h-[40px] flex justify-center items-center rounded-[8px]"
+                type="notesheet"
+                onClick={handleButton}
+              >
                 <SendHorizontal />
               </ButtonComponent>
             </div>
