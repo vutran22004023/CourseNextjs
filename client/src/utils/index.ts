@@ -23,3 +23,11 @@ export const formatDate = (isoString: string) => {
 
   return `${day}/${month}/${year}`;
 }
+export const formatDateUS = (isoString: string) => {
+  const date = new Date(isoString);
+  const day = date.getUTCDate();
+  const month = date.getUTCMonth() + 1;
+  const year = date.getUTCFullYear();
+
+  return `${year}/${month}/${day}`;
+}
