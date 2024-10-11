@@ -1,18 +1,22 @@
 "use client";
 import React from "react";
 import ButtonComponment from "@/components/Button/Button";
-import { ArrowBigLeft, ArrowBigRight } from "lucide-react";
+import { AlignRight, ArrowBigLeft, ArrowBigRight } from "lucide-react";
 
 interface Props {
   handlePreviousLesson: () => void;
   disableNextLesson: boolean;
   handleNextLesson: () => void;
   // dataChildName: string | undefined;
+  setNavbarRight: (value: boolean) => void;
+  navbarRight: boolean;
 }
 export default function bottomBar({
   handlePreviousLesson,
   disableNextLesson,
   handleNextLesson,
+  setNavbarRight,
+  navbarRight
 }:
 Props) {
   return (
@@ -69,11 +73,16 @@ Props) {
           </div>
         </ButtonComponment>
       </div>
-      <div className="absolute top-[25px] right-0 transform -translate-y-1/2 mr-3 flex items-center">
+      <div className="hidden md:absolute top-[25px] right-0 transform -translate-y-1/2 mr-3 md:flex items-center">
         <ButtonComponment
           className="ml-2 p-3 w-[50px] rounded-full"
+          onClick={() => setNavbarRight(!navbarRight)}
         >
-          <ArrowBigRight />
+          {navbarRight ? (
+            <ArrowBigRight />
+          ): (
+            <AlignRight />
+          )}
         </ButtonComponment>
       </div>
     </div>
