@@ -72,13 +72,13 @@ export default function Dashboard() {
 
   return (
     <div className="container w-full">
-      <Text type="header">Dashboard</Text>
+      <Text type="header" className="mt-3">Dashboard</Text>
       <div className="mt-5">
         <Tabs defaultValue="overview">
           <TabsContent value="overview" className="space-y-4">
-            <div className="flex gap-10 justify-between">
-              <div className="flex gap-4 w-full">
-                <Card className="w-[250px]">
+            <div className="block md:flex gap-10 justify-between">
+              <div className="block md:flex gap-4 w-full">
+                <Card className="w-[250px] mb-3">
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">
                       Tổng số tiền
@@ -135,7 +135,7 @@ export default function Dashboard() {
                   </CardContent>
                 </Card>
               </div>
-              <Form {...form}>
+              <Form {...form} >
                 <form
                   className="space-y-8"
                   onSubmit={form.handleSubmit(onSubmit)}
@@ -144,7 +144,7 @@ export default function Dashboard() {
                     control={form.control}
                     name="dob"
                     render={({ field }) => (
-                      <FormItem className="flex flex-col">
+                      <FormItem className="flex flex-col mt-2">
                         <FormLabel className="mb-2">Lọc ngày: </FormLabel>
                         <Popover>
                           <PopoverTrigger asChild>
@@ -181,7 +181,7 @@ export default function Dashboard() {
                       </FormItem>
                     )}
                   />
-                  <Button type="submit">Submit</Button>
+                  <Button type="submit" style={{margin: 0}}>Submit</Button>
                 </form>
               </Form>
             </div>
