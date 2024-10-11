@@ -40,6 +40,7 @@ export default function page() {
   const { slug } = useParams();
   const dispatch = useDispatch();
   const router = useRouter();
+  const [navbarRight, setNavbarRight] = useState<boolean>(true);
   const timeVideo = useSelector((state: RootState) => state.timesVideo);
   const user = useSelector((state: RootState) => state.user);
   if (!user.id || !user.email || !user.status) return router.push("/");
@@ -326,16 +327,21 @@ export default function page() {
   return (
     <div className="md:mt-[20px]">
       <div className="md:flex ">
-        <div className="w-full md:w-[70%] ">
+        <div className={`w-full ${navbarRight ? "md:w-[70%]" : "md:w-full"}`} >
           <div className="bg-black pr-[20px] pl-[20px]">
-            <VideoYoutubeComponment
-              style={{
-                width: "100%",
-                height: WIDTH_WINDOW <= 500 ? "250px" : "500px",
-              }}
-              src={dataVideo?.video}
-              title="YouTube video player"
-            />
+            {dataVideo?.video ? (
+              <VideoYoutubeComponment
+                style={{
+                  width: "100%",
+                  height: WIDTH_WINDOW <= 500 ? "250px" : "500px",
+                }}
+                src={dataVideo?.video}
+                title="YouTube video player"
+              />
+
+            ): (
+              <div className="bg-black w-full h-[250px] md:h-[500px]"></div>
+            )}
           </div>
           <div className="p-5 md:p-10 md:mb-[60px]">
             <div className="md:flex justify-between">
@@ -391,6 +397,12 @@ export default function page() {
             <div>Fanpage: https://www.facebook.com/f8vnofficial</div>
           </div>
         </div>
+        <CSSTransition
+          in={navbarRight}
+          timeout={300}
+          classNames="slide"
+          unmountOnExit
+        >
         <CourseContent
           activeChapterIndex={activeChapterIndex}
           handleAccordionChange={handleAccordionChange}
@@ -398,10 +410,13 @@ export default function page() {
           activeSlug={activeSlug}
           handleVideo={handleVideo}
         />
+        </CSSTransition>
         <BottomBar
           handlePreviousLesson={handlePreviousLesson}
           disableNextLesson={disableNextLesson}
           handleNextLesson={handleNextLesson}
+          setNavbarRight={setNavbarRight}
+          navbarRight= {navbarRight}
         />
         <CSSTransition
           in={isModalOpenEdit}
