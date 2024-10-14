@@ -285,7 +285,7 @@ class UserCourseService {
   async createNote(data) {
     try {
       const { userId, courseId, videoId, notes } = data;
-  
+
       const userCourse = await UserCourse.findOneAndUpdate(
         { userId, courseId },
         {
@@ -298,6 +298,41 @@ class UserCourseService {
           arrayFilters: [{ 'video.videoId': videoId }],
         }
       );
+
+      if (!userCourse) {
+        return {
+          status: 'ERR',
+          message: 'Khóa học không tồn tại',
+        };
+      }
+
+      return {
+        status: 200,
+        message: 'Tạo ghi chú thành công!',
+        data: userCourse,
+      };
+    } catch (err) {
+      return {
+        status: 'ERR',
+        message: 'Đã xảy ra lỗi',
+        error: err.message,
+      };
+    }
+  }
+
+  async getAllNotes(data) {
+    try {
+      const { userId, courseId, videoId, currentChapter, nextChapter, sortOrder, page = 1, limit = 10 } = data;
+  
+      const sortOption = sortOrder === 'newest' ? -1 : 1; // -1 for newest first, 1 for oldest first
+      const pageNumber = parseInt(page);
+      const pageSize = parseInt(limit);
+  
+      // Tìm khóa học theo userId và courseId
+      const userCourse = await UserCourse.findOne({
+        userId,
+        courseId,
+      });
   
       if (!userCourse) {
         return {
@@ -306,10 +341,55 @@ class UserCourseService {
         };
       }
   
+      // Lấy tất cả ghi chú từ chương hiện tại và chương sau
+      let notes = [];
+      
+      // Duyệt qua các chương của khóa học
+      userCourse.chapters.forEach((chapter, chapterIndex) => {
+        // Kiểm tra nếu chương là chương hiện tại hoặc chương tiếp theo
+        if (chapterIndex === parseInt(currentChapter) || chapterIndex === parseInt(nextChapter)) {
+          // Duyệt qua các video trong chương
+          chapter.videos.forEach((video) => {
+            // Kiểm tra nếu videoId khớp với video hiện tại
+            if (video.videoId.toString() === videoId.toString()) {
+              // Push các ghi chú của video vào danh sách
+              notes.push(...video.notes);
+            }
+          });
+        }
+      });
+  
+      // Kiểm tra nếu không tìm thấy ghi chú nào
+      if (notes.length === 0) {
+        return {
+          status: 200,
+          message: 'Không có ghi chú nào!',
+          currentPage: pageNumber,
+          totalPages: 0,
+          totalNotes: 0,
+          data: [],
+        };
+      }
+  
+      // Sắp xếp ghi chú theo thời gian
+      notes.sort((a, b) => {
+        const dateA = new Date(a.time);
+        const dateB = new Date(b.time);
+        return sortOption === -1 ? dateB - dateA : dateA - dateB;
+      });
+  
+      // Phân trang: tính toán số lượng ghi chú trả về cho trang hiện tại
+      const startIndex = (pageNumber - 1) * pageSize;
+      const endIndex = startIndex + pageSize;
+      const paginatedNotes = notes.slice(startIndex, endIndex);
+  
       return {
         status: 200,
-        message: 'Tạo ghi chú thành công!',
-        data: userCourse,
+        message: 'Lấy tất cả ghi chú thành công!',
+        currentPage: pageNumber,
+        totalPages: Math.ceil(notes.length / pageSize),
+        totalNotes: notes.length,
+        data: paginatedNotes,
       };
     } catch (err) {
       return {
