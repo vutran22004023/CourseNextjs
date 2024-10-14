@@ -19,6 +19,15 @@ export const UpdateUserCourse = async (data: any) => {
     }
 }
 
+export const CreateNote = async (data: any) => {
+    try {
+        const response: AxiosResponse = await axiosInstance.post(`/api/user-course/create-note`, data);
+        return response.data;
+    } catch {
+        throw new Error('Error get all courses');
+    }
+}
+
 export const UpdateNote = async (data: any) => {
     try {
         const response: AxiosResponse = await axiosInstance.put(`/api/user-course/update-note`, data);

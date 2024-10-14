@@ -1,19 +1,8 @@
 "use client";
 import VideoYoutubeComponment from "@/components/VideoYoutube/VideoYoutube";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 import ButtonComponment from "@/components/Button/Button";
 import {
-  ArrowBigLeft,
-  ArrowBigRight,
-  CircleCheck,
-  Lock,
   NotebookPen,
-  Clock,
   MessagesSquare,
 } from "lucide-react";
 import { useParams } from "next/navigation";
@@ -27,15 +16,14 @@ import { useQuery } from "@tanstack/react-query";
 import { useDispatch } from "react-redux";
 import { Progress } from "antd";
 import { totalVideo } from "@/redux/Slides/timeVideoSide";
-import WordPost from "@/components/WordPost/wordPost";
 import { CSSTransition } from "react-transition-group";
 import { useRouter } from "next/navigation";
 import SheetMessage from "./sheetMessage";
-import NoteSheet from "./note";
 import BottomBar from "./bottomBar";
 import CourseContent from "./courseContent";
 import { formatDate } from "@/utils/index";
-import useWindowSize from '@/hooks/useScreenWindow'
+import useWindowSize from "@/hooks/useScreenWindow";
+import CreateNote from "./createNote";
 export default function page() {
   const { slug } = useParams();
   const dispatch = useDispatch();
@@ -55,10 +43,9 @@ export default function page() {
   const playbackIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const [disableNextLesson, setDisableNextLesson] = useState<any>();
   const initialActiveVideoRef = useRef<any>(null);
-  const [isNoteSheetOpen, setIsNoteSheetOpen] = useState(false);
   const [isModalOpenEdit, setIsModalOpenEdit] = useState(false);
   const [isModalMessage, setIsModalMessage] = useState(false);
-  const {width: WIDTH_WINDOW} = useWindowSize();
+  const { width: WIDTH_WINDOW } = useWindowSize();
   const mutationGetDetailCourse = useMutationHook(async (slug: any) => {
     try {
       const res = await GetDetailCourses(slug);
@@ -320,14 +307,10 @@ export default function page() {
     setIsModalOpenEdit(!isModalOpenEdit);
   };
 
-  const handleOpenChange = () => {
-    setIsNoteSheetOpen((prev) => !prev);
-  };
-
   return (
     <div className="md:mt-[20px]">
       <div className="md:flex ">
-        <div className={`w-full ${navbarRight ? "md:w-[70%]" : "md:w-full"}`} >
+        <div className={`w-full ${navbarRight ? "md:w-[70%]" : "md:w-full"}`}>
           <div className="bg-black pr-[20px] pl-[20px]">
             {dataVideo?.video ? (
               <VideoYoutubeComponment
@@ -338,8 +321,7 @@ export default function page() {
                 src={dataVideo?.video}
                 title="YouTube video player"
               />
-
-            ): (
+            ) : (
               <div className="bg-black w-full h-[250px] md:h-[500px]"></div>
             )}
           </div>
@@ -403,20 +385,20 @@ export default function page() {
           classNames="slide"
           unmountOnExit
         >
-        <CourseContent
-          activeChapterIndex={activeChapterIndex}
-          handleAccordionChange={handleAccordionChange}
-          mergedChapters={mergedChapters}
-          activeSlug={activeSlug}
-          handleVideo={handleVideo}
-        />
+          <CourseContent
+            activeChapterIndex={activeChapterIndex}
+            handleAccordionChange={handleAccordionChange}
+            mergedChapters={mergedChapters}
+            activeSlug={activeSlug}
+            handleVideo={handleVideo}
+          />
         </CSSTransition>
         <BottomBar
           handlePreviousLesson={handlePreviousLesson}
           disableNextLesson={disableNextLesson}
           handleNextLesson={handleNextLesson}
           setNavbarRight={setNavbarRight}
-          navbarRight= {navbarRight}
+          navbarRight={navbarRight}
         />
         <CSSTransition
           in={isModalOpenEdit}
@@ -424,36 +406,12 @@ export default function page() {
           classNames="modal"
           unmountOnExit
         >
-          <div className="fixed bottom-0 left-0 bg-[#f4f4f4] right-0 z-10 border-b p-5 w-full h-auto md:w-[69.5%] md:h-[290px] border-t border-black">
-            <div className="p-5 bg-[#fff] border  border-black rounded-xl h-[200px]">
-              <WordPost />
-            </div>
-            <div className="flex justify-between">
-              <div></div>
-              <div className="flex mt-5">
-                <ButtonComponment
-                  className="ml-2 py-1 h-[35px] w-[150px] flex justify-center items-center"
-                  onClick={() => setIsModalOpenEdit(false)}
-                  type="notesheet"
-                >
-                  Hủy bỏ
-                </ButtonComponment>
-                <ButtonComponment
-                  onClick={handleOpenChange}
-                  className="ml-2 py-1 h-[35px] w-[150px] flex justify-center items-center"
-                  type="notesheet"
-                >
-                  Tạo ghi chú
-                </ButtonComponment>
-              </div>
-              <NoteSheet
-                isOpen={isNoteSheetOpen}
-                onOpenChange={handleOpenChange}
-                dataChapter={null}
-                dataVideo={null}
-              />
-            </div>
-          </div>
+          <CreateNote
+            setIsModalOpenEdit={setIsModalOpenEdit}
+            timeVideo={timeVideo?.time}
+            dataCourseDetail={dataCourseDetail}
+            dataVideo={dataVideo}
+          />
         </CSSTransition>
       </div>
     </div>
