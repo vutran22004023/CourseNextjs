@@ -282,6 +282,44 @@ class UserCourseService {
     }
   }
 
+  async createNote(data) {
+    try {
+      const { userId, courseId, videoId, notes } = data;
+  
+      const userCourse = await UserCourse.findOneAndUpdate(
+        { userId, courseId },
+        {
+          $push: {
+            'chapters.$[].videos.$[video].notes': notes,
+          },
+        },
+        {
+          new: true,
+          arrayFilters: [{ 'video.videoId': videoId }],
+        }
+      );
+  
+      if (!userCourse) {
+        return {
+          status: 'ERR',
+          message: 'Khóa học không tồn tại',
+        };
+      }
+  
+      return {
+        status: 200,
+        message: 'Tạo ghi chú thành công!',
+        data: userCourse,
+      };
+    } catch (err) {
+      return {
+        status: 'ERR',
+        message: 'Đã xảy ra lỗi',
+        error: err.message,
+      };
+    }
+  }
+
   validator(err) {
     if (err.name === 'ValidationError') {
       const field = Object.keys(err.errors)[0];
