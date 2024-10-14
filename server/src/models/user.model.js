@@ -19,6 +19,14 @@ const UserSchema = new mongoose.Schema(
       default: false,
       required: true,
     },
+    role: {
+      type: String,
+      enum: ['student', 'teacher'],
+      required: function() {
+        return !this.isAdmin; 
+      },
+      default: null,
+    },
     status: {
       type: Boolean,
       default: false,
