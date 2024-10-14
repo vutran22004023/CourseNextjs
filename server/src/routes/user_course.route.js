@@ -9,5 +9,6 @@ router.post('/update-progress', AuthMiddleware.authUser, UserCourseController.up
 router.get('/course-progress', AuthMiddleware.authUser, UserCourseController.getCourseProgress);
 router.put('/update-note', AuthMiddleware.authUser, UserCourseController.updateNote);
 router.post('/create-note', AuthMiddleware.authUser, UserCourseController.createNote);
+router.post('/all-note', AuthMiddleware.authUser, UserCourseController.getAllNotes);
 
 export default router;
