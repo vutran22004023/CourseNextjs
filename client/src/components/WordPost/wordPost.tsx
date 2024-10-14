@@ -9,10 +9,11 @@ import { Editor } from "react-draft-wysiwyg";
 import draftToHtml from "draftjs-to-html";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import "setimmediate";
-import { Input } from "@/components/ui/input";
-import ButtonComponent from "@/components/Button/Button";
 
-export default function wordPost() {
+interface Props {
+  setValueWord: (value: any) => void;
+}
+export default function wordPost({ setValueWord }: Props) {
   const note = {
     id: "9999",
     content: "<p></p>",
@@ -23,6 +24,10 @@ export default function wordPost() {
   );
   const [rawHTML, setRawHTML] = useState(note.content);
   const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setValueWord(rawHTML);
+  }, [rawHTML]);
 
   useEffect(() => {
     setIsMounted(true);
