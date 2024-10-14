@@ -1,10 +1,7 @@
 "use client";
 import VideoYoutubeComponment from "@/components/VideoYoutube/VideoYoutube";
 import ButtonComponment from "@/components/Button/Button";
-import {
-  NotebookPen,
-  MessagesSquare,
-} from "lucide-react";
+import { NotebookPen, MessagesSquare } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useMutationHook } from "@/hooks";
 import { GetDetailCourses } from "@/apis/course";
@@ -24,7 +21,9 @@ import CourseContent from "./courseContent";
 import { formatDate } from "@/utils/index";
 import useWindowSize from "@/hooks/useScreenWindow";
 import CreateNote from "./createNote";
+import { useAtoms } from "@/hooks/useAtom";
 export default function page() {
+  const { setCourseDetail } = useAtoms();
   const { slug } = useParams();
   const dispatch = useDispatch();
   const router = useRouter();
@@ -108,6 +107,15 @@ export default function page() {
       );
     }
   }, [dataStateCourses, dispatch]);
+
+  useEffect(() => {
+    if (dataCourseDetail) {
+      setCourseDetail({
+        courseId: dataCourseDetail?._id,
+        videoID: dataVideo?._id,
+      });
+    }
+  }, [dataCourseDetail, dataVideo]);
 
   useEffect(() => {
     mutationGetDetailCourse.mutate(slug, {
@@ -411,6 +419,7 @@ export default function page() {
             timeVideo={timeVideo?.time}
             dataCourseDetail={dataCourseDetail}
             dataVideo={dataVideo}
+            navbarRight={navbarRight}
           />
         </CSSTransition>
       </div>

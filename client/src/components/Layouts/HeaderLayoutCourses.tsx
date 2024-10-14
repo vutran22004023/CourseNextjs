@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { NotebookPen, MessageCircleQuestion, Menu } from "lucide-react";
 import { Progress } from "antd";
@@ -16,17 +16,57 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
+import { useAtoms } from "@/hooks/useAtom";
+import { AllNote } from "@/apis/usercourse";
+import { useMutationHook } from "@/hooks";
 
 export default function HeaderLayoutCourses() {
+  const { courseDetail } = useAtoms();
   const timeVideo = useSelector((state: RootState) => state.timesVideo);
-
-  // State to control NoteSheet visibility
   const [isNoteSheetOpen, setIsNoteSheetOpen] = useState(false);
+  const [dataNote, setDataNote] = useState<any>();
+  const [selectedChapter, setSelectedChapter] = useState<string>("current");
+  const [selectedSortOrder, setSelectedSortOrder] = useState<string>("newest");
 
-  // Function to toggle NoteSheet visibility
   const handleOpenChange = () => {
     setIsNoteSheetOpen(!isNoteSheetOpen);
   };
+
+  const mutationAllNote = useMutationHook(async (data) => {
+    try {
+      const res = await AllNote(data);
+      return res;
+    } catch (err) {
+      console.error(err);
+    }
+  });
+
+  useEffect(() => {
+    if (isNoteSheetOpen && courseDetail) {
+      mutationAllNote.mutate(
+        {
+          courseId: courseDetail?.courseId,
+          videoId: courseDetail?.videoID,
+          currentChapter: selectedChapter === "current" ? 0 : 1,
+          nextChapter: selectedChapter === "current" ? 1 : 2,
+          sortOrder: selectedSortOrder,
+          page: 1,
+          limit: 10,
+        },
+        {
+          onSuccess: (data) => {
+            setDataNote(data);
+          },
+        }
+      );
+    }
+  }, [
+    isNoteSheetOpen,
+    courseDetail,
+    dataNote,
+    selectedChapter,
+    selectedSortOrder,
+  ]);
 
   return (
     <div className="fixed top-0 left-0 bg-[#fff] right-0 z-10 border-b p-2 md:p-3 flex justify-between items-center">
@@ -102,28 +142,28 @@ export default function HeaderLayoutCourses() {
 
         <DropdownMenuContent className="w-[140px] border-none bg-transparent rounded">
           <DropdownMenuGroup>
-              <DropdownMenuItem className="cursor-pointer justify-end">
-                <ButtonComponent
-                  onClick={handleOpenChange}
-                  type="notesheet"
-                  className="h-[35px] text-[12px] flex items-center px-3 select-none"
-                >
-                  <NotebookPen className="size-[20px] mr-1" />
-                  Chú thích
-                </ButtonComponent>
-              </DropdownMenuItem>
+            <DropdownMenuItem className="cursor-pointer justify-end">
+              <ButtonComponent
+                onClick={handleOpenChange}
+                type="notesheet"
+                className="h-[35px] text-[12px] flex items-center px-3 select-none"
+              >
+                <NotebookPen className="size-[20px] mr-1" />
+                Chú thích
+              </ButtonComponent>
+            </DropdownMenuItem>
 
-              <DropdownMenuItem className="cursor-pointer justify-end">
-                <ButtonComponent
-                  type="notesheet"
-                  className="h-[35px] text-[12px] flex items-center px-3 select-none"
-                >
-                  <Link href="/my-courses" className="flex">
-                    <MessageCircleQuestion className="size-[20px] mr-1" />
-                    Hướng dẫn
-                  </Link>
-                </ButtonComponent>
-              </DropdownMenuItem>
+            <DropdownMenuItem className="cursor-pointer justify-end">
+              <ButtonComponent
+                type="notesheet"
+                className="h-[35px] text-[12px] flex items-center px-3 select-none"
+              >
+                <Link href="/my-courses" className="flex">
+                  <MessageCircleQuestion className="size-[20px] mr-1" />
+                  Hướng dẫn
+                </Link>
+              </ButtonComponent>
+            </DropdownMenuItem>
           </DropdownMenuGroup>
         </DropdownMenuContent>
       </DropdownMenu>
@@ -131,8 +171,9 @@ export default function HeaderLayoutCourses() {
       <NoteSheet
         isOpen={isNoteSheetOpen}
         onOpenChange={handleOpenChange}
-        dataChapter={null}
-        dataVideo={null}
+        dataNote={dataNote}
+        setSelectedChapter={setSelectedChapter}
+        setSelectedSortOrder={setSelectedSortOrder}
       />
     </div>
   );

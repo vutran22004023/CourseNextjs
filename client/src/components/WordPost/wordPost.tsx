@@ -65,7 +65,7 @@ export default function wordPost({ setValueWord }: Props) {
       editorState={editorState}
       onEditorStateChange={handleOnChange}
       placeholder="Nhập mô tả vào đây"
-      editorStyle={{ maxWidth: "100%", width: 600 }}
+      editorStyle={{ maxWidth: "100%" }}
     />
   );
 }

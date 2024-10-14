@@ -28,6 +28,15 @@ export const CreateNote = async (data: any) => {
     }
 }
 
+export const AllNote = async (data: any) => {
+    try {
+        const response: AxiosResponse = await axiosInstance.post(`/api/user-course/all-note`, data);
+        return response.data;
+    } catch {
+        throw new Error('Error update note');
+    }
+}
+
 export const UpdateNote = async (data: any) => {
     try {
         const response: AxiosResponse = await axiosInstance.put(`/api/user-course/update-note`, data);
