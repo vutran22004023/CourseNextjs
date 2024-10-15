@@ -33,6 +33,7 @@
     "passport-jwt": "^4.0.1",
     "qs": "^6.12.1",
     "random-js": "^2.1.0",
+    "redis": "^4.7.0",
     "vm": "^0.1.0"
   },
   "devDependencies": {
