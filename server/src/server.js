@@ -6,7 +6,7 @@ import routes from './routes/index.js';
 import cookieParser from 'cookie-parser';
 import passport from './configs/passport.config.js';
 import os from 'os';
-
+import redisClient from './configs/redisClient.config.js';
 const app = express();
 
 // Get local IP address function
@@ -62,6 +62,13 @@ app.listen(port, async () => {
     .catch((err) => {
       console.log(err);
     });
+
+  try {
+    await redisClient.connect();
+    console.log('Connect Redis successfully');
+  } catch (err) {
+    console.log('Redis connection error:', err);
+  }
 
   console.log(`Listening on port http://${localIP}:${port} with CORS origin ${origin}`);
   console.log(`Listening on port http://localhost:${port} with CORS origin http://localhost:${port}`);
