@@ -104,39 +104,39 @@ export default function RegisterComponment() {
 
   return (
     <div className="grid gap-1 py-4 overflow-y-auto ">
-      <div className="text-left grid gap-2 mb-3">
-        <Label htmlFor="name" className="mb-1">
-          Tên của bạn
+      <div className="text-left  grid gap-2">
+        <Label htmlFor="name" className="text-[15px]">
+          Name
         </Label>
         <Input
           name="name"
           value={register.name}
           onChange={handleOnChangeregister}
-          className="col-span-3 w-[400px]"
-          style={{ borderRadius: "10px", padding: "20px" }}
-          placeholder="Họ và tên của bạn"
+          className="col-span-3 w-[320px] md:w-[400px] h-[38px] bg-white"
+          style={{ borderRadius: "20px", padding: "10px" }}
+          placeholder="Enter your name"
         />
       </div>
       <div className="text-left grid gap-2">
-        <Label htmlFor="email" className="mb-1">
-          Email của bạn
+        <Label htmlFor="email" className="text-[15px]">
+          Email
         </Label>
         <Input
           name="email"
           value={register.email}
           onChange={handleOnChangeregister}
-          className="col-span-3 w-[400px]"
-          style={{ borderRadius: "10px", padding: "20px" }}
-          placeholder="Địa chỉ email"
+          className="col-span-3 w-[320px] md:w-[400px] mb-[8px] h-[38px] bg-white"
+          style={{ borderRadius: "20px", padding: "10px" }}
+          placeholder="Enter your email"
         />
       </div>
       <div className="text-left grid gap-2">
-        <div className="relative w-[400px]">
+        <div className="relative">
           <Input
             type={showPassword ? "text" : "password"}
-            className="col-span-3 w-full"
-            style={{ borderRadius: "10px", padding: "20px" }}
-            placeholder="Mật khẩu"
+            className="col-span-3 w-[320px] md:w-[400px] h-[38px] bg-white"
+            style={{ borderRadius: "20px", padding: "10px" }}
+            placeholder="Password"
             value={register.password}
             onChange={handleOnChangeregister}
             name="password"
@@ -144,32 +144,32 @@ export default function RegisterComponment() {
           <button
             type="button"
             onClick={togglePasswordVisibility}
-            className="absolute inset-y-0 right-0 pr-3 flex items-center"
+            className="absolute inset-y-0 right-[1px] opacity-40 pr-3 flex items-center"
             style={{ padding: "0 10px" }}
           >
-            {showPassword ? <EyeOff size={24} /> : <Eye size={24} />}
+            {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
           </button>
         </div>
-        <div className="relative w-[400px]">
+        <div className="relative">
           <Input
             name="confirmPassword"
             value={register.confirmPassword}
             onChange={handleOnChangeregister}
             type={showConfirmPassword ? "text" : "password"}
-            className="col-span-3 w-full"
-            style={{ borderRadius: "10px", padding: "20px" }}
-            placeholder="Xác thực mật khẩu"
+            className="col-span-3 w-[320px] md:w-[400px] h-[38px] bg-white"
+            style={{ borderRadius: "20px", padding: "10px" }}
+            placeholder="Password authentication"
           />
           <button
             type="button"
-            onClick={toggleConfirmPasswordVisibility}
-            className="absolute inset-y-0 right-0 pr-3 flex items-center"
+            onClick={togglePasswordVisibility}
+            className="absolute inset-y-0 right-[1px] opacity-40 pr-3 flex items-center"
             style={{ padding: "0 10px" }}
           >
-            {showConfirmPassword ? <EyeOff size={24} /> : <Eye size={24} />}
+            {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
           </button>
         </div>
-        <div className="relative w-[400px] mt-2">
+        <div className="relative w-[320px] md:w-[400px] mt-2">
           <div className="flex items-center">
             <div
               style={{
@@ -180,37 +180,37 @@ export default function RegisterComponment() {
             ></div>
           </div>
           <div className="text-right text-sm mt-1">
-            {passwordStrength === 0 && "Mật khẩu yếu"}
-            {passwordStrength === 1 && "Mật khẩu yếu"}
-            {passwordStrength === 2 && "Mật khẩu trung bình"}
-            {passwordStrength === 3 && "Mật khẩu mạnh"}
+            {passwordStrength === 0 && "Weak password"}
+            {passwordStrength === 1 && "Weak password"}
+            {passwordStrength === 2 && "Average Password"}
+            {passwordStrength === 3 && "Strong password"}
           </div>
           {!isError && !isErrPass ? (
             <div className="bg-[#eaeaea] rounded-sm p-1 text-[10px]">
               <div className="text-[red]">
-                Mật khẩu và xác nhận mật khẩu không khớp
+                Password and confirm password do not match
               </div>
             </div>
           ) : null}
 
           {!isError && !isErrEmail ? (
             <div className="bg-[#eaeaea] rounded-sm p-1 text-[10px]">
-              <div className="text-[red]">Định dạng email chưa đúng</div>
+              <div className="text-[red]">Email format is incorrect</div>
             </div>
           ) : null}
 
           {isError && (
             <div className="bg-[#eaeaea] rounded-sm p-1 text-[10px]">
               <div className="text-[red]">
-                Vui lòng nhập họ và tên, email, mật khẩu, xác nhận lại mật khẩu
+                Please enter your full name, email, password, confirm password 
               </div>
               <div className="text-[red]">
                 {passwordStrength === 0
-                  ? "Mật khẩu phải có ít nhất 6 kí tự, chứa ít nhất một chữ cái in hoa và kết thúc bằng một kí tự đặc biệt."
+                  ? "Password must be at least 6 characters, contain at least one uppercase letter, and end with a special character."
                   : passwordStrength === 1
-                  ? "Mật khẩu phải chứa ít nhất một chữ cái in hoa và kết thúc bằng một kí tự đặc biệt."
+                  ? "Password must contain at least one uppercase letter and end with a special character."
                   : passwordStrength === 2
-                  ? "Mật khẩu phải kết thúc bằng một kí tự đặc biệt."
+                  ? "Password must end with a special character."
                   : passwordStrength === 3
                   ? ""
                   : ""}
@@ -239,8 +239,8 @@ export default function RegisterComponment() {
       </div>
       <div className="w-full">
         <ButtonComponent
-          type="courseHeader"
-          className={`p-5 m-0 mb-4 `}
+          type="login"
+          className={`p-2 m-0 `}
           disabled={!isError && isErrPass && isErrEmail ? false : true}
           onClick={handleconfirmRegister}
         >
