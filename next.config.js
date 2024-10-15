@@ -7,7 +7,7 @@ const nextConfig = {
     return [
       {
         source: '/api/:path*', // Configure API requests to "/api/*"
-        destination: 'http://localhost:3002/api/:path*', // URL to the Node.js server
+        destination: 'https://courseniver.onrender.com/api/:path*', // URL to the Node.js server
       },
     ];
   },
