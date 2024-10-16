@@ -29,8 +29,8 @@ export default function Modal({
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>{triggerContent}</DialogTrigger>
       <DialogContent
-        className={`sm:max-w-[355px] md:max-w-[550px] bg-slate-50 ${style}`}
-        style={{ borderRadius: "10px" }}
+        className={`max-w-[355px] md:max-w-[450px] bg-[#F3EBEB] flex-col justify-center  ${style}`}
+        style={{ borderRadius: "20px" }}
       >
         <DialogHeader>{contentHeader}</DialogHeader>
         {contentBody}

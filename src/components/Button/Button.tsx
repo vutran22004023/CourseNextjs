@@ -1,7 +1,13 @@
 import React from "react";
 
 interface ButtonProps {
-  type?: "hoverbutton" | "sidebar" | "courseHeader" | "notesheet";
+  type?:
+    | "hoverbutton"
+    | "sidebar"
+    | "courseHeader"
+    | "notesheet"
+    | "login"
+    | "iconlogin";
   children: React.ReactNode;
   className?: string;
   style?: React.CSSProperties;
@@ -27,6 +33,10 @@ export default function Button({
       "bg-[#FF5A00] text-[#fff] hover:bg-[#FF5A00] transition-transform hover:translate-y-[-2px] hover:shadow-[4px_4px_12px_rgba(255,255,255,0.6)] rounded-xl",
     notesheet:
       "bg-[#FF5A00] text-[#fff] hover:bg-[#FF5A00] transition-transform hover:translate-y-[-2px] hover:shadow-[4px_4px_12px_rgba(255,255,255,0.6)] rounded-[30px]",
+    login:
+      "bg-white transition-transform hover:translate-y-[-2px] hover:shadow-orange-500 hover:shadow-md rounded-[20px]",
+    iconlogin:
+      "rounded-full bg-white border-[1px] border-black flex justify-center item-center w-[35px] h-[35px]",
   };
 
   const finalClassName = `${baseClass} ${typeClasses[type]} ${

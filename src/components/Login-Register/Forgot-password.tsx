@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import ButtonComponent from "@/components/Button/Button";
+import LoginComponent from "./Login";
 import { useMutationHook } from "@/hooks";
 import { ForgotPassword } from "@/apis/auth";
 import { EmailProps } from "@/types/index";
@@ -40,16 +41,16 @@ export default function Forgotpassword() {
   return (
     <div className="grid gap-4 py-4">
       <div className="text-left  grid gap-2">
-        <Label htmlFor="name" className="">
+        <Label htmlFor="email" className="text-[15px]">
           Email
         </Label>
         <Input
           value={email}
           name="email"
           onChange={hanleOchangeEmail}
-          className="col-span-3 w-[400px] "
-          style={{ borderRadius: "10px", padding: "20px" }}
-          placeholder="Nhập email"
+          className="col-span-3 w-[320px] md:w-[400px] h-[38px] bg-white"
+          style={{ borderRadius: "20px", padding: "10px" }}
+          placeholder="Enter email"
         />
       </div>
 
@@ -69,12 +70,13 @@ export default function Forgotpassword() {
           </div>
         )}
         <ButtonComponent
-          className=" p-5 m-0 mb-4"
+          type="login"
+          className="p-2 m-0 "
           style={{ border: "1px solid #9c9c9c" }}
           onClick={handleButtonForPassword}
           disabled={email?.length ? false : true}
         >
-          <div className="cactus-classical-serif-md">Đặt lại mật khẩu</div>
+          <div className="font-bold">Reset password</div>
         </ButtonComponent>
       </div>
     </div>
