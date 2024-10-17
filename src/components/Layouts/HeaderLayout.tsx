@@ -10,7 +10,7 @@ import {
   NotebookPen,
   Lock,
   SearchCheck,
-  AlignJustify 
+  AlignJustify,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import {
@@ -89,13 +89,36 @@ export default function HeaderLayout() {
     <div className="fixed top-0 left-0 bg-white right-0 z-10 border-b border-[#cfcdcd] text-white p-3 flex justify-between items-center ">
       <div className="flex gap-3 items-center">
         <Link href="/">
-          <Image width={150} height={60} className="h-[60px] w-[150px] pl-2" src={logo} alt="fsdfsdf" objectFit="cover"  />
+          <Image
+            width={150}
+            height={60}
+            className="h-[60px] w-[150px] pl-2"
+            src={logo}
+            alt="fsdfsdf"
+            objectFit="cover"
+          />
         </Link>
         <div className="hidden sm:flex gap-3">
-          <Text type="defaultSemiBold">Khóa học</Text>
-          <Text type="defaultSemiBold">Blog</Text>
-          <Text type="defaultSemiBold">Học online</Text>
-          <Text type="defaultSemiBold">Giải đấu</Text>
+          <Link href="/">
+            <Text type="defaultSemiBold" className="nav-item">
+              Khóa học
+            </Text>
+          </Link>
+          <Link href="/">
+            <Text type="defaultSemiBold" className="nav-item">
+              Blog
+            </Text>
+          </Link>
+          <Link href="/online-learning">
+            <Text type="defaultSemiBold" className="nav-item">
+              Học online
+            </Text>
+          </Link>
+          <Link href="/">
+            <Text type="defaultSemiBold" className="nav-item">
+              Giải đấu
+            </Text>
+          </Link>
         </div>
       </div>
 
@@ -111,133 +134,133 @@ export default function HeaderLayout() {
           }}
         />
         <div className="bg-[#FF5A00] rounded-full w-8 h-8 flex items-center justify-center">
-          <SearchCheck className="w-4 h-4 text-white"/>
+          <SearchCheck className="w-4 h-4 text-white" />
         </div>
       </div>
       <div className="flex gap-4 items-center mr-4">
         {token && user.status === true ? (
           <>
-          <div className="hidden sm:block">
-            <HoverCard>
-              <HoverCardTrigger asChild>
-                <div className="cursor-pointer text-black">
-                  Khóa học của tôi
-                </div>
-              </HoverCardTrigger>
-              <HoverCardContent className="w-[30rem] h-[25rem] pt-1 flex flex-col mt-2 mr-20 text-black bg-[#f0efef] rounded">
-                <div className="p-2 flex justify-between">
-                  <Text className="text-sm font-semibold text-center">
+            <div className="hidden sm:block">
+              <HoverCard>
+                <HoverCardTrigger asChild>
+                  <div className="cursor-pointer text-black">
                     Khóa học của tôi
-                  </Text>
-                  <Text className="text-sm font-semibold text-center">
-                    Xem tất cả
-                  </Text>
-                </div>
-                <div className="overflow-y-auto flex-grow">
-                  {courseProgress.length > 0 &&
-                    courseProgress
-                      .sort((a, b) => b.updatedAt.localeCompare(a.updatedAt))
-                      .map((item) => (
-                        <CardHistory key={item._id} data={item} />
-                      ))}
-                </div>
-              </HoverCardContent>
-            </HoverCard>
+                  </div>
+                </HoverCardTrigger>
+                <HoverCardContent className="w-[30rem] h-[25rem] pt-1 flex flex-col mt-2 mr-20 text-black bg-[#f0efef] rounded">
+                  <div className="p-2 flex justify-between">
+                    <Text className="text-sm font-semibold text-center">
+                      Khóa học của tôi
+                    </Text>
+                    <Text className="text-sm font-semibold text-center">
+                      Xem tất cả
+                    </Text>
+                  </div>
+                  <div className="overflow-y-auto flex-grow">
+                    {courseProgress.length > 0 &&
+                      courseProgress
+                        .sort((a, b) => b.updatedAt.localeCompare(a.updatedAt))
+                        .map((item) => (
+                          <CardHistory key={item._id} data={item} />
+                        ))}
+                  </div>
+                </HoverCardContent>
+              </HoverCard>
             </div>
             <div className="hidden sm:block">
-            <HoverCard>
-              <HoverCardTrigger asChild>
-                <div className="cursor-pointer">
-                  <BellRing className="text-black" />
-                </div>
-              </HoverCardTrigger>
-              <HoverCardContent className="w-100 mt-2 mr-10 text-black bg-[#f0efef] rounded p-2">
-                <div className="flex justify-between space-x-4">
-                  <div className="space-y-1">
-                    <h4 className="text-sm font-semibold">@nextjs</h4>
-                    <p className="text-sm">
-                      The React Framework – created and maintained by @vercel.
-                    </p>
+              <HoverCard>
+                <HoverCardTrigger asChild>
+                  <div className="cursor-pointer">
+                    <BellRing className="text-black" />
                   </div>
-                </div>
-              </HoverCardContent>
-            </HoverCard>
+                </HoverCardTrigger>
+                <HoverCardContent className="w-100 mt-2 mr-10 text-black bg-[#f0efef] rounded p-2">
+                  <div className="flex justify-between space-x-4">
+                    <div className="space-y-1">
+                      <h4 className="text-sm font-semibold">@nextjs</h4>
+                      <p className="text-sm">
+                        The React Framework – created and maintained by @vercel.
+                      </p>
+                    </div>
+                  </div>
+                </HoverCardContent>
+              </HoverCard>
             </div>
             <div className="block sm:hidden">
-              <AlignJustify className="mr-2 h-6 w-6 text-[#FF5A00]"/>
+              <AlignJustify className="mr-2 h-6 w-6 text-[#FF5A00]" />
             </div>
             <div className="hidden sm:block">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <div className="cursor-pointer mr-2">
-                  <Avatar>
-                    <AvatarImage
-                      src="https://github.com/shadcn.png"
-                      alt="@shadcn"
-                    />
-                    <AvatarFallback>CN</AvatarFallback>
-                  </Avatar>
-                </div>
-              </DropdownMenuTrigger>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <div className="cursor-pointer mr-2">
+                    <Avatar>
+                      <AvatarImage
+                        src="https://github.com/shadcn.png"
+                        alt="@shadcn"
+                      />
+                      <AvatarFallback>CN</AvatarFallback>
+                    </Avatar>
+                  </div>
+                </DropdownMenuTrigger>
 
-              <DropdownMenuContent className="w-56 mt-4 mr-7 p-2 bg-[#f0efef] rounded">
-                <DropdownMenuLabel>Xin chào, {user.name}</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuGroup>
-                  <Link href="/profile">
+                <DropdownMenuContent className="w-56 mt-4 mr-7 p-2 bg-[#f0efef] rounded">
+                  <DropdownMenuLabel>Xin chào, {user.name}</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuGroup>
+                    <Link href="/profile">
+                      <DropdownMenuItem className="cursor-pointer">
+                        <User className="mr-2 h-4 w-4" />
+                        <span className="hover:text-[#a1a1a1]">
+                          Trang cá nhân
+                        </span>
+                      </DropdownMenuItem>
+                    </Link>
+
+                    <Link href="/profile/posts-blog">
+                      <DropdownMenuItem className="cursor-pointer">
+                        <NotebookPen className="mr-2 h-4 w-4" />
+                        <span className="hover:text-[#a1a1a1]">Viết Blog</span>
+                      </DropdownMenuItem>
+                    </Link>
                     <DropdownMenuItem className="cursor-pointer">
-                      <User className="mr-2 h-4 w-4" />
+                      <Album className="mr-2 h-4 w-4" />
                       <span className="hover:text-[#a1a1a1]">
-                        Trang cá nhân
+                        Bài viết của tôi
                       </span>
                     </DropdownMenuItem>
-                  </Link>
-
-                  <Link href="/profile/posts-blog">
                     <DropdownMenuItem className="cursor-pointer">
-                      <NotebookPen className="mr-2 h-4 w-4" />
-                      <span className="hover:text-[#a1a1a1]">Viết Blog</span>
-                    </DropdownMenuItem>
-                  </Link>
-                  <DropdownMenuItem className="cursor-pointer">
-                    <Album className="mr-2 h-4 w-4" />
-                    <span className="hover:text-[#a1a1a1]">
-                      Bài viết của tôi
-                    </span>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer">
-                    <BookOpenText className="mr-2 h-4 w-4" />
-                    <span className="hover:text-[#a1a1a1]">
-                      Bài viết đã lưu
-                    </span>
-                  </DropdownMenuItem>
-                </DropdownMenuGroup>
-                <DropdownMenuSeparator />
-                {user.isAdmin === true && (
-                  <Link href="/admin">
-                    <DropdownMenuItem className="cursor-pointer">
-                      <Lock className="mr-2 h-4 w-4" />
+                      <BookOpenText className="mr-2 h-4 w-4" />
                       <span className="hover:text-[#a1a1a1]">
-                        Thông tin trang web
+                        Bài viết đã lưu
                       </span>
                     </DropdownMenuItem>
+                  </DropdownMenuGroup>
+                  <DropdownMenuSeparator />
+                  {user.isAdmin === true && (
+                    <Link href="/admin">
+                      <DropdownMenuItem className="cursor-pointer">
+                        <Lock className="mr-2 h-4 w-4" />
+                        <span className="hover:text-[#a1a1a1]">
+                          Thông tin trang web
+                        </span>
+                      </DropdownMenuItem>
+                    </Link>
+                  )}
+                  <Link href="/profile/information-user">
+                    <DropdownMenuItem className="cursor-pointer">
+                      <Settings className="mr-2 h-4 w-4" />
+                      <span className="hover:text-[#a1a1a1]">Cài đặt</span>
+                    </DropdownMenuItem>
                   </Link>
-                )}
-                <Link href="/profile/information-user">
-                  <DropdownMenuItem className="cursor-pointer">
-                    <Settings className="mr-2 h-4 w-4" />
-                    <span className="hover:text-[#a1a1a1]">Cài đặt</span>
+                  <DropdownMenuItem
+                    className="cursor-pointer"
+                    onClick={handleLogout}
+                  >
+                    <LogOut className="mr-2 h-4 w-4" />
+                    <span className="hover:text-[#a1a1a1]">Đăng xuất</span>
                   </DropdownMenuItem>
-                </Link>
-                <DropdownMenuItem
-                  className="cursor-pointer"
-                  onClick={handleLogout}
-                >
-                  <LogOut className="mr-2 h-4 w-4" />
-                  <span className="hover:text-[#a1a1a1]">Đăng xuất</span>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>        
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           </>
         ) : (
