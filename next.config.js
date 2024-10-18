@@ -1,4 +1,5 @@
 /** @type {import('next').NextConfig} */
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 const nextConfig = {
   images: {
     domains: ['firebasestorage.googleapis.com'], // Allow images from Firebase
@@ -7,7 +8,7 @@ const nextConfig = {
     return [
       {
         source: '/api/:path*', // Configure API requests to "/api/*"
-        destination: 'https://courseniver.onrender.com/api/:path*', // URL to the Node.js server
+        destination: `${apiUrl}/api/:path*`, // URL to the Node.js server
       },
     ];
   },

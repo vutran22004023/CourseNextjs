@@ -148,3 +148,29 @@ body {
   transform: translateX(100%); 
   transition: all 300ms ease-in-out;
 }
+
+.nav-item {
+  position: relative;
+  padding-bottom: 5px;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.nav-item:hover {
+  color: #ff9500; /* Màu cam khi hover */
+}
+
+.nav-item::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 2px;
+  background-color: #ff9500; /* Màu cam cho underline */
+  transition: width 0.3s ease;
+}
+
+.nav-item:hover::after {
+  width: 100%; /* Thanh màu cam chạy hết khi hover */
+}
