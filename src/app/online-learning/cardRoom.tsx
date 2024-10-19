@@ -10,6 +10,7 @@ import { RootState } from "@/redux/store";
 import { CalendarClock, CalendarCheck2, CalendarCog } from "lucide-react";
 import Button from "@/components/Button/Button";
 import { formatDateRoom } from "@/utils";
+import { useRouter } from "next/navigation";
 interface Props {
   title: string;
 }
@@ -31,6 +32,7 @@ const fetchShowUserStudentRoom = async (id: any) => {
 };
 export default function cardRoom({ title }: Props) {
   const user = useSelector((state: RootState) => state.user);
+  const router = useRouter();
 
   const { data: dataRoom, isPending: isLoadingMessage } = useQuery({
     queryKey: ["fetchRoom"],
@@ -45,6 +47,10 @@ export default function cardRoom({ title }: Props) {
     retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
     refetchInterval: 5000,
   });
+
+  const handleJoinRoom  = (roomId: string) => {
+    router.push(`/online-learning/${roomId}`);
+  }
   return (
     <>
       <Text type="subtitle" className="mb-2">
@@ -53,13 +59,13 @@ export default function cardRoom({ title }: Props) {
       {dataRoom?.status === 200 ? (
         <div className="w-full flex flex-nowrap md:grid md:grid-cols-4 gap-2 mb-3 pt-10 md:gap-4 overflow-x-auto">
           {dataRoom?.data?.rooms?.map((room: any) => (
-            <div className="w-full rounded-xl border-[#000] border-2 p-3">
+            <div className="w-full rounded-xl border-[#000] border-2 p-3" key={room._id}>
               <Text type="defaultSemiBold" className="mb-2">
                 {room?.title}
               </Text>
               <div className="flex gap-2 mb-2 items-center">
                 <Image
-                  src={dataRoom?.data?.teacher.avatar}
+                  src={dataRoom?.data?.teacher?.avatar}
                   alt="imageerr"
                   width={40}
                   height={40}
@@ -96,6 +102,7 @@ export default function cardRoom({ title }: Props) {
               <Button
                 type="courseHeader"
                 className="p-2 flex flex-row justify-center cursor-pointer"
+                onClick={() => handleJoinRoom(room._id)}
               >
                 Tham gia ngay
               </Button>
