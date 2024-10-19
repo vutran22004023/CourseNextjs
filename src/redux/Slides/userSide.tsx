@@ -8,6 +8,7 @@ const initialState = {
   isAdmin: false,
   status: false,
   password: "",
+  role: "",
 };
 
 const userSlice = createSlice({
@@ -15,7 +16,7 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     updateUser: (state, { payload }) => {
-      const { name, email, access_Token, avatar, _id, isAdmin, status } =
+      const { name, email, access_Token, avatar, _id, isAdmin, status, role } =
         payload;
       state.name = name || "";
       state.email = email || "";
@@ -24,6 +25,7 @@ const userSlice = createSlice({
       state.isAdmin = isAdmin || false;
       state.status = status || false;
       state.password = "not password";
+      state.role = role || null;
 
       // Lưu trữ access_Token trong memory hoặc cookies thay vì trong state
       // if (access_Token) {

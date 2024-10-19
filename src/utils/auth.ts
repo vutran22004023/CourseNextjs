@@ -90,6 +90,7 @@ export const initializeUser = async (dispatch: AppDispatch) => {
                   _id: response.data._id || "",
                   isAdmin: response.data.isAdmin || false,
                   status: response.data.status || false,
+                  role: response.data.role || null
                 })
               );
             }
