@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 import axiosInstance from "./index";
 
-export const CreateRoom = async (data: any) => {
+export const CreateRoomApi = async (data: any) => {
   try {
     const response: AxiosResponse = await axiosInstance.post(
       `/api/videosdk/create-room`,

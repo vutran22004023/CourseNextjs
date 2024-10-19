@@ -44,14 +44,9 @@ export default function Button({
     className || ""
   } ${disabled && "cursor-no-drop opacity-80"}`;
 
-  const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!disabled && onClick) {
-      onClick();
-    }
-  };
 
   return (
-    <div className={finalClassName.trim()} {...rest} onClick={handleClick}>
+    <div className={finalClassName.trim()} {...rest} onClick={onClick}>
       {children}
     </div>
   );
