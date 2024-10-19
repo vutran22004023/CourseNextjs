@@ -101,11 +101,28 @@ export const DeleteUser = async (id: string) => {
 
 export const DeleteManyUser = async (ids: Array<string>) => {
   try {
-    const response: AxiosResponse = await axios.post(
+    const response: AxiosResponse = await axiosInstance.post(
       `/api/user/delete-many-user`,
       ids
     );
     return response.data;
+  } catch {
+    throw new Error("Error delete many user");
+  }
+};
+export const SearchUser = async (search: string) => {
+  try {
+    if (search) {
+      const response: AxiosResponse = await axiosInstance.get(
+        `/api/user/get-search-users?filter=name:${search}`
+      );
+      return response.data;
+    } else {
+      const response: AxiosResponse = await axiosInstance.get(
+        `/api/user/get-search-users`
+      );
+      return response.data;
+    }
   } catch {
     throw new Error("Error delete many user");
   }

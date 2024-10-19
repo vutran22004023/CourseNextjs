@@ -14,7 +14,7 @@ interface UserDialogProps {
   contentFooter: ReactNode;
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
-  style: string;
+  style?: string;
 }
 export default function Modal({
   triggerContent,

@@ -34,7 +34,13 @@ export default function cardRoom({ title }: Props) {
 
   const { data: dataRoom, isPending: isLoadingMessage } = useQuery({
     queryKey: ["fetchRoom"],
-    queryFn: () => fetchShowUserTeacherRoom(user?.id),
+    queryFn: async () => {
+      if (user?.role === "teacher") {
+        return await fetchShowUserTeacherRoom(user?.id);
+      } else {
+        return await fetchShowUserStudentRoom(user?.id);
+      }
+    },
     retry: 3,
     retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
     refetchInterval: 5000,

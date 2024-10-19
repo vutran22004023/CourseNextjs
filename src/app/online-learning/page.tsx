@@ -1,6 +1,7 @@
 import React from "react";
 import Button from "@/components/Button/Button";
 import CardRoom from "./cardRoom";
+import CreateRoom from './createRoom'
 export default function page() {
   return (
     <div className="mt h-full overflow-y-auto">
@@ -9,12 +10,7 @@ export default function page() {
           <CardRoom title="Đang diễn ra" />
         </div>
         <div className="flex-auto">
-          <Button
-            type="courseHeader"
-            className="p-2 flex flex-row justify-center"
-          >
-            Tạo lớp học
-          </Button>
+          <CreateRoom/>
           <Button
             type="courseHeader"
             className="p-2 flex flex-row justify-center mt-2"
