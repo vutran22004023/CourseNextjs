@@ -68,3 +68,17 @@ export const DeleteRoom = async (id: any) => {
     throw new Error("Error get all courses");
   }
 };
+
+export const ValidateRoom = async (IdRoom: string, token: string) => {
+  try {
+    const axiosResponse = await axios.get(`${process.env.NEXT_PUBLIC_API_VIDEOSDK_URL}/rooms/validate/${IdRoom}`, {
+      headers: {
+        Authorization: token,
+        'Content-Type': 'application/json',
+      },
+    });
+    return axiosResponse;
+  } catch {
+    throw new Error("Error get all courses");
+  }
+};
