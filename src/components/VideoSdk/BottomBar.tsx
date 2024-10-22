@@ -77,12 +77,14 @@ export function BottomBar({
         Icon={RaiseHandIcon}
         onClick={RaiseHand}
         buttonText={"Raise Hand"}
+        focusIconColor="#fff"
       />
     ) : (
       <OutlinedButton
         onClick={RaiseHand}
         tooltip={"Raise Hand"}
         Icon={RaiseHandIcon}
+        focusIconColor="#fff"
       />
     );
   };
@@ -175,7 +177,7 @@ export function BottomBar({
             style={{
               marginLeft: 12,
               fontSize: 14,
-              color: theme.palette.darkTheme.contrastText,
+              // color: theme.palette.darkTheme.contrastText,
             }}
           >
             {label}
@@ -186,7 +188,7 @@ export function BottomBar({
           disableFocusRipple
           style={{
             // backgroundColor: theme.palette.darkTheme.slightLighter,
-            color: theme.palette.common.white,
+            // color: theme.palette.common.white,
           }}
         >
           {micArr.map(({ deviceId, label }, index) => (
@@ -379,7 +381,7 @@ export function BottomBar({
           bgColor={localWebcamOn ? "bg-gray-750" : "bg-white"}
           borderColor={localWebcamOn && "#ffffff33"}
           isFocused={localWebcamOn}
-          focusIconColor={localWebcamOn && "white"}
+          focusIconColor={localWebcamOn && "while"}
           tooltip={"Toggle Webcam"}
           renderRightComponent={() => {
             return (
@@ -419,7 +421,7 @@ export function BottomBar({
           <MenuList
             style={{
               // backgroundColor: theme.palette.darkTheme.slightLighter,
-              color: theme.palette.common.white,
+              color: "#000",
             }}
           >
             {webcams.map(({ deviceId, label }, index) => (

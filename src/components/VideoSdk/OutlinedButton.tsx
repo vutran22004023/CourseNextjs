@@ -65,7 +65,7 @@ export const OutlinedButton = ({
     <Tooltip placement="top" title={tooltip} open={mouseOver || mouseDown}>
       <div
         className={`flex items-center justify-center  rounded-lg ${
-          bgColor ? `${bgColor}` : isFocused ? "bg-[#FF5A00]" : "bg-gray-750"
+          bgColor ? `${bgColor}` : isFocused ? "bg-[#FF5A00]" : "bg-[#FF5A00]"
         } ${
           mouseOver
             ? "border-2 border-transparent border-solid"

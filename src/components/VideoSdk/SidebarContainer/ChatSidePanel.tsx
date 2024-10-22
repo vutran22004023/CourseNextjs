@@ -21,6 +21,7 @@ const ChatMessage = ({ senderId, senderName, text, timestamp }: any) => {
       className={`flex ${localSender ? "justify-end" : "justify-start"} mt-4`}
       style={{
         maxWidth: "100%",
+                backgroundColor: '#fff'
       }}
     >
       <div
@@ -61,6 +62,7 @@ const ChatInput = ({ inputHeight }: any) => {
         alignItems: "center",
         paddingRight: theme.spacing(1),
         paddingLeft: theme.spacing(1),
+        backgroundColor: '#fff'
       }}
     >
       <Input
@@ -145,7 +147,7 @@ const ChatMessages = ({ listHeight }) => {
   }, [messages]);
 
   return messages ? (
-    <div ref={listRef} style={{ overflowY: "scroll", height: listHeight }}>
+    <div ref={listRef} style={{ overflowY: "scroll", height: listHeight,         backgroundColor: '#fff' }}>
       <div className="p-4">
         {messages.map((msg, i) => {
           const { senderId, senderName, message, timestamp } = msg;
@@ -168,7 +170,7 @@ export function ChatSidePanel({ panelHeight }) {
   const listHeight = panelHeight - inputHeight;
 
   return (
-    <div>
+    <div style={{        backgroundColor: '#fff'}}>
       <ChatMessages listHeight={listHeight} />
       <ChatInput inputHeight={inputHeight} />
     </div>

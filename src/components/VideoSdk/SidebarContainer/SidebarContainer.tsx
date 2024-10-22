@@ -73,6 +73,7 @@ const SideBarTabView = ({
                   alignItems: "center",
                   justifyContent: "space-between",
                   borderBottom: "1px solid #70707033",
+                  backgroundColor: '#fff'
                 }}
               >
                 <Typography variant={"body1"} style={{ fontWeight: "bold" }}>
