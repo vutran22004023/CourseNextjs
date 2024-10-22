@@ -1,4 +1,3 @@
-'use client'
 import React, { useState, useEffect, useRef } from "react";
 import { useMeeting, usePubSub } from "@videosdk.live/react-sdk";
 import { BottomBar } from "../BottomBar";
@@ -7,6 +6,7 @@ import { ParticipantsViewer } from "./ParticipantView";
 import { PresenterView } from "./PresenterView";
 import { useSnackbar } from "notistack";
 import { nameTructed, trimSnackBarText } from "@/utils/helper";
+import useResponsiveSize from "@/utils/useResponsiveSize";
 import WaitingToJoin from "../WaitingToJoin";
 import useWindowSize from "@/utils/useWindowSize";
 
@@ -28,15 +28,23 @@ export function MeetingContainer({
   raisedHandsParticipants,
   micEnabled,
   webcamEnabled,
-}) {
+}: any) {
   const [containerHeight, setContainerHeight] = useState(0);
   const [containerWidth, setContainerWidth] = useState(0);
   const mMeetingRef = useRef();
   const [localParticipantAllowedJoin, setLocalParticipantAllowedJoin] =
     useState(null);
+  console.log(localParticipantAllowedJoin)
   const containerRef = useRef();
   const { enqueueSnackbar } = useSnackbar();
 
+  const presentingSideBarWidth = useResponsiveSize({
+    xl: 320,
+    lg: 280,
+    md: 260,
+    sm: 240,
+    xs: 200,
+  });
 
   useEffect(() => {
     containerRef.current?.offsetHeight &&
@@ -178,14 +186,13 @@ export function MeetingContainer({
   }, [mMeeting]);
 
   const isPresenting = mMeeting.presenterId ? true : false;
-  console.log(isPresenting)
+  console.log("isPresenting", isPresenting);
   const bottomBarHeight = 60;
   const [sideBarMode, setSideBarMode] = useState(null);
 
   usePubSub("RAISE_HAND", {
     onMessageReceived: (data) => {
       const localParticipantId = mMeeting?.localParticipant?.id;
-
       const { senderId, senderName } = data;
 
       const isLocal = senderId === localParticipantId;
@@ -226,6 +233,7 @@ export function MeetingContainer({
     "only screen and (max-width: 768px)"
   ).matches;
 
+  console.log("sideBarMode", sideBarMode)
   return (
     <div
       style={{ height: windowHeight }}

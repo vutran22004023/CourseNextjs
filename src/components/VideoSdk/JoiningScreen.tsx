@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import {
   Box,
   Button,
@@ -15,7 +15,12 @@ import { VideocamOff, MicOff, Mic, Videocam } from "@mui/icons-material";
 import useResponsiveSize from "@/utils/useResponsiveSize";
 import { red } from "@mui/material/colors";
 import { MeetingDetailsScreen } from "./MeetingDetailsScreen";
-import {  ValidateRoom } from "@/apis/videoSDK";
+import {
+  ValidateRoom,
+  getToken,
+  createMeeting,
+  validateMeeting,
+} from "@/apis/videoSDK";
 import { CheckCircleIcon } from "@heroicons/react/outline";
 import SettingDialogueBox from "./SettingDialogueBox";
 import ConfirmBox from "./ConfirmBox";
@@ -43,7 +48,23 @@ const useStyles = makeStyles((theme) => ({
     position: "relative",
   },
 }));
-
+interface MeetingProps {
+  meetingId: string; // ID of the meeting
+  token: string; // Authentication token
+  participantName: string; // Name of the participant
+  setParticipantName: (name: string) => void; // Function to set participant name
+  setMeetingId: (id: string) => void; // Function to set meeting ID
+  setToken: (token: string) => void; // Function to set token
+  setSelectedMic: (mic: { id: string | null }) => void; // Function to set selected microphone
+  setSelectedWebcam: (webcam: { id: string | null }) => void; // Function to set selected webcam
+  onClickStartMeeting: () => void; // Function triggered to start the meeting
+  micEnabled: boolean; // Mic status (on/off)
+  webcamEnabled: boolean; // Webcam status (on/off)
+  setWebcamOn: (status: boolean) => void; // Function to toggle webcam
+  setMicOn: (status: boolean) => void; // Function to toggle mic
+  startMeeting: boolean; // Indicates whether the meeting has started
+  setIsMeetingLeft: (status: boolean) => void; // Function to set meeting leave status
+}
 export function JoiningScreen({
   meetingId,
   token,
@@ -58,18 +79,20 @@ export function JoiningScreen({
   webcamEnabled,
   setWebcamOn,
   setMicOn,
-}) {
+  startMeeting,
+  setIsMeetingLeft,
+}: MeetingProps) {
   const theme = useTheme();
   const classes = useStyles();
 
   const [setting, setSetting] = useState("video");
-  const [{ webcams, mics }, setDevices] = useState({
+  const [{ webcams, mics }, setDevices] = useState<any>({
     devices: [],
     webcams: [],
     mics: [],
   });
 
-  const [videoTrack, setVideoTrack] = useState(null);
+  const [videoTrack, setVideoTrack] = useState<any>(null);
 
   const [dlgMuted, setDlgMuted] = useState(false);
   const [dlgDevices, setDlgDevices] = useState(false);
@@ -78,19 +101,19 @@ export function JoiningScreen({
   const popupVideoPlayerRef = useRef();
   const popupAudioPlayerRef = useRef();
 
-  const videoTrackRef = useRef();
-  const audioTrackRef = useRef();
+  const videoTrackRef = useRef<any>();
+  const audioTrackRef = useRef<any>();
   const audioAnalyserIntervalRef = useRef();
 
   const [settingDialogueOpen, setSettingDialogueOpen] = useState(false);
 
-  const [audioTrack, setAudioTrack] = useState(null);
+  const [audioTrack, setAudioTrack] = useState<any>(null);
 
   const handleClickOpen = () => {
     setSettingDialogueOpen(true);
   };
 
-  const handleClose = (value) => {
+  const handleClose = (value: any) => {
     setSettingDialogueOpen(false);
   };
 
@@ -159,7 +182,7 @@ export function JoiningScreen({
     }
   };
 
-  const changeWebcam = async (deviceId) => {
+  const changeWebcam = async (deviceId: any) => {
     const currentvideoTrack = videoTrackRef.current;
 
     if (currentvideoTrack) {
@@ -175,7 +198,7 @@ export function JoiningScreen({
 
     setVideoTrack(videoTrack);
   };
-  const changeMic = async (deviceId) => {
+  const changeMic = async (deviceId: any) => {
     const currentAudioTrack = audioTrackRef.current;
     currentAudioTrack && currentAudioTrack.stop();
     const stream = await navigator.mediaDevices.getUserMedia({
@@ -189,7 +212,7 @@ export function JoiningScreen({
     setAudioTrack(audioTrack);
   };
 
-  const getDefaultMediaTracks = async ({ mic, webcam, firstTime }) => {
+  const getDefaultMediaTracks = async ({ mic, webcam, firstTime }: any) => {
     if (mic) {
       const audioConstraints = {
         audio: true,
@@ -247,7 +270,7 @@ export function JoiningScreen({
     }
   }
 
-  const getDevices = async ({ micEnabled, webcamEnabled }) => {
+  const getDevices = async ({ micEnabled, webcamEnabled }: any) => {
     try {
       const devices = await navigator.mediaDevices.enumerateDevices();
 
@@ -289,12 +312,12 @@ export function JoiningScreen({
     xs: 32,
   };
 
-  const spacingSettingChip = useResponsiveSize({
-    xl: 190,
-    lg: 175,
-    md: 80,
-    sm: 160,
-  });
+  // const spacingSettingChip = useResponsiveSize({
+  //   xl: 190,
+  //   lg: 175,
+  //   md: 80,
+  //   sm: 160,
+  // });
   const spacingHorizontalTopics = useResponsiveSize(
     spacingHorizontalTopicsObject
   );
@@ -345,7 +368,7 @@ export function JoiningScreen({
           flex: 1,
           flexDirection: "column",
           height: "100vh",
-          backgroundColor: "#050A0E",
+          backgroundColor: "#ffffff",
           // backgroundColor: theme.palette.darkTheme.main,
         }}
       >
@@ -554,12 +577,13 @@ export function JoiningScreen({
                             padding: 0,
                           }}
                         >
-                          <CheckCircleIcon className="h-5 w-5" />
+                          <CheckCircleIcon className="h-5 w-5 text-[#fff]" />
                         </IconButton>
                         <Typography
                           variant="subtitle1"
                           style={{
                             marginLeft: 4,
+                            color: "#fff"
                           }}
                         >
                           Check your audio and video
@@ -591,11 +615,8 @@ export function JoiningScreen({
                   setVideoTrack={setVideoTrack}
                   onClickStartMeeting={onClickStartMeeting}
                   onClickJoin={async (id) => {
-                    // const token = await getToken();
-                    const valid = await ValidateRoom(
-                      meetingId,
-                      token,
-                    );
+                    const token = await getToken();
+                    const valid = await ValidateRoom(meetingId, token);
 
                     if (valid) {
                       setToken(token);
@@ -605,16 +626,16 @@ export function JoiningScreen({
                         setVideoTrack(null);
                       }
                       onClickStartMeeting();
-                      // setParticipantName("");
+                      setParticipantName("");
                     } else alert("Invalid Meeting Id");
                   }}
                   onClickCreateMeeting={async () => {
-                    // const token = await getToken();
-                    // const _meetingId = await createMeeting({ token });
-                    // setToken(token);
-                    // setMeetingId(_meetingId);
-                    // setParticipantName("");
-                    // return _meetingId;
+                    const token = await getToken();
+                    const _meetingId = await createMeeting({ token });
+                    setToken(token);
+                    setMeetingId(_meetingId);
+                    setParticipantName("");
+                    return _meetingId;
                   }}
                 />
               </div>

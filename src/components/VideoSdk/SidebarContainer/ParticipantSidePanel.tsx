@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { Avatar, useTheme } from "@mui/material";
 import { useMeeting, useParticipant } from "@videosdk.live/react-sdk";
 
@@ -10,7 +10,7 @@ import VideoCamOffIcon from "@/assets/iconSvg/VideoCamOffIcon";
 import VideoCamOnIcon from "@/assets/iconSvg/VideoCamOnIcon";
 import { nameTructed } from "@/utils/helper";
 
-function ParticipantListItem({ participantId, raisedHand, pId }) {
+function ParticipantListItem({ participantId, raisedHand, pId }: any) {
   const { micOn, webcamOn, displayName, isLocal } =
     useParticipant(participantId);
 
@@ -42,7 +42,10 @@ function ParticipantListItem({ participantId, raisedHand, pId }) {
   );
 }
 
-export function ParticipantSidePanel({ panelHeight, raisedHandsParticipants }) {
+export function ParticipantSidePanel({
+  panelHeight,
+  raisedHandsParticipants,
+}: any) {
   const mMeeting = useMeeting();
   const participants = mMeeting.participants;
 
@@ -77,7 +80,7 @@ export function ParticipantSidePanel({ panelHeight, raisedHandsParticipants }) {
     return combined;
   }, [raisedHandsParticipants, participants]);
 
-  const filterParticipants = (sortedRaisedHandsParticipants) =>
+  const filterParticipants = (sortedRaisedHandsParticipants: any) =>
     sortedRaisedHandsParticipants;
 
   const part = useMemo(

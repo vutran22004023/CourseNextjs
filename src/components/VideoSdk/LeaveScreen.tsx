@@ -1,4 +1,4 @@
-export function LeaveScreen({ setIsMeetingLeft }) {
+export function LeaveScreen({ setIsMeetingLeft }: any) {
   return (
     <div className="bg-gray-800 h-screen flex flex-col flex-1 items-center justify-center">
       <h1 className="text-white text-4xl">You left the meeting!</h1>

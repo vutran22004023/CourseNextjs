@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { Constants, useMeeting, usePubSub } from "@videosdk.live/react-sdk";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { sideBarModes } from "./MeetingContainer/MeetingContainer";
@@ -32,7 +32,7 @@ import { makeStyles } from "@mui/styles";
 import {
   ArrowDropDown as ArrowDropDownIcon,
   MoreHoriz as MoreHorizIcon,
-} from "@mui/material";
+} from "@mui/icons-material";
 import useIsTab from "@/utils/useIsTab";
 import useIsMobile from "@/utils/useIsMobile";
 import { MobileIconButton } from "./MobileIconButton";
@@ -64,7 +64,7 @@ export function BottomBar({
   selectMicDeviceId,
   setSelectMicDeviceId,
 }) {
-  const RaiseHandBTN = ({ isMobile, isTab }) => {
+  const RaiseHandBTN = ({ isMobile, isTab }: any) => {
     const { publish } = usePubSub("RAISE_HAND");
     const RaiseHand = () => {
       publish("Raise Hand");
@@ -77,12 +77,14 @@ export function BottomBar({
         Icon={RaiseHandIcon}
         onClick={RaiseHand}
         buttonText={"Raise Hand"}
+        focusIconColor="#fff"
       />
     ) : (
       <OutlinedButton
         onClick={RaiseHand}
         tooltip={"Raise Hand"}
         Icon={RaiseHandIcon}
+        focusIconColor="#fff"
       />
     );
   };
@@ -159,7 +161,7 @@ export function BottomBar({
     classes,
     changeMic,
     handleClose,
-  }) => {
+  }: any) => {
     const theme = useTheme();
     return (
       <Box>
@@ -175,7 +177,7 @@ export function BottomBar({
             style={{
               marginLeft: 12,
               fontSize: 14,
-              color: theme.palette.darkTheme.contrastText,
+              // color: theme.palette.darkTheme.contrastText,
             }}
           >
             {label}
@@ -186,7 +188,7 @@ export function BottomBar({
           disableFocusRipple
           style={{
             // backgroundColor: theme.palette.darkTheme.slightLighter,
-            color: theme.palette.common.white,
+            // color: theme.palette.common.white,
           }}
         >
           {micArr.map(({ deviceId, label }, index) => (
@@ -241,7 +243,7 @@ export function BottomBar({
     handleClose,
     tollTipEl,
     changeMic,
-  }) => {
+  }: any) => {
     const theme = useTheme();
 
     return (
@@ -260,9 +262,11 @@ export function BottomBar({
         onClose={handleClose}
       >
         <Box
-          style={{
-            // backgroundColor: theme.palette.darkTheme.slightLighter,
-          }}
+          style={
+            {
+              // backgroundColor: theme.palette.darkTheme.slightLighter,
+            }
+          }
         >
           <SingleMicMenu
             micArr={mics}
@@ -285,13 +289,13 @@ export function BottomBar({
     const changeMic = mMeeting?.changeMic;
     const classes = useStyles();
 
-    const getMics = async (mGetMics) => {
+    const getMics = async (mGetMics: any) => {
       const mics = await mGetMics();
 
       mics && mics?.length && setMics(mics);
     };
 
-    const handleClick = (event) => {
+    const handleClick = (event: any) => {
       setDownArrow(event.currentTarget);
     };
 
@@ -353,13 +357,13 @@ export function BottomBar({
     const changeWebcam = mMeeting?.changeWebcam;
     const classes = useStyles();
     const theme = useTheme();
-    const getWebcams = async (mGetWebcams) => {
+    const getWebcams = async (mGetWebcams: any) => {
       const webcams = await mGetWebcams();
 
       webcams && webcams?.length && setWebcams(webcams);
     };
 
-    const handleClickWebCam = (event) => {
+    const handleClickWebCam = (event: any) => {
       setDownArrowWebCam(event.currentTarget);
     };
 
@@ -377,7 +381,7 @@ export function BottomBar({
           bgColor={localWebcamOn ? "bg-gray-750" : "bg-white"}
           borderColor={localWebcamOn && "#ffffff33"}
           isFocused={localWebcamOn}
-          focusIconColor={localWebcamOn && "white"}
+          focusIconColor={localWebcamOn && "while"}
           tooltip={"Toggle Webcam"}
           renderRightComponent={() => {
             return (
@@ -417,7 +421,7 @@ export function BottomBar({
           <MenuList
             style={{
               // backgroundColor: theme.palette.darkTheme.slightLighter,
-              color: theme.palette.common.white,
+              color: "#000",
             }}
           >
             {webcams.map(({ deviceId, label }, index) => (
@@ -442,7 +446,7 @@ export function BottomBar({
     );
   };
 
-  const ScreenShareBTN = ({ isMobile, isTab }) => {
+  const ScreenShareBTN = ({ isMobile, isTab }: any) => {
     const mMeeting = useMeeting();
     const localScreenShareOn = mMeeting?.localScreenShareOn;
     const toggleScreenShare = mMeeting?.toggleScreenShare;
@@ -515,7 +519,7 @@ export function BottomBar({
     );
   };
 
-  const ChatBTN = ({ isMobile, isTab }) => {
+  const ChatBTN = ({ isMobile, isTab }: any) => {
     return isMobile || isTab ? (
       <MobileIconButton
         tooltipTitle={"Chat"}
@@ -542,7 +546,7 @@ export function BottomBar({
     );
   };
 
-  const ParticipantsBTN = ({ isMobile, isTab }) => {
+  const ParticipantsBTN = ({ isMobile, isTab }: any) => {
     const { participants } = useMeeting();
     return isMobile || isTab ? (
       <MobileIconButton
@@ -577,7 +581,7 @@ export function BottomBar({
     const mMeeting = useMeeting();
     const [isCopied, setIsCopied] = useState(false);
     return (
-      <div className="flex items-center justify-center lg:ml-0 ml-4 mt-4 xl:mt-0">
+      <div className="flex items-center justify-center lg:ml-0 ml-4 mt-4 xl:mt-0 bg-black">
         <div className="flex border-2 border-gray-850 p-2 rounded-md items-center justify-center">
           <h1 className="text-white text-base ">{mMeeting.meetingId}</h1>
           <button
@@ -642,7 +646,7 @@ export function BottomBar({
     { icon: BottomBarButtonTypes.PARTICIPANTS },
     { icon: BottomBarButtonTypes.MEETING_ID_COPY },
   ];
-
+  console.log(otherFeatures);
   return isMobile || isTab ? (
     <div
       className="flex items-center justify-center"

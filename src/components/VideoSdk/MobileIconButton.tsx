@@ -24,7 +24,7 @@ export const MobileIconButton = ({
   btnID,
   buttonText,
   lottieOption,
-}) => {
+}: any) => {
   const theme = useTheme();
   const [mouseOver, setMouseOver] = useState(false);
   const [mouseDown, setMouseDown] = useState(false);

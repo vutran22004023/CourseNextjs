@@ -17,7 +17,17 @@ import useIsTab from "@/utils/useIsTab";
 import useResponsiveSize from "@/utils/useResponsiveSize";
 import { ChatSidePanel } from "./ChatSidePanel";
 import { ParticipantSidePanel } from "./ParticipantSidePanel";
-
+interface ParticipantsViewerProps {
+  height: number;
+  sideBarContainerWidth: number;
+  panelHeight: number;
+  sideBarMode: boolean;
+  raisedHandsParticipants: string[]; // Assuming it's an array of participant IDs
+  panelHeaderHeight: number;
+  panelHeaderPadding: number;
+  panelPadding: number;
+  handleClose: () => void; // Function type for handleClose
+}
 const SideBarTabView = ({
   height,
   sideBarContainerWidth,
@@ -28,7 +38,7 @@ const SideBarTabView = ({
   panelHeaderPadding,
   panelPadding,
   handleClose,
-}) => {
+}: ParticipantsViewerProps) => {
   const { participants } = useMeeting();
   const theme = useTheme();
 
@@ -41,13 +51,13 @@ const SideBarTabView = ({
         paddingLeft: panelPadding,
         paddingRight: panelPadding,
         paddingBottom: panelPadding,
-        backgroundColor: theme.palette.darkTheme.main,
+        // backgroundColor: theme.palette.darkTheme.main,
       }}
     >
       <Fade in={sideBarMode}>
         <div
           style={{
-            backgroundColor: theme.palette.darkTheme.slightLighter,
+            // backgroundColor: theme.palette.darkTheme.slightLighter,
             height: height,
             borderRadius: 10,
             overflow: "hidden",
@@ -63,6 +73,7 @@ const SideBarTabView = ({
                   alignItems: "center",
                   justifyContent: "space-between",
                   borderBottom: "1px solid #70707033",
+                  backgroundColor: '#fff'
                 }}
               >
                 <Typography variant={"body1"} style={{ fontWeight: "bold" }}>

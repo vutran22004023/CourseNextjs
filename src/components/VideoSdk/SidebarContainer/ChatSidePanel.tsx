@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import {
   IconButton,
   InputAdornment,
@@ -11,7 +11,7 @@ import { useMeeting, usePubSub } from "@videosdk.live/react-sdk";
 import React, { useEffect, useRef, useState } from "react";
 import { formatAMPM, json_verify, nameTructed } from "@/utils/helper";
 
-const ChatMessage = ({ senderId, senderName, text, timestamp }) => {
+const ChatMessage = ({ senderId, senderName, text, timestamp }: any) => {
   const mMeeting = useMeeting();
   const localParticipantId = mMeeting?.localParticipant?.id;
   const localSender = localParticipantId === senderId;
@@ -21,6 +21,7 @@ const ChatMessage = ({ senderId, senderName, text, timestamp }) => {
       className={`flex ${localSender ? "justify-end" : "justify-start"} mt-4`}
       style={{
         maxWidth: "100%",
+                backgroundColor: '#fff'
       }}
     >
       <div
@@ -46,7 +47,7 @@ const ChatMessage = ({ senderId, senderName, text, timestamp }) => {
   );
 };
 
-const ChatInput = ({ inputHeight }) => {
+const ChatInput = ({ inputHeight }: any) => {
   const [message, setMessage] = useState("");
   const { publish } = usePubSub("CHAT");
   const input = useRef();
@@ -61,6 +62,7 @@ const ChatInput = ({ inputHeight }) => {
         alignItems: "center",
         paddingRight: theme.spacing(1),
         paddingLeft: theme.spacing(1),
+        backgroundColor: '#fff'
       }}
     >
       <Input
@@ -145,7 +147,7 @@ const ChatMessages = ({ listHeight }) => {
   }, [messages]);
 
   return messages ? (
-    <div ref={listRef} style={{ overflowY: "scroll", height: listHeight }}>
+    <div ref={listRef} style={{ overflowY: "scroll", height: listHeight,         backgroundColor: '#fff' }}>
       <div className="p-4">
         {messages.map((msg, i) => {
           const { senderId, senderName, message, timestamp } = msg;
@@ -168,7 +170,7 @@ export function ChatSidePanel({ panelHeight }) {
   const listHeight = panelHeight - inputHeight;
 
   return (
-    <div>
+    <div style={{        backgroundColor: '#fff'}}>
       <ChatMessages listHeight={listHeight} />
       <ChatInput inputHeight={inputHeight} />
     </div>

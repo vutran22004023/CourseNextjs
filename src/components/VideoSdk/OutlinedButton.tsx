@@ -1,10 +1,10 @@
-'use client'
+'use client';
 import useResponsiveSize from "@/utils/useResponsiveSize";
 import Lottie from "react-lottie";
 import { Tooltip } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 
-export const OutlinedButton = () => ({
+export const OutlinedButton = ({
   bgColor,
   onClick,
   Icon,
@@ -21,12 +21,12 @@ export const OutlinedButton = () => ({
   focusIconColor,
   isRequestProcessing,
   borderColor,
-}) => {
+}: any) => {
   const [mouseOver, setMouseOver] = useState(false);
   const [mouseDown, setMouseDown] = useState(false);
   const [blinkingState, setBlinkingState] = useState(1);
 
-  const intervalRef = useRef();
+  const intervalRef = useRef<any>();
 
   const iconSize = useResponsiveSize({
     xl: 24 * (large ? 1.7 : 1),
@@ -44,7 +44,6 @@ export const OutlinedButton = () => ({
 
   const stopBlinking = () => {
     clearInterval(intervalRef.current);
-
     setBlinkingState(1);
   };
 
@@ -66,7 +65,7 @@ export const OutlinedButton = () => ({
     <Tooltip placement="top" title={tooltip} open={mouseOver || mouseDown}>
       <div
         className={`flex items-center justify-center  rounded-lg ${
-          bgColor ? `${bgColor}` : isFocused ? "bg-white" : "bg-gray-750"
+          bgColor ? `${bgColor}` : isFocused ? "bg-[#FF5A00]" : "bg-[#FF5A00]"
         } ${
           mouseOver
             ? "border-2 border-transparent border-solid"

@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import {
   Box,
   Button,
@@ -20,14 +20,14 @@ import useResponsiveSize from "@/utils/useResponsiveSize";
 import useWindowSize from "@/utils/useWindowSize";
 import ConfirmBox from "./ConfirmBox";
 
-const AudioAnalyser = ({ audioTrack }) => {
+const AudioAnalyser = ({ audioTrack }: any) => {
   const theme = useTheme();
   const audioTrackRef = useRef();
   const audioAnalyserIntervalRef = useRef();
 
   const [volume, setVolume] = useState(null);
 
-  const analyseAudio = (audioTrack) => {
+  const analyseAudio = (audioTrack: any) => {
     const audioStream = new MediaStream([audioTrack]);
     const audioContext = new AudioContext();
 
@@ -177,7 +177,7 @@ export default function SettingDialogueBox({
   changeMic,
   videoTrack,
   audioTrack,
-}) {
+}: any) {
   const theme = useTheme();
   const classes = useStyles();
 
@@ -280,13 +280,13 @@ export default function SettingDialogueBox({
                           }}
                           style={{
                             borderRadius: 0,
-                            color: "white",
+                            color: "#000",
                             borderColor: "white",
                           }}
                           variant={setting === value ? "contained" : "outlined"}
                           disableElevation
                           disableRipple
-                          color={setting === value ? "primary" : "white"}
+                          color={setting === value ? "primary" : "#000"}
                           size={"large"}
                           onClick={() => {
                             handleSetting(null, value);
