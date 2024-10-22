@@ -51,13 +51,13 @@ const SideBarTabView = ({
         paddingLeft: panelPadding,
         paddingRight: panelPadding,
         paddingBottom: panelPadding,
-        backgroundColor: theme.palette.darkTheme.main,
+        // backgroundColor: theme.palette.darkTheme.main,
       }}
     >
       <Fade in={sideBarMode}>
         <div
           style={{
-            backgroundColor: theme.palette.darkTheme.slightLighter,
+            // backgroundColor: theme.palette.darkTheme.slightLighter,
             height: height,
             borderRadius: 10,
             overflow: "hidden",

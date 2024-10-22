@@ -1,10 +1,10 @@
-'use client'
+'use client';
 import useResponsiveSize from "@/utils/useResponsiveSize";
 import Lottie from "react-lottie";
 import { Tooltip } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 
-export const OutlinedButton = () => ({
+export const OutlinedButton = ({
   bgColor,
   onClick,
   Icon,
@@ -44,7 +44,6 @@ export const OutlinedButton = () => ({
 
   const stopBlinking = () => {
     clearInterval(intervalRef.current);
-
     setBlinkingState(1);
   };
 
@@ -66,7 +65,7 @@ export const OutlinedButton = () => ({
     <Tooltip placement="top" title={tooltip} open={mouseOver || mouseDown}>
       <div
         className={`flex items-center justify-center  rounded-lg ${
-          bgColor ? `${bgColor}` : isFocused ? "bg-white" : "bg-gray-750"
+          bgColor ? `${bgColor}` : isFocused ? "bg-[#FF5A00]" : "bg-gray-750"
         } ${
           mouseOver
             ? "border-2 border-transparent border-solid"

@@ -280,13 +280,13 @@ export default function SettingDialogueBox({
                           }}
                           style={{
                             borderRadius: 0,
-                            color: "white",
+                            color: "#000",
                             borderColor: "white",
                           }}
                           variant={setting === value ? "contained" : "outlined"}
                           disableElevation
                           disableRipple
-                          color={setting === value ? "primary" : "white"}
+                          color={setting === value ? "primary" : "#000"}
                           size={"large"}
                           onClick={() => {
                             handleSetting(null, value);

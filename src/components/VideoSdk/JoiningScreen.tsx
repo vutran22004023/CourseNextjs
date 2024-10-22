@@ -368,7 +368,7 @@ export function JoiningScreen({
           flex: 1,
           flexDirection: "column",
           height: "100vh",
-          backgroundColor: "#050A0E",
+          backgroundColor: "#ffffff",
           // backgroundColor: theme.palette.darkTheme.main,
         }}
       >
@@ -577,12 +577,13 @@ export function JoiningScreen({
                             padding: 0,
                           }}
                         >
-                          <CheckCircleIcon className="h-5 w-5" />
+                          <CheckCircleIcon className="h-5 w-5 text-[#fff]" />
                         </IconButton>
                         <Typography
                           variant="subtitle1"
                           style={{
                             marginLeft: 4,
+                            color: "#fff"
                           }}
                         >
                           Check your audio and video

@@ -121,7 +121,7 @@ export default function Page() {
       mutationDetailRoom.mutate(slug, {
         onSuccess: (data: RoomData[]) => {
           setData(data[0]);
-          setMeetingId(data[0]?.roomDetails?.roomId);
+          // setMeetingId(data[0]?.roomDetails?.roomId);
           setAuthToken(data[0]?.token);
         },
       });

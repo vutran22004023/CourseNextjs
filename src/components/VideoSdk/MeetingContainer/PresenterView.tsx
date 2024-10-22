@@ -74,7 +74,7 @@ export function PresenterView({ height }: any) {
         height: height - theme.spacing(4),
         // width: "700px",
         width: "100%",
-        backgroundColor: theme.palette.darkTheme.slightLighter,
+        // backgroundColor: theme.palette.darkTheme.slightLighter,
         position: "relative",
         overflow: "hidden",
         borderRadius: theme.spacing(1),
@@ -120,7 +120,7 @@ export function PresenterView({ height }: any) {
             position: "absolute",
             bottom: theme.spacing(1),
             left: theme.spacing(1),
-            backgroundColor: theme.palette.darkTheme.main,
+            // backgroundColor: theme.palette.darkTheme.main,
             borderRadius: 6,
             display: "flex",
             alignItems: "center",
@@ -151,7 +151,7 @@ export function PresenterView({ height }: any) {
               top: "50%",
               left: "50%",
               transform: "translate(-50%,-50%)",
-              backgroundColor: theme.palette.darkTheme.slightLighter,
+              // backgroundColor: theme.palette.darkTheme.slightLighter,
             }}
           >
             <ScreenShare
@@ -181,7 +181,7 @@ export function PresenterView({ height }: any) {
                   mMeeting.toggleScreenShare();
                 }}
                 style={{
-                  backgroundColor: theme.palette.primary.primaryMain,
+                  // backgroundColor: theme.palette.primary.primaryMain,
                 }}
               >
                 Stop presenting
@@ -200,7 +200,7 @@ export function PresenterView({ height }: any) {
       style={{
         height: height - theme.spacing(2),
         width: "100%",
-        backgroundColor: theme.palette.darkTheme.slightLighter,
+        // backgroundColor: theme.palette.darkTheme.slightLighter,
         position: "relative",
         borderRadius: theme.spacing(1),
         margin: theme.spacing(1),

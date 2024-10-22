@@ -233,6 +233,7 @@ export function MeetingContainer({
     "only screen and (max-width: 768px)"
   ).matches;
 
+  console.log("sideBarMode", sideBarMode)
   return (
     <div
       style={{ height: windowHeight }}

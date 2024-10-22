@@ -32,7 +32,7 @@ import { makeStyles } from "@mui/styles";
 import {
   ArrowDropDown as ArrowDropDownIcon,
   MoreHoriz as MoreHorizIcon,
-} from "@mui/material";
+} from "@mui/icons-material";
 import useIsTab from "@/utils/useIsTab";
 import useIsMobile from "@/utils/useIsMobile";
 import { MobileIconButton } from "./MobileIconButton";
@@ -579,7 +579,7 @@ export function BottomBar({
     const mMeeting = useMeeting();
     const [isCopied, setIsCopied] = useState(false);
     return (
-      <div className="flex items-center justify-center lg:ml-0 ml-4 mt-4 xl:mt-0">
+      <div className="flex items-center justify-center lg:ml-0 ml-4 mt-4 xl:mt-0 bg-black">
         <div className="flex border-2 border-gray-850 p-2 rounded-md items-center justify-center">
           <h1 className="text-white text-base ">{mMeeting.meetingId}</h1>
           <button
@@ -644,7 +644,7 @@ export function BottomBar({
     { icon: BottomBarButtonTypes.PARTICIPANTS },
     { icon: BottomBarButtonTypes.MEETING_ID_COPY },
   ];
-
+  console.log(otherFeatures);
   return isMobile || isTab ? (
     <div
       className="flex items-center justify-center"
