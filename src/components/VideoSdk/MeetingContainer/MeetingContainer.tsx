@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import React, { useState, useEffect, useRef } from "react";
 import { useMeeting, usePubSub } from "@videosdk.live/react-sdk";
 import { BottomBar } from "../BottomBar";
@@ -14,7 +14,25 @@ export const sideBarModes = {
   PARTICIPANTS: "PARTICIPANTS",
   CHAT: "CHAT",
 };
-
+interface MeetingControlProps {
+  onMeetingLeave: () => void; // Function to handle leaving the meeting
+  setIsMeetingLeft: (status: boolean) => void; // Function to update the meeting leave status
+  selectedMic: { id: string | null }; // Object representing the selected microphone, id can be a string or null
+  selectedWebcam: { id: string | null }; // Object representing the selected webcam, id can be a string or null
+  selectWebcamDeviceId: string | null; // Currently selected webcam device ID
+  setSelectWebcamDeviceId: (id: string | null) => void; // Function to update the selected webcam device ID
+  selectMicDeviceId: string | null; // Currently selected microphone device ID
+  setSelectMicDeviceId: (id: string | null) => void; // Function to update the selected microphone device ID
+  useRaisedHandParticipants: () => {
+    participantRaisedHand: (participantId: any) => void;
+  }; // Function to manage raised hand participants
+  raisedHandsParticipants: Array<{
+    participantId: string;
+    raisedHandOn: number;
+  }>; // Array of participants who raised hands, with participant ID and timestamp
+  micEnabled: boolean; // Boolean flag for microphone status (on/off)
+  webcamEnabled: boolean; // Boolean flag for webcam status (on/off)
+}
 export function MeetingContainer({
   onMeetingLeave,
   setIsMeetingLeft,
@@ -28,15 +46,14 @@ export function MeetingContainer({
   raisedHandsParticipants,
   micEnabled,
   webcamEnabled,
-}) {
+}: MeetingControlProps) {
   const [containerHeight, setContainerHeight] = useState(0);
   const [containerWidth, setContainerWidth] = useState(0);
-  const mMeetingRef = useRef();
+  const mMeetingRef = useRef<any>();
   const [localParticipantAllowedJoin, setLocalParticipantAllowedJoin] =
-    useState(null);
-  const containerRef = useRef();
+    useState<boolean>(false);
+  const containerRef = useRef<any>();
   const { enqueueSnackbar } = useSnackbar();
-
 
   useEffect(() => {
     containerRef.current?.offsetHeight &&
@@ -58,25 +75,25 @@ export function MeetingContainer({
     setIsMeetingLeft(true);
   };
 
-  function onParticipantJoined(participant) {
+  function onParticipantJoined(participant: any) {
     // console.log(" onParticipantJoined", participant);
   }
-  function onParticipantLeft(participant) {
+  function onParticipantLeft(participant: any) {
     // console.log(" onParticipantLeft", participant);
   }
-  const onSpeakerChanged = (activeSpeakerId) => {
+  const onSpeakerChanged = (activeSpeakerId: any) => {
     // console.log(" onSpeakerChanged", activeSpeakerId);
   };
-  function onPresenterChanged(presenterId) {
+  function onPresenterChanged(presenterId: any) {
     // console.log(" onPresenterChanged", presenterId);
   }
-  function onMainParticipantChanged(participant) {
+  function onMainParticipantChanged(participant: any) {
     // console.log(" onMainParticipantChanged", participant);
   }
-  function onEntryRequested(participantId, name) {
+  function onEntryRequested({ participantId, name }: any) {
     // console.log(" onEntryRequested", participantId, name);
   }
-  function onEntryResponded(participantId, name) {
+  function onEntryResponded({ participantId, name }: any) {
     // console.log(" onEntryResponded", participantId, name);
     if (mMeetingRef.current?.localParticipant?.id === participantId) {
       if (name === "allowed") {
@@ -95,7 +112,7 @@ export function MeetingContainer({
   function onRecordingStopped() {
     // console.log(" onRecordingStopped");
   }
-  function onChatMessage(data) {
+  function onChatMessage(data: any) {
     // console.log(" onChatMessage", data);
   }
   async function onMeetingJoined() {
@@ -127,27 +144,27 @@ export function MeetingContainer({
     // console.log("onMeetingLeft");
     onMeetingLeave();
   }
-  const onLiveStreamStarted = (data) => {
+  const onLiveStreamStarted = (data: any) => {
     // console.log("onLiveStreamStarted example", data);
   };
-  const onLiveStreamStopped = (data) => {
+  const onLiveStreamStopped = (data: any) => {
     // console.log("onLiveStreamStopped example", data);
   };
 
-  const onVideoStateChanged = (data) => {
+  const onVideoStateChanged = (data: any) => {
     // console.log("onVideoStateChanged", data);
   };
-  const onVideoSeeked = (data) => {
+  const onVideoSeeked = (data: any) => {
     // console.log("onVideoSeeked", data);
   };
 
-  const onWebcamRequested = (data) => {
+  const onWebcamRequested = (data: any) => {
     // console.log("onWebcamRequested", data);
   };
-  const onMicRequested = (data) => {
+  const onMicRequested = (data: any) => {
     // console.log("onMicRequested", data);
   };
-  const onPinStateChanged = (data) => {
+  const onPinStateChanged = (data: any) => {
     // console.log("onPinStateChanged", data);
   };
 
@@ -178,7 +195,7 @@ export function MeetingContainer({
   }, [mMeeting]);
 
   const isPresenting = mMeeting.presenterId ? true : false;
-  console.log(isPresenting)
+  console.log(isPresenting);
   const bottomBarHeight = 60;
   const [sideBarMode, setSideBarMode] = useState(null);
 

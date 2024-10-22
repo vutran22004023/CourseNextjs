@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import {
   IconButton,
   InputAdornment,
@@ -11,7 +11,7 @@ import { useMeeting, usePubSub } from "@videosdk.live/react-sdk";
 import React, { useEffect, useRef, useState } from "react";
 import { formatAMPM, json_verify, nameTructed } from "@/utils/helper";
 
-const ChatMessage = ({ senderId, senderName, text, timestamp }) => {
+const ChatMessage = ({ senderId, senderName, text, timestamp }: any) => {
   const mMeeting = useMeeting();
   const localParticipantId = mMeeting?.localParticipant?.id;
   const localSender = localParticipantId === senderId;
@@ -46,7 +46,7 @@ const ChatMessage = ({ senderId, senderName, text, timestamp }) => {
   );
 };
 
-const ChatInput = ({ inputHeight }) => {
+const ChatInput = ({ inputHeight }: any) => {
   const [message, setMessage] = useState("");
   const { publish } = usePubSub("CHAT");
   const input = useRef();

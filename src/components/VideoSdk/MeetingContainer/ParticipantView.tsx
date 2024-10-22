@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import React, { useEffect, useMemo, useRef } from "react";
 import { Grid, useTheme } from "@mui/material";
 import { useParticipant, useMeeting } from "@videosdk.live/react-sdk";
@@ -6,12 +6,16 @@ import { nameTructed } from "@/utils/helper";
 import { MicOff } from "@mui/icons-material";
 import ReactPlayer from "react-player";
 
-function ParticipantView({ participantId }) {
+interface ParticipantViewProps {
+  participantId: string;
+}
+
+function ParticipantView({ participantId }: ParticipantViewProps) {
   const { displayName, webcamStream, micStream, webcamOn, micOn, isLocal } =
     useParticipant(participantId);
-  const micRef = useRef(null);
+  const micRef = useRef<HTMLAudioElement | null>(null);
   const mMeeting = useMeeting();
-  const isPresenting = mMeeting.isPresenting;
+  const isPresenting = mMeeting?.isPresenting;
 
   useEffect(() => {
     if (micRef.current) {
@@ -22,24 +26,25 @@ function ParticipantView({ participantId }) {
         micRef.current
           .play()
           .catch((error) =>
-            console.error("videoElem.current.play() failed", error)
+            console.error("micRef.current.play() failed", error)
           );
       } else {
         micRef.current.srcObject = null;
       }
     }
   }, [micStream, micOn]);
+
   const webcamMediaStream = useMemo(() => {
     if (webcamOn && webcamStream) {
       const mediaStream = new MediaStream();
       mediaStream.addTrack(webcamStream.track);
       return mediaStream;
     }
+    return null;
   }, [webcamStream, webcamOn]);
+
   return (
-    <div
-      className={`h-full w-full  bg-gray-750 relative overflow-hidden rounded-lg video-cover`}
-    >
+    <div className="h-full w-full bg-gray-750 relative overflow-hidden rounded-lg video-cover">
       <div
         className="absolute bottom-2 left-2 rounded-md flex items-center justify-center p-2"
         style={{
@@ -48,11 +53,7 @@ function ParticipantView({ participantId }) {
           transitionTimingFunction: "linear",
         }}
       >
-        {!micOn ? (
-          <MicOff fontSize="small" style={{ color: "white" }}></MicOff>
-        ) : (
-          <></>
-        )}
+        {!micOn ? <MicOff fontSize="small" style={{ color: "white" }} /> : null}
         <p className="text-sm text-white">
           {isPresenting
             ? isLocal
@@ -63,33 +64,26 @@ function ParticipantView({ participantId }) {
             : nameTructed(displayName, 26)}
         </p>
       </div>
-      <audio ref={micRef} autoPlay muted={isLocal}/>
-      {webcamOn ? (
+      <audio ref={micRef} autoPlay muted={isLocal} />
+      {webcamOn && webcamMediaStream ? (
         <ReactPlayer
-          //
-          playsinline // very very imp prop
+          playsinline
           playIcon={<></>}
-          //
           pip={false}
           light={false}
           controls={false}
-          muted={true}
-          playing={true}
-          //
+          muted
+          playing
           url={webcamMediaStream}
-          //
           height={"100%"}
           width={"100%"}
-          // style={flipStyle}
           onError={(err) => {
             console.log(err, "participant video error");
           }}
         />
       ) : (
         <div className="h-full w-full flex items-center justify-center">
-          <div
-            className={`z-10 flex items-center justify-center rounded-full bg-gray-800 2xl:h-[92px] h-[52px] 2xl:w-[92px] w-[52px]`}
-          >
+          <div className="z-10 flex items-center justify-center rounded-full bg-gray-800 2xl:h-[92px] h-[52px] 2xl:w-[92px] w-[52px]">
             <p className="text-2xl text-white">
               {String(displayName).charAt(0).toUpperCase()}
             </p>
@@ -99,7 +93,16 @@ function ParticipantView({ participantId }) {
     </div>
   );
 }
-export function ParticipantsViewer({ isPresenting, sideBarMode }) {
+
+interface ParticipantsViewerProps {
+  isPresenting: boolean;
+  sideBarMode: boolean;
+}
+
+export function ParticipantsViewer({
+  isPresenting,
+  sideBarMode,
+}: ParticipantsViewerProps) {
   const theme = useTheme();
   const mMeeting = useMeeting();
 
@@ -130,6 +133,7 @@ export function ParticipantsViewer({ isPresenting, sideBarMode }) {
       : participants.length < 11
       ? 4
       : 4;
+
   return (
     <div
       style={{
@@ -153,46 +157,41 @@ export function ParticipantsViewer({ isPresenting, sideBarMode }) {
       <div className="flex flex-col w-full h-full">
         {Array.from(
           { length: Math.ceil(participants.length / perRow) },
-          (_, i) => {
-            return (
-              <div
-                key={`row_${i}`}
-                className={`flex flex-1 ${
-                  isPresenting
-                    ? participants.length === 1
-                      ? "justify-start items-start"
-                      : "items-center justify-center"
+          (_, i) => (
+            <div
+              key={`row_${i}`}
+              className={`flex flex-1 ${
+                isPresenting
+                  ? participants.length === 1
+                    ? "justify-start items-start"
                     : "items-center justify-center"
-                }`}
-              >
-                {participants
-                  .slice(i * perRow, (i + 1) * perRow)
-                  .map((participantId) => {
-                    // console.log("participantId", participantId);
-                    return (
-                      <div
-                        key={`participant_${participantId}`}
-                        className={`flex flex-1 ${
-                          isPresenting
-                            ? participants.length === 1
-                              ? "md:h-34 md:w-32 xl:w-52 xl:h-48 "
-                              : participants.length === 2
-                              ? "md:w-36 xl:w-56"
-                              : "md:w-32 xl:w-48"
-                            : "w-full"
-                        } items-center justify-center h-full ${
-                          participants.length === 1
-                            ? "md:max-w-7xl 2xl:max-w-[1480px] "
-                            : "md:max-w-lg 2xl:max-w-2xl"
-                        } overflow-clip overflow-hidden  p-1`}
-                      >
-                        <ParticipantView participantId={participantId} />
-                      </div>
-                    );
-                  })}
-              </div>
-            );
-          }
+                  : "items-center justify-center"
+              }`}
+            >
+              {participants
+                .slice(i * perRow, (i + 1) * perRow)
+                .map((participantId) => (
+                  <div
+                    key={`participant_${participantId}`}
+                    className={`flex flex-1 ${
+                      isPresenting
+                        ? participants.length === 1
+                          ? "md:h-34 md:w-32 xl:w-52 xl:h-48"
+                          : participants.length === 2
+                          ? "md:w-36 xl:w-56"
+                          : "md:w-32 xl:w-48"
+                        : "w-full"
+                    } items-center justify-center h-full ${
+                      participants.length === 1
+                        ? "md:max-w-7xl 2xl:max-w-[1480px]"
+                        : "md:max-w-lg 2xl:max-w-2xl"
+                    } overflow-clip overflow-hidden p-1`}
+                  >
+                    <ParticipantView participantId={participantId} />
+                  </div>
+                ))}
+            </div>
+          )
         )}
       </div>
     </div>

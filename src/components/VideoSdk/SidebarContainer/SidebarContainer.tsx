@@ -17,7 +17,17 @@ import useIsTab from "@/utils/useIsTab";
 import useResponsiveSize from "@/utils/useResponsiveSize";
 import { ChatSidePanel } from "./ChatSidePanel";
 import { ParticipantSidePanel } from "./ParticipantSidePanel";
-
+interface ParticipantsViewerProps {
+  height: number;
+  sideBarContainerWidth: number;
+  panelHeight: number;
+  sideBarMode: boolean;
+  raisedHandsParticipants: string[]; // Assuming it's an array of participant IDs
+  panelHeaderHeight: number;
+  panelHeaderPadding: number;
+  panelPadding: number;
+  handleClose: () => void; // Function type for handleClose
+}
 const SideBarTabView = ({
   height,
   sideBarContainerWidth,
@@ -28,7 +38,7 @@ const SideBarTabView = ({
   panelHeaderPadding,
   panelPadding,
   handleClose,
-}) => {
+}: ParticipantsViewerProps) => {
   const { participants } = useMeeting();
   const theme = useTheme();
 

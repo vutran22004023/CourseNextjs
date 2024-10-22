@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import {
   Box,
   Dialog,
@@ -19,7 +19,7 @@ const ConfirmBox = ({
   title,
   subTitle,
   subTitleColor,
-}) => {
+}: any) => {
   const theme = useTheme();
 
   return (

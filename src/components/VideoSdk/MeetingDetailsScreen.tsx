@@ -11,7 +11,7 @@ export function MeetingDetailsScreen({
   videoTrack,
   setVideoTrack,
   onClickStartMeeting,
-}) {
+}: any) {
   const [meetingId, setMeetingId] = useState("");
   const [meetingIdError, setMeetingIdError] = useState(false);
   const [isCopied, setIsCopied] = useState(false);

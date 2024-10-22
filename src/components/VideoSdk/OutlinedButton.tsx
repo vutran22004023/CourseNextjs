@@ -21,12 +21,12 @@ export const OutlinedButton = () => ({
   focusIconColor,
   isRequestProcessing,
   borderColor,
-}) => {
+}: any) => {
   const [mouseOver, setMouseOver] = useState(false);
   const [mouseDown, setMouseDown] = useState(false);
   const [blinkingState, setBlinkingState] = useState(1);
 
-  const intervalRef = useRef();
+  const intervalRef = useRef<any>();
 
   const iconSize = useResponsiveSize({
     xl: 24 * (large ? 1.7 : 1),

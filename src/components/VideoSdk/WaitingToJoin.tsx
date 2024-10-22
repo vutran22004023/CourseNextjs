@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import React, { useEffect, useRef, useState } from "react";
 import useResponsiveSize from "@/utils/useResponsiveSize";
 import animationData from "@/assets/json/join_meeting.json";

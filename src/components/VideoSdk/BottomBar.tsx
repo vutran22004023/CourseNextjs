@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { Constants, useMeeting, usePubSub } from "@videosdk.live/react-sdk";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { sideBarModes } from "./MeetingContainer/MeetingContainer";
@@ -64,7 +64,7 @@ export function BottomBar({
   selectMicDeviceId,
   setSelectMicDeviceId,
 }) {
-  const RaiseHandBTN = ({ isMobile, isTab }) => {
+  const RaiseHandBTN = ({ isMobile, isTab }: any) => {
     const { publish } = usePubSub("RAISE_HAND");
     const RaiseHand = () => {
       publish("Raise Hand");
@@ -159,7 +159,7 @@ export function BottomBar({
     classes,
     changeMic,
     handleClose,
-  }) => {
+  }: any) => {
     const theme = useTheme();
     return (
       <Box>
@@ -241,7 +241,7 @@ export function BottomBar({
     handleClose,
     tollTipEl,
     changeMic,
-  }) => {
+  }: any) => {
     const theme = useTheme();
 
     return (
@@ -260,9 +260,11 @@ export function BottomBar({
         onClose={handleClose}
       >
         <Box
-          style={{
-            // backgroundColor: theme.palette.darkTheme.slightLighter,
-          }}
+          style={
+            {
+              // backgroundColor: theme.palette.darkTheme.slightLighter,
+            }
+          }
         >
           <SingleMicMenu
             micArr={mics}
@@ -285,13 +287,13 @@ export function BottomBar({
     const changeMic = mMeeting?.changeMic;
     const classes = useStyles();
 
-    const getMics = async (mGetMics) => {
+    const getMics = async (mGetMics: any) => {
       const mics = await mGetMics();
 
       mics && mics?.length && setMics(mics);
     };
 
-    const handleClick = (event) => {
+    const handleClick = (event: any) => {
       setDownArrow(event.currentTarget);
     };
 
@@ -353,13 +355,13 @@ export function BottomBar({
     const changeWebcam = mMeeting?.changeWebcam;
     const classes = useStyles();
     const theme = useTheme();
-    const getWebcams = async (mGetWebcams) => {
+    const getWebcams = async (mGetWebcams: any) => {
       const webcams = await mGetWebcams();
 
       webcams && webcams?.length && setWebcams(webcams);
     };
 
-    const handleClickWebCam = (event) => {
+    const handleClickWebCam = (event: any) => {
       setDownArrowWebCam(event.currentTarget);
     };
 
@@ -442,7 +444,7 @@ export function BottomBar({
     );
   };
 
-  const ScreenShareBTN = ({ isMobile, isTab }) => {
+  const ScreenShareBTN = ({ isMobile, isTab }: any) => {
     const mMeeting = useMeeting();
     const localScreenShareOn = mMeeting?.localScreenShareOn;
     const toggleScreenShare = mMeeting?.toggleScreenShare;
@@ -515,7 +517,7 @@ export function BottomBar({
     );
   };
 
-  const ChatBTN = ({ isMobile, isTab }) => {
+  const ChatBTN = ({ isMobile, isTab }: any) => {
     return isMobile || isTab ? (
       <MobileIconButton
         tooltipTitle={"Chat"}
@@ -542,7 +544,7 @@ export function BottomBar({
     );
   };
 
-  const ParticipantsBTN = ({ isMobile, isTab }) => {
+  const ParticipantsBTN = ({ isMobile, isTab }: any) => {
     const { participants } = useMeeting();
     return isMobile || isTab ? (
       <MobileIconButton
