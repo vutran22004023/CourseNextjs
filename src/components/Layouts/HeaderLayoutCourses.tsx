@@ -174,6 +174,8 @@ export default function HeaderLayoutCourses() {
         dataNote={dataNote}
         setSelectedChapter={setSelectedChapter}
         setSelectedSortOrder={setSelectedSortOrder}
+        courseId={courseDetail?.courseId}
+        videoId={courseDetail?.videoID}
       />
     </div>
   );

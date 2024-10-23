@@ -46,8 +46,8 @@ export default function Button({
 
 
   return (
-    <div className={finalClassName.trim()} {...rest} onClick={onClick}>
+    <button className={finalClassName.trim()} {...rest} onClick={onClick}>
       {children}
-    </div>
+    </button>
   );
 }

@@ -12,11 +12,12 @@ import "setimmediate";
 
 interface Props {
   setValueWord: (value: any) => void;
+  initialContent?: string;
 }
-export default function wordPost({ setValueWord }: Props) {
+export default function wordPost({ initialContent,setValueWord }: Props) {
   const note = {
     id: "9999",
-    content: "<p></p>",
+    content: initialContent ? initialContent: "<p></p>",
   };
 
   const [editorState, setEditorState] = useState(() =>
