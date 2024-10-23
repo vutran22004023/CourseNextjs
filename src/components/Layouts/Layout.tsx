@@ -2,12 +2,14 @@
 
 import SidebarComponment from "../Sidebar/sidebar";
 import HeaderLayout from "./HeaderLayout";
+import Footer from "./Footer";
 import { ReactNode } from "react";
 
 interface LayoutProps {
   children: ReactNode;
   isHeaderVisible: boolean;
   isSidebarVisible: boolean;
+  isFooterVisible: boolean;
   activePage: string;
 }
 
@@ -15,6 +17,7 @@ const Layout = ({
   children,
   isHeaderVisible,
   isSidebarVisible,
+  isFooterVisible,
   activePage,
 }: LayoutProps) => {
   return (
@@ -38,6 +41,7 @@ const Layout = ({
           </div>
         )}
       </div>
+      {isFooterVisible && <Footer />}
     </>
   );
 };

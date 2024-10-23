@@ -73,6 +73,25 @@ export interface DataAllCourses {
   totalPage: number;
 }
 
+export interface Blog {
+  author: string;
+  title: string;
+  content: string;
+  slug: string;
+  date: string;
+  likes: string;
+  comments: string;
+}
+
+export interface DataAllBlogs {
+  status: number;
+  message: string;
+  data: Blog[];
+  total: number;
+  pageCurrent: number;
+  totalPage: number;
+}
+
 export interface IfetchTable {
   fetchTableData: {
     data: any;

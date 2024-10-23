@@ -104,7 +104,7 @@ export default function HeaderLayout() {
               Khóa học
             </Text>
           </Link>
-          <Link href="/">
+          <Link href="/blog">
             <Text type="defaultSemiBold" className="nav-item">
               Blog
             </Text>
@@ -122,7 +122,7 @@ export default function HeaderLayout() {
         </div>
       </div>
 
-      <div className="sm:flex items-center mx-5 ms:mx-0 hidden sm:w-[500px] py-1 px-3 text-[#444] rounded-full border-2 border-[#E8E8E8] focus-within:border-black transition-colors duration-300">
+      <div className="sm:flex items-center mx-5 ms:mx-0 hidden sm:w-[500px] py-1 pl-3 pr-1 text-[#444] rounded-full border-2 border-[#E8E8E8] focus-within:border-black transition-colors duration-300">
         <input
           type="text"
           placeholder="Search"
