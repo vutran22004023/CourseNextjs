@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import React from "react";
 import HeaderLayout from "@/components/Layouts/HeaderLayout";
 import Footer from "@/components/Layouts/Footer";
@@ -15,11 +15,7 @@ export default function sidebarHeader({
     <>
       <ClientProviders>
         {!hideHeader && <HeaderLayout />}
-        {!hideHeader ? (
-          <div className="mt-10">{children}</div>
-        ): (
-          <div>{children}</div>
-        ) }
+        <div className={hideHeader ? "" : "mt-10"}>{children}</div>
         {!hideFooter && (
           <div className="mt-5">
             <Footer />

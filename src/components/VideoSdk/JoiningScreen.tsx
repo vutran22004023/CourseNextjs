@@ -15,12 +15,6 @@ import { VideocamOff, MicOff, Mic, Videocam } from "@mui/icons-material";
 import useResponsiveSize from "@/utils/useResponsiveSize";
 import { red } from "@mui/material/colors";
 import { MeetingDetailsScreen } from "./MeetingDetailsScreen";
-import {
-  ValidateRoom,
-  getToken,
-  createMeeting,
-  validateMeeting,
-} from "@/apis/videoSDK";
 import { CheckCircleIcon } from "@heroicons/react/outline";
 import SettingDialogueBox from "./SettingDialogueBox";
 import ConfirmBox from "./ConfirmBox";
@@ -614,29 +608,7 @@ export function JoiningScreen({
                   videoTrack={videoTrack}
                   setVideoTrack={setVideoTrack}
                   onClickStartMeeting={onClickStartMeeting}
-                  onClickJoin={async (id) => {
-                    const token = await getToken();
-                    const valid = await ValidateRoom(meetingId, token);
-
-                    if (valid) {
-                      setToken(token);
-                      setMeetingId(id);
-                      if (videoTrack) {
-                        videoTrack.stop();
-                        setVideoTrack(null);
-                      }
-                      onClickStartMeeting();
-                      setParticipantName("");
-                    } else alert("Invalid Meeting Id");
-                  }}
-                  onClickCreateMeeting={async () => {
-                    const token = await getToken();
-                    const _meetingId = await createMeeting({ token });
-                    setToken(token);
-                    setMeetingId(_meetingId);
-                    setParticipantName("");
-                    return _meetingId;
-                  }}
+                  meetingId={meetingId}
                 />
               </div>
             </Grid>
