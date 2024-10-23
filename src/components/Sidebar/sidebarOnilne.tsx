@@ -1,5 +1,5 @@
 "use client";
-import { Button } from "@/components/ui/button";
+
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { BookOpenText, Building2, History, School } from "lucide-react";
@@ -50,7 +50,8 @@ export default function SidebarOnline({ className }: SidebarProps) {
                 href={item.href}
                 className={cn(
                   "w-full hover:bg-[#ff5a00] hover:text-white mb-3 rounded-2xl h-[70px] flex flex-col justify-center items-center text-center",
-                  item.current && "bg-[#ff5a00] text-white shadow-xl border-2 border-[#00000061]]"
+                  item.current &&
+                    "bg-[#ff5a00] text-white shadow-xl border-2 border-[#00000061]]"
                 )}
               >
                 <div className="flex justify-center items-center w-full mb-1">

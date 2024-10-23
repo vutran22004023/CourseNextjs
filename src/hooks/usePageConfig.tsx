@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 
 const usePageConfig = () => {
   const pageConfig = useMemo(() => ({
-    hideFooter: ["/course-login", "/online-learning/[param]"],
+    hideFooter: ["/course-login", "/online-learning/[param]", "/admin"],
     hideHeader: ["/course-login", "/online-learning/[param]"],
   }), []);
 

@@ -9,6 +9,8 @@ import { SnackbarProvider } from "notistack";
 import { MeetingContainer } from "@/components/VideoSdk/MeetingContainer/MeetingContainer";
 import { JoiningScreen } from "@/components/VideoSdk/JoiningScreen";
 import { ThemeProvider, useMediaQuery, useTheme } from "@mui/material";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
 
 type SelectedDevice = {
   id: string | null;
@@ -29,6 +31,7 @@ type RaisedHandParticipant = {
 };
 
 export default function Page() {
+  const user = useSelector((state: RootState) => state.user);
   const { slug } = useParams<{ slug: string }>();
   const [data, setData] = useState<RoomData | null>(null);
   const [meetingId, setMeetingId] = useState<string>("");
@@ -121,7 +124,7 @@ export default function Page() {
       mutationDetailRoom.mutate(slug, {
         onSuccess: (data: RoomData[]) => {
           setData(data[0]);
-          // setMeetingId(data[0]?.roomDetails?.roomId);
+          setMeetingId(data[0]?.roomDetails?.roomId);
           setAuthToken(data[0]?.token);
         },
       });
@@ -144,9 +147,9 @@ export default function Page() {
               meetingId,
               micEnabled: micOn,
               webcamEnabled: webcamOn,
-              name: participantName ? participantName : "TestUser",
+              name: user.name,
             }}
-            token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlrZXkiOiJjNjhiYjUwMC0zNTk1LTQxY2YtYjk4Ny1mYjU4NTcxYWYxOWEiLCJwZXJtaXNzaW9ucyI6WyJhbGxvd19qb2luIl0sImlhdCI6MTcyOTUwNzEyNywiZXhwIjoxNzMwMTExOTI3fQ.vhmOfXPwsmOXwfaXeWWkXSVvgrNAJ9MeIOViiMHo-yU"
+            token={`eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlrZXkiOiJjNjhiYjUwMC0zNTk1LTQxY2YtYjk4Ny1mYjU4NTcxYWYxOWEiLCJwZXJtaXNzaW9ucyI6WyJhbGxvd19qb2luIl0sImlhdCI6MTcyOTY1MDQwMywiZXhwIjoxNzYxMTg2NDAzfQ.ktc8cFeeqGwmISI5Af4l8Dk6SlKlNVkCo1nEmSCQS7A`}
             reinitialiseMeetingOnConfigChange={true}
             joinWithoutUserInteraction={true}
           >
