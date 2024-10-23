@@ -386,11 +386,13 @@ export default function LoginComponent(style: any) {
                 className="fixed bottom-[100px] right-[30px] text-black hover:text-[#535353] text-[13px] mb-1"
                 onClick={handleCloseisModalLogin}
               >
-                <div className=""
-                style={{
-                  textDecoration: "underline",
-                  cursor: "pointer",
-                }}>
+                <div
+                  className=""
+                  style={{
+                    textDecoration: "underline",
+                    cursor: "pointer",
+                  }}
+                >
                   <div className="">Back to Login</div>
                 </div>
               </div>
@@ -407,7 +409,10 @@ export default function LoginComponent(style: any) {
             <div className="border-t border-black flex-grow"></div>
           </div>
           <div className="flex justify-center mt-3 gap-2">
-            <ButtonComponent type="iconlogin" className="">
+            <ButtonComponent
+              type="iconlogin"
+              className="hover:translate-y-[-3px] transition-transform duration-300 cursor-pointer"
+            >
               <div className="flex items-center">
                 <Image
                   src={icongit}
@@ -418,7 +423,7 @@ export default function LoginComponent(style: any) {
             </ButtonComponent>
             <ButtonComponent
               type="iconlogin"
-              className=""
+              className="hover:translate-y-[-3px] transition-transform duration-300 cursor-pointer"
               onClick={handleLoginWithGoogle}
             >
               <div className="flex items-center">
@@ -429,7 +434,10 @@ export default function LoginComponent(style: any) {
                 />
               </div>
             </ButtonComponent>
-            <ButtonComponent type="iconlogin" className="">
+            <ButtonComponent
+              type="iconlogin"
+              className="hover:translate-y-[-3px] transition-transform duration-300 cursor-pointer"
+            >
               <div className="flex items-center">
                 <Image
                   src={iconfb}

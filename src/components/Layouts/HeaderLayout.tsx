@@ -9,7 +9,7 @@ import {
   Album,
   NotebookPen,
   Lock,
-  SearchCheck,
+  Search as Search1 ,
   AlignJustify 
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
@@ -92,14 +92,15 @@ export default function HeaderLayout() {
           <Image width={150} height={60} className="h-[60px] w-[150px] pl-2" src={logo} alt="fsdfsdf" objectFit="cover"  />
         </Link>
         <div className="hidden sm:flex gap-3">
+          
           <Text type="defaultSemiBold">Khóa học</Text>
-          <Text type="defaultSemiBold">Blog</Text>
+          <Link href="/blog"><Text type="defaultSemiBold">Blog</Text></Link>
           <Text type="defaultSemiBold">Học online</Text>
           <Text type="defaultSemiBold">Giải đấu</Text>
         </div>
       </div>
 
-      <div className="sm:flex items-center mx-5 ms:mx-0 hidden sm:w-[500px] py-1 px-3 text-[#444] rounded-full border-2 border-[#E8E8E8] focus-within:border-black transition-colors duration-300">
+      <div className="sm:flex items-center mx-5 ms:mx-0 hidden sm:w-[500px] py-1 pl-3 pr-1 text-[#444] rounded-full border-2 border-[#E8E8E8] focus-within:border-black transition-colors duration-300">
         <input
           type="text"
           placeholder="Search"
@@ -110,8 +111,8 @@ export default function HeaderLayout() {
             padding: "5px 10px",
           }}
         />
-        <div className="bg-[#FF5A00] rounded-full w-8 h-8 flex items-center justify-center">
-          <SearchCheck className="w-4 h-4 text-white"/>
+        <div className=" bg-[#FF5A00] rounded-full w-10 h-10 flex items-center justify-center">
+          <Search1  className="w-5 h-5 text-white"/>
         </div>
       </div>
       <div className="flex gap-4 items-center mr-4">
