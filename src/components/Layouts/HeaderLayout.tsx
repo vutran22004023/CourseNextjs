@@ -104,7 +104,7 @@ export default function HeaderLayout() {
               Khóa học
             </Text>
           </Link>
-          <Link href="/">
+          <Link href="/blog">
             <Text type="defaultSemiBold" className="nav-item">
               Blog
             </Text>
