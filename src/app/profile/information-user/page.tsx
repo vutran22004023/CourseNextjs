@@ -16,9 +16,53 @@ import ButtonComponment from "@/components/Button/Button";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import Text from "@/components/Text/text";
-
+import { UpdateUser } from "@/apis/user";
+import { useMutationHook } from "@/hooks";
+import { useEffect, useState } from "react";
+import { success } from "@/components/Message/Message";
+import { nameTructed } from "./../../../utils/common";
 export default function InformationUser() {
   const user = useSelector((state: RootState) => state.user);
+  const [userData, setUserData] = useState({
+    name: "",
+    email: "",
+    avatar: "",
+    role: "",
+  });
+  useEffect(() => {
+    if (user) {
+      setUserData({
+        name: user?.name,
+        email: user?.email,
+        avatar: user?.avatar,
+        role: user.role,
+      });
+    }
+  }, [user]);
+  const mutationUpdateUser = useMutationHook(async (data) => {
+    try {
+      const res = await UpdateUser(user?.id, data);
+      return res?.data;
+    } catch (err) {
+      console.log(err);
+    }
+  });
+  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, value } = e.target;
+    setUserData((prevData) => ({
+      ...prevData,
+      [id]: value,
+    }));
+  };
+
+  const handleUpdateUser = () => {
+    mutationUpdateUser.mutate(userData, {
+      onSuccess(data, variables, context) {
+        success("Cập nhập thành công");
+      },
+    });
+  };
+
   return (
     <div className="container mt-[60px] w-full" style={{ padding: "0 90px" }}>
       <Text className="cactus-classical-serif-md text-[25px]">
@@ -66,48 +110,106 @@ export default function InformationUser() {
                 </Label>
                 <Input
                   id="email"
-                  value={user.email || "Chưa cập nhật"}
+                  value={userData.email || "Chưa cập nhật"}
                   className="col-span-3"
-                />
-              </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="username" className="text-right">
-                  Username
-                </Label>
-                <Input
-                  id="name"
-                  value={user.name || "Chưa cập nhật"}
-                  className="col-span-3"
+                  onChange={handleOnChange}
                 />
               </div>
             </div>
             <DialogFooter>
-              <ButtonComponment className="" style={{}}>
-                Save changes
+              <ButtonComponment
+                className="flex justify-center p-3 rounded-2xl bg-[#FF5A00] hover:bg-[#FF5A00]"
+                onClick={handleUpdateUser}
+              >
+                Cập nhập
               </ButtonComponment>
             </DialogFooter>
           </DialogContent>
         </Dialog>
         <hr />
-        <div className="p-4 flex justify-between hover:bg-slate-200 cursor-pointer">
-          <div>
-            <div className="cactus-classical-serif-md">Tên người dùng</div>
-            <div className="">{user.name || "Chưa cập nhật"}</div>
-          </div>
-          <div>
-            <ArrowBigRight className="w-[50px] h-[50px]" />
-          </div>
-        </div>
+        <Dialog>
+          <DialogTrigger asChild>
+            <div className="p-4 flex justify-between hover:bg-slate-200 cursor-pointer">
+              <div>
+                <div className="cactus-classical-serif-md">Tên người dùng</div>
+                <div className="">{user.name || "Chưa cập nhật"}</div>
+              </div>
+              <div>
+                <ArrowBigRight className="w-[50px] h-[50px]" />
+              </div>
+            </div>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-[425px] bg-slate-50">
+            <DialogHeader>
+              <DialogTitle>Cập nhật tên của bạn</DialogTitle>
+              <DialogDescription>
+                Tên sẽ được hiển thị trên trang cá nhân, trong các bình luận và
+                bài viết của bạn
+              </DialogDescription>
+            </DialogHeader>
+            <div className="grid gap-4 py-4">
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="name" className="text-right">
+                  Name
+                </Label>
+                <Input
+                  id="name"
+                  value={userData.name || "Chưa cập nhật"}
+                  className="col-span-3"
+                  onChange={handleOnChange}
+                />
+              </div>
+            </div>
+            <DialogFooter>
+              <ButtonComponment
+                className="flex justify-center p-3 rounded-2xl bg-[#FF5A00] hover:bg-[#FF5A00]"
+                onClick={handleUpdateUser}
+              >
+                Cập nhập
+              </ButtonComponment>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
         <hr />
-        <div className="p-4 flex justify-between hover:bg-slate-200 cursor-pointer">
-          <div>
-            <div className="cactus-classical-serif-md">Giới thiệu</div>
-            <div className="">{user.desc || "Chưa cập nhật"}</div>
-          </div>
-          <div>
-            <ArrowBigRight className="w-[50px] h-[50px]" />
-          </div>
-        </div>
+        <Dialog>
+          <DialogTrigger asChild>
+            <div className="p-4 flex justify-between hover:bg-slate-200 cursor-pointer">
+              <div>
+                <div className="cactus-classical-serif-md">Vai trò</div>
+                <div className="">{user.role || "Chưa cập nhật"}</div>
+              </div>
+              <div>
+                <ArrowBigRight className="w-[50px] h-[50px]" />
+              </div>
+            </div>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-[425px] bg-slate-50">
+            <DialogHeader>
+              <DialogTitle>Cập nhật vai trò</DialogTitle>
+            </DialogHeader>
+            <div className="grid gap-4 py-4">
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="name" className="text-right">
+                  Role
+                </Label>
+                <Input
+                  id="role"
+                  value={userData.role || "Chưa cập nhật"}
+                  className="col-span-3"
+                  onChange={handleOnChange}
+                />
+              </div>
+            </div>
+            <DialogFooter>
+              <ButtonComponment
+                className="flex justify-center p-3 rounded-2xl bg-[#FF5A00] hover:bg-[#FF5A00]"
+                onClick={handleUpdateUser}
+              >
+                Cập nhập
+              </ButtonComponment>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
         <hr />
         <div
           className="p-4 flex justify-between hover:bg-slate-200 cursor-pointer"
