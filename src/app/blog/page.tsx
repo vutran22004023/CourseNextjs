@@ -11,8 +11,6 @@ import { GetAllBlogs } from "@/apis/blog";
 import { Search as Search1, EllipsisVertical } from "lucide-react";
 import { Search } from "@/redux/Slides/searchSide";
 
-
-
 export default function Blog() {
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const [loading, setLoading] = useState(true);
