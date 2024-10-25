@@ -29,11 +29,12 @@ import { IfetchTable } from "@/types/index";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { imageDb } from "@/firebase/config";
 import { v4 } from "uuid";
-import ImageUpload from "@/components/UpLoadImg/ImageUpload";
+import { ImageUpload, FileUpload } from "@/components/UpLoadImg/ImageUpload";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import slugify from "slugify";
 import Text from "@/components/Text/text";
+
 interface IProp {
   chapter: any;
   chapterIndex: any;
@@ -148,16 +149,17 @@ export default function NewCourses({ fetchTableData }: IfetchTable) {
       isOpen={isModalOpen}
       setIsOpen={setIsModalOpen}
       triggerContent={
-        <Button
-          className="bg-[black] p-5 text-[#fff] hover:bg-[#6c6a6a]"
+        <ButtonComponent
+          type="courseHeader"
+          className=" p-3 text-[#fff] hover:bg-[#6c6a6a]"
           style={{ borderRadius: "10px" }}
         >
           Thêm khóa học
-        </Button>
+        </ButtonComponent>
       }
       contentHeader={
         <>
-          <Text>Thêm khóa học mới</Text>
+          <Text type="defaultSemiBold">Thêm khóa học mới</Text>
         </>
       }
       contentBody={
@@ -262,10 +264,8 @@ export default function NewCourses({ fetchTableData }: IfetchTable) {
                 />
               ))}
               <ButtonComponent
-                type="button"
-                variant="outline"
-                size="sm"
-                className="mt-2 w-[100px]"
+                type="courseHeader"
+                className="w-[150px] p-2 justify-center flex"
                 onClick={() => appendChapter({ namechapter: "", videos: [] })}
               >
                 Thêm chương
@@ -278,8 +278,8 @@ export default function NewCourses({ fetchTableData }: IfetchTable) {
         <>
           <div className="flex justify-end p-4">
             <ButtonComponent
-              type="submit"
-              className="w-[150px]"
+              type="courseHeader"
+              className="w-[150px] p-2 justify-center flex"
               onClick={form.handleSubmit(onSubmit)}
             >
               Thêm khóa học
@@ -311,10 +311,8 @@ function ChapterField({
       <div className="flex justify-between items-center">
         <div>Chương {chapterIndex + 1}</div>
         <ButtonComponent
-          type="button"
-          variant="outline"
-          size="sm"
-          className="ml-2 w-[100px]"
+          type="courseHeader"
+          className="w-[150px] p-2 justify-center flex"
           onClick={() => removeChapter(chapterIndex)}
         >
           Xóa chương
@@ -338,10 +336,8 @@ function ChapterField({
           <div className="flex justify-between items-center">
             <div>Video {videoIndex + 1}</div>
             <ButtonComponent
-              type="button"
-              variant="outline"
-              size="sm"
-              className="ml-2 w-[100px]"
+              type="courseHeader"
+              className="w-[150px] p-2 justify-center flex"
               onClick={() => removeVideo(videoIndex)}
             >
               Xóa video
@@ -376,10 +372,8 @@ function ChapterField({
         </div>
       ))}
       <ButtonComponent
-        type="button"
-        variant="outline"
-        size="sm"
-        className="mt-2 w-[100px]"
+        type="courseHeader"
+        className="w-[150px] p-2 justify-center flex"
         onClick={() => appendVideo({ childname: "", video: "" })}
       >
         Thêm video
