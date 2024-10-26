@@ -1,7 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import ModalComponent from "@/components/Modal/Modal";
-import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useFieldArray, useForm } from "react-hook-form";
 import { z } from "zod";
@@ -68,18 +67,31 @@ const chapterSchema = z.object({
   slug: z.string().optional(),
 });
 
-const courseFormSchema = z.object({
-  name: z
-    .string()
-    .min(2, "Tên khóa học phải ít nhất 2 kí tự")
-    .max(30, "Tên khóa học phải tối đa 30 kí tự"),
-  price: z.enum(["free", "paid"]),
-  priceAmount: z.string().optional(),
-  video: z.string().url("Vui lòng nhập URL hợp lệ").optional(),
-  image: z.instanceof(File).optional(),
-  chapters: z.array(chapterSchema),
-  slug: z.string().optional(),
-});
+const courseFormSchema = z
+  .object({
+    name: z
+      .string()
+      .min(2, "Tên khóa học phải ít nhất 2 kí tự")
+      .max(30, "Tên khóa học phải tối đa 30 kí tự"),
+    price: z.enum(["free", "paid"]),
+    priceAmount: z.string().optional(),
+    video: z.string().url("Vui lòng nhập URL hợp lệ").optional(),
+    image: z.instanceof(File).optional(),
+    chapters: z.array(chapterSchema),
+    slug: z.string().optional(),
+  })
+  .refine(
+    (data) => {
+      if (data.price === "paid") {
+        return !!data.priceAmount;
+      }
+      return true;
+    },
+    {
+      message: "Vui lòng nhập số tiền cho khóa học trả phí",
+      path: ["priceAmount"],
+    }
+  );
 
 type CourseFormValues = z.infer<typeof courseFormSchema>;
 
@@ -144,10 +156,17 @@ export default function NewCourses({ fetchTableData }: IfetchTable) {
     mutateCreate.mutate(data);
   };
 
+  useEffect(() => {
+    if (form.watch("price") === "free") {
+      form.setValue("priceAmount", "");
+    }
+  }, [form.watch("price")]);
+
   return (
     <ModalComponent
       isOpen={isModalOpen}
       setIsOpen={setIsModalOpen}
+      style="md:max-w-[800px]"
       triggerContent={
         <ButtonComponent
           type="courseHeader"
@@ -235,12 +254,13 @@ export default function NewCourses({ fetchTableData }: IfetchTable) {
                   </FormItem>
                 )}
               />
-              <ImageUpload onImageUpload={handleImageUpload} />
               <FormField
                 control={form.control}
                 name="image"
                 render={({ field }) => (
                   <FormItem>
+                    <FormLabel>Thêm ảnh khóa học</FormLabel>
+                    <ImageUpload onImageUpload={handleImageUpload} />
                     <FormMessage className="text-[red]" />
                   </FormItem>
                 )}
@@ -254,15 +274,18 @@ export default function NewCourses({ fetchTableData }: IfetchTable) {
                   />
                 </div>
               )}
-              {chapterFields.map((chapter, chapterIndex) => (
-                <ChapterField
-                  key={chapter.id}
-                  chapter={chapter}
-                  chapterIndex={chapterIndex}
-                  control={form.control}
-                  removeChapter={removeChapter}
-                />
-              ))}
+              <FormItem>
+                <FormLabel>Thêm chương khóa học</FormLabel>
+                {chapterFields.map((chapter, chapterIndex) => (
+                  <ChapterField
+                    key={chapter.id}
+                    chapter={chapter}
+                    chapterIndex={chapterIndex}
+                    control={form.control}
+                    removeChapter={removeChapter}
+                  />
+                ))}
+              </FormItem>
               <ButtonComponent
                 type="courseHeader"
                 className="w-[150px] p-2 justify-center flex"
@@ -331,46 +354,49 @@ function ChapterField({
           </FormItem>
         )}
       />
-      {videoFields.map((video, videoIndex) => (
-        <div key={video.id} className="pl-4 mt-4 border-l-2">
-          <div className="flex justify-between items-center">
-            <div>Video {videoIndex + 1}</div>
-            <ButtonComponent
-              type="courseHeader"
-              className="w-[150px] p-2 justify-center flex"
-              onClick={() => removeVideo(videoIndex)}
-            >
-              Xóa video
-            </ButtonComponent>
+      <FormItem>
+        <FormLabel>Thêm video khóa học</FormLabel>
+        {videoFields.map((video, videoIndex) => (
+          <div key={video.id} className="pl-4 mt-4 border-l-2">
+            <div className="flex justify-between items-center">
+              <div>Video {videoIndex + 1}</div>
+              <ButtonComponent
+                type="courseHeader"
+                className="w-[150px] p-2 justify-center flex"
+                onClick={() => removeVideo(videoIndex)}
+              >
+                Xóa video
+              </ButtonComponent>
+            </div>
+            <FormField
+              control={control}
+              name={`chapters.${chapterIndex}.videos.${videoIndex}.childname`}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Tên video</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Nhập tên video" {...field} />
+                  </FormControl>
+                  <FormMessage className="text-[red]" />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={control}
+              name={`chapters.${chapterIndex}.videos.${videoIndex}.video`}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>URL video</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Nhập URL video" {...field} />
+                  </FormControl>
+                  <FormMessage className="text-[red]" />
+                </FormItem>
+              )}
+            />
           </div>
-          <FormField
-            control={control}
-            name={`chapters.${chapterIndex}.videos.${videoIndex}.childname`}
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Tên video</FormLabel>
-                <FormControl>
-                  <Input placeholder="Nhập tên video" {...field} />
-                </FormControl>
-                <FormMessage className="text-[red]" />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={control}
-            name={`chapters.${chapterIndex}.videos.${videoIndex}.video`}
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>URL video</FormLabel>
-                <FormControl>
-                  <Input placeholder="Nhập URL video" {...field} />
-                </FormControl>
-                <FormMessage className="text-[red]" />
-              </FormItem>
-            )}
-          />
-        </div>
-      ))}
+        ))}
+      </FormItem>
       <ButtonComponent
         type="courseHeader"
         className="w-[150px] p-2 justify-center flex"

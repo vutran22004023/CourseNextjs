@@ -35,10 +35,11 @@ import { success, error } from "@/components/Message/Message";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { imageDb } from "@/firebase/config";
 import { v4 } from "uuid";
-import ImageUpload from "@/components/UpLoadImg/ImageUpload";
-import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "@/redux/store";
+import { ImageUpload } from "@/components/UpLoadImg/ImageUpload";
 import slugify from "slugify";
+import { GetDetailCourses } from "@/apis/course";
+import { Course } from "@/types/course";
+
 interface UpdateProps {
   data: any;
   isOpen: boolean;
@@ -76,44 +77,81 @@ const chapterSchema = z.object({
   slug: z.string().optional(),
 });
 
-const courseFormSchema = z.object({
-  name: z
-    .string()
-    .min(2, "Tên khóa học phải ít nhất 2 kí tự")
-    .max(30, "Tên khóa học phải tối đa 30 kí tự"),
-  price: z.enum(["free", "paid"]),
-  priceAmount: z.string().optional(),
-  video: z.string().url("Vui lòng nhập URL hợp lệ").optional(),
-  image: z.string().url("Please enter a valid image URL").optional(),
-  chapters: z.array(chapterSchema),
-  slug: z.string().optional(),
-});
+const courseFormSchema = z
+  .object({
+    name: z
+      .string()
+      .min(2, "Tên khóa học phải ít nhất 2 kí tự")
+      .max(30, "Tên khóa học phải tối đa 30 kí tự"),
+    price: z.enum(["free", "paid"]),
+    priceAmount: z.string().optional(),
+    video: z.string().url("Vui lòng nhập URL hợp lệ").optional(),
+    image: z.string().url("Please enter a valid image URL").optional(),
+    chapters: z.array(chapterSchema),
+    slug: z.string().optional(),
+  })
+  .refine(
+    (data) => {
+      if (data.price === "paid") {
+        return !!data.priceAmount;
+      }
+      return true;
+    },
+    {
+      message: "Vui lòng nhập số tiền cho khóa học trả phí",
+      path: ["priceAmount"],
+    }
+  );
 
 type CourseFormValues = z.infer<typeof courseFormSchema>;
 
+const fetchData = async (slug: string) => {
+  try {
+    const res = await GetDetailCourses(slug);
+    return res?.data;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
 const UpdateCourse: React.FC<UpdateProps> = ({ data, isOpen, onClose }) => {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [dataDetailCourse, setDataDetailCourse] = useState<Course>();
+  useEffect(() => {
+    if (isOpen) {
+      const fetchCourseDetails = async () => {
+        try {
+          const dataDetail: Course = await fetchData(data?.slug);
+          if (dataDetail) {
+            setDataDetailCourse(dataDetail);
+          }
+        } catch (error) {
+          console.error("Failed to fetch course details:", error);
+        }
+      };
+      fetchCourseDetails();
+    }
+  }, [isOpen, data?.slug]);
   const form = useForm<CourseFormValues>({
     resolver: zodResolver(courseFormSchema),
     defaultValues: {
-      ...data,
-      image: data.image || null,
-      chapters: data.chapters ? data.chapters : [],
+      ...dataDetailCourse,
+      image: dataDetailCourse?.image || null,
+      chapters: dataDetailCourse?.chapters ? data.chapters : [],
     },
     mode: "onChange",
   });
 
   useEffect(() => {
-    if (data.image) {
-      setImagePreview(data.image);
+    if (dataDetailCourse?.image) {
+      setImagePreview(dataDetailCourse?.image);
     }
-    // Reset form values whenever `data` changes
     form.reset({
-      ...data,
-      image: data.image || null,
-      chapters: data.chapters ? data.chapters : [],
+      ...dataDetailCourse,
+      image: dataDetailCourse?.image || null,
+      chapters: dataDetailCourse?.chapters ? dataDetailCourse?.chapters : [],
     });
-  }, [data, form]);
+  }, [dataDetailCourse, form]);
 
   const {
     fields: chapterFields,
@@ -172,7 +210,7 @@ const UpdateCourse: React.FC<UpdateProps> = ({ data, isOpen, onClose }) => {
       <SheetContent className="bg-[#fff] pr-[20px] w-[600px]">
         <SheetHeader className="mb-3">
           <SheetTitle>
-            <div>Chỉnh sửa khóa học </div>
+            <div>Chỉnh sửa khóa học</div>
           </SheetTitle>
         </SheetHeader>
         <div className="max-h-[580px] overflow-y-auto">
@@ -275,10 +313,8 @@ const UpdateCourse: React.FC<UpdateProps> = ({ data, isOpen, onClose }) => {
                 />
               ))}
               <ButtonComponent
-                type="button"
-                variant="outline"
-                size="sm"
-                className="mt-2 w-[100px]"
+                type="courseHeader"
+                className="w-[150px] p-2 justify-center flex"
                 onClick={() => appendChapter({ namechapter: "", videos: [] })}
               >
                 Thêm chương
@@ -289,7 +325,8 @@ const UpdateCourse: React.FC<UpdateProps> = ({ data, isOpen, onClose }) => {
         <SheetFooter>
           <SheetClose asChild>
             <ButtonComponent
-              type="submit"
+              type="courseHeader"
+              className="p-2"
               onClick={form.handleSubmit(onSubmit)}
             >
               Chỉnh sửa
@@ -321,10 +358,8 @@ function ChapterField({
       <div className="flex justify-between items-center">
         <div>Chương {chapterIndex + 1}</div>
         <ButtonComponent
-          type="button"
-          variant="outline"
-          size="sm"
-          className="ml-2 w-[100px]"
+          type="courseHeader"
+          className="p-2"
           onClick={() => removeChapter(chapterIndex)}
         >
           Xóa chương
@@ -348,10 +383,8 @@ function ChapterField({
           <div className="flex justify-between items-center">
             <div>Video {videoIndex + 1}</div>
             <ButtonComponent
-              type="button"
-              variant="outline"
-              size="sm"
-              className="ml-2 w-[100px]"
+              type="courseHeader"
+              className="p-2"
               onClick={() => removeVideo(videoIndex)}
             >
               Xóa video
@@ -386,10 +419,8 @@ function ChapterField({
         </div>
       ))}
       <ButtonComponent
-        type="button"
-        variant="outline"
-        size="sm"
-        className="mt-2 w-[100px]"
+        type="courseHeader"
+        className="p-2 w-[150px] justify-center flex"
         onClick={() => appendVideo({ childname: "", video: "" })}
       >
         Thêm video
