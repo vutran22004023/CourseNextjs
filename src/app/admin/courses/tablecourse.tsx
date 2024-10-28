@@ -41,6 +41,8 @@ import {
 import UpdateCourse from "./updateCourse";
 import DeleteCourse from "./deleteCourse";
 import { IfetchTable } from "@/types/index";
+import { formatDate } from "@/utils/index";
+
 export type Payment = {
   _id: string;
   name: number;
@@ -115,14 +117,14 @@ export const columns: ColumnDef<Payment>[] = [
     accessorKey: "createdAt",
     header: "Ngày tạo",
     cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("createdAt")}</div>
+      <div className="capitalize">{formatDate(row.getValue("createdAt"))}</div>
     ),
   },
   {
     accessorKey: "updatedAt",
     header: "Ngày cập nhập",
     cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("updatedAt")}</div>
+      <div className="capitalize">{formatDate(row.getValue("updatedAt"))}</div>
     ),
   },
   {

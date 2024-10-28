@@ -29,11 +29,11 @@ export default function Modal({
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>{triggerContent}</DialogTrigger>
       <DialogContent
-        className={`max-w-[355px] md:max-w-[450px] bg-[#F3EBEB] flex-col justify-center  ${style}`}
+        className={`max-w-[355px] md:max-w-[450px] bg-[#F3EBEB] flex-col  ${style}`}
         style={{ borderRadius: "20px" }}
       >
         <DialogHeader>{contentHeader}</DialogHeader>
-        {contentBody}
+        <div className="w-full">{contentBody}</div>
         <DialogFooter>{contentFooter}</DialogFooter>
       </DialogContent>
     </Dialog>

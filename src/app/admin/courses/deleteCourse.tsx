@@ -14,15 +14,17 @@ import { GetAllCourses, DeleteCourses } from "@/apis/course";
 import { useMutationHook } from "@/hooks/index";
 import { success, error } from "@/components/Message/Message";
 import { useCombinedData } from "@/hooks/index";
-import Text from "@/components/Text/text";
+
 interface DeleteProps {
   id: string;
   isOpen: boolean;
   onClose: () => void;
 }
+
 export default function deleteCourse({ id, isOpen, onClose }: DeleteProps) {
   const getAllCourses = async () => {
-    const res = await GetAllCourses();
+    const search = "";
+    const res = await GetAllCourses(search);
     return res;
   };
   const fetchTableData = useCombinedData("dataAllCoursess", getAllCourses);
@@ -65,7 +67,11 @@ export default function deleteCourse({ id, isOpen, onClose }: DeleteProps) {
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
-          <ButtonComponent type="submit" onClick={handleButtonDelete}>
+          <ButtonComponent
+            type="courseHeader"
+            className="p-2"
+            onClick={handleButtonDelete}
+          >
             Xóa khóa học
           </ButtonComponent>
         </DialogFooter>

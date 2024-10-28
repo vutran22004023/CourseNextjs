@@ -172,6 +172,7 @@ export default function LoginComponent(style: any) {
 
   return (
     <ModalComponent
+        style="justify-center"
       triggerContent={
         <Button
           className="bg-[#FF5A00] text-[#fff] hover:bg-[#FF5A00] transition-transform hover:translate-y-[-2px] hover:shadow-[4px_4px_12px_rgba(255,255,255,0.6)]"

@@ -6,7 +6,7 @@ export default function SidebarAdmin({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex gap-5">
+    <div className="flex gap-5 mt-5">
       <SidebarAdminComponent
         className="mt-3 hidden md:flex md:flex-col gap-2 z-10 h-[calc(100vh)] fixed top-[50px]"
       />
