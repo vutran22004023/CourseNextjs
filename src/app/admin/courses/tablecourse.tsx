@@ -40,8 +40,8 @@ import {
 } from "@/components/ui/table";
 import UpdateCourse from "./updateCourse";
 import DeleteCourse from "./deleteCourse";
-import { IfetchTable } from "@/types/index";
-import { formatDate } from "@/utils/index";
+import { IfetchTable } from "@/types";
+import { formatDate } from "@/utils";
 
 export type Payment = {
   _id: string;

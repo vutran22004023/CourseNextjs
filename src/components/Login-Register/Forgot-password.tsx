@@ -5,13 +5,14 @@ import ButtonComponent from "@/components/Button/Button";
 import LoginComponent from "./Login";
 import { useMutationHook } from "@/hooks";
 import { ForgotPassword } from "@/apis/auth";
-import { EmailProps } from "@/types/index";
+import { EmailProps } from "@/types";
 import { success, error, warning } from "@/components/Message/Message";
 
 interface ForPassword {
   status?: any;
   message?: string;
 }
+
 export default function Forgotpassword() {
   const [email, setemail] = useState("");
 

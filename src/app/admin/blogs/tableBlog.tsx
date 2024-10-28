@@ -40,7 +40,7 @@ import {
 } from "@/components/ui/table"
 import UpdateBlog from './updateBlog'
 import DeleteBlog from './deleteBlog'
-import {IfetchTable} from '@/types/index'
+import {IfetchTable} from '@/types'
 
 export type Blog = {
     _id: string,

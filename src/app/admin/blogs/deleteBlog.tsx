@@ -12,10 +12,10 @@ import {
 } from "@/components/ui/dialog"
 import ButtonComponent from '@/components/Button/Button'
 import {GetAllBlogs, DeleteBlogs} from '@/apis/blog'
-import {useMutationHook} from '@/hooks/index';
+import {useMutationHook} from '@/hooks';
 import {success, error} from '@/components/Message/Message'
 import {message} from 'antd';
-import {useCombinedData} from '@/hooks/index'
+import {useCombinedData} from '@/hooks'
 import {useSelector, useDispatch} from "react-redux";
 import {RootState} from "@/redux/store";
 import {getTokenFromCookies} from '@/utils/auth'

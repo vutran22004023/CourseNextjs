@@ -3,11 +3,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import ButtonComponent from "@/components/Button/Button";
 import { Eye, EyeOff } from "lucide-react";
-import { useMutationHook } from "@/hooks/index";
+import { useMutationHook } from "@/hooks";
 import { Register } from "@/apis/auth";
-import { Registers } from "@/types/index";
+import { Registers } from "@/types";
 import IsLoadingComponment from "@/components/Loading/Loading";
 import { success, error, warning } from "@/components/Message/Message";
+
 export default function RegisterComponment() {
   const [showConfirmPassword, setConfirmPassword] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -202,7 +203,7 @@ export default function RegisterComponment() {
           {isError && (
             <div className="bg-[#eaeaea] rounded-sm p-1 text-[10px]">
               <div className="text-[red]">
-                Please enter your full name, email, password, confirm password 
+                Please enter your full name, email, password, confirm password
               </div>
               <div className="text-[red]">
                 {passwordStrength === 0

@@ -11,7 +11,7 @@ import { Overview } from "@/components/Overview/overview";
 import Text from "@/components/Text/text";
 import { getAnalytics } from "@/apis/analytic";
 import { useQuery } from "@tanstack/react-query";
-import { formatCurrencyVND } from "@/utils/index";
+import { formatCurrencyVND } from "@/utils";
 import { Calendar } from "@/components/ui/calendar";
 import {
   Form,
@@ -35,7 +35,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { format } from "date-fns";
 import { useState } from "react";
-import { formatDateUS } from "@/utils/index";
+import { formatDateUS } from "@/utils";
 
 const FormSchema = z.object({
   dob: z.date({
@@ -72,7 +72,9 @@ export default function Dashboard() {
 
   return (
     <div className="container w-full">
-      <Text type="header" className="mt-3">Dashboard</Text>
+      <Text type="header" className="mt-3">
+        Dashboard
+      </Text>
       <div className="mt-5">
         <Tabs defaultValue="overview">
           <TabsContent value="overview" className="space-y-4">
@@ -135,7 +137,7 @@ export default function Dashboard() {
                   </CardContent>
                 </Card>
               </div>
-              <Form {...form} >
+              <Form {...form}>
                 <form
                   className="space-y-8"
                   onSubmit={form.handleSubmit(onSubmit)}
@@ -181,7 +183,9 @@ export default function Dashboard() {
                       </FormItem>
                     )}
                   />
-                  <Button type="submit" style={{margin: 0}}>Submit</Button>
+                  <Button type="submit" style={{ margin: 0 }}>
+                    Submit
+                  </Button>
                 </form>
               </Form>
             </div>
@@ -191,7 +195,7 @@ export default function Dashboard() {
                   <CardTitle>Top 10 khóa học mua nhiều nhất</CardTitle>
                 </CardHeader>
                 <CardContent className="pl-2">
-                  <Overview  topCourses={dataAnalytic?.topCourses}/>
+                  <Overview topCourses={dataAnalytic?.topCourses} />
                 </CardContent>
               </Card>
               <Card className="col-span-3">

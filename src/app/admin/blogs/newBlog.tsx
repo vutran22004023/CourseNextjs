@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import React, { useState, useEffect } from "react";
 import ModalComponent from "@/components/Modal/Modal";
 import { Button } from "@/components/ui/button";
@@ -17,15 +17,18 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/components/ui/use-toast";
 import { CreateBlogs } from "@/apis/blog";
-import { useMutationHook } from "@/hooks/index";
+import { useMutationHook } from "@/hooks";
 import { success, error } from "@/components/Message/Message";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
-import { getTokenFromCookies } from '@/utils/auth';
+import { getTokenFromCookies } from "@/utils/auth";
 
 // Schema validation using Zod
 const blogFormSchema = z.object({
-  title: z.string().min(2, "Tiêu đề blog phải ít nhất 2 kí tự").max(100, "Tiêu đề blog phải tối đa 100 kí tự"),
+  title: z
+    .string()
+    .min(2, "Tiêu đề blog phải ít nhất 2 kí tự")
+    .max(100, "Tiêu đề blog phải tối đa 100 kí tự"),
   content: z.string().min(10, "Nội dung blog phải ít nhất 10 kí tự"),
 });
 
@@ -73,13 +76,14 @@ export default function CreateBlog({ fetchTableData }: any) {
       isOpen={isModalOpen}
       setIsOpen={setIsModalOpen}
       triggerContent={
-        <Button className="bg-[black] p-5 text-[#fff] hover:bg-[#6c6a6a]" style={{ borderRadius: "10px" }}>
+        <Button
+          className="bg-[black] p-5 text-[#fff] hover:bg-[#6c6a6a]"
+          style={{ borderRadius: "10px" }}
+        >
           Tạo blog mới
         </Button>
       }
-      contentHeader={
-        <div>Thêm blog mới</div>
-      }
+      contentHeader={<div>Thêm blog mới</div>}
       contentBody={
         <div className="p-2 max-h-[500px] overflow-y-auto">
           <Form {...form}>
@@ -116,7 +120,11 @@ export default function CreateBlog({ fetchTableData }: any) {
       }
       contentFooter={
         <div className="flex justify-end p-4">
-          <Button type="submit" className="w-[150px]" onClick={form.handleSubmit(onSubmit)}>
+          <Button
+            type="submit"
+            className="w-[150px]"
+            onClick={form.handleSubmit(onSubmit)}
+          >
             Tạo blog
           </Button>
         </div>
