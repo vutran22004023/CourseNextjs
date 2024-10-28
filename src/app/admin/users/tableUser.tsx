@@ -37,7 +37,7 @@ import {
 } from "@/components/ui/table";
 import UpdateUser from "./updateUser";
 import DeleteUser from "./deleteUser";
-import { IfetchTable, User } from "@/types/index";
+import { IfetchTable, User } from "@/types";
 
 export type UserTable = Omit<User, "confirmPassword" | "password"> & {
   _id: string;

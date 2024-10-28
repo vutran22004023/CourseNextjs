@@ -18,10 +18,11 @@ import { useRouter } from "next/navigation";
 import SheetMessage from "./sheetMessage";
 import BottomBar from "./bottomBar";
 import CourseContent from "./courseContent";
-import { formatDate } from "@/utils/index";
+import { formatDate } from "@/utils";
 import useWindowSize from "@/hooks/useScreenWindow";
 import CreateNote from "./createNote";
 import { useAtoms } from "@/hooks/useAtom";
+
 export default function page() {
   const { setCourseDetail } = useAtoms();
   const { slug } = useParams();

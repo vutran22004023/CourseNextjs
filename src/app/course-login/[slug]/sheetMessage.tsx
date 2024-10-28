@@ -6,7 +6,7 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "../../../components/ui/sheet";
+} from "@/components/ui/sheet";
 import ButtonComponent from "@/components/Button/Button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";

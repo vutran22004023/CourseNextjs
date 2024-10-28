@@ -6,7 +6,7 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "../../../components/ui/sheet";
+} from "@/components/ui/sheet";
 import {
   Select,
   SelectContent,
@@ -24,6 +24,7 @@ import { useMutationHook } from "@/hooks";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { success } from "@/components/Message/Message";
+
 interface Props {
   isOpen: boolean;
   onOpenChange: () => void;

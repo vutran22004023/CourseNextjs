@@ -10,7 +10,7 @@ import {
     ResetPassProps,
     StatusAuthProps,
     token,
-} from "@/types/index";
+} from "@/types";
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 

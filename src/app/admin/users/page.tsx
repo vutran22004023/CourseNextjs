@@ -2,7 +2,8 @@
 import { DataTableDemo } from "./tableUser";
 import NewUsers from "./newUser";
 import { GetAllUsers } from "@/apis/user";
-import { useCombinedData } from "@/hooks/index";
+import { useCombinedData } from "@/hooks";
+
 export type IfetchDataTable = {
   dataUsers: any;
   err: any;

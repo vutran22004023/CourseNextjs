@@ -3,7 +3,7 @@ import {DataTableBlog} from './tableBlog' // Đổi thành DataTableBlog
 import ButtonComponent from '@/components/Button/Button'
 import NewBlogs from './newBlog' // Đổi thành NewBlogs
 import {GetAllBlogs} from "@/apis/blog" // Đổi thành GetAllBlogs
-import {useCombinedData} from '@/hooks/index'
+import {useCombinedData} from '@/hooks'
 import {QueryObserverResult, RefetchOptions} from "@tanstack/query-core";
 
 export type FetchTableData = {
