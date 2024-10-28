@@ -1,10 +1,11 @@
 import axios, { AxiosResponse } from "axios";
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+import axiosInstance from "./index";
 
 export const GetAllBlogs = async (search: string) => {
   try {
     if (search) {
-      const response: AxiosResponse = await axios.get(
+      const response: AxiosResponse = await axiosInstance.get(
         `/api/blog/all-posts?filter=name:${search}`
       );
       return response.data;
@@ -19,7 +20,7 @@ export const GetAllBlogs = async (search: string) => {
 
 export const GetDetailBlogs = async (slug: StringConstructor) => {
   try {
-    const response: AxiosResponse = await axios.get(
+    const response: AxiosResponse = await axiosInstance.get(
       `/api/blog/detail-post/${slug}`
     );
     return response.data;
@@ -28,16 +29,11 @@ export const GetDetailBlogs = async (slug: StringConstructor) => {
   }
 };
 
-export const CreateBlogs = async (data: any, access_Token: any) => {
+export const CreateBlogs = async (data: any) => {
   try {
-    const response: AxiosResponse = await axios.post(
+    const response: AxiosResponse = await axiosInstance.post(
       `/api/blog/create-post`,
       data,
-      {
-        headers: {
-          token: `Bearer ${access_Token}`,
-        },
-      }
     );
     return response.data;
   } catch {
@@ -45,16 +41,11 @@ export const CreateBlogs = async (data: any, access_Token: any) => {
   }
 };
 
-export const UpdateBlogs = async (id: any, data: any, access_Token: any) => {
+export const UpdateBlogs = async (id: any, data: any) => {
   try {
-    const response: AxiosResponse = await axios.put(
+    const response: AxiosResponse = await axiosInstance.put(
       `/api/blog/update-post/${id}`,
       data,
-      {
-        headers: {
-          token: `Bearer ${access_Token}`,
-        },
-      }
     );
     return response.data;
   } catch {
@@ -62,15 +53,10 @@ export const UpdateBlogs = async (id: any, data: any, access_Token: any) => {
   }
 };
 
-export const DeleteBlogs = async (id: any, access_Token: any) => {
+export const DeleteBlogs = async (id: any) => {
   try {
-    const response: AxiosResponse = await axios.delete(
+    const response: AxiosResponse = await axiosInstance.delete(
       `/api/blog/delete-post/${id}`,
-      {
-        headers: {
-          token: `Bearer ${access_Token}`,
-        },
-      }
     );
     return response.data;
   } catch {
