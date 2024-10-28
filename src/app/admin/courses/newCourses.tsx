@@ -39,6 +39,7 @@ interface IProp {
   chapterIndex: any;
   control: any;
   removeChapter: any;
+  form: any;
 }
 
 // Function to generate slug
@@ -54,11 +55,44 @@ const generateSlug = (str: string) => {
   return normalizedStr.replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 };
 
+// Define the question schema for the quiz in Zod
+const questionSchema = z.object({
+  title: z.string().min(1, "Câu hỏi không có tiêu đề"),
+  options: z
+    .array(
+      z.object({
+        label: z.string().min(1, "Chưa có nhãn cho đáp án"),
+        text: z.string().min(1, "Chưa có nội dung cho đáp án"),
+      })
+    )
+    .refine(
+      (options) => {
+        const labels = options.map((option) => option.label);
+        return new Set(labels).size === labels.length;
+      },
+      { message: "Các nhãn đáp án phải là duy nhất" }
+    ),
+  correctAnswer: z.string().optional(),
+});
+
 // Schema validation using Zod
 const videoSchema = z.object({
   childname: z.string().min(1, "Vui lòng nhập tên video"),
-  video: z.string().url("Vui lòng nhập URL hợp lệ"),
+  video: z
+    .string()
+    .url("Vui lòng nhập URL hợp lệ")
+    .optional()
+    .refine((val: any, ctx: any) => {
+      // Require video URL if videoType is "video"
+      if (ctx?.parent?.videoType === "video") {
+        return !!val;
+      }
+      return true; // Don't validate if videoType is not "video"
+    }, "Chưa có đường dẫn video"),
   slug: z.string().optional(),
+  videoType: z.enum(["video", "exercise"]),
+  file: z.instanceof(File).optional(),
+  quiz: z.array(questionSchema).optional(),
 });
 
 const chapterSchema = z.object({
@@ -123,7 +157,21 @@ export default function NewCourses({ fetchTableData }: IfetchTable) {
       const imgRef = ref(imageDb, `files/${v4()}`);
       const snapshot = await uploadBytes(imgRef, data.image);
       const url = await getDownloadURL(snapshot.ref);
-      data.image = url; // replace the File object with the URL string
+      data.image = url;
+    }
+    if (data?.chapters) {
+      for (const chapter of data.chapters) {
+        if (chapter.videos && chapter.videos.length > 0) {
+          for (const video of chapter.videos) {
+            if (video.file) {
+              const fileRef = ref(imageDb, `homeworkFile/${v4()}`);
+              const snapshot = await uploadBytes(fileRef, video.file);
+              const url = await getDownloadURL(snapshot.ref);
+              video.file = url; // Cập nhật video.file thành URL
+            }
+          }
+        }
+      }
     }
     const res = await CreateCourses(data);
     return res;
@@ -143,6 +191,7 @@ export default function NewCourses({ fetchTableData }: IfetchTable) {
   }, [dataCreate]);
 
   const onSubmit = (data: CourseFormValues) => {
+    console.log(data);
     // Generate slugs before submitting
     data.slug = generateSlug(data.name);
     data.chapters = data.chapters.map((chapter) => ({
@@ -161,6 +210,13 @@ export default function NewCourses({ fetchTableData }: IfetchTable) {
       form.setValue("priceAmount", "");
     }
   }, [form.watch("price")]);
+
+  useEffect(() => {
+    if (chapterFields.length === 0) {
+      // Tạo sẵn 1 hoặc nhiều input video khi component được render lần đầu
+      appendChapter({ namechapter: "", videos: [] });
+    }
+  }, []);
 
   return (
     <ModalComponent
@@ -283,6 +339,7 @@ export default function NewCourses({ fetchTableData }: IfetchTable) {
                     chapterIndex={chapterIndex}
                     control={form.control}
                     removeChapter={removeChapter}
+                    form={form}
                   />
                 ))}
               </FormItem>
@@ -319,6 +376,7 @@ function ChapterField({
   chapterIndex,
   control,
   removeChapter,
+  form,
 }: IProp) {
   const {
     fields: videoFields,
@@ -328,7 +386,13 @@ function ChapterField({
     name: `chapters.${chapterIndex}.videos`,
     control,
   });
-
+  const [selectValue, setSelectValue] = useState<string>("false");
+  useEffect(() => {
+    if (videoFields.length === 0) {
+      // Tạo sẵn 1 hoặc nhiều input video khi component được render lần đầu
+      appendVideo({ childname: "", videoType: "video" });
+    }
+  }, []);
   return (
     <div key={chapter.id} className="p-4 border rounded-md mb-4">
       <div className="flex justify-between items-center">
@@ -383,26 +447,286 @@ function ChapterField({
             />
             <FormField
               control={control}
-              name={`chapters.${chapterIndex}.videos.${videoIndex}.video`}
+              name={`chapters.${chapterIndex}.videos.${videoIndex}.videoType`}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>URL video</FormLabel>
+                  <FormLabel>Loại nội dung</FormLabel>
                   <FormControl>
-                    <Input placeholder="Nhập URL video" {...field} />
+                    <Select
+                      {...field}
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Chọn thể loại" />
+                      </SelectTrigger>
+                      <SelectContent className="bg-[#ececec]">
+                        <SelectItem value="video">Video</SelectItem>
+                        <SelectItem value="exercise">Bài tập</SelectItem>
+                      </SelectContent>
+                    </Select>
                   </FormControl>
-                  <FormMessage className="text-[red]" />
                 </FormItem>
               )}
             />
+            {form.watch(
+              `chapters.${chapterIndex}.videos.${videoIndex}.videoType`
+            ) === "video" ? (
+              <FormField
+                control={control}
+                name={`chapters.${chapterIndex}.videos.${videoIndex}.video`}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>URL video</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Nhập URL video" {...field} />
+                    </FormControl>
+                    <FormMessage className="text-[red]" />
+                  </FormItem>
+                )}
+              />
+            ) : (
+              <>
+                <FormItem>
+                  <FormLabel>Loại thể loại</FormLabel>
+                  <FormControl>
+                    <Select
+                      onValueChange={(value) => setSelectValue(value)}
+                      value={String(selectValue)}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Chọn thể loại" />
+                      </SelectTrigger>
+                      <SelectContent className="bg-[#ececec]">
+                        <SelectItem value="false">File</SelectItem>
+                        <SelectItem value="true">Trắc nghiệm</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
+                </FormItem>
+                {selectValue === "false" ? (
+                  <FormField
+                    control={control}
+                    name={`chapters.${chapterIndex}.videos.${videoIndex}.file`}
+                    render={({ field: { onChange, value } }) => (
+                      <FormItem>
+                        <FormLabel>Tệp bài tập</FormLabel>
+                        <FileUpload
+                          onFileUpload={(file) => {
+                            onChange(file);
+                          }}
+                        />
+                        <FormMessage className="text-[red]" />
+                      </FormItem>
+                    )}
+                  />
+                ) : (
+                  form.watch(
+                    `chapters.${chapterIndex}.videos.${videoIndex}.videoType`
+                  ) === "exercise" && (
+                    <div>
+                      <FormLabel>Bài tập trắc nghiệm</FormLabel>
+                      <QuizField
+                        chapterIndex={chapterIndex}
+                        videoIndex={videoIndex}
+                        control={control}
+                      />
+                    </div>
+                  )
+                )}
+              </>
+            )}
           </div>
         ))}
       </FormItem>
       <ButtonComponent
         type="courseHeader"
         className="w-[150px] p-2 justify-center flex"
-        onClick={() => appendVideo({ childname: "", video: "" })}
+        onClick={() => appendVideo({ childname: "", videoType: "video" })}
       >
         Thêm video
+      </ButtonComponent>
+    </div>
+  );
+}
+
+function QuizField({ chapterIndex, videoIndex, control }: any) {
+  const {
+    fields: questionFields,
+    append: appendQuestion,
+    remove: removeQuestion,
+  } = useFieldArray({
+    name: `chapters.${chapterIndex}.videos.${videoIndex}.quiz`,
+    control,
+  });
+
+  useEffect(() => {
+    if (questionFields.length === 0) {
+      appendQuestion({ title: "", options: [], correctAnswer: "" });
+    }
+  }, []);
+
+  return (
+    <div className="pl-4 mt-4">
+      {questionFields.map((question, questionIndex) => (
+        <div key={questionIndex} className="mt-4 p-4 border rounded-md">
+          <div className="flex justify-between items-center">
+            <div>Câu hỏi {questionIndex + 1}</div>
+            <ButtonComponent
+              type="courseHeader"
+              className="w-[150px] p-2 justify-center flex"
+              onClick={() => removeQuestion(questionIndex)}
+            >
+              Xóa câu hỏi
+            </ButtonComponent>
+          </div>
+          <FormField
+            control={control}
+            name={`chapters.${chapterIndex}.videos.${videoIndex}.quiz.${questionIndex}.title`}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Tiêu đề câu hỏi</FormLabel>
+                <FormControl>
+                  <Input placeholder="Nhập tiêu đề câu hỏi" {...field} />
+                </FormControl>
+                <FormMessage className="text-[red]" />
+              </FormItem>
+            )}
+          />
+
+          {/* Options for each question */}
+          <QuestionOptionsField
+            chapterIndex={chapterIndex}
+            videoIndex={videoIndex}
+            questionIndex={questionIndex}
+            control={control}
+            onOptionsChange={(updatedOptions) => {
+              // Update the options in questionFields
+              questionFields[questionIndex].options = updatedOptions;
+            }}
+          />
+
+          {/* Correct answer selection */}
+          <FormField
+            control={control}
+            name={`chapters.${chapterIndex}.videos.${videoIndex}.quiz.${questionIndex}.correctAnswer`}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Đáp án đúng</FormLabel>
+                <FormControl>
+                  <Select
+                    {...field}
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Chọn đáp án đúng" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-[#ececec]">
+                      {questionFields[questionIndex].options.map(
+                        (option, optionIndex) => (
+                          <SelectItem key={optionIndex} value={option.label}>
+                            {option.label}
+                          </SelectItem>
+                        )
+                      )}
+                    </SelectContent>
+                  </Select>
+                </FormControl>
+                <FormMessage className="text-[red]" />
+              </FormItem>
+            )}
+          />
+        </div>
+      ))}
+      <ButtonComponent
+        type="courseHeader"
+        className="w-[150px] p-2 justify-center flex mt-2"
+        onClick={() =>
+          appendQuestion({ title: "", options: [], correctAnswer: "" })
+        }
+      >
+        Thêm câu hỏi
+      </ButtonComponent>
+    </div>
+  );
+}
+
+// QuestionOptionsField component to handle the options for each question
+function QuestionOptionsField({
+  chapterIndex,
+  videoIndex,
+  questionIndex,
+  control,
+  onOptionsChange,
+}: any) {
+  const {
+    fields: optionFields,
+    append: appendOption,
+    remove: removeOption,
+  } = useFieldArray({
+    name: `chapters.${chapterIndex}.videos.${videoIndex}.quiz.${questionIndex}.options`,
+    control,
+  });
+
+  const getOptionLabel = (index: number) => String.fromCharCode(65 + index);
+
+  const handleAppendOption = () => {
+    appendOption({ label: getOptionLabel(optionFields.length), text: "" });
+    onOptionsChange([
+      ...optionFields,
+      { label: getOptionLabel(optionFields.length), text: "" },
+    ]);
+  };
+
+  const handleRemoveOption = (optionIndex: number) => {
+    removeOption(optionIndex);
+    onOptionsChange(optionFields.filter((_, idx) => idx !== optionIndex));
+  };
+
+  return (
+    <div className="pl-4 mt-2">
+      {optionFields.map((option, optionIndex) => (
+        <div key={option.id} className="flex items-center mt-2">
+          <FormField
+            control={control}
+            name={`chapters.${chapterIndex}.videos.${videoIndex}.quiz.${questionIndex}.options.${optionIndex}.label`}
+            render={({ field }) => (
+              <FormItem className="mr-2">
+                <FormLabel>Nhãn đáp án</FormLabel>
+                <FormControl>
+                  <Input placeholder="Nhập nhãn" {...field} />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={control}
+            name={`chapters.${chapterIndex}.videos.${videoIndex}.quiz.${questionIndex}.options.${optionIndex}.text`}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Nội dung đáp án</FormLabel>
+                <FormControl>
+                  <Input placeholder="Nhập nội dung đáp án" {...field} />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+          <ButtonComponent
+            type="courseHeader"
+            className="ml-2 p-2"
+            onClick={() => handleRemoveOption(optionIndex)}
+          >
+            Xóa đáp án
+          </ButtonComponent>
+        </div>
+      ))}
+      <ButtonComponent
+        type="courseHeader"
+        className="w-[150px] p-2 justify-center flex mt-2"
+        onClick={handleAppendOption}
+      >
+        Thêm đáp án
       </ButtonComponent>
     </div>
   );

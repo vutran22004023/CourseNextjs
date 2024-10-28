@@ -54,7 +54,11 @@ export const FileUpload: React.FC<FileUploadProps> = ({ onFileUpload }) => {
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
-    accept: { "application/pdf": [], "application/vnd.openxmlformats-officedocument.wordprocessingml.document": [] },
+    accept: {
+      "application/pdf": [],
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
+        [],
+    },
   });
 
   return (
@@ -63,14 +67,11 @@ export const FileUpload: React.FC<FileUploadProps> = ({ onFileUpload }) => {
         {...getRootProps({ className: "dropzone cursor-pointer w-[100px]" })}
       >
         <input {...getInputProps()} />
-        <p className="p-2 bg-black text-[#fff] w-[100px] cursor-pointer rounded-md">
+        <p className="p-2 bg-black text-[#fff] w-[100px] cursor-pointer rounded-md flex justify-center">
           Thêm tệp
         </p>
       </div>
-      {fileName && (
-        <p className="mt-2">{fileName}</p>
-      )}
+      {fileName && <p className="mt-2">{fileName}</p>}
     </div>
   );
 };
-
