@@ -24,6 +24,10 @@ export default function courses() {
         isLoading: isLoadingAllCourses,
         refetch,
     } = fetchTableData;
+    const handleRefetch = async () => {
+        await refetch(); // Ignore the returned value
+    };
+
     return (
         <div className="container mt-9 w-full">
             <div className="mt-2 flex justify-between">
@@ -33,7 +37,7 @@ export default function courses() {
                         data: dataAllCourses,
                         error: Errdata,
                         isLoading: isLoadingAllCourses,
-                        refetch,
+                        refetch: handleRefetch,
                     }}
                 />
             </div>
@@ -43,7 +47,7 @@ export default function courses() {
                         data: dataAllCourses,
                         error: Errdata,
                         isLoading: isLoadingAllCourses,
-                        refetch,
+                        refetch: handleRefetch,
                     }}
                 />
             </div>
