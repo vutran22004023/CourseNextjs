@@ -25,14 +25,12 @@ import { CreateCourses } from "@/apis/course";
 import { useMutationHook } from "@/hooks";
 import { success, error } from "@/components/Message/Message";
 import { IfetchTable } from "@/types";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { imageDb } from "@/firebase/config";
-import { v4 } from "uuid";
 import { ImageUpload, FileUpload } from "@/components/UpLoadImg/ImageUpload";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import slugify from "slugify";
 import Text from "@/components/Text/text";
+import { useFirebaseStorage } from "@/hooks/useFirebaseStorage";
 
 interface IProp {
   chapter: any;
@@ -120,6 +118,12 @@ const courseFormSchema = z
 type CourseFormValues = z.infer<typeof courseFormSchema>;
 
 export default function NewCourses({ fetchTableData }: IfetchTable) {
+  const {
+    uploadedFiles,
+    uploadFile,
+    setUploadedFiles,
+    deleteFileFromFirebase,
+  } = useFirebaseStorage();
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const user = useSelector((state: RootState) => state.user);
@@ -144,9 +148,7 @@ export default function NewCourses({ fetchTableData }: IfetchTable) {
 
   const mutateCreate = useMutationHook(async (data: any) => {
     if (data.image) {
-      const imgRef = ref(imageDb, `files/${v4()}`);
-      const snapshot = await uploadBytes(imgRef, data.image);
-      const url = await getDownloadURL(snapshot.ref);
+      const url = await uploadFile(data.image, "files");
       data.image = url;
     }
     if (data?.chapters) {
@@ -154,10 +156,8 @@ export default function NewCourses({ fetchTableData }: IfetchTable) {
         if (chapter.videos && chapter.videos.length > 0) {
           for (const video of chapter.videos) {
             if (video.file) {
-              const fileRef = ref(imageDb, `homeworkFile/${v4()}`);
-              const snapshot = await uploadBytes(fileRef, video.file);
-              const url = await getDownloadURL(snapshot.ref);
-              video.file = url; // Cập nhật video.file thành URL
+              const url = await uploadFile(video.file, "homeworkFile");
+              video.file = url;
             }
           }
         }
@@ -168,20 +168,30 @@ export default function NewCourses({ fetchTableData }: IfetchTable) {
   });
 
   const { data: dataCreate } = mutateCreate;
+
   useEffect(() => {
     if (dataCreate?.status === 200) {
       success(`${dataCreate?.message}`);
       setImagePreview(null);
       setIsModalOpen(false);
+      setUploadedFiles([]);
       fetchTableData?.refetch();
       form.reset();
     } else if (dataCreate?.status === "ERR") {
       error(`${dataCreate?.message}`);
+      const deletePromises = uploadedFiles.map((fileUrl) =>
+        deleteFileFromFirebase(fileUrl)
+      );
+      Promise.all(deletePromises)
+        .then(() => {
+          console.log("All uploaded files deleted successfully.");
+          setUploadedFiles([]);
+        })
+        .catch((err) => console.error("Error while deleting files:", err));
     }
   }, [dataCreate]);
 
   const onSubmit = (data: CourseFormValues) => {
-    console.log(data);
     // Generate slugs before submitting
     data.slug = generateSlug(data.name);
     data.chapters = data.chapters.map((chapter) => ({
