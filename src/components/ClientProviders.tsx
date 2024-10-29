@@ -9,6 +9,7 @@ import { initializeUser } from "@/utils/auth";
 import { PersistGate } from "redux-persist/integration/react";
 import { usePathname } from "next/navigation";
 import { GetInformationPage } from "@/apis/informationPage";
+import {useAtoms} from '@/hooks/useAtom'
 
 const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
@@ -24,9 +25,10 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   return <>{children}</>;
 };
 
-const ClientProviders: React.FC<{ children: React.ReactNode }> = ({
-  children,
+const ClientProviders: React.FC<{ children: React.ReactNode, token: string }> = ({
+  children, token
 }) => {
+  const {setToken} = useAtoms();
   const pathname = usePathname();
   const [informationPage, setInformationPage] = useState<any>();
   useEffect(() => {
@@ -38,6 +40,7 @@ const ClientProviders: React.FC<{ children: React.ReactNode }> = ({
         console.log(e);
       }
     };
+    setToken(token)
     fetchInformation();
   }, []);
   useEffect(() => {
