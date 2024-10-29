@@ -3,7 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useFieldArray, useForm } from "react-hook-form";
 import { z } from "zod";
 import { cn } from "@/lib/utils";
-import ButtonComponment from "@/components/Button/Button";
+import ButtonComponent from "@/components/Button/Button";
 import {
   Form,
   FormControl,
@@ -15,135 +15,225 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { toast } from "@/components/ui/use-toast";
+import {
+  GetInformationPage,
+  UpdateInformationPage,
+} from "@/apis/informationPage";
+import { useQuery } from "@tanstack/react-query";
+import { useMutationHook } from "@/hooks";
+import { success } from "@/components/Message/Message";
+import { useEffect } from "react";
 
-const profileFormSchema = z.object({
-  namepage: z
+// Schema for validation
+const informationPageSchema = z.object({
+  name: z
     .string({
-      required_error: "Vui lòng nhập name page",
+      required_error: "Vui lòng nhập tên trang",
     })
     .min(2, {
-      message: "Tên trang web phải ít nhất 2 kí tự",
+      message: "Tên trang phải ít nhất 2 ký tự",
     })
     .max(30, {
-      message: "Tên trang web phải tối đa nhất 30 kí tự",
+      message: "Tên trang phải tối đa 30 ký tự",
     }),
-  description: z.string().max(300).min(4),
-  urls: z
+  description: z.string().max(300).optional(),
+  paths: z
     .array(
       z.object({
-        value: z.string().url({ message: "Please enter a valid URL." }),
+        name: z.string().trim().optional(),
+        route: z
+          .string()
+          .trim()
+          .min(1, { message: "Vui lòng nhập đường dẫn." }),
+        description: z.string().trim().optional(),
       })
     )
-    .optional(),
+    .min(1, { message: "Vui lòng thêm ít nhất một đường dẫn." }),
 });
 
-type ProfileFormValues = z.infer<typeof profileFormSchema>;
+// Type inference
+type InformationPageValues = z.infer<typeof informationPageSchema>;
 
-// This can come from your database or API.
-const defaultValues: Partial<ProfileFormValues> = {
-  description: "I own a computer.",
-  urls: [
-    { value: "https://shadcn.com" },
-    { value: "http://twitter.com/shadcn" },
-  ],
+const fetchInformationPage = async () => {
+  try {
+    const res = await GetInformationPage();
+    return res;
+  } catch (e) {
+    console.log(e);
+  }
 };
 
-export function ProfileForm() {
-  const form = useForm<ProfileFormValues>({
-    resolver: zodResolver(profileFormSchema),
-    defaultValues,
+export function InformationPageForm() {
+  const { data: dataInformation, isPending: isLoadingInformation } = useQuery({
+    queryKey: ["getInformation"],
+    queryFn: fetchInformationPage,
+    retry: 3,
+    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
+    refetchInterval: 10000,
+  });
+  const mutationUpdatePage = useMutationHook(async (data) => {
+    try {
+      const res = await UpdateInformationPage(data);
+      return res;
+    } catch (e) {
+      console.log(e);
+    }
+  });
+  const form = useForm<InformationPageValues>({
+    resolver: zodResolver(informationPageSchema),
+    defaultValues: {
+      ...dataInformation,
+      paths: dataInformation?.paths.map((path: any) => ({
+        ...path,
+      })),
+    },
     mode: "onChange",
   });
 
-  const { fields, append } = useFieldArray({
-    name: "urls",
+  useEffect(() => {
+    form.reset({
+      ...dataInformation,
+      paths: dataInformation?.paths.map((path: any) => ({
+        ...path,
+      })),
+    });
+  }, [dataInformation, form]);
+
+  const { fields, append, remove } = useFieldArray({
+    name: "paths",
     control: form.control,
   });
 
-  function onSubmit(data: ProfileFormValues) {
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    });
-    console.log(data);
+  function onSubmit(data: InformationPageValues) {
+    if (data) {
+      mutationUpdatePage.mutate(data, {
+        onSuccess: () => {
+          success("Cập nhập thành công");
+        },
+      });
+    }
   }
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <FormField
-          control={form.control}
-          name="namepage"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Tên trang web</FormLabel>
-              <FormControl>
-                <Input placeholder="Nhập username" {...field} />
-              </FormControl>
-              <FormDescription>Tên trang web từ 2-30 kí tự</FormDescription>
-              <FormMessage className="text-[red]" />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="description"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>description</FormLabel>
-              <FormControl>
-                <Textarea
-                  placeholder="Nhập mô tả thông tin trang web"
-                  className="resize-none"
-                  {...field}
+    <div className="w-full">
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Tên trang</FormLabel>
+                <FormControl>
+                  <Input placeholder="Nhập tên trang" {...field} />
+                </FormControl>
+                <FormDescription>Tên trang từ 2-30 ký tự</FormDescription>
+                <FormMessage className="text-[red]" />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="description"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Mô tả</FormLabel>
+                <FormControl>
+                  <Textarea
+                    placeholder="Nhập mô tả thông tin trang"
+                    className="resize-none"
+                    {...field}
+                  />
+                </FormControl>
+                <FormDescription>Mô tả tối đa 300 ký tự</FormDescription>
+                <FormMessage className="text-[red]" />
+              </FormItem>
+            )}
+          />
+          <div>
+            {fields.map((field, index) => (
+              <div key={field.id} className="mt-5">
+                <FormField
+                  control={form.control}
+                  name={`paths.${index}.route`}
+                  render={({ field }) => (
+                    <FormItem>
+                      <div className="flex justify-between mb-1">
+                        <div>
+                          <FormLabel>Đường dẫn {index + 1}</FormLabel>
+                          <FormDescription
+                            className={cn(index !== 0 && "sr-only")}
+                          >
+                            Nhập đường dẫn cho trang.
+                          </FormDescription>
+                        </div>
+                        <ButtonComponent
+                          type="courseHeader"
+                          className="p-2 w-[100px] flex justify-center"
+                          onClick={() => remove(index)}
+                        >
+                          Xóa
+                        </ButtonComponent>
+                      </div>
+                      <FormControl>
+                        <Input {...field} placeholder="Nhập đường dẫn" />
+                      </FormControl>
+                      <FormMessage className="text-[red]" />
+                    </FormItem>
+                  )}
                 />
-              </FormControl>
-              <FormDescription>Mô tả trang web từ 4-300 kí tự</FormDescription>
-              <FormMessage className="text-[red]" />
-            </FormItem>
-          )}
-        />
-        <div>
-          {fields.map((field, index) => (
-            <FormField
-              control={form.control}
-              key={field.id}
-              name={`urls.${index}.value`}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className={cn(index !== 0 && "sr-only")}>
-                    URLs
-                  </FormLabel>
-                  <FormDescription className={cn(index !== 0 && "sr-only")}>
-                    Add links to your website, blog, or social media profiles.
-                  </FormDescription>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                  <FormMessage className="text-[red]" />
-                </FormItem>
-              )}
-            />
-          ))}
-          <ButtonComponment
-            type="button"
-            variant="outline"
-            size="sm"
-            className="mt-2 w-[100px]"
-            onClick={() => append({ value: "" })}
+                <FormField
+                  control={form.control}
+                  name={`paths.${index}.name`}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Tên Page {index + 1}</FormLabel>
+                      <FormDescription className={cn(index !== 0 && "sr-only")}>
+                        Nhập tên page cho trang.
+                      </FormDescription>
+                      <FormControl>
+                        <Input {...field} placeholder="Nhập đường dẫn" />
+                      </FormControl>
+                      <FormMessage className="text-[red]" />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name={`paths.${index}.description`}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Mô tả đường dẫn {index + 1}</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          {...field}
+                          placeholder="Nhập mô tả cho đường dẫn"
+                          className="resize-none"
+                        />
+                      </FormControl>
+                      <FormMessage className="text-[red]" />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            ))}
+            <ButtonComponent
+              type="courseHeader"
+              className="p-3 w-[200px] flex justify-center"
+              onClick={() => append({ route: "", description: "" })}
+            >
+              Thêm đường dẫn
+            </ButtonComponent>
+          </div>
+          <ButtonComponent
+            type="courseHeader"
+            className="flex p-3 justify-center"
+            onClick={form.handleSubmit(onSubmit)}
           >
-            Add URL
-          </ButtonComponment>
-        </div>
-        <ButtonComponment type="submit" className="w-[100px] p-">
-          Cập nhập
-        </ButtonComponment>
-      </form>
-    </Form>
+            Cập nhật
+          </ButtonComponent>
+        </form>
+      </Form>
+    </div>
   );
 }
