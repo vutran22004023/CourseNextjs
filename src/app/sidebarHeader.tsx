@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import HeaderLayout from "@/components/Layouts/HeaderLayout";
 import Footer from "@/components/Layouts/Footer";
 import usePageConfig from "@/hooks/usePageConfig";
-import ClientProviders from "@/components/ClientProviders";
 import LoadingPage from "../components/Loading/LoadingPage";
 import { usePathname } from "next/navigation";
 
@@ -19,7 +18,7 @@ export default function SidebarHeader({
   const noLoadingPaths = ["/admin", "/profile", "/online-learning"];
 
   useEffect(() => {
-    if (noLoadingPaths.some(path => pathname.startsWith(path))) {
+    if (noLoadingPaths.some((path) => pathname.startsWith(path))) {
       setLoading(false);
       return;
     }
@@ -32,21 +31,17 @@ export default function SidebarHeader({
     return () => clearTimeout(timer);
   }, [pathname]);
 
-  return (
-    <ClientProviders>
-      {loading ? (
-        <LoadingPage />
-      ) : (
-        <>
-          {!hideHeader && <HeaderLayout />}
-          <div className={hideHeader ? "" : "mt-10"}>{children}</div>
-          {!hideFooter && (
-            <div className="mt-5">
-              <Footer />
-            </div>
-          )}
-        </>
+  return loading ? (
+    <LoadingPage />
+  ) : (
+    <>
+      {!hideHeader && <HeaderLayout />}
+      <div className={hideHeader ? "" : "mt-10"}>{children}</div>
+      {!hideFooter && (
+        <div className="mt-5">
+          <Footer />
+        </div>
       )}
-    </ClientProviders>
+    </>
   );
 }
