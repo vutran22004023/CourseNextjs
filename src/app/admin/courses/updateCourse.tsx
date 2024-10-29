@@ -171,7 +171,13 @@ const UpdateCourse: React.FC<UpdateProps> = ({data, isOpen, onClose}) => {
         defaultValues: {
             ...dataDetailCourse,
             image: dataDetailCourse?.image || null,
-            chapters: dataDetailCourse?.chapters ? data.chapters : [],
+            chapters: dataDetailCourse?.chapters.map((chapter: any) => ({
+                ...chapter,
+                videos: chapter?.videos.map((video: any) => ({
+                    ...video,
+                    videoType: video?.videoType,
+                }))
+            })),
         },
         mode: "onChange",
     });
@@ -183,7 +189,13 @@ const UpdateCourse: React.FC<UpdateProps> = ({data, isOpen, onClose}) => {
         form.reset({
             ...dataDetailCourse,
             image: dataDetailCourse?.image || null,
-            chapters: dataDetailCourse?.chapters ? dataDetailCourse?.chapters : [],
+            chapters: dataDetailCourse?.chapters.map((chapter: any) => ({
+                ...chapter,
+                videos: chapter?.videos.map((video: any) => ({
+                    ...video,
+                    videoType: video?.videoType,
+                }))
+            })),
         });
     }, [dataDetailCourse, form]);
 

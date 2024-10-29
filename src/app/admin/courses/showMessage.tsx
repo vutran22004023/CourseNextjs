@@ -66,7 +66,6 @@ const ShowMessage = ({data, isOpen, onClose}: Props) => {
                                                 {message?.name}
                                             </div>
                                             <div
-                                                onClick={() => handleEditClick(message)}
                                                 className="p-3 bg-slate-300 rounded-lg max-w-[300px] overflow-hidden break-words shadow-md text-left"
                                             >
                                                 {message?.text}
