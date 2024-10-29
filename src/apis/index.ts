@@ -1,6 +1,6 @@
 import axios, {AxiosInstance, AxiosResponse} from "axios";
 import {getTokenFromCookies} from "@/utils/auth";
-
+import {useAtoms} from '@/hooks/useAtom';
 const axiosInstance: AxiosInstance = axios.create({
     timeout: 5000, // Timeout sau 5 giây
 });
@@ -8,10 +8,11 @@ const axiosInstance: AxiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
     async (config) => {
         try {
-            const tokenCookies = await getTokenFromCookies(); // Chờ đợi giá trị trả về từ hàm async
+            const {token} =useAtoms();
+            // const tokenCookies = await getTokenFromCookies(); // Chờ đợi giá trị trả về từ hàm async
 
-            if (tokenCookies) {
-                config.headers.token = `Bearer ${tokenCookies}`;
+            if (token) {
+                config.headers.token = `Bearer ${token}`;
             } else {
                 console.log('loi')
             }

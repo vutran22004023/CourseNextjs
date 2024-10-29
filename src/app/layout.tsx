@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import SidebarHeader from "./sidebarHeader";
 import { Metadata } from "next";
 import ClientProviders from "@/components/ClientProviders";
-
+import { cookies } from 'next/headers';
 const fontSans = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",
@@ -23,6 +23,8 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const cookieStore = cookies();
+  const myCookie = cookieStore.get('access_Token')?.value;
   return (
     <html lang="en" suppressHydrationWarning>
       <body
@@ -31,7 +33,7 @@ export default function RootLayout({
           fontSans.variable
         )}
       >
-        <ClientProviders>
+        <ClientProviders token={myCookie}>
           <SidebarHeader>{children}</SidebarHeader>
         </ClientProviders>
       </body>
