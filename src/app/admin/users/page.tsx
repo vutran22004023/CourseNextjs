@@ -27,7 +27,7 @@ export default function Users() {
         await refetch(); // Ignore the returned value
     };
     return (
-        <div className="container mt-9 w-full">
+        <div className="container w-full">
             <div className="mb-3 flex justify-between">
                 <h3 className="cactus-classical-serif-md text-[25px] ">Người dùng</h3>
                 <NewUsers

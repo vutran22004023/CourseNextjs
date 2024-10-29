@@ -17,6 +17,7 @@ import { RootState } from "@/redux/store";
 import { CreateBlog } from "@/apis/blog";
 import { useSelector, useDispatch } from "react-redux";
 import { success, error } from "@/components/Message/Message";
+
 export default function PostsBlog() {
   const user = useSelector((state: RootState) => state.user);
   const note = {
@@ -88,7 +89,7 @@ export default function PostsBlog() {
   }, [dataBlog]);
 
   return (
-    <div className="container mt-[60px] w-full">
+    <div className="container w-full">
       <div className=" mb-6 flex justify-between items-center">
         <div className="w-full] border-0">
           <Input

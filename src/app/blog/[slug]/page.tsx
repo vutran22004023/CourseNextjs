@@ -53,7 +53,7 @@ export default function BlogDetailPage() {
   }
 
   return (
-    <div className="container mt-8 w-full">
+    <div className="container w-full">
       <div className="flex justify-between">
         <div className="flex-1 p-3">
           <Text className="mb-3">{blog.author}</Text>

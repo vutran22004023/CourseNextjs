@@ -348,7 +348,7 @@ export default function page() {
                 <div>
                   <Progress
                     type="circle"
-                    percent={timeVideo?.percentCourse}
+                    percent={timeVideo?.percentCourse || 0}
                     size={60}
                     className="block pt-[15px] pl-[50px] md:hidden"
                   />
