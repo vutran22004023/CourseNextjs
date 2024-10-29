@@ -69,7 +69,7 @@ export default function HeaderLayoutCourses() {
   ]);
 
   return (
-    <div className="fixed top-0 left-0 bg-[#fff] right-0 z-10 border-b p-2 md:p-3 flex justify-between items-center">
+    <div className="w-full bg-[#fff] z-10 border-b p-2 md:p-3 flex justify-between items-center">
       <div className="flex">
         <ButtonComponent
           className="text-[16px] w-[90px] h-[30px] md:text-xl md:w-[133px] md:h-[43px]"
@@ -105,7 +105,7 @@ export default function HeaderLayoutCourses() {
         <div className="flex justify-center items-center md:relative md:top-auto">
           <Progress
             type="circle"
-            percent={timeVideo?.percentCourse}
+            percent={timeVideo?.percentCourse || 0}
             size={50}
             className="hidden md:block"
           />

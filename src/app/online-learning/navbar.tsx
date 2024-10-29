@@ -15,11 +15,11 @@ export default function Navbar({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <>
+    <div className="flex gap-2">
       <div className="w-[8%] h-[calc(90.5vh)]">
         <SidebarOnline />
       </div>
       <div className="w-[90%]">{children}</div>
-    </>
+    </div>
   );
 }

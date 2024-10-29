@@ -43,6 +43,7 @@ import { CourseProgress } from "@/types";
 import { GetCourseProgress } from "@/apis/usercourse";
 import logo from "@/assets/logo/brain 1.png";
 import Image from "next/image";
+
 export default function HeaderLayout() {
   const [courseProgress, setCourseProgress] = useState<CourseProgress[]>([]);
   const router = useRouter();
@@ -86,7 +87,7 @@ export default function HeaderLayout() {
   }, []);
 
   return (
-    <div className="fixed top-0 left-0 bg-white right-0 z-10 border-b border-[#cfcdcd] text-white p-3 flex justify-between items-center ">
+    <div className="w-full bg-white  z-10 border-b border-[#cfcdcd] text-white p-3 flex justify-between items-center ">
       <div className="flex gap-3 items-center">
         <Link href="/">
           <Image

@@ -1,13 +1,13 @@
-import Navbar from "./navbar";
 import React from "react";
-import NarBar from './navbar'
+import NarBar from "./navbar";
+
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <div className="mt-[70px]">
+    <div>
       <NarBar>{children}</NarBar>
     </div>
   );

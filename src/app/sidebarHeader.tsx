@@ -36,7 +36,7 @@ export default function SidebarHeader({
   ) : (
     <>
       {!hideHeader && <HeaderLayout />}
-      <div className={hideHeader ? "" : "mt-10"}>{children}</div>
+      <div className={hideHeader ? "" : ""}>{children}</div>
       {!hideFooter && (
         <div className="mt-5">
           <Footer />
