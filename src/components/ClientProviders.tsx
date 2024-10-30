@@ -72,13 +72,6 @@ const ClientProviders: React.FC<{ children: React.ReactNode, token: string }> = 
         link.type = 'image/png';
         link.rel = 'icon';
         link.href = informationPage.logoSmall;
-        document.title = informationPage.name;
-        const metaDescription = document.querySelector(
-          "meta[name='description']"
-        );
-        if (metaDescription) {
-          metaDescription.setAttribute("content", "Mô tả không tìm thấy.");
-        }
       }
     }
   }, [pathname, informationPage]);
