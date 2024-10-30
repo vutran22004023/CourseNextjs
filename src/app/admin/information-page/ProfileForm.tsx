@@ -21,9 +21,11 @@ import {
 } from "@/apis/informationPage";
 import { useQuery } from "@tanstack/react-query";
 import { useMutationHook } from "@/hooks";
-import { success } from "@/components/Message/Message";
-import { useEffect } from "react";
-
+import { success, error } from "@/components/Message/Message";
+import React, {useEffect, useState} from "react";
+import {ImageUpload} from "@/components/UpLoadImg/ImageUpload";
+import Image from 'next/image';
+import { useFirebaseStorage } from "@/hooks/useFirebaseStorage";
 // Schema for validation
 const informationPageSchema = z.object({
   name: z
@@ -36,6 +38,8 @@ const informationPageSchema = z.object({
     .max(30, {
       message: "Tên trang phải tối đa 30 ký tự",
     }),
+  logo: z.instanceof(File).optional(),
+  logoSmall: z.instanceof(File).optional(),
   description: z.string().max(300).optional(),
   paths: z
     .array(
@@ -64,6 +68,14 @@ const fetchInformationPage = async () => {
 };
 
 export function InformationPageForm() {
+  const {
+    uploadedFiles,
+    uploadFile,
+    setUploadedFiles,
+    deleteFileFromFirebase,
+  } = useFirebaseStorage();
+  const [logo, setLogo]= useState<string | null>(null);
+  const [logoSmall, setLogoSmall]= useState<string | null>(null);
   const { data: dataInformation, isPending: isLoadingInformation } = useQuery({
     queryKey: ["getInformation"],
     queryFn: fetchInformationPage,
@@ -85,16 +97,26 @@ export function InformationPageForm() {
       ...dataInformation,
       paths: dataInformation?.paths.map((path: any) => ({
         ...path,
+        logo: dataInformation?.logo,
+        logoSmall: dataInformation?.logoSmall,
       })),
     },
     mode: "onChange",
   });
 
   useEffect(() => {
+    if (dataInformation?.logo) {
+      setLogo(dataInformation?.logo);
+    }
+    if (dataInformation?.logoSmall) {
+      setLogoSmall(dataInformation?.logoSmall);
+    }
     form.reset({
       ...dataInformation,
       paths: dataInformation?.paths.map((path: any) => ({
         ...path,
+        logo: dataInformation?.logo,
+        logoSmall: dataInformation?.logoSmall,
       })),
     });
   }, [dataInformation, form]);
@@ -104,15 +126,48 @@ export function InformationPageForm() {
     control: form.control,
   });
 
-  function onSubmit(data: InformationPageValues) {
+  async function onSubmit(data: InformationPageValues) {
     if (data) {
-      mutationUpdatePage.mutate(data, {
+      if (data?.logo) {
+        const url = await uploadFile(data.logo, "logo");
+        data.logo = url;
+      }
+      if (data?.logoSmall) {
+        const url = await uploadFile(data?.logoSmall, "logo");
+        data.logoSmall = url;
+      }
+      await mutationUpdatePage.mutate(data, {
         onSuccess: () => {
+          deleteFileFromFirebase(dataInformation?.logo);
+          deleteFileFromFirebase(dataInformation?.logoSmall);
           success("Cập nhập thành công");
+          setUploadedFiles([]);
         },
+        onError: () => {
+          error("Cập nhập không thành công");
+          const deletePromises = uploadedFiles.map((fileUrl) =>
+              deleteFileFromFirebase(fileUrl)
+          );
+          Promise.all(deletePromises)
+              .then(() => {
+                console.log("All uploaded files deleted successfully.");
+                setUploadedFiles([]);
+              })
+              .catch((err) => console.error("Error while deleting files:", err));
+        }
       });
     }
   }
+
+  const handleLogoUpload = (file: File) => {
+    form.setValue("logo", file);
+    setLogo(URL.createObjectURL(file));
+  };
+
+  const handleLogoSmallUpload = (file: File) => {
+    form.setValue("logoSmall", file);
+    setLogoSmall(URL.createObjectURL(file));
+  };
 
   return (
     <div className="w-full">
@@ -150,6 +205,30 @@ export function InformationPageForm() {
               </FormItem>
             )}
           />
+          <FormItem>
+            <FormLabel>Thêm ảnh logo</FormLabel>
+            <ImageUpload onImageUpload={handleLogoUpload}/>
+          </FormItem>
+          {logo && (
+              <Image
+                  src={logo}
+                  alt="Preview"
+                  width={200}
+                  height={200}
+              />
+          )}
+          <FormItem>
+            <FormLabel>Thêm ảnh logo nhỏ</FormLabel>
+            <ImageUpload onImageUpload={handleLogoSmallUpload}/>
+          </FormItem>
+          {logoSmall && (
+              <Image
+                  src={logoSmall}
+                  alt="Preview13212"
+                  width={200}
+                  height={200}
+              />
+          )}
           <div>
             {fields.map((field, index) => (
               <div key={field.id} className="mt-5">
