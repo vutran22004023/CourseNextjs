@@ -4,12 +4,14 @@ import { Facebook, Youtube, Instagram  } from "lucide-react";
 import Link from "next/link";
 import logo from "@/assets/logo/brain.png";
 import Text from "../Text/text";
+import {useAtoms} from '@/hooks/useAtom';
 export default function Footer() {
+  const {pages} = useAtoms();
   return (
     <div className="bg-[#181821] w-full h-auto p-[80px] leading-6 md:flex gap-2 justify-center">
       <div className="w-[300px] block pr-[15px] md:mr-[100px]">
         <div className="flex gap-2">
-          <Image src={logo} width={50} height={50} alt="logo" />
+          <Image src={pages?.logoSmall} width={50} height={50} alt="logo" />
           <Text type="defaultSemiBold" className="text-white pt-[10px]">
             Theo đuổi đam mê của bạn
           </Text>
