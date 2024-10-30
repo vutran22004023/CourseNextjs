@@ -28,7 +28,7 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 const ClientProviders: React.FC<{ children: React.ReactNode, token: string }> = ({
   children, token
 }) => {
-  const {setToken,setPages} = useAtoms();
+  const {setToken,setPages, pages} = useAtoms();
   const pathname = usePathname();
   const [informationPage, setInformationPage] = useState<any>();
   useEffect(() => {
@@ -54,6 +54,11 @@ const ClientProviders: React.FC<{ children: React.ReactNode, token: string }> = 
         const metaDescription = document.querySelector(
           "meta[name='description']"
         );
+        const link = document.querySelector("link[rel*='icon']") || document.createElement('link');
+        link.type = 'image/png';
+        link.rel = 'icon';
+        link.href = informationPage.logoSmall; // Đường dẫn ảnh bạn muốn cập nhật
+        document.head.appendChild(link);
         if (metaDescription) {
           metaDescription.setAttribute("content", pathInfo.description);
         } else {
@@ -63,6 +68,10 @@ const ClientProviders: React.FC<{ children: React.ReactNode, token: string }> = 
           document.head.appendChild(newMetaDescription);
         }
       } else {
+        const link = document.querySelector("link[rel*='icon']") || document.createElement('link');
+        link.type = 'image/png';
+        link.rel = 'icon';
+        link.href = informationPage.logoSmall;
         document.title = informationPage.name;
         const metaDescription = document.querySelector(
           "meta[name='description']"

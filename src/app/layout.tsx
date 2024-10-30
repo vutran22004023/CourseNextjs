@@ -14,9 +14,6 @@ export const metadata: Metadata = {
     template: "%s | CourseNiver",
     default: "CourseNiver",
   },
-  icons: {
-    icon: "/brain.png",
-  },
 };
 export default function RootLayout({
   children,
