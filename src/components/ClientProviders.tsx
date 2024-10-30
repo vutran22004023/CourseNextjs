@@ -25,8 +25,8 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   return <>{children}</>;
 };
 
-const ClientProviders: React.FC<{ children: React.ReactNode, token: string }> = ({
-  children, token
+const ClientProviders: React.FC<{ children: React.ReactNode }> = ({
+  children
 }) => {
   const {setToken,setPages, pages} = useAtoms();
   const pathname = usePathname();
@@ -40,7 +40,6 @@ const ClientProviders: React.FC<{ children: React.ReactNode, token: string }> = 
         console.log(e);
       }
     };
-    setToken(token)
     fetchInformation();
   }, []);
   useEffect(() => {

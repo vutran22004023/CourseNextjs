@@ -4,7 +4,7 @@ import CourselList from "./courseList";
 
 const Page = () => {
   return (
-      <div className="pt-5 mx-10">
+      <div className="pt-5">
         <CarouselComponent />
         <CourselList />
       </div>
