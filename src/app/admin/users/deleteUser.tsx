@@ -11,9 +11,10 @@ import {
 } from "@/components/ui/dialog";
 import ButtonComponent from "@/components/Button/Button";
 import { GetAllUsers, DeleteUser } from "@/apis/user";
-import { useMutationHook } from "@/hooks/index";
+import { useMutationHook } from "@/hooks";
 import { success, error } from "@/components/Message/Message";
-import { useCombinedData } from "@/hooks/index";
+import { useCombinedData } from "@/hooks";
+
 interface DeleteProps {
   id: string;
   isOpen: boolean;

@@ -20,7 +20,7 @@ import { UpdateUser } from "@/apis/user";
 import { useMutationHook } from "@/hooks";
 import { useEffect, useState } from "react";
 import { success } from "@/components/Message/Message";
-import { nameTructed } from "./../../../utils/common";
+
 export default function InformationUser() {
   const user = useSelector((state: RootState) => state.user);
   const [userData, setUserData] = useState({
@@ -64,7 +64,7 @@ export default function InformationUser() {
   };
 
   return (
-    <div className="container mt-[60px] w-full" style={{ padding: "0 90px" }}>
+    <div className="container w-full" style={{ padding: "0 90px" }}>
       <Text className="cactus-classical-serif-md text-[25px]">
         Thông tin cá nhân
       </Text>

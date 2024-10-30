@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import ModalComponent from "@/components/Modal/Modal";
 import VideoYoutubeComponment from "@/components/VideoYoutube/VideoYoutube";
-import { formatCurrencyVND } from "@/utils/index";
+import { formatCurrencyVND } from "@/utils";
 import { Button } from "@/components/ui/button";
 import { CircleCheckBig } from "lucide-react";
 import {
@@ -15,18 +15,20 @@ import IconZaloPay from "@/assets/Images/Logo-ZaloPay-Square.png";
 import IconQR from "@/assets/Images/qr.png";
 import { useMutationHook } from "@/hooks";
 import { CreateLinkPayOs, PaymentZalopay } from "@/apis/pay";
-import { formatTime, parseTime } from "@/utils/index";
+import { formatTime, parseTime } from "@/utils";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { setItemPay } from "@/redux/Slides/itemPay";
 import Text from "@/components/Text/text";
+
 interface Props {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
   course: any;
 }
+
 export default function modalPay({ isOpen, setIsOpen, course }: Props) {
   const dispatch = useDispatch();
   const router = useRouter();

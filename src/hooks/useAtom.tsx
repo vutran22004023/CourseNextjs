@@ -10,12 +10,15 @@ const dataIdCourse = atom<IdCourse>({
     courseId: null,
     videoID: null
   });
+const tokenAtom = atom<string | null>(null);
 
 export const useAtoms = () => {
   const [courseDetail, setCourseDetail] = useAtom(dataIdCourse);
-
+  const [token, setToken] = useAtom(tokenAtom);
   return {
     courseDetail,
-    setCourseDetail
+    setCourseDetail,
+      token,
+      setToken
   };
 };

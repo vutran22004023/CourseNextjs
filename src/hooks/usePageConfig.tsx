@@ -3,10 +3,13 @@ import { useMemo } from "react";
 import { usePathname } from "next/navigation";
 
 const usePageConfig = () => {
-  const pageConfig = useMemo(() => ({
-    hideFooter: ["/course-login", "/online-learning/[param]", "/admin"],
-    hideHeader: ["/course-login", "/online-learning/[param]"],
-  }), []);
+  const pageConfig = useMemo(
+    () => ({
+      hideFooter: ["/course-login", "/online-learning/[param]", "/admin"],
+      hideHeader: ["/course-login", "/online-learning/[param]"],
+    }),
+    []
+  );
 
   const pathname = usePathname();
 
@@ -17,10 +20,7 @@ const usePageConfig = () => {
 
   // Condition to hide the header
   const hideHeader = useMemo(() => {
-    return (
-      pageConfig.hideHeader.some((page) => pathname.startsWith(page)) ||
-      isPathWithParams
-    );
+    return pageConfig.hideHeader.some((page) => pathname.startsWith(page));
   }, [pathname, pageConfig.hideHeader, isPathWithParams]);
 
   // Condition to hide the footer

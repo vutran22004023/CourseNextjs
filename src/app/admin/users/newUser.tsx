@@ -22,13 +22,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { CreateUser } from "@/apis/user";
-import { useMutationHook } from "@/hooks/index";
+import { useMutationHook } from "@/hooks";
 import { success, error } from "@/components/Message/Message";
-import { IfetchTable } from "@/types/index";
+import { IfetchTable } from "@/types";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { imageDb } from "@/firebase/config";
 import { v4 } from "uuid";
-import ImageUpload from "@/components/UpLoadImg/ImageUpload";
+import { ImageUpload } from "@/components/UpLoadImg/ImageUpload";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 // Schema validation using Zod
@@ -84,7 +84,7 @@ export default function NewUsers({ fetchTableData }: IfetchTable) {
       success(`${dataCreate?.message}`);
       setImagePreview(null);
       setIsModalOpen(false);
-      fetchTableData.refetch();
+      fetchTableData?.refetch();
       form.reset();
     } else if (dataCreate?.status === "ERR") {
       error(`${dataCreate?.message}`);
@@ -100,12 +100,13 @@ export default function NewUsers({ fetchTableData }: IfetchTable) {
       isOpen={isModalOpen}
       setIsOpen={setIsModalOpen}
       triggerContent={
-        <Button
-          className="bg-[black] p-5 text-[#fff] hover:bg-[#6c6a6a]"
+        <ButtonComponent
+          type="courseHeader"
+          className=" p-3 text-[#fff] hover:bg-[#6c6a6a]"
           style={{ borderRadius: "10px" }}
         >
           Thêm người dùng
-        </Button>
+        </ButtonComponent>
       }
       contentHeader={<div>Thêm người dùng mới</div>}
       contentBody={
@@ -234,8 +235,8 @@ export default function NewUsers({ fetchTableData }: IfetchTable) {
         <>
           <div className="flex justify-end p-4">
             <ButtonComponent
-              type="submit"
-              className="w-[150px]"
+              type="courseHeader"
+              className=" p-3 text-[#fff] hover:bg-[#6c6a6a]"
               onClick={form.handleSubmit(onSubmit)}
             >
               Thêm người dùng

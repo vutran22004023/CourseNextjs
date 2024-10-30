@@ -3,7 +3,7 @@ import { FC, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { Crown } from "lucide-react";
-import { useDebounce } from "@/hooks/index";
+import { useDebounce } from "@/hooks";
 import { useQuery } from "@tanstack/react-query";
 import { GetAllCourses, GetDetailCoursesNotLogin } from "@/apis/course";
 import CardComponent from "@/components/Card/Card";

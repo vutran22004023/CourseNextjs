@@ -12,18 +12,15 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import ButtonComponment from "@/components/Button/Button";
 import Text from "@/components/Text/text";
+
 export default function PasswordAndSecurity() {
   return (
-    <div className="container mt-[60px] w-full" style={{ padding: "0 90px" }}>
-      <Text className="text-[25px] ">
-        Mật khẩu và bảo mật
-      </Text>
+    <div className="containerw-full" style={{ padding: "0 90px" }}>
+      <Text className="text-[25px] ">Mật khẩu và bảo mật</Text>
       <p className="mb-10 text-[14px]">Quản lý mật khẩu và bảo mật</p>
 
       <div>
-        <Text className="text-[20px] mb-5">
-          Đăng nhập & khôi phục
-        </Text>
+        <Text className="text-[20px] mb-5">Đăng nhập & khôi phục</Text>
         <p className="mb-10 text-[14px]">Quản lý mật khẩu và xác minh 2 bước</p>
       </div>
 

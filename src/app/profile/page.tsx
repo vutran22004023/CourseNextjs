@@ -3,9 +3,10 @@ import CardComponentBlog from "@/components/Card/CardBlog";
 import Text from "@/components/Text/text";
 import { Users } from "lucide-react";
 import Image from "next/image";
+
 export default function PersonalPage() {
   return (
-    <div className="container mt-[20px] w-full" style={{ padding: "0 90px" }}>
+    <div className="container w-full" style={{ padding: "0 90px" }}>
       <div className="min-h-screen bg-gray-100">
         <div className="relative w-full h-64">
           <Image
