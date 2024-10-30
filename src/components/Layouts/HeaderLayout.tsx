@@ -43,8 +43,9 @@ import { CourseProgress } from "@/types";
 import { GetCourseProgress } from "@/apis/usercourse";
 import logo from "@/assets/logo/brain 1.png";
 import Image from "next/image";
-
+import {useAtoms} from '@/hooks/useAtom';
 export default function HeaderLayout() {
+  const {pages} = useAtoms();
   const [courseProgress, setCourseProgress] = useState<CourseProgress[]>([]);
   const router = useRouter();
   const dispatch = useDispatch();
@@ -94,7 +95,7 @@ export default function HeaderLayout() {
             width={150}
             height={60}
             className="h-[60px] w-[150px] pl-2"
-            src={logo}
+            src={pages?.logo}
             alt="fsdfsdf"
             objectFit="cover"
           />
