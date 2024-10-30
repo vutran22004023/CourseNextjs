@@ -20,7 +20,7 @@ export default function bottomBar({
 }:
 Props) {
   return (
-    <div className="fixed border-2 border-[#000] bottom-0 left-0 bg-white w-full h-16 right-0 z-10 border-t p-3 flex items-center">
+    <div className="fixed border-t-2 border-[#000] bottom-0 left-0 bg-white w-full h-16 right-0 z-10 p-3 flex items-center">
       <div className="flex items-center justify-center gap-5 w-full">
         <ButtonComponment
           className="w-[190px] h-[43px] text-xl"
