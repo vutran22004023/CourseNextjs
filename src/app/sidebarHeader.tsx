@@ -35,10 +35,16 @@ export default function SidebarHeader({
     <LoadingPage />
   ) : (
     <>
-      {!hideHeader && <HeaderLayout />}
+      {!hideHeader && (
+          <div className="mb-[80px]">
+            <div className="fixed top-0 left-0 right-0 w-full z-10">
+              <HeaderLayout/>
+            </div>
+          </div>
+      )}
       <div className={hideHeader ? "" : ""}>{children}</div>
       {!hideFooter && (
-        <div className="mt-5">
+          <div className="mt-5">
           <Footer />
         </div>
       )}

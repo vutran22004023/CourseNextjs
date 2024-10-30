@@ -38,8 +38,12 @@ const informationPageSchema = z.object({
     .max(30, {
       message: "Tên trang phải tối đa 30 ký tự",
     }),
-  logo: z.instanceof(File).optional(),
-  logoSmall: z.instanceof(File).optional(),
+  logo: z
+      .union([z.string().url(), z.instanceof(File)])
+      .optional(),
+  logoSmall: z
+      .union([z.string().url(), z.instanceof(File)])
+      .optional(),
   description: z.string().max(300).optional(),
   paths: z
     .array(
@@ -76,6 +80,8 @@ export function InformationPageForm() {
   } = useFirebaseStorage();
   const [logo, setLogo]= useState<string | null>(null);
   const [logoSmall, setLogoSmall]= useState<string | null>(null);
+  const [statusSaveLogo, setStatusSaveLogo] = useState<boolean>(false);
+  const [statusSaveLogoSmall, setStatusSaveLogoSmall] = useState<boolean>(false);
   const { data: dataInformation, isPending: isLoadingInformation } = useQuery({
     queryKey: ["getInformation"],
     queryFn: fetchInformationPage,
@@ -113,10 +119,10 @@ export function InformationPageForm() {
     }
     form.reset({
       ...dataInformation,
+      logo: dataInformation?.logo,
+      logoSmall: dataInformation?.logoSmall,
       paths: dataInformation?.paths.map((path: any) => ({
         ...path,
-        logo: dataInformation?.logo,
-        logoSmall: dataInformation?.logoSmall,
       })),
     });
   }, [dataInformation, form]);
@@ -128,32 +134,42 @@ export function InformationPageForm() {
 
   async function onSubmit(data: InformationPageValues) {
     if (data) {
-      if (data?.logo) {
-        const url = await uploadFile(data.logo, "logo");
-        data.logo = url;
+      if(statusSaveLogo) {
+        if (data?.logo) {
+          const url = await uploadFile(data.logo, "logo");
+          data.logo = url;
+        }
       }
-      if (data?.logoSmall) {
-        const url = await uploadFile(data?.logoSmall, "logo");
-        data.logoSmall = url;
+      if(statusSaveLogoSmall) {
+        if (data?.logoSmall) {
+          const url = await uploadFile(data?.logoSmall, "logo");
+          data.logoSmall = url;
+        }
       }
       await mutationUpdatePage.mutate(data, {
         onSuccess: () => {
-          deleteFileFromFirebase(dataInformation?.logo);
-          deleteFileFromFirebase(dataInformation?.logoSmall);
+          if(statusSaveLogo) {
+            deleteFileFromFirebase(dataInformation?.logo);
+          }
+          if(statusSaveLogoSmall) {
+            deleteFileFromFirebase(dataInformation?.logoSmall);
+          }
           success("Cập nhập thành công");
           setUploadedFiles([]);
         },
         onError: () => {
           error("Cập nhập không thành công");
-          const deletePromises = uploadedFiles.map((fileUrl) =>
-              deleteFileFromFirebase(fileUrl)
-          );
-          Promise.all(deletePromises)
-              .then(() => {
-                console.log("All uploaded files deleted successfully.");
-                setUploadedFiles([]);
-              })
-              .catch((err) => console.error("Error while deleting files:", err));
+          if(statusSaveLogo || statusSaveLogoSmall) {
+            const deletePromises = uploadedFiles.map((fileUrl) =>
+                deleteFileFromFirebase(fileUrl)
+            );
+            Promise.all(deletePromises)
+                .then(() => {
+                  console.log("All uploaded files deleted successfully.");
+                  setUploadedFiles([]);
+                })
+                .catch((err) => console.error("Error while deleting files:", err));
+          }
         }
       });
     }
@@ -162,11 +178,13 @@ export function InformationPageForm() {
   const handleLogoUpload = (file: File) => {
     form.setValue("logo", file);
     setLogo(URL.createObjectURL(file));
+    setStatusSaveLogo(true);
   };
 
   const handleLogoSmallUpload = (file: File) => {
     form.setValue("logoSmall", file);
     setLogoSmall(URL.createObjectURL(file));
+    setStatusSaveLogoSmall(true);
   };
 
   return (
@@ -232,51 +250,49 @@ export function InformationPageForm() {
           <div>
             {fields.map((field, index) => (
               <div key={field.id} className="mt-5">
-                <FormField
-                  control={form.control}
-                  name={`paths.${index}.route`}
-                  render={({ field }) => (
-                    <FormItem>
-                      <div className="flex justify-between mb-1">
-                        <div>
-                          <FormLabel>Đường dẫn {index + 1}</FormLabel>
-                          <FormDescription
-                            className={cn(index !== 0 && "sr-only")}
-                          >
-                            Nhập đường dẫn cho trang.
-                          </FormDescription>
-                        </div>
-                        <ButtonComponent
-                          type="courseHeader"
-                          className="p-2 w-[100px] flex justify-center"
-                          onClick={() => remove(index)}
-                        >
-                          Xóa
-                        </ButtonComponent>
-                      </div>
-                      <FormControl>
-                        <Input {...field} placeholder="Nhập đường dẫn" />
-                      </FormControl>
-                      <FormMessage className="text-[red]" />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name={`paths.${index}.name`}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Tên Page {index + 1}</FormLabel>
-                      <FormDescription className={cn(index !== 0 && "sr-only")}>
-                        Nhập tên page cho trang.
-                      </FormDescription>
-                      <FormControl>
-                        <Input {...field} placeholder="Nhập đường dẫn" />
-                      </FormControl>
-                      <FormMessage className="text-[red]" />
-                    </FormItem>
-                  )}
-                />
+                <div className="flex justify-between items-center ">
+                  <FormField
+                      control={form.control}
+                      name={`paths.${index}.route`}
+                      render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Đường dẫn {index + 1}</FormLabel>
+                            <FormDescription
+                                className={cn(index !== 0 && "sr-only")}
+                            >
+                              Nhập đường dẫn cho trang.
+                            </FormDescription>
+                            <FormControl>
+                              <Input {...field} placeholder="Nhập đường dẫn" />
+                            </FormControl>
+                            <FormMessage className="text-[red]" />
+                          </FormItem>
+                      )}
+                  />
+                  <FormField
+                      control={form.control}
+                      name={`paths.${index}.name`}
+                      render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Tên Page {index + 1}</FormLabel>
+                            <FormDescription className={cn(index !== 0 && "sr-only")}>
+                              Nhập tên page cho trang.
+                            </FormDescription>
+                            <FormControl>
+                              <Input {...field} placeholder="Nhập đường dẫn" />
+                            </FormControl>
+                            <FormMessage className="text-[red]" />
+                          </FormItem>
+                      )}
+                  />
+                  <ButtonComponent
+                      type="courseHeader"
+                      className="p-2 w-[100px] flex justify-center items-center "
+                      onClick={() => remove(index)}
+                  >
+                    Xóa
+                  </ButtonComponent>
+                </div>
                 <FormField
                   control={form.control}
                   name={`paths.${index}.description`}

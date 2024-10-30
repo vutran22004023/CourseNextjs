@@ -175,7 +175,7 @@ const UpdateCourse: React.FC<UpdateProps> = ({data, isOpen, onClose}) => {
                 ...chapter,
                 videos: chapter?.videos.map((video: any) => ({
                     ...video,
-                    videoType: video?.videoType,
+                    videoType: video.videoType,
                 }))
             })),
         },
@@ -193,7 +193,7 @@ const UpdateCourse: React.FC<UpdateProps> = ({data, isOpen, onClose}) => {
                 ...chapter,
                 videos: chapter?.videos.map((video: any) => ({
                     ...video,
-                    videoType: video?.videoType,
+                    videoType: video.videoType,
                 }))
             })),
         });
@@ -309,6 +309,7 @@ const UpdateCourse: React.FC<UpdateProps> = ({data, isOpen, onClose}) => {
                                                 {...field}
                                                 onValueChange={field.onChange}
                                                 defaultValue={field.value}
+                                                value={field.value}
                                             >
                                                 <SelectTrigger>
                                                     <SelectValue placeholder="Chọn giá khóa học"/>
@@ -493,6 +494,7 @@ function ChapterField({
                                             {...field}
                                             onValueChange={field.onChange}
                                             defaultValue={field.value}
+                                            value={field.value}
                                         >
                                             <SelectTrigger>
                                                 <SelectValue placeholder="Chọn thể loại"/>
