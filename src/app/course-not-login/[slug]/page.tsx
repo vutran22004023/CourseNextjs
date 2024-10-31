@@ -88,6 +88,9 @@ export default function CoursesNotLogin() {
     }, 0) || 0;
 
   const formattedTime = formatTime(totalTime);
+  useEffect(() => {
+    document.title = dataCourseDetail?.name ? `${dataCourseDetail?.name} | Not Login CourseNiver` : "CourseNiver";
+  }, [dataCourseDetail]);
 
   return (
     <div className="container mt-8 w-full">

@@ -33,6 +33,7 @@ export default function page() {
   const user = useSelector((state: RootState) => state.user);
   if (!user.id || !user.email || !user.status) return router.push("/");
   const [dataCourseDetail, setDataCourseDetail] = useState<any>();
+  console.log(dataCourseDetail)
   const [isLoadingDetail, setIsLoadingDetail] = useState(false);
   const [dataVideo, setDataVideo] = useState<any>();
   const [activeSlug, setActiveSlug] = useState<string | null>(null);
@@ -115,6 +116,7 @@ export default function page() {
         courseId: dataCourseDetail?._id,
         videoID: dataVideo?._id,
       });
+      document.title = dataCourseDetail?.name ? `${dataCourseDetail?.name} | CourseNiver` : "CourseNiver";
     }
   }, [dataCourseDetail, dataVideo]);
 

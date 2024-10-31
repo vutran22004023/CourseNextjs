@@ -1,5 +1,3 @@
-import HeaderLayout from "@/components/Layouts/HeaderLayout";
-
 export default function RootLayout({
   children,
 }: {
@@ -7,7 +5,6 @@ export default function RootLayout({
 }) {
   return (
     <div className="font-sans antialiased">
-      <HeaderLayout />
       <div className="container">{children}</div>
     </div>
   );
