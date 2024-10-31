@@ -37,8 +37,7 @@ export default function deleteCourse({id, isOpen, onClose}: DeleteProps) {
     const fetchTableData = useCombinedData('dataAllBlogs', GetAllBlog);
     const {data: _dataAllBlogs, error: _Errdata, isLoading: _isLoadingAllBlogs, refetch} = fetchTableData
     const mutationDeleteBlogs = useMutationHook(async (idDelete) => {
-        const access_Token = token;
-        const res = await DeleteBlogs(idDelete, access_Token)
+        const res = await DeleteBlogs(idDelete)
         return res
     })
 
