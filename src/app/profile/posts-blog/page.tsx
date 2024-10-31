@@ -14,83 +14,83 @@ import { Input } from "@/components/ui/input";
 import ButtonComponent from "@/components/Button/Button";
 import { useMutationHook } from "@/hooks";
 import { RootState } from "@/redux/store";
-import { CreateBlog } from "@/apis/blog";
+import { CreateBlogs } from "@/apis/blog";
 import { useSelector, useDispatch } from "react-redux";
 import { success, error } from "@/components/Message/Message";
 
 export default function PostsBlog() {
-  const user = useSelector((state: RootState) => state.user);
-  const note = {
-    id: "9999",
-    content: "<p></p>",
-  };
+  // const user = useSelector((state: RootState) => state.user);
+  // const note = {
+  //   id: "9999",
+  //   content: "<p></p>",
+  // };
 
-  const [editorState, setEditorState] = useState(() =>
-    EditorState.createEmpty()
-  );
-  const [rawHTML, setRawHTML] = useState(note.content);
-  const [valueHeader, setValueHeader] = useState<string>();
-  const [isMounted, setIsMounted] = useState(false);
+  // const [editorState, setEditorState] = useState(() =>
+  //   EditorState.createEmpty()
+  // );
+  // const [rawHTML, setRawHTML] = useState(note.content);
+  // const [valueHeader, setValueHeader] = useState<string>();
+  // const [isMounted, setIsMounted] = useState(false);
 
-  useEffect(() => {
-    setIsMounted(true);
+  // useEffect(() => {
+  //   setIsMounted(true);
 
-    return () => {
-      setIsMounted(false);
-    };
-  }, []);
+  //   return () => {
+  //     setIsMounted(false);
+  //   };
+  // }, []);
 
-  useEffect(() => {
-    const blocksFromHTML = convertFromHTML(note.content);
-    const state = ContentState.createFromBlockArray(
-      blocksFromHTML.contentBlocks,
-      blocksFromHTML.entityMap
-    );
-    if (isMounted) {
-      setEditorState(EditorState.createWithContent(state));
-    }
-  }, [note.id, isMounted]);
+  // useEffect(() => {
+  //   const blocksFromHTML = convertFromHTML(note.content);
+  //   const state = ContentState.createFromBlockArray(
+  //     blocksFromHTML.contentBlocks,
+  //     blocksFromHTML.entityMap
+  //   );
+  //   if (isMounted) {
+  //     setEditorState(EditorState.createWithContent(state));
+  //   }
+  // }, [note.id, isMounted]);
 
-  const handleOnChange = (e: EditorState) => {
-    if (isMounted) {
-      setEditorState(e);
-      setRawHTML(draftToHtml(convertToRaw(e.getCurrentContent())));
-    }
-  };
+  // const handleOnChange = (e: EditorState) => {
+  //   if (isMounted) {
+  //     setEditorState(e);
+  //     setRawHTML(draftToHtml(convertToRaw(e.getCurrentContent())));
+  //   }
+  // };
 
-  useEffect(() => {
-    if (isMounted) {
-      setRawHTML(note.content);
-    }
-  }, [note.content, isMounted]);
+  // useEffect(() => {
+  //   if (isMounted) {
+  //     setRawHTML(note.content);
+  //   }
+  // }, [note.content, isMounted]);
 
-  const mutationBlog = useMutationHook(async (data) => {
-    try {
-      const res = await CreateBlog(data);
-      return res;
-    } catch (e) {
-      console.log(e);
-    }
-  });
+  // const mutationBlog = useMutationHook(async (data) => {
+  //   try {
+  //     const res = await CreateBlogs(data);
+  //     return res;
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // });
 
-  const handleButtonCreateBlog = () => {
-    mutationBlog.mutate({ title: valueHeader, content: rawHTML });
-  };
+  // const handleButtonCreateBlog = () => {
+  //   mutationBlog.mutate({ title: valueHeader, content: rawHTML });
+  // };
 
-  const { data: dataBlog } = mutationBlog;
-  useEffect(() => {
-    if (dataBlog?.status === 200) {
-      success(`${dataBlog.message}`);
-      setValueHeader("");
-      setRawHTML("");
-    } else if (dataBlog?.status === "ERR") {
-      error(`${dataBlog.message}`);
-    }
-  }, [dataBlog]);
+  // const { data: dataBlog } = mutationBlog;
+  // useEffect(() => {
+  //   if (dataBlog?.status === 200) {
+  //     success(`${dataBlog.message}`);
+  //     setValueHeader("");
+  //     setRawHTML("");
+  //   } else if (dataBlog?.status === "ERR") {
+  //     error(`${dataBlog.message}`);
+  //   }
+  // }, [dataBlog]);
 
   return (
     <div className="container w-full">
-      <div className=" mb-6 flex justify-between items-center">
+      {/* <div className=" mb-6 flex justify-between items-center">
         <div className="w-full] border-0">
           <Input
             className="p-3 w-full border-0 text-[30px]"
@@ -115,7 +115,7 @@ export default function PostsBlog() {
         editorState={editorState}
         onEditorStateChange={handleOnChange}
         placeholder="Nhập mô tả vào đây"
-      />
+      /> */}
     </div>
   );
 }
