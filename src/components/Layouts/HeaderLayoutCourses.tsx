@@ -77,7 +77,7 @@ export default function HeaderLayoutCourses() {
         >
           <Link
             href="/"
-            className="bg-[#FF5A00] rounded-[30px] w-[28px] h-[28px] md:h-[41px] md:w-[40px] flex items-center justify-center absolute left-[0.5px] top-[0px] group-hover:w-[88   px] z-10 duration-500"
+            className="bg-[#FF5A00] rounded-[30px] w-[28px] h-[28px] md:h-[41px] md:w-[40px] flex items-center justify-center absolute left-[0.5px] top-[0px] md:group-hover:w-[130px] group-hover:w-[88px] z-10 duration-500"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -175,8 +175,9 @@ export default function HeaderLayoutCourses() {
         setSelectedChapter={setSelectedChapter}
         setSelectedSortOrder={setSelectedSortOrder}
         courseId={courseDetail?.courseId}
-        videoId={courseDetail?.videoID}
-      />
+        videoId={courseDetail?.videoID} mutationAllNote={function (value: any): void {
+          throw new Error("Function not implemented.");
+        } }      />
     </div>
   );
 }

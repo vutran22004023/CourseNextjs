@@ -1,114 +1,131 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Heart, MessageCircle } from "lucide-react";
-import { GetDetailBlog } from "@/apis/blog";
+import { GetDetailBlogs, GetAllBlogs } from "@/apis/blog";
+import logouser from "@/assets/Images/logouser.png";
+import blogimg from "@/assets/Images/image 10.png";
 import Text from "@/components/Text/text";
-
-interface BlogDetail {
-  _id: string;
-  author: string;
-  title: string;
-  content: string;
-  date: string;
-  likes: number;
-  comments: number;
-}
+import Image from "next/image";
+import Link from "next/link";
 
 export default function BlogDetailPage() {
   const { slug } = useParams();
-  const [blog, setBlog] = useState<BlogDetail | null>(null);
+  const [blogs, setBlogs] = useState<any>([]);
+  const [blog, setBlog] = useState<any>(null); // Initialize as null
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     async function fetchBlogDetail() {
-      if (slug) {
-        try {
-          const response = await GetDetailBlog(slug as string);
-          setBlog(response.data); // Access the `data` object here
-        } catch (error) {
-          setError("Failed to fetch blog detail");
-          console.error("Failed to fetch blog detail:", error);
-        } finally {
-          setLoading(false);
-        }
+      try {
+        const data = await GetDetailBlogs(slug as string);
+        console.log(data);
+        setBlog(data.data); // Ensure `data.blog` is an object
+      } catch (error) {
+        setError("Failed to fetch blog detail");
+        console.error("Failed to fetch blog detail:", error);
+      } finally {
+        setLoading(false);
       }
     }
 
     fetchBlogDetail();
   }, [slug]);
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+  //list blogs
+  useEffect(() => {
+    async function fetchBlogs() {
+      try {
+        const data = await GetAllBlogs(""); // Fetch blogs with empty search
+        console.log("Fetched blogs data:", data); // Debug: Log the response
+        setBlogs(data.data);
+      } catch (error) {
+        setError("Failed to fetch blogs");
+        console.error("Error fetching blogs:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
 
-  if (error) {
-    return <div>{error}</div>;
-  }
-
-  if (!blog) {
-    return <div>Blog not found</div>;
-  }
+    fetchBlogs();
+  }, []);
 
   return (
-    <div className="container w-full">
-      <div className="flex justify-between">
-        <div className="flex-1 p-3">
-          <Text className="mb-3">{blog.author}</Text>
-          <hr />
-          <div className="flex mt-4">
-            <div className="flex mr-10">
-              <Heart /> <span className="ml-2">{blog.likes}</span>
-            </div>
-            <div className="flex">
-              <MessageCircle /> <span className="ml-2">{blog.comments}</span>
-            </div>
+    <div className="w-full flex p-[50px]">
+      <div className="col-span-2 pr-[10px] mr-[65px]">
+        <div className="border-b-[2px] h-[70px]">
+          <div className="text-[18px] font-semibold">{blog?.author}</div>
+          <div className="opacity-70">{blog?.title}</div>
+        </div>
+        <div className="flex gap-5 pt-5">
+          <div className="flex gap-2">
+            <MessageCircle /> {blog?.comments}
+          </div>
+          <div className="flex gap-2">
+            <Heart /> {blog?.likes}
           </div>
         </div>
-        <div className="w-[800px]">
-          <Text type="header" className="mb-5">
-            {blog.title}
-          </Text>
-          <div className="flex mb-5">
-            <div className="flex">
-              <Avatar>
-                <AvatarImage
-                  src="https://github.com/shadcn.png"
-                  alt={blog.author}
+      </div>
+
+      <div className="w-[55%] pr-[30px]">
+        <div className="text-[32px] font-semibold h-[40px] flex items-center mb-[30px]">
+          {blog?.title}
+        </div>
+        <div>
+          <div className="flex mb-[30px]">
+            <Image
+              src={logouser}
+              alt="logouser"
+              className="w-[55px] h-[55px] mr-[10px] rounded-full"
+            ></Image>
+            <div>
+              <div>{blog?.author}</div>
+              <div>{blog?.date}</div>
+            </div>
+          </div>
+          <div>{blog?.content}</div>
+        </div>
+      </div>
+
+      <div className="pl-[30px]">
+        <div className="text-[32px] font-semibold h-[40px] flex items-center mb-[30px]">
+          Các bài viết nổi bật
+        </div>
+        <div className="border-[2px] p-2 rounded-[20px]">
+          {blogs?.map((blog:any) => (
+            <Link
+            href={`/blog/${blog.slug}`}
+            key={blog.slug}
+            className="flex h-[120px] w-full rounded-[15px] border-[2px] p-[5px] mb-2"
+          >
+            <Image
+              src={blogimg}
+              alt="blogimg"
+              className="w-[160px] h-full mr-[10px]"
+              style={{ borderRadius: "15px" }}
+            />
+            <div className="relative">
+              <p className="font-medium text-[18px] pr-2 leading-[18px]">
+                {blog.title}
+              </p>
+              <div className="flex items-center absolute bottom-1">
+                <Image
+                  src={logouser}
+                  alt="logouser"
+                  className="w-[30px] h-[30px] mr-[10px] rounded-full"
                 />
-                <AvatarFallback>
-                  {blog.author ? blog.author[0] : "A"}
-                </AvatarFallback>
-              </Avatar>
-              <div className="ml-2">
-                <Text className="cactus-classical-serif-md">{blog.author}</Text>
-                <Text className="text-[14px]">{blog.date} · 2 phút đọc</Text>
+                <div>
+                  <p className="leading-4">{blog.author}</p>
+                  <p className="leading-4 w-[160px] opacity-60 text-[14px]">
+                    {blog.date}
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
-
-          <Text className="mb-[30px]">{blog.content}</Text>
-
-          <div className="flex mb-10">
-            <div className="flex mr-10">
-              <Heart /> <span className="ml-2">{blog.likes}</span>
-            </div>
-            <div className="flex">
-              <MessageCircle /> <span className="ml-2">{blog.comments}</span>
-            </div>
-          </div>
-
-          <hr className="bg-[red] h-1 mb-10" />
-
-          <div>
-            <Text type="header" className=" mb-5">
-              Bài viết nổi bật khác
-            </Text>
-          </div>
+          </Link>
+          ))}
         </div>
-        <div className="flex-1"></div>
       </div>
     </div>
   );

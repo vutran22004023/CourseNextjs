@@ -18,7 +18,7 @@ export const GetAllBlogs = async (search: string) => {
   }
 };
 
-export const GetDetailBlogs = async (slug: StringConstructor) => {
+export const GetDetailBlogs = async (slug: String) => {
   try {
     const response: AxiosResponse = await axiosInstance.get(
       `/api/blog/detail-post/${slug}`

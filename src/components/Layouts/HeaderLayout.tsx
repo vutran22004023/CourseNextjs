@@ -9,7 +9,7 @@ import {
   Album,
   NotebookPen,
   Lock,
-  SearchCheck,
+  Search as Search1,
   AlignJustify,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
@@ -135,8 +135,8 @@ export default function HeaderLayout() {
             padding: "5px 10px",
           }}
         />
-        <div className="bg-[#FF5A00] rounded-full w-8 h-8 flex items-center justify-center">
-          <SearchCheck className="w-4 h-4 text-white" />
+        <div className="bg-[#FF5A00] rounded-full w-10 h-10 flex items-center justify-center">
+          <Search1 className="w-5 h-5 text-white" />
         </div>
       </div>
       <div className="flex gap-4 items-center mr-4">
