@@ -63,16 +63,18 @@ export default function courseContent({
                   }
                 }}
               >
-                <div className="w-[80%] text-[14px]">
-                  <div className="mb-1">{video.childname}</div>
-                  <div className="flex">
-                    <Clock className="size-[20px] mr-2" /> {video.time}
+                  <div className="w-[80%] text-[14px]">
+                      <div className="mb-1">{video.childname}</div>
+                      {video?.videoType === "video" && (
+                          <div className="flex">
+                              <Clock className="w-[20px] mr-2"/> {video.time}
+                          </div>
+                      )}
                   </div>
-                </div>
-                <div className="w-[20%] justify-center items-center">
-                  {video.status === "not_started" ? (
-                    <div className="flex justify-between mr-3 pt-[15px]">
-                      <div></div>
+                  <div className="w-[20%] justify-center items-center">
+                      {video.status === "not_started" ? (
+                          <div className="flex justify-between mr-3 pt-[15px]">
+                              <div></div>
                       <Lock size="18" />
                     </div>
                   ) : video.status === "completed" ? (
