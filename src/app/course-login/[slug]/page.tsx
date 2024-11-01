@@ -22,7 +22,7 @@ import { formatDate } from "@/utils";
 import useWindowSize from "@/hooks/useScreenWindow";
 import CreateNote from "./createNote";
 import { useAtoms } from "@/hooks/useAtom";
-
+import Quiz from './quiz'
 export default function page() {
   const { setCourseDetail } = useAtoms();
   const { slug } = useParams();
@@ -33,7 +33,6 @@ export default function page() {
   const user = useSelector((state: RootState) => state.user);
   if (!user.id || !user.email || !user.status) return router.push("/");
   const [dataCourseDetail, setDataCourseDetail] = useState<any>();
-  console.log(dataCourseDetail)
   const [isLoadingDetail, setIsLoadingDetail] = useState(false);
   const [dataVideo, setDataVideo] = useState<any>();
   const [activeSlug, setActiveSlug] = useState<string | null>(null);
@@ -322,107 +321,113 @@ export default function page() {
     <div className="md:mt-[20px]">
       <div className="md:flex ">
         <div className={`w-full ${navbarRight ? "md:w-[70%]" : "md:w-full"}`}>
-          <div className="bg-black pr-[20px] pl-[20px]">
-            {dataVideo?.video ? (
-              <VideoYoutubeComponment
-                style={{
-                  width: "100%",
-                  height: WIDTH_WINDOW <= 500 ? "250px" : "500px",
-                }}
-                src={dataVideo?.video}
-                title="YouTube video player"
-              />
-            ) : (
-              <div className="bg-black w-full h-[250px] md:h-[500px]"></div>
-            )}
-          </div>
-          <div className="p-5 md:p-10 md:mb-[60px]">
-            <div className="md:flex justify-between">
-              <div className="mb-1 flex">
-                <div>
-                  <p className="font-semibold text-[25px]">
-                    {dataVideo?.childname}
-                  </p>
-                  <div className="mb-3 md:mb-5">
-                    Cập nhật: {formatDate(dataVideo?.updatedAt)}
+          {dataVideo?.videoType === "video" ? (
+              <>
+                <div className="bg-black pr-[20px] pl-[20px]">
+                  {dataVideo?.video ? (
+                      <VideoYoutubeComponment
+                          style={{
+                            width: "100%",
+                            height: WIDTH_WINDOW <= 500 ? "250px" : "500px",
+                          }}
+                          src={dataVideo?.video}
+                          title="YouTube video player"
+                      />
+                  ) : (
+                      <div className="bg-black w-full h-[250px] md:h-[500px]"></div>
+                  )}
+                </div>
+                <div className="p-5 md:p-10 md:mb-[60px]">
+                  <div className="md:flex justify-between">
+                    <div className="mb-1 flex">
+                      <div>
+                        <p className="font-semibold text-[25px]">
+                          {dataVideo?.childname}
+                        </p>
+                        <div className="mb-3 md:mb-5">
+                          Cập nhật: {formatDate(dataVideo?.updatedAt)}
+                        </div>
+                      </div>
+                      <div>
+                        <Progress
+                            type="circle"
+                            percent={timeVideo?.percentCourse || 0}
+                            size={60}
+                            className="block pt-[15px] pl-[50px] md:hidden"
+                        />
+                      </div>
+                    </div>
+                    <div className="flex gap-4 items-center">
+                      <ButtonComponment
+                          type="notesheet"
+                          className="h-[43px] flex items-center px-3 select-none"
+                          onClick={handleOpenEditBlog}
+                      >
+                        {" "}
+                        <NotebookPen className="size-[20px] mr-1"/>
+                        Thêm ghi chú
+                      </ButtonComponment>
+                      <ButtonComponment
+                          type="notesheet"
+                          className="h-[43px] flex items-center px-3 select-none"
+                          onClick={() => setIsModalMessage(true)}
+                      >
+                        <MessagesSquare className="mr-1"/>
+                        <div>Hỏi đáp</div>
+                      </ButtonComponment>
+                    </div>
+                    <SheetMessage
+                        isOpen={isModalMessage}
+                        onOpenChange={() => setIsModalMessage(!isModalMessage)}
+                        dataChapter={mergedChapters}
+                        dataVideo={dataCourseDetail}
+                        dataChapVideo={dataVideo}
+                    />
                   </div>
+                  <div className="mb-5">
+                    Tham gia các cộng đồng để cùng học hỏi, chia sẻ và "thám thính"
+                    xem F8 sắp có gì mới nhé!
+                  </div>
+                  <div>Fanpage: https://www.facebook.com/f8vnofficial</div>
                 </div>
-                <div>
-                  <Progress
-                    type="circle"
-                    percent={timeVideo?.percentCourse || 0}
-                    size={60}
-                    className="block pt-[15px] pl-[50px] md:hidden"
-                  />
-                </div>
-              </div>
-              <div className="flex gap-4 items-center">
-                <ButtonComponment
-                  type="notesheet"
-                  className="h-[43px] flex items-center px-3 select-none"
-                  onClick={handleOpenEditBlog}
-                >
-                  {" "}
-                  <NotebookPen className="size-[20px] mr-1" />
-                  Thêm ghi chú
-                </ButtonComponment>
-                <ButtonComponment
-                  type="notesheet"
-                  className="h-[43px] flex items-center px-3 select-none"
-                  onClick={() => setIsModalMessage(true)}
-                >
-                  <MessagesSquare className="mr-1" />
-                  <div>Hỏi đáp</div>
-                </ButtonComponment>
-              </div>
-              <SheetMessage
-                isOpen={isModalMessage}
-                onOpenChange={() => setIsModalMessage(!isModalMessage)}
-                dataChapter={mergedChapters}
-                dataVideo={dataCourseDetail}
-                dataChapVideo={dataVideo}
-              />
-            </div>
-            <div className="mb-5">
-              Tham gia các cộng đồng để cùng học hỏi, chia sẻ và "thám thính"
-              xem F8 sắp có gì mới nhé!
-            </div>
-            <div>Fanpage: https://www.facebook.com/f8vnofficial</div>
-          </div>
+              </>
+          ) : (
+            <Quiz dataVideo={dataVideo} mergedChapters={mergedChapters} dataCourseDetail={dataCourseDetail} mutationUpdateCourse={mutationUpdateCourse} userId={user.id}/>
+          )}
         </div>
         <CSSTransition
-          in={navbarRight}
-          timeout={300}
-          classNames="slide"
-          unmountOnExit
+            in={navbarRight}
+            timeout={300}
+            classNames="slide"
+            unmountOnExit
         >
           <CourseContent
-            activeChapterIndex={activeChapterIndex}
-            handleAccordionChange={handleAccordionChange}
-            mergedChapters={mergedChapters}
-            activeSlug={activeSlug}
-            handleVideo={handleVideo}
+              activeChapterIndex={activeChapterIndex}
+              handleAccordionChange={handleAccordionChange}
+              mergedChapters={mergedChapters}
+              activeSlug={activeSlug}
+              handleVideo={handleVideo}
           />
         </CSSTransition>
         <BottomBar
-          handlePreviousLesson={handlePreviousLesson}
-          disableNextLesson={disableNextLesson}
-          handleNextLesson={handleNextLesson}
-          setNavbarRight={setNavbarRight}
-          navbarRight={navbarRight}
+            handlePreviousLesson={handlePreviousLesson}
+            disableNextLesson={disableNextLesson}
+            handleNextLesson={handleNextLesson}
+            setNavbarRight={setNavbarRight}
+            navbarRight={navbarRight}
         />
         <CSSTransition
-          in={isModalOpenEdit}
-          timeout={300}
-          classNames="modal"
-          unmountOnExit
+            in={isModalOpenEdit}
+            timeout={300}
+            classNames="modal"
+            unmountOnExit
         >
           <CreateNote
-            setIsModalOpenEdit={setIsModalOpenEdit}
-            timeVideo={timeVideo?.time}
-            dataCourseDetail={dataCourseDetail}
-            dataVideo={dataVideo}
-            navbarRight={navbarRight}
+              setIsModalOpenEdit={setIsModalOpenEdit}
+              timeVideo={timeVideo?.time}
+              dataCourseDetail={dataCourseDetail}
+              dataVideo={dataVideo}
+              navbarRight={navbarRight}
           />
         </CSSTransition>
       </div>
