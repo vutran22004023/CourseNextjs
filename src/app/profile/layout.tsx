@@ -7,7 +7,6 @@ export default function RootLayout({
 }) {
   return (
     <div className="min-h-screen bg-background font-sans antialiased">
-      <HeaderLayout/>
       <SidebarAdmin>{children}</SidebarAdmin>
     </div>
   );

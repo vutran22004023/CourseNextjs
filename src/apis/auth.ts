@@ -94,6 +94,20 @@ export const ResetPass = async (
     }
 };
 
+export const ResetPassUser = async (
+    data: ResetPassProps
+): Promise<ResetPassProps> => {
+    try {
+        const response: AxiosResponse<ResetPassProps> = await axiosInstance.post(
+            `/api/reset-password-user`,
+            data
+        );
+        return response.data;
+    } catch {
+        throw new Error("Error login");
+    }
+};
+
 export const StatusAuth = async (
     data: StatusAuthProps
 ): Promise<StatusAuthProps> => {
