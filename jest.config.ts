@@ -21,7 +21,7 @@ const config: Config = {
     '^.+\\.(ts|tsx)$': 'ts-jest',
   },
   moduleNameMapper: {
-    '^@/(.*)$': '<rootDir>/$1',
+    '^@/(.*)$': '<rootDir>/src/$1',
   },
   testMatch: ['**/test/**/*.test.ts', '**/test/**/*.spec.ts', '**/test/**/*.test.tsx']
 };

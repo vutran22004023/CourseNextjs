@@ -54,3 +54,12 @@ export const GetCourseProgress = async () => {
         throw new Error('Error get course progress');
     }
 }
+
+export const CheckQuizAnswers = async (data: any) => {
+    try {
+        const response: AxiosResponse = await axiosInstance.post(`/api/user-course/check-quiz-answers`,data);
+        return response.data;
+    } catch {
+        throw new Error('Error get course progress');
+    }
+}
