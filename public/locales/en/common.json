@@ -1,0 +1,20 @@
+{
+  "welcome": "Welcome1",
+  "headers": {
+    "course": "Course",
+    "blog": "Blog",
+    "onlineLearning": "Online Learning",
+    "tournament": "Tournament"
+  },
+  "myCourse": "My course",
+  "viewAll": "View all",
+  "menu": {
+    "personalPage": "Personal page",
+    "blogWriting": "Blog Writing",
+    "myArticle": "My article",
+    "savedArticles": "Saved Articles",
+    "websiteInformation": "Website information",
+    "setting": "Setting",
+    "logOut": "Log out"
+  }
+}

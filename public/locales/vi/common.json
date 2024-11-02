@@ -1,0 +1,20 @@
+{
+  "welcome": "Chào mừng",
+  "headers": {
+      "course" : "Khóa học",
+      "blog": "Bài viết",
+      "onlineLearning": "Học Online",
+      "tournament": "Giải đấu"
+  },
+  "myCourse": "Khóa học của tôi",
+  "viewAll": "Xem tất cả",
+  "menu": {
+    "personalPage": "Trang cá nhân",
+    "blogWriting": "Viết Blog",
+    "myArticle": "Bài viết của tôi",
+    "savedArticles": "Bài viết đã lưu",
+    "websiteInformation": "Thông tin trang web",
+    "setting": "Cài đặt",
+    "logOut": "Đăng xuất"
+  }
+}

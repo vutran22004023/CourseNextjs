@@ -1,12 +1,23 @@
 import Image from "next/image";
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { Facebook, Youtube, Instagram  } from "lucide-react";
 import Link from "next/link";
 import logo from "@/assets/logo/brain.png";
 import Text from "../Text/text";
 import {useAtoms} from '@/hooks/useAtom';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import { useLanguage } from "@/context/LanguageContext";
 export default function Footer() {
   const {pages} = useAtoms();
+  const { language, setLanguage } = useLanguage();
   return (
     <div className="bg-[#181821] w-full h-auto p-[80px] leading-6 md:flex gap-2 justify-center">
       <div className="w-[300px] block pr-[15px] md:mr-[100px]">
@@ -122,6 +133,19 @@ export default function Footer() {
           <Link href="/">
             <Text className="text-white opacity-80">Liên hệ chúng tôi</Text>
           </Link>
+          <Text className="text-white opacity-80  mt-2">Ngôn ngữ</Text>
+          <Select onValueChange={setLanguage} value={language}>
+            <SelectTrigger className="bg-white mt-1">
+              <SelectValue placeholder="Chọn ngôn ngữ" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Ngôn ngữ</SelectLabel>
+                <SelectItem value="vi">Tiếng Việt</SelectItem>
+                <SelectItem value="en">English</SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
         </div>
       </div>
     </div>
