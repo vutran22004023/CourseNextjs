@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { BookOpenText, Building2, History, School } from "lucide-react";
 import { usePathname } from "next/navigation";
+import {useTranslation} from "react-i18next";
 
 interface SidebarProps {
   className?: string;
@@ -11,28 +12,28 @@ interface SidebarProps {
 
 export default function SidebarOnline({ className }: SidebarProps) {
   const pathname = usePathname();
-
+  const {t} = useTranslation('common');
   const navigation = [
     {
-      name: "Học Online",
+      name: t('onlineLearning'),
       href: "/online-learning",
       icon: Building2,
       current: pathname === "/online-learning",
     },
     {
-      name: "Bài kiểm tra",
+      name: t('Test'),
       href: "/online-learning/test",
       icon: BookOpenText,
       current: pathname === "/online-learning/test",
     },
     {
-      name: "Lịch sử",
+      name: t('History'),
       href: "/online-learning/history",
       icon: History,
       current: pathname === "/online-learning/history",
     },
     {
-      name: "Lớp",
+      name: t('Class'),
       href: "/online-learning/class",
       icon: School,
       current: pathname === "/online-learning/class",

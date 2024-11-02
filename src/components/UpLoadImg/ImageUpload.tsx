@@ -1,13 +1,13 @@
 import React, { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
+import {useTranslation} from "react-i18next";
 
 interface ImageUploadProps {
   onImageUpload: (file: File) => void;
 }
-
+const {t} = useTranslation('common');
 export const ImageUpload: React.FC<ImageUploadProps> = ({ onImageUpload }) => {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
-
   const onDrop = useCallback(
     (acceptedFiles: any) => {
       const file = acceptedFiles[0];
@@ -29,7 +29,7 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({ onImageUpload }) => {
       >
         <input {...getInputProps()} />
         <p className="p-2 bg-[#FF5A00] text-[#fff] w-[100px] cursor-pointer rounded-md flex justify-center">
-          Thêm ảnh
+            {t('AddImage')}
         </p>
       </div>
     </div>
@@ -68,7 +68,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({ onFileUpload }) => {
       >
         <input {...getInputProps()} />
         <p className="p-2 bg-black text-[#fff] w-[100px] cursor-pointer rounded-md flex justify-center">
-          Thêm tệp
+            {t('AddFile')}
         </p>
       </div>
       {fileName && <p className="mt-2">{fileName}</p>}

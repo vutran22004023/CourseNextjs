@@ -4,6 +4,7 @@ import { atom, useAtom } from 'jotai';
 interface IdCourse {
     courseId: any;
     videoID: any;
+    nameVideo: any;
 }
 interface Page {
     logo: string;
@@ -12,7 +13,8 @@ interface Page {
 
 const dataIdCourse = atom<IdCourse>({
     courseId: null,
-    videoID: null
+    videoID: null,
+    nameVideo: null
   });
 const page = atom<Page>({
     logo: "",
