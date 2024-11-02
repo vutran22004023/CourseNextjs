@@ -118,6 +118,7 @@ export default function page() {
       setCourseDetail({
         courseId: dataCourseDetail?._id,
         videoID: dataVideo?._id,
+        nameVideo: dataVideo?.childname,
       });
       document.title = dataCourseDetail?.name ? `${dataCourseDetail?.name} | CourseNiver` : "CourseNiver";
     }

@@ -28,6 +28,7 @@ import { initializeApp } from "firebase/app";
 import { getStorage } from "firebase/storage";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth } from "@/firebase/config";
+import {useTranslation} from "react-i18next";
 type DataLogin = {
   status?: any;
   access_Token?: string;
@@ -36,6 +37,7 @@ type DataLogin = {
 };
 export default function LoginComponent(style: any) {
   const router = useRouter();
+  const {t} = useTranslation('common');
   const dispatch = useDispatch();
   const [isModalInputLogin, setIsModalInputLogin] = useState(true);
   const [isModalForgotPass, setIsModalForgotPass] = useState(false);
@@ -74,7 +76,7 @@ export default function LoginComponent(style: any) {
 
   useEffect(() => {
     if ((datalogin as DataLogin)?.status === 200) {
-      success("Bạn đã đăng nhập thành công");
+      success(t('status.successLogin'));
       navigate("/");
       setlogin({
         email: "",
@@ -88,7 +90,7 @@ export default function LoginComponent(style: any) {
       );
       window.location.reload();
     } else if ((datalogin as DataLogin)?.status === "ERR") {
-      error("Đăng nhập thất bại");
+      error(t('status.errorLogin'));
     }
   }, [datalogin]);
 
@@ -154,7 +156,7 @@ export default function LoginComponent(style: any) {
       });
       if (res) {
         if ((res as DataLogin)?.status === 200) {
-          success("Bạn đã đăng nhập thành công");
+          success(t('status.successLogin'));
           navigate("/");
           navigate("/");
           dispatch(
@@ -178,7 +180,7 @@ export default function LoginComponent(style: any) {
           className="bg-[#FF5A00] text-[#fff] hover:bg-[#FF5A00] transition-transform hover:translate-y-[-2px] hover:shadow-[4px_4px_12px_rgba(255,255,255,0.6)]"
           style={{ borderRadius: "20px", ...style }}
         >
-          Đăng nhập / Đăng ký
+          {t('loginRegister')}
         </Button>
       }
       contentHeader={
@@ -214,7 +216,7 @@ export default function LoginComponent(style: any) {
                 <Image src={brand} className="w-[120px] z-10" alt="" />
               </div>
               <div className="pt-[15px] md:pt-0 font-semibold text-[20px] text-black">
-                Login Courseniver
+                {t('login')} Courseniver
               </div>
             </div>
           </div>
@@ -280,7 +282,7 @@ export default function LoginComponent(style: any) {
                       style={{ textDecoration: "underline", cursor: "pointer" }}
                       onClick={handleIsModalOpenForPass}
                     >
-                      forgot password
+                      {t('forgotPassword')}
                     </a>
                   </div>
                 </div>
@@ -288,7 +290,7 @@ export default function LoginComponent(style: any) {
                   {isError && (
                     <div className="bg-[#eaeaea] rounded-sm p-1 text-[10px]">
                       <div className="text-[red]">
-                        Vui lòng nhập email, mật khẩu
+                        {t('enterEmailPassword')}
                       </div>
                     </div>
                   )}
@@ -323,7 +325,7 @@ export default function LoginComponent(style: any) {
                         ''
                       </IsLoadingComponment>
                     ) : (
-                      <div className="font-bold">Login</div>
+                      <div className="font-bold">{t('login')}</div>
                     )}
                   </ButtonComponent>
                   <div className="text-[13px] mb-1">
@@ -337,7 +339,7 @@ export default function LoginComponent(style: any) {
                           cursor: "pointer",
                         }}
                       >
-                        Sign up
+                        {t('signUp')}
                       </a>
                     </span>
                   </div>
@@ -359,7 +361,7 @@ export default function LoginComponent(style: any) {
               >
                 <div className="flex text-[#FF5A00]">
                   <ArrowBigLeft />{" "}
-                  <div className="ml-3 font-bold">Quay lại</div>
+                  <div className="ml-3 font-bold">{t('comeBack')}</div>
                 </div>
               </div>
             </div>
@@ -376,7 +378,7 @@ export default function LoginComponent(style: any) {
                     cursor: "pointer",
                   }}
                 >
-                  <div className="">Back to Login</div>
+                  <div className="">{t('backToLogin')}</div>
                 </div>
               </div>
               <ForgotPassComponent />
@@ -394,7 +396,7 @@ export default function LoginComponent(style: any) {
                     cursor: "pointer",
                   }}
                 >
-                  <div className="">Back to Login</div>
+                  <div className="">{t('backToLogin')}</div>
                 </div>
               </div>
               <Register />
@@ -406,7 +408,7 @@ export default function LoginComponent(style: any) {
         <div className=" w-full h-[70px]">
           <div className="flex items-center justify-center w-full px-[16px] h-[20px]">
             <div className="border-t border-black flex-grow"></div>
-            <span className="mx-4 text-gray-500">or login with</span>
+            <span className="mx-4 text-gray-500">{t('orLoginWith')}</span>
             <div className="border-t border-black flex-grow"></div>
           </div>
           <div className="flex justify-center mt-3 gap-2">
