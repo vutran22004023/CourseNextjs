@@ -21,7 +21,7 @@ import { AllNote } from "@/apis/usercourse";
 import { useMutationHook } from "@/hooks";
 
 export default function HeaderLayoutCourses() {
-  const { courseDetail } = useAtoms();
+  const { courseDetail,setRun } = useAtoms();
   const timeVideo = useSelector((state: RootState) => state.timesVideo);
   const [isNoteSheetOpen, setIsNoteSheetOpen] = useState(false);
   const [dataNote, setDataNote] = useState<any>();
@@ -117,7 +117,7 @@ export default function HeaderLayoutCourses() {
           <ButtonComponent
             onClick={handleOpenChange}
             type="notesheet"
-            className="h-[43px] flex items-center px-3 select-none"
+            className="h-[43px] flex items-center px-3 select-none step5"
           >
             <NotebookPen className="size-[20px] mr-1" />
             Chú thích
@@ -125,11 +125,10 @@ export default function HeaderLayoutCourses() {
           <ButtonComponent
             type="notesheet"
             className="h-[43px] flex items-center px-3 select-none"
+            onClick={()=> setRun(true)}
           >
-            <Link href="/my-courses" className="flex">
               <MessageCircleQuestion className="size-[20px] mr-1" />
               Hướng dẫn
-            </Link>
           </ButtonComponent>
         </div>
       </div>

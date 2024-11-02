@@ -186,7 +186,7 @@ export default function sheetmessage({
   return (
     <Sheet open={isOpen} onOpenChange={onOpenChange}>
       <SheetTrigger asChild className="text-while"></SheetTrigger>
-      <SheetContent className="bg-[#fff] pr-[20px] w-[500px] max-w-full">
+      <SheetContent className="bg-[#fff] pr-[20px] w-[500px] max-w-full step7">
         <Text type="subtitle">{dataMessage?.totalMessages} Bình luận</Text>
         <SheetHeader className="mb- mt-5">
           <SheetTitle>

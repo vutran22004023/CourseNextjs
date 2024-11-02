@@ -22,9 +22,12 @@ import { formatDate } from "@/utils";
 import useWindowSize from "@/hooks/useScreenWindow";
 import CreateNote from "./createNote";
 import { useAtoms } from "@/hooks/useAtom";
-import Quiz from './quiz'
+import Quiz from './quiz';
+import Joyride from 'react-joyride';
+import {steps} from './step'
+
 export default function page() {
-  const { setCourseDetail } = useAtoms();
+  const { setCourseDetail,run,setRun } = useAtoms();
   const { slug } = useParams();
   const dispatch = useDispatch();
   const router = useRouter();
@@ -46,6 +49,7 @@ export default function page() {
   const [isModalOpenEdit, setIsModalOpenEdit] = useState(false);
   const [isModalMessage, setIsModalMessage] = useState(false);
   const { width: WIDTH_WINDOW } = useWindowSize();
+
   const mutationGetDetailCourse = useMutationHook(async (slug: any) => {
     try {
       const res = await GetDetailCourses(slug);
@@ -323,7 +327,7 @@ export default function page() {
         <div className={`w-full ${navbarRight ? "md:w-[70%]" : "md:w-full"}`}>
           {dataVideo?.videoType === "video" ? (
               <>
-                <div className="bg-black pr-[20px] pl-[20px]">
+                <div className="bg-black pr-[20px] pl-[20px] step1">
                   {dataVideo?.video ? (
                       <VideoYoutubeComponment
                           style={{
@@ -360,7 +364,7 @@ export default function page() {
                     <div className="flex gap-4 items-center">
                       <ButtonComponment
                           type="notesheet"
-                          className="h-[43px] flex items-center px-3 select-none"
+                          className="h-[43px] flex items-center px-3 select-none step3"
                           onClick={handleOpenEditBlog}
                       >
                         {" "}
@@ -369,7 +373,7 @@ export default function page() {
                       </ButtonComponment>
                       <ButtonComponment
                           type="notesheet"
-                          className="h-[43px] flex items-center px-3 select-none"
+                          className="h-[43px] flex items-center px-3 select-none step6"
                           onClick={() => setIsModalMessage(true)}
                       >
                         <MessagesSquare className="mr-1"/>
@@ -431,6 +435,27 @@ export default function page() {
           />
         </CSSTransition>
       </div>
+      <Joyride
+          steps={steps}
+          run={run}
+          continuous
+          showSkipButton
+          showProgress
+          scrollToFirstStep
+          locale={{
+            back: 'Quay lại',
+            close: 'Đóng',
+            last: 'Kết thúc',
+            next: 'Tiếp theo',
+            skip: 'Bỏ qua',
+          }}
+          callback={(data) => {
+            const { status } = data;
+            if (status === 'finished' || status === 'skipped') {
+              setRun(false); // Dừng tour khi kết thúc hoặc bỏ qua
+            }
+          }}
+      />
     </div>
   );
 }

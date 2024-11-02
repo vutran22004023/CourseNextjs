@@ -26,7 +26,7 @@ export default function courseContent({
   handleVideo,
 }: Props) {
   return (
-    <div className="flex-1 border-l-2 ">
+    <div className="flex-1 border-l-2 step2">
       <div className="font-semibold text-[20px] mb-3 p-2 text-center ">
         Nội dung khóa học
       </div>

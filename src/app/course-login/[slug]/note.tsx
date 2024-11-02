@@ -93,7 +93,7 @@ export default function NoteSheet({
     <Sheet open={isOpen} onOpenChange={onOpenChange}>
       <SheetTrigger asChild></SheetTrigger>
       {detailNote ? (
-        <SheetContent className="bg-white pr-[20px] w-full md:w-[40%]">
+        <SheetContent className="bg-white pr-[20px] w-full md:w-[40%] step6">
           <div className="flex w-full justify-between">
             <Button
               className="p-2 rounded-2xl bg-[#FF5A00] hover:bg-[#FF5A00] flex w-[75px] justify-center"
