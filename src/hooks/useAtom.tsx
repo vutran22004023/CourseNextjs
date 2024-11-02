@@ -20,16 +20,21 @@ const page = atom<Page>({
 });
 const tokenAtom = atom<string | null>(null);
 
+const runAtom = atom<boolean | false>(false);
+
 export const useAtoms = () => {
   const [courseDetail, setCourseDetail] = useAtom(dataIdCourse);
   const [token, setToken] = useAtom(tokenAtom);
   const [pages, setPages] = useAtom(page);
+  const [run, setRun] = useAtom(runAtom);
   return {
     courseDetail,
     setCourseDetail,
       token,
       setToken,
       pages,
-      setPages
+      setPages,
+      run,
+      setRun
   };
 };

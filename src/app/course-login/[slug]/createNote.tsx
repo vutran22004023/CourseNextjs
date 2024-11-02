@@ -53,7 +53,7 @@ export default function createNote({
   };
   return (
     <div
-      className={`fixed bottom-0 left-0 bg-[#f4f4f4] right-0 z-10 border-b py-5 px-2 w-full h-auto ${
+      className={`fixed bottom-0 left-0 bg-[#f4f4f4] right-0 z-10 border-b py-5 px-2 w-full step4 h-auto ${
         navbarRight ? "md:w-[69.5%]" : "md:w-full"
       } md:w-[69.5%] md:h-[290px] border-t border-black`}
     >
