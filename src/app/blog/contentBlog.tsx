@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import CardBlogComponent from "@/components/Card/CardBlog";
 import blogimg from "@/assets/Images/image 10.png"; //ảnh mẫu
 import logouser from "@/assets/Images/logouser.png"; //logouser mẫu
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useDispatch } from "react-redux";
 import Link from "next/link";
 import Image from "next/image";
