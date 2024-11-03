@@ -1,3 +1,4 @@
+"use client"
 import React, { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import {useTranslation} from "react-i18next";
@@ -5,8 +6,8 @@ import {useTranslation} from "react-i18next";
 interface ImageUploadProps {
   onImageUpload: (file: File) => void;
 }
-const {t} = useTranslation('common');
 export const ImageUpload: React.FC<ImageUploadProps> = ({ onImageUpload }) => {
+    const {t} = useTranslation('common');
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const onDrop = useCallback(
     (acceptedFiles: any) => {
@@ -42,7 +43,7 @@ interface FileUploadProps {
 
 export const FileUpload: React.FC<FileUploadProps> = ({ onFileUpload }) => {
   const [fileName, setFileName] = useState<string | null>(null);
-
+    const {t} = useTranslation('common');
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
       const file = acceptedFiles[0];
