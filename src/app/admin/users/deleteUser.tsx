@@ -63,7 +63,7 @@ export default function DeleteUsers({ id, isOpen, onClose }: DeleteProps) {
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
-          <ButtonComponent type="submit" onClick={handleButtonDelete}>
+          <ButtonComponent type="courseHeader" onClick={handleButtonDelete}>
             Xóa người dùng
           </ButtonComponent>
         </DialogFooter>
