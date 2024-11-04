@@ -60,5 +60,29 @@
   "History": "History",
   "Class": "Class",
   "AddImage": "Add image",
-  "AddFile": "Add file"
+  "AddFile": "Add file",
+  "titleDelete": "You must be sure that you will delete this blog, otherwise the data will be lost forever.",
+  "DescriptionDelete": "You must be sure that you will delete this blog, otherwise the data will be lost forever.",
+  "DeleteBlog": "Delete Blog",
+  "blogFormSchema": {
+    "titleMin":"Blog title must be at least 2 characters",
+    "titleMax": "Blog title must be at most 100 characters",
+    "content": "Blog content must be at least 10 characters"
+  },
+  "AddBlog": "Create new blog",
+  "FormAddBlog": {
+    "titleBlog": "Blog title",
+    "placeholderTitleBlog": "Enter blog title",
+    "ContentBlog": "Content",
+    "placeholderContentBlog": "Enter blog content"
+  },
+  "Table": {
+    "selectAll": "Select all",
+    "SelectRow": "Select row",
+    "title": "Title",
+    "description": "Description",
+    "createdAt": "createdAt",
+    "updatedAt": "updatedAt",
+    "actions": "Actions"
+  }
 }

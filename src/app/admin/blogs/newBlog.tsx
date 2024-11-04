@@ -22,20 +22,20 @@ import { success, error } from "@/components/Message/Message";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { getTokenFromCookies } from "@/utils/auth";
-
-// Schema validation using Zod
-const blogFormSchema = z.object({
-  title: z
-    .string()
-    .min(2, "Tiêu đề blog phải ít nhất 2 kí tự")
-    .max(100, "Tiêu đề blog phải tối đa 100 kí tự"),
-  content: z.string().min(10, "Nội dung blog phải ít nhất 10 kí tự"),
-});
-
-type BlogFormValues = z.infer<typeof blogFormSchema>;
+import {useTranslation} from "react-i18next";
 
 export default function CreateBlog({ fetchTableData }: any) {
-  const token = getTokenFromCookies();
+    const {t} = useTranslation('common');
+    const blogFormSchema = z.object({
+        title: z
+            .string()
+            .min(2,t('blogFormSchema.titleMin'))
+            .max(100, t('blogFormSchema.titleMax')),
+        content: z.string().min(10, t('content')),
+    });
+
+    type BlogFormValues = z.infer<typeof blogFormSchema>;
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const user = useSelector((state: RootState) => state.user);
 
@@ -45,8 +45,7 @@ export default function CreateBlog({ fetchTableData }: any) {
   });
 
   const mutateCreate = useMutationHook(async (data: any) => {
-    const access_Token = token;
-    const res = await CreateBlogs(data, access_Token);
+    const res = await CreateBlogs(data);
     return res;
   });
 
@@ -80,10 +79,10 @@ export default function CreateBlog({ fetchTableData }: any) {
           className="bg-[black] p-5 text-[#fff] hover:bg-[#6c6a6a]"
           style={{ borderRadius: "10px" }}
         >
-          Tạo blog mới
+            {t('AddBlog')}
         </Button>
       }
-      contentHeader={<div>Thêm blog mới</div>}
+      contentHeader={<div>{t('AddBlog')}</div>}
       contentBody={
         <div className="p-2 max-h-[500px] overflow-y-auto">
           <Form {...form}>
@@ -93,9 +92,9 @@ export default function CreateBlog({ fetchTableData }: any) {
                 name="title"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Tiêu đề blog</FormLabel>
+                    <FormLabel>{t('FormAddBlog.titleBlog')}</FormLabel>
                     <FormControl>
-                      <Input placeholder="Nhập tiêu đề blog" {...field} />
+                      <Input placeholder={t('FormAddBlog.placeholderTitleBlog')} {...field} />
                     </FormControl>
                     <FormMessage className="text-[red]" />
                   </FormItem>
@@ -106,9 +105,9 @@ export default function CreateBlog({ fetchTableData }: any) {
                 name="content"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Nội dung</FormLabel>
+                    <FormLabel>{t('FormAddBlog.ContentBlog')}</FormLabel>
                     <FormControl>
-                      <Textarea placeholder="Nhập nội dung blog" {...field} />
+                      <Textarea placeholder={t('FormAddBlog.placeholderContentBlog')} {...field} />
                     </FormControl>
                     <FormMessage className="text-[red]" />
                   </FormItem>
@@ -125,7 +124,7 @@ export default function CreateBlog({ fetchTableData }: any) {
             className="w-[150px]"
             onClick={form.handleSubmit(onSubmit)}
           >
-            Tạo blog
+              {t('AddBlog')}
           </Button>
         </div>
       }
