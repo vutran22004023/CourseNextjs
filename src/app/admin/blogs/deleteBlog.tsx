@@ -19,6 +19,7 @@ import {useCombinedData} from '@/hooks'
 import {useSelector, useDispatch} from "react-redux";
 import {RootState} from "@/redux/store";
 import {getTokenFromCookies} from '@/utils/auth'
+import {useTranslation} from "react-i18next";
 
 interface DeleteProps {
     id: string;
@@ -27,6 +28,7 @@ interface DeleteProps {
 }
 
 export default function deleteCourse({id, isOpen, onClose}: DeleteProps) {
+    const {t} = useTranslation('common');
     const token = getTokenFromCookies()
     const user = useSelector((state: RootState) => state.user);
     const GetAllBlog = async () => {
@@ -64,13 +66,13 @@ export default function deleteCourse({id, isOpen, onClose}: DeleteProps) {
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px] bg-[#fff]">
                 <DialogHeader>
-                    <DialogTitle>Bạn có chắc chắn xóa blog ...</DialogTitle>
+                    <DialogTitle>{t('titleDelete')}</DialogTitle>
                     <DialogDescription>
-                        Bạn phải chắc chắn rằng bạn sẽ xóa blog này, nếu xóa thì dữ liệu mất vĩnh viễn.
+                        {t('DescriptionDelete')}
                     </DialogDescription>
                 </DialogHeader>
                 <DialogFooter>
-                    <ButtonComponent type="courseHeader" onClick={handleButtonDelete}>Xóa Blog</ButtonComponent>
+                    <ButtonComponent type="courseHeader" onClick={handleButtonDelete}>{t('DeleteBlog')}</ButtonComponent>
                 </DialogFooter>
             </DialogContent>
         </Dialog>
