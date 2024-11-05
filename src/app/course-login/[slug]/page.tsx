@@ -1,20 +1,18 @@
 "use client";
 import VideoYoutubeComponment from "@/components/VideoYoutube/VideoYoutube";
 import ButtonComponment from "@/components/Button/Button";
-import { NotebookPen, MessagesSquare } from "lucide-react";
-import { useParams } from "next/navigation";
+import { MessagesSquare, NotebookPen } from "lucide-react";
+import { useParams, useRouter } from "next/navigation";
 import { useMutationHook } from "@/hooks";
 import { GetDetailCourses } from "@/apis/course";
 import { StartCourse, UpdateUserCourse } from "@/apis/usercourse";
-import { useEffect, useState, useRef } from "react";
-import { useSelector } from "react-redux";
+import { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { useQuery } from "@tanstack/react-query";
-import { useDispatch } from "react-redux";
 import { Progress } from "antd";
 import { totalVideo } from "@/redux/Slides/timeVideoSide";
 import { CSSTransition } from "react-transition-group";
-import { useRouter } from "next/navigation";
 import SheetMessage from "./sheetMessage";
 import BottomBar from "./bottomBar";
 import CourseContent from "./courseContent";
@@ -22,12 +20,12 @@ import { formatDate } from "@/utils";
 import useWindowSize from "@/hooks/useScreenWindow";
 import CreateNote from "./createNote";
 import { useAtoms } from "@/hooks/useAtom";
-import Quiz from './quiz';
-import Joyride from 'react-joyride';
-import {steps} from './step'
+import Quiz from "./quiz";
+import Joyride from "react-joyride";
+import { steps } from "./step";
 
 export default function page() {
-  const { setCourseDetail,run,setRun } = useAtoms();
+  const { setCourseDetail, run, setRun } = useAtoms();
   const { slug } = useParams();
   const dispatch = useDispatch();
   const router = useRouter();
@@ -120,7 +118,9 @@ export default function page() {
         videoID: dataVideo?._id,
         nameVideo: dataVideo?.childname,
       });
-      document.title = dataCourseDetail?.name ? `${dataCourseDetail?.name} | CourseNiver` : "CourseNiver";
+      document.title = dataCourseDetail?.name
+        ? `${dataCourseDetail?.name} | CourseNiver`
+        : "CourseNiver";
     }
   }, [dataCourseDetail, dataVideo]);
 
@@ -327,135 +327,141 @@ export default function page() {
       <div className="md:flex ">
         <div className={`w-full ${navbarRight ? "md:w-[70%]" : "md:w-full"}`}>
           {dataVideo?.videoType === "video" ? (
-              <>
-                <div className="bg-black pr-[20px] pl-[20px] step1">
-                  {dataVideo?.video ? (
-                      <VideoYoutubeComponment
-                          style={{
-                            width: "100%",
-                            height: WIDTH_WINDOW <= 500 ? "250px" : "500px",
-                          }}
-                          src={dataVideo?.video}
-                          title="YouTube video player"
+            <>
+              <div className="bg-black pr-[20px] pl-[20px] step1">
+                {dataVideo?.video ? (
+                  <VideoYoutubeComponment
+                    style={{
+                      width: "100%",
+                      height: WIDTH_WINDOW <= 500 ? "250px" : "500px",
+                    }}
+                    src={dataVideo?.video}
+                    title="YouTube video player"
+                  />
+                ) : (
+                  <div className="bg-black w-full h-[250px] md:h-[500px]"></div>
+                )}
+              </div>
+              <div className="p-5 md:p-10 md:mb-[60px]">
+                <div className="md:flex justify-between">
+                  <div className="mb-1 flex">
+                    <div>
+                      <p className="font-semibold text-[25px]">
+                        {dataVideo?.childname}
+                      </p>
+                      <div className="mb-3 md:mb-5">
+                        Cập nhật: {formatDate(dataVideo?.updatedAt)}
+                      </div>
+                    </div>
+                    <div>
+                      <Progress
+                        type="circle"
+                        percent={timeVideo?.percentCourse || 0}
+                        size={60}
+                        className="block pt-[15px] pl-[50px] md:hidden"
                       />
-                  ) : (
-                      <div className="bg-black w-full h-[250px] md:h-[500px]"></div>
-                  )}
-                </div>
-                <div className="p-5 md:p-10 md:mb-[60px]">
-                  <div className="md:flex justify-between">
-                    <div className="mb-1 flex">
-                      <div>
-                        <p className="font-semibold text-[25px]">
-                          {dataVideo?.childname}
-                        </p>
-                        <div className="mb-3 md:mb-5">
-                          Cập nhật: {formatDate(dataVideo?.updatedAt)}
-                        </div>
-                      </div>
-                      <div>
-                        <Progress
-                            type="circle"
-                            percent={timeVideo?.percentCourse || 0}
-                            size={60}
-                            className="block pt-[15px] pl-[50px] md:hidden"
-                        />
-                      </div>
                     </div>
-                    <div className="flex gap-4 items-center">
-                      <ButtonComponment
-                          type="notesheet"
-                          className="h-[43px] flex items-center px-3 select-none step3"
-                          onClick={handleOpenEditBlog}
-                      >
-                        {" "}
-                        <NotebookPen className="size-[20px] mr-1"/>
-                        Thêm ghi chú
-                      </ButtonComponment>
-                      <ButtonComponment
-                          type="notesheet"
-                          className="h-[43px] flex items-center px-3 select-none step6"
-                          onClick={() => setIsModalMessage(true)}
-                      >
-                        <MessagesSquare className="mr-1"/>
-                        <div>Hỏi đáp</div>
-                      </ButtonComponment>
-                    </div>
-                    <SheetMessage
-                        isOpen={isModalMessage}
-                        onOpenChange={() => setIsModalMessage(!isModalMessage)}
-                        dataChapter={mergedChapters}
-                        dataVideo={dataCourseDetail}
-                        dataChapVideo={dataVideo}
-                    />
                   </div>
-                  <div className="mb-5">
-                    Tham gia các cộng đồng để cùng học hỏi, chia sẻ và "thám thính"
-                    xem F8 sắp có gì mới nhé!
+                  <div className="flex gap-4 items-center">
+                    <ButtonComponment
+                      type="notesheet"
+                      className="h-[43px] flex items-center px-3 select-none step3"
+                      onClick={handleOpenEditBlog}
+                    >
+                      {" "}
+                      <NotebookPen className="size-[20px] mr-1" />
+                      Thêm ghi chú
+                    </ButtonComponment>
+                    <ButtonComponment
+                      type="notesheet"
+                      className="h-[43px] flex items-center px-3 select-none step6"
+                      onClick={() => setIsModalMessage(true)}
+                    >
+                      <MessagesSquare className="mr-1" />
+                      <div>Hỏi đáp</div>
+                    </ButtonComponment>
                   </div>
-                  <div>Fanpage: https://www.facebook.com/f8vnofficial</div>
+                  <SheetMessage
+                    isOpen={isModalMessage}
+                    onOpenChange={() => setIsModalMessage(!isModalMessage)}
+                    dataChapter={mergedChapters}
+                    dataVideo={dataCourseDetail}
+                    dataChapVideo={dataVideo}
+                  />
                 </div>
-              </>
+                <div className="mb-5">
+                  Tham gia các cộng đồng để cùng học hỏi, chia sẻ và "thám
+                  thính" xem F8 sắp có gì mới nhé!
+                </div>
+                <div>Fanpage: https://www.facebook.com/f8vnofficial</div>
+              </div>
+            </>
           ) : (
-            <Quiz dataVideo={dataVideo} mergedChapters={mergedChapters} dataCourseDetail={dataCourseDetail} mutationUpdateCourse={mutationUpdateCourse} userId={user.id}/>
+            <Quiz
+              dataVideo={dataVideo}
+              mergedChapters={mergedChapters}
+              dataCourseDetail={dataCourseDetail}
+              mutationUpdateCourse={mutationUpdateCourse}
+              userId={user.id}
+            />
           )}
         </div>
         <CSSTransition
-            in={navbarRight}
-            timeout={300}
-            classNames="slide"
-            unmountOnExit
+          in={navbarRight}
+          timeout={300}
+          classNames="slide"
+          unmountOnExit
         >
           <CourseContent
-              activeChapterIndex={activeChapterIndex}
-              handleAccordionChange={handleAccordionChange}
-              mergedChapters={mergedChapters}
-              activeSlug={activeSlug}
-              handleVideo={handleVideo}
+            activeChapterIndex={activeChapterIndex}
+            handleAccordionChange={handleAccordionChange}
+            mergedChapters={mergedChapters}
+            activeSlug={activeSlug}
+            handleVideo={handleVideo}
           />
         </CSSTransition>
         <BottomBar
-            handlePreviousLesson={handlePreviousLesson}
-            disableNextLesson={disableNextLesson}
-            handleNextLesson={handleNextLesson}
-            setNavbarRight={setNavbarRight}
-            navbarRight={navbarRight}
+          handlePreviousLesson={handlePreviousLesson}
+          disableNextLesson={disableNextLesson}
+          handleNextLesson={handleNextLesson}
+          setNavbarRight={setNavbarRight}
+          navbarRight={navbarRight}
         />
         <CSSTransition
-            in={isModalOpenEdit}
-            timeout={300}
-            classNames="modal"
-            unmountOnExit
+          in={isModalOpenEdit}
+          timeout={300}
+          classNames="modal"
+          unmountOnExit
         >
           <CreateNote
-              setIsModalOpenEdit={setIsModalOpenEdit}
-              timeVideo={timeVideo?.time}
-              dataCourseDetail={dataCourseDetail}
-              dataVideo={dataVideo}
-              navbarRight={navbarRight}
+            setIsModalOpenEdit={setIsModalOpenEdit}
+            timeVideo={timeVideo?.time}
+            dataCourseDetail={dataCourseDetail}
+            dataVideo={dataVideo}
+            navbarRight={navbarRight}
           />
         </CSSTransition>
       </div>
       <Joyride
-          steps={steps}
-          run={run}
-          continuous
-          showSkipButton
-          showProgress
-          scrollToFirstStep
-          locale={{
-            back: 'Quay lại',
-            close: 'Đóng',
-            last: 'Kết thúc',
-            next: 'Tiếp theo',
-            skip: 'Bỏ qua',
-          }}
-          callback={(data) => {
-            const { status } = data;
-            if (status === 'finished' || status === 'skipped') {
-              setRun(false); // Dừng tour khi kết thúc hoặc bỏ qua
-            }
-          }}
+        steps={steps}
+        run={run}
+        continuous
+        showSkipButton
+        showProgress
+        scrollToFirstStep
+        locale={{
+          back: "Quay lại",
+          close: "Đóng",
+          last: "Kết thúc",
+          next: "Tiếp theo",
+          skip: "Bỏ qua",
+        }}
+        callback={(data) => {
+          const { status } = data;
+          if (status === "finished" || status === "skipped") {
+            setRun(false); // Dừng tour khi kết thúc hoặc bỏ qua
+          }
+        }}
       />
     </div>
   );

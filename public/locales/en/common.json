@@ -74,7 +74,8 @@
     "titleBlog": "Blog title",
     "placeholderTitleBlog": "Enter blog title",
     "ContentBlog": "Content",
-    "placeholderContentBlog": "Enter blog content"
+    "placeholderContentBlog": "Enter blog content",
+    "Suggestions": "Suggestions"
   },
   "Table": {
     "selectAll": "Select all",
