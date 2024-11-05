@@ -32,7 +32,7 @@ import LoginComponent from "../Login-Register/Login";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/redux/store";
 import { resetUser } from "@/redux/Slides/userSide";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Search } from "@/redux/Slides/searchSide";
 import { useRouter } from "next/navigation";
 import { LoginOut } from "@/apis/auth";
@@ -43,17 +43,29 @@ import { CourseProgress } from "@/types";
 import { GetCourseProgress } from "@/apis/usercourse";
 import logo from "@/assets/logo/brain 1.png";
 import Image from "next/image";
-import {useAtoms} from '@/hooks/useAtom';
-import { useTranslation } from 'react-i18next';
+import { useAtoms } from "@/hooks/useAtom";
+import { useTranslation } from "react-i18next";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+  CommandSeparator,
+  CommandShortcut,
+} from "@/components/ui/command";
 export default function HeaderLayout() {
-  const { t } = useTranslation('common');
-  const {pages} = useAtoms();
+  const { t } = useTranslation("common");
+  const { pages } = useAtoms();
   const [courseProgress, setCourseProgress] = useState<CourseProgress[]>([]);
   const router = useRouter();
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.user);
   const [search, setSearch] = useState("");
   const [token, setToken] = useState<any>();
+  const [openModal, setOpenModal] = useState<boolean>(false);
 
   useEffect(() => {
     dispatch(Search({ search }));
@@ -63,7 +75,7 @@ export default function HeaderLayout() {
     const gettoken = async () => {
       const tokens = await getTokenFromCookies();
       setToken(tokens);
-    }
+    };
     gettoken();
   }, []);
 
@@ -110,22 +122,22 @@ export default function HeaderLayout() {
         <div className="hidden sm:flex gap-3">
           <Link href="/">
             <Text type="defaultSemiBold" className="nav-item">
-              {t('headers.course')}
+              {t("headers.course")}
             </Text>
           </Link>
           <Link href="/blog">
             <Text type="defaultSemiBold" className="nav-item">
-              {t('headers.blog')}
+              {t("headers.blog")}
             </Text>
           </Link>
           <Link href="/online-learning">
             <Text type="defaultSemiBold" className="nav-item">
-              {t('headers.onlineLearning')}
+              {t("headers.onlineLearning")}
             </Text>
           </Link>
           <Link href="/">
             <Text type="defaultSemiBold" className="nav-item">
-              {t('headers.tournament')}
+              {t("headers.tournament")}
             </Text>
           </Link>
         </div>
@@ -149,20 +161,20 @@ export default function HeaderLayout() {
       <div className="flex gap-4 items-center mr-4">
         {token && user.status === true ? (
           <>
-            <div className="hidden sm:block">
+            <div className="block">
               <HoverCard>
                 <HoverCardTrigger asChild>
-                  <div className="cursor-pointer text-black">
-                    {t('myCourse')}
+                  <div className="text-[12px] md:text-2ml cursor-pointer text-black">
+                    {t("myCourse")}
                   </div>
                 </HoverCardTrigger>
-                <HoverCardContent className="w-[30rem] h-[25rem] pt-1 flex flex-col mt-2 mr-20 text-black bg-[#f0efef] rounded">
+                <HoverCardContent className="w-[25rem] md:w-[30rem] h-[25rem] pt-1 flex flex-col mt-2 mr-20 text-black bg-[#f0efef] rounded">
                   <div className="p-2 flex justify-between">
                     <Text className="text-sm font-semibold text-center">
-                      {t('myCourse')}
+                      {t("myCourse")}
                     </Text>
                     <Text className="text-sm font-semibold text-center">
-                      {t('viewAll')}
+                      {t("viewAll")}
                     </Text>
                   </div>
                   <div className="overflow-y-auto flex-grow">
@@ -176,7 +188,7 @@ export default function HeaderLayout() {
                 </HoverCardContent>
               </HoverCard>
             </div>
-            <div className="hidden sm:block">
+            <div className="block">
               <HoverCard>
                 <HoverCardTrigger asChild>
                   <div className="cursor-pointer">
@@ -196,7 +208,89 @@ export default function HeaderLayout() {
               </HoverCard>
             </div>
             <div className="block sm:hidden">
-              <AlignJustify className="mr-2 h-6 w-6 text-[#FF5A00]" />
+              <AlignJustify
+                className="mr-2 h-6 w-6 text-[#FF5A00]"
+                onClick={() => setOpenModal(true)}
+              />
+              <Sheet
+                open={openModal}
+                onOpenChange={() => setOpenModal(!openModal)}
+              >
+                <SheetTrigger asChild className="text-while"></SheetTrigger>
+                <SheetContent className="bg-[#fff] pr-[20px] w-[300px]">
+                  <div className="flex flex-col justify-center items-center mt-5">
+                    <Avatar className="w-16 h-16">
+                      <AvatarImage
+                        src={
+                          user?.avatar.length > 0
+                            ? user?.avatar
+                            : "https://github.com/shadcn.png"
+                        }
+                        alt="@shadcn"
+                      />
+                      <AvatarFallback>CN</AvatarFallback>
+                    </Avatar>
+                    <Text type="defaultSemiBold" className="mt-2">
+                      {t("welcome")}, {user.name}
+                    </Text>
+                  </div>
+                  <Command className="w-full">
+                    <CommandInput placeholder="Type a command or search..." />
+                    <CommandList>
+                      <CommandEmpty>No results found.</CommandEmpty>
+                      <CommandGroup heading={t("menu.Suggestions")}>
+                        <Link href="/profile" className="w-full">
+                          <CommandItem className="w-full cursor-pointer">
+                            <User className="mr-2 h-4 w-4" />
+                            <span>{t("menu.personalPage")}</span>
+                          </CommandItem>
+                        </Link>
+                        <Link href="/profile/posts-blog" className="w-full">
+                          <CommandItem className="w-full cursor-pointer">
+                            <NotebookPen className="mr-2 h-4 w-4" />
+                            <span>{t("menu.blogWriting")}</span>
+                          </CommandItem>
+                        </Link>
+                        <CommandItem className="w-full cursor-pointer">
+                          <Album className="mr-2 h-4 w-4" />
+                          <span>{t("menu.myArticle")}</span>
+                        </CommandItem>
+                        <CommandItem className="w-full cursor-pointer">
+                          <BookOpenText className="mr-2 h-4 w-4" />
+                          <span>{t("menu.savedArticles")}</span>
+                        </CommandItem>
+                      </CommandGroup>
+                      <CommandSeparator />
+                      <CommandGroup heading={t("menu.setting")}>
+                        {user.isAdmin === true && (
+                          <Link href="/admin" className="w-full">
+                            <CommandItem className="w-full cursor-pointer">
+                              <Lock className="mr-2 h-4 w-4" />
+                              <span>{t("menu.websiteInformation")}</span>
+                            </CommandItem>
+                          </Link>
+                        )}
+                        <Link
+                          href="/profile/information-user"
+                          className="w-full"
+                        >
+                          <CommandItem className="w-full cursor-pointer">
+                            <Settings className="mr-2 h-4 w-4" />
+                            <span>{t("menu.setting")}</span>
+                          </CommandItem>
+                        </Link>
+                        <CommandItem
+                          onClick={handleLogout}
+                          className="w-full cursor-pointer"
+                        >
+                          <LogOut className="mr-2 h-4 w-4" />
+                          <span>{t("menu.logOut")}</span>
+                        </CommandItem>
+                      </CommandGroup>
+                    </CommandList>
+                  </Command>
+                </SheetContent>
+              </Sheet>
             </div>
             <div className="hidden sm:block">
               <DropdownMenu>
@@ -204,7 +298,11 @@ export default function HeaderLayout() {
                   <div className="cursor-pointer mr-2">
                     <Avatar>
                       <AvatarImage
-                        src="https://github.com/shadcn.png"
+                        src={
+                          user?.avatar.length > 0
+                            ? user?.avatar
+                            : "https://github.com/shadcn.png"
+                        }
                         alt="@shadcn"
                       />
                       <AvatarFallback>CN</AvatarFallback>
@@ -213,14 +311,16 @@ export default function HeaderLayout() {
                 </DropdownMenuTrigger>
 
                 <DropdownMenuContent className="w-56 mt-4 mr-7 p-2 bg-[#f0efef] rounded">
-                  <DropdownMenuLabel>{t('welcome')}, {user.name}</DropdownMenuLabel>
+                  <DropdownMenuLabel>
+                    {t("welcome")}, {user.name}
+                  </DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <DropdownMenuGroup>
                     <Link href="/profile">
                       <DropdownMenuItem className="cursor-pointer">
                         <User className="mr-2 h-4 w-4" />
                         <span className="hover:text-[#a1a1a1]">
-                          {t('menu.personalPage')}
+                          {t("menu.personalPage")}
                         </span>
                       </DropdownMenuItem>
                     </Link>
@@ -228,19 +328,21 @@ export default function HeaderLayout() {
                     <Link href="/profile/posts-blog">
                       <DropdownMenuItem className="cursor-pointer">
                         <NotebookPen className="mr-2 h-4 w-4" />
-                        <span className="hover:text-[#a1a1a1]">{t('menu.blogWriting')}</span>
+                        <span className="hover:text-[#a1a1a1]">
+                          {t("menu.blogWriting")}
+                        </span>
                       </DropdownMenuItem>
                     </Link>
                     <DropdownMenuItem className="cursor-pointer">
                       <Album className="mr-2 h-4 w-4" />
                       <span className="hover:text-[#a1a1a1]">
-                        {t('menu.myArticle')}
+                        {t("menu.myArticle")}
                       </span>
                     </DropdownMenuItem>
                     <DropdownMenuItem className="cursor-pointer">
                       <BookOpenText className="mr-2 h-4 w-4" />
                       <span className="hover:text-[#a1a1a1]">
-                        {t('menu.savedArticles')}
+                        {t("menu.savedArticles")}
                       </span>
                     </DropdownMenuItem>
                   </DropdownMenuGroup>
@@ -250,7 +352,7 @@ export default function HeaderLayout() {
                       <DropdownMenuItem className="cursor-pointer">
                         <Lock className="mr-2 h-4 w-4" />
                         <span className="hover:text-[#a1a1a1]">
-                          {t('menu.websiteInformation')}
+                          {t("menu.websiteInformation")}
                         </span>
                       </DropdownMenuItem>
                     </Link>
@@ -258,7 +360,9 @@ export default function HeaderLayout() {
                   <Link href="/profile/information-user">
                     <DropdownMenuItem className="cursor-pointer">
                       <Settings className="mr-2 h-4 w-4" />
-                      <span className="hover:text-[#a1a1a1]">{t('menu.setting')}</span>
+                      <span className="hover:text-[#a1a1a1]">
+                        {t("menu.setting")}
+                      </span>
                     </DropdownMenuItem>
                   </Link>
                   <DropdownMenuItem
@@ -266,7 +370,9 @@ export default function HeaderLayout() {
                     onClick={handleLogout}
                   >
                     <LogOut className="mr-2 h-4 w-4" />
-                    <span className="hover:text-[#a1a1a1]">{t('menu.logOut')}</span>
+                    <span className="hover:text-[#a1a1a1]">
+                      {t("menu.logOut")}
+                    </span>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>

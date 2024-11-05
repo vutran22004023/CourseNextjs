@@ -17,7 +17,8 @@
     "setting": "Cài đặt",
     "logOut": "Đăng xuất",
     "userInformation": "Thông tin người dùng",
-    "PasswordsAndSecurity": "Mật khẩu và Bảo mật"
+    "PasswordsAndSecurity": "Mật khẩu và Bảo mật",
+    "Suggestions": "Gợi ý"
   },
   "status": {
     "successForgotPass": "Đã gửi form để xác nhận email",
