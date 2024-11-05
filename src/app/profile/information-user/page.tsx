@@ -68,10 +68,10 @@ export default function InformationUser() {
     };
 
     return (
-        <div className="container w-full" style={{padding: "0 90px"}}>
-            <div className="flex justify-center font-semibold mb-5"><Text className="text-[25px] ">Thông tin người dùng</Text></div>
-            <div>
-                <Text className="cactus-classical-serif-md text-[20px]">
+        <div className="container w-full">
+            <Text type="subtitle">Thông tin người dùng</Text>
+            <div className="mt-3">
+                <Text type="defaultSemiBold">
                     Thông tin cơ bản
                 </Text>
                 <Text className="mb-10 text-[14px]">
