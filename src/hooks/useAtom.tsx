@@ -24,11 +24,15 @@ const tokenAtom = atom<string | null>(null);
 
 const runAtom = atom<boolean | false>(false);
 
+const roomAtom = atom<any[]>([]);
+
+
 export const useAtoms = () => {
   const [courseDetail, setCourseDetail] = useAtom(dataIdCourse);
   const [token, setToken] = useAtom(tokenAtom);
   const [pages, setPages] = useAtom(page);
   const [run, setRun] = useAtom(runAtom);
+  const [room, setRoom] = useAtom(roomAtom)
   return {
     courseDetail,
     setCourseDetail,
@@ -37,6 +41,8 @@ export const useAtoms = () => {
       pages,
       setPages,
       run,
-      setRun
+      setRun,
+      room,
+      setRoom
   };
 };
