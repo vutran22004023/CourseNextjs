@@ -137,7 +137,7 @@ export default function NoteSheet({
             <div className="flex gap-4">
               <Select onValueChange={(value) => setSelectedChapter(value)}>
                 <SelectTrigger className="w-[120px] text md:w-[180px]">
-                  <SelectValue placeholder="Trong chương hiện tại" />
+                  <SelectValue placeholder= {t('CourseLogin.Chapter1')} />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
@@ -151,7 +151,7 @@ export default function NoteSheet({
               </Select>
               <Select onValueChange={(value) => setSelectedSortOrder(value)}>
                 <SelectTrigger className="w-[110px]">
-                  <SelectValue placeholder="Mới nhất" />
+                  <SelectValue placeholder={t('CourseLogin.New')} />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
