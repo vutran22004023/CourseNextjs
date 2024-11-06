@@ -26,6 +26,8 @@ import React, {useEffect, useState} from "react";
 import {ImageUpload} from "@/components/UpLoadImg/ImageUpload";
 import Image from 'next/image';
 import { useFirebaseStorage } from "@/hooks/useFirebaseStorage";
+import FormProfileFooter from './FormProfileFooter';
+import Text from '@/components/Text/text'
 // Schema for validation
 const informationPageSchema = z.object({
   name: z
@@ -136,13 +138,13 @@ export function InformationPageForm() {
     if (data) {
       if(statusSaveLogo) {
         if (data?.logo) {
-          const url = await uploadFile(data.logo, "logo");
+          const url = await uploadFile(data.logo as any, "logo");
           data.logo = url;
         }
       }
       if(statusSaveLogoSmall) {
         if (data?.logoSmall) {
-          const url = await uploadFile(data?.logoSmall, "logo");
+          const url = await uploadFile(data?.logoSmall as any, "logo");
           data.logoSmall = url;
         }
       }
@@ -189,6 +191,8 @@ export function InformationPageForm() {
 
   return (
     <div className="w-full">
+      <div className="rounded-2xl border-2 border-black p-5">
+        <Text type="subtitle">Thông tin route</Text>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <FormField
@@ -329,6 +333,11 @@ export function InformationPageForm() {
           </ButtonComponent>
         </form>
       </Form>
+      </div>
+      <div className="rounded-2xl border-2 border-black p-5 mt-3">
+        <Text type="subtitle" className="mb-2" >Thông tin footer</Text>
+        <FormProfileFooter dataInformation={dataInformation} mutationUpdatePage={mutationUpdatePage}/>
+      </div>
     </div>
   );
 }
