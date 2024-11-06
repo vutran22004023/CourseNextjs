@@ -160,7 +160,7 @@ export default function HeaderLayout() {
       </div>
       <div className="flex gap-4 items-center mr-4">
         {token && user.status === true ? (
-          <>
+            <>
             <div className="block">
               <HoverCard>
                 <HoverCardTrigger asChild>
