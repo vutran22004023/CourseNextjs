@@ -30,7 +30,7 @@ export const CreateNote = async (data: any) => {
 
 export const AllNote = async (data: any) => {
     try {
-        const response: AxiosResponse = await axiosInstance.post(`/api/user-course/all-note`, data);
+        const response: AxiosResponse = await axiosInstance.get(`/api/user-course/all-note`, data);
         return response.data;
     } catch {
         throw new Error('Error update note');

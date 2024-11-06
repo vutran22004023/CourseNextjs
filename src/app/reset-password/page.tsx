@@ -10,12 +10,14 @@ import { useMutationHook } from "@/hooks";
 import { ResetPass } from "@/apis/auth";
 import { success, error, warning } from "@/components/Message/Message";
 import Text from "@/components/Text/text";
+import {useTranslation} from "react-i18next";
 
 interface dataResetPassProps {
   status?: any;
   message?: string;
 }
 export default function FormResetPass() {
+  const {t} = useTranslation('common');
   const router = useRouter();
   const searchParams = useSearchParams();
   const tokens = searchParams.get("token");
@@ -128,18 +130,18 @@ export default function FormResetPass() {
         style={{ borderRadius: "20px" }}
       >
         <Text className="cactus-classical-serif-md text-[25px] mb-3">
-          Đặt lại mật khẩu
+          {t('ResetPassword.Reset')}
         </Text>
         <Text className="cactus-classical-serif-md text-[15px] mb-2">
-          Xin chào, {name}
+          {t('ResetPassword.Hello')}, {name}
         </Text>
         <Text className="text-[12px]">
-          Vui lòng nhập mật khẩu mới và xác nhận lại mật khẩu mới
+          {t('ResetPassword.Pls')}
         </Text>
         <div className="mt-7">
           <div className=" grid gap-2 ml-4">
             <Label htmlFor="password" className="mb-1 text-left">
-              Mật khẩu mới
+              {t('ResetPassword.NewPass')}
             </Label>
             <div className="relative w-[500px]">
               <Input
@@ -161,7 +163,7 @@ export default function FormResetPass() {
               </button>
             </div>
             <Label htmlFor="confirmPassword" className="mb-1 text-left">
-              Xác nhận mật khẩu mới
+              {t('ResetPassword.ConfirmPass')}
             </Label>
             <div className="relative w-[500px]">
               <Input
@@ -212,7 +214,7 @@ export default function FormResetPass() {
                 </div>
                 {!isError && !isErrPassword && (
                   <Text className="text-[red] p-1 text-left">
-                    Mật khẩu mới và xác nhận mật khẩu không khớp
+                    {t('ResetPassword.Check')}
                   </Text>
                 )}
 
@@ -249,14 +251,14 @@ export default function FormResetPass() {
                     {/* <IsLoadingComponment IsLoading={isLoadingdataRegister}>
               Đăng ký ngay
             </IsLoadingComponment> */}
-                    Đặt lại mật khẩu
+                    {t('ResetPassword.Reset')}
                   </div>
                 </ButtonComponent>
               </div>
 
               {(dataResetPass as dataResetPassProps)?.status === 200 && (
                 <Text className="mt-2">
-                  Bạn sẽ được chuyển hướng sau {countdown} giây
+                  {t('ResetPassword.Alert')} {countdown}s
                 </Text>
               )}
             </div>

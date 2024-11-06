@@ -23,6 +23,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { useQuery } from "@tanstack/react-query";
 import Text from "@/components/Text/text";
+import {useTranslation} from "react-i18next";
 
 interface Props {
   isOpen: boolean;
@@ -39,6 +40,7 @@ export default function sheetmessage({
   dataVideo,
   dataChapVideo,
 }: Props) {
+  const {t} = useTranslation('common');
   const [text, setText] = useState<string>("");
   const [page, setPage] = useState<number>(1);
   const [messages, setMessages] = useState<any[]>([]);
@@ -230,13 +232,13 @@ export default function sheetmessage({
                           onClick={() => handleOnClickEdit(message)}
                           className="cursor-pointer p-2 hover:bg-gray-100"
                         >
-                          Chỉnh sửa
+                          {t('CourseLogin.Edit')}
                         </div>
                         <div
                           onClick={() => handleOnClickDelete(message)}
                           className="cursor-pointer p-2 text-red-600 hover:bg-gray-100"
                         >
-                          Xóa
+                          {t('CourseLogin.Delete')}
                         </div>
                       </div>
                     )}
@@ -256,12 +258,12 @@ export default function sheetmessage({
                         />
                         <div className="flex gap-2">
                           <ButtonComponent onClick={handleSaveEdit}>
-                            Lưu
+                          {t('CourseLogin.Save')}
                           </ButtonComponent>
                           <ButtonComponent
                             onClick={() => setEditMessageId(null)}
                           >
-                            Thoát
+                            {t('CourseLogin.Exit')}
                           </ButtonComponent>
                         </div>
                       </div>

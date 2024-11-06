@@ -2,6 +2,7 @@
 import React from "react";
 import ButtonComponment from "@/components/Button/Button";
 import { AlignRight, ArrowBigLeft, ArrowBigRight } from "lucide-react";
+import {useTranslation} from "react-i18next";
 
 interface Props {
   handlePreviousLesson: () => void;
@@ -19,6 +20,7 @@ export default function bottomBar({
   navbarRight
 }:
 Props) {
+  const {t} = useTranslation('common');
   return (
     <div className="fixed border-t-2 border-[#000] bottom-0 left-0 bg-white w-full h-16 right-0 z-10 p-3 flex items-center">
       <div className="flex items-center justify-center gap-5 w-full">
@@ -44,7 +46,7 @@ Props) {
               ></path>
             </svg>
           </div>
-          <p className="translate-x-2 pl-3 pt-[6px] ">Bài trước</p>
+          <p className="translate-x-2 pl-3 pt-[6px] ">{t('CourseLogin.Previous')}</p>
         </ButtonComponment>
         <ButtonComponment
           className={`w-[190px] h-[43px] text-xl ${
@@ -53,7 +55,7 @@ Props) {
           type="hoverbutton"
           onClick={handleNextLesson}
         >
-          <p className="translate-x-2 pr-[40px] pt-[6px]">Bài tiếp theo</p>
+          <p className="translate-x-2 pr-[40px] pt-[6px]">{t('CourseLogin.Next')}</p>
           <div className="bg-[#FF5A00] rounded-[30px] h-[41px] w-[40px] flex items-center justify-center absolute right-[0.5px] top-[0px] group-hover:w-[188px] z-10 duration-500">
             <svg
               xmlns="http://www.w3.org/2000/svg"

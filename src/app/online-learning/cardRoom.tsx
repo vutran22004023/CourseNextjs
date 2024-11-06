@@ -12,6 +12,7 @@ import Button from "@/components/Button/Button";
 import {formatDateRoom} from "@/utils";
 import {useRouter} from "next/navigation";
 import {useAtoms} from "@/hooks/useAtom";
+import {useTranslation} from "react-i18next";
 
 const fetchShowUserTeacherRoom = async (id: any) => {
     try {
@@ -30,6 +31,7 @@ const fetchShowUserStudentRoom = async (id: any) => {
     }
 };
 export default function cardRoom() {
+    const {t} = useTranslation('common');
     const user = useSelector((state: RootState) => state.user);
     const router = useRouter();
     const {setRoom} = useAtoms();
@@ -62,7 +64,7 @@ export default function cardRoom() {
         <div className="my-3">
             <div className="shadow-xl p-5 rounded-xl">
                 <Text type="subtitle" className="mb-2">
-                    Đang diễn ra
+                    {t('OnlineLearning.Studying')}
                 </Text>
                 {inProgressItems?.length > 0 ? (
                     <div
@@ -112,7 +114,7 @@ export default function cardRoom() {
                                     type="courseHeader"
                                     className="p-2 flex flex-row justify-center mb-2 cursor-pointer"
                                 >
-                                    Xem chi tiết
+                                    {t('OnlineLearning.Detail')}
                                 </Button>
                                 <Button
                                     type="courseHeader"
@@ -124,7 +126,7 @@ export default function cardRoom() {
                                     }}
                                     disabled={room?.status === "in_progress" ? false : true}
                                 >
-                                    Tham gia ngay
+                                    {t('OnlineLearning.Join')}
                                 </Button>
                             </div>
                         ))}
@@ -139,14 +141,14 @@ export default function cardRoom() {
                             objectFit="cover"
                         />
                         <Text type="defaultSemiBold">
-                            Hiện tại không có cuộc họp nào đang diễn ra
+                            {t('OnlineLearning.descriptionClass')}
                         </Text>
                     </div>
                 )}
             </div>
             <div className="shadow-xl p-5 rounded-xl mt-5">
                 <Text type="subtitle" className="mb-2">
-                    Đã hoàn thành
+                    {t('OnlineLearning.Complete')}
                 </Text>
                 {completedItems?.length > 0 ? (
                     <div
@@ -196,7 +198,7 @@ export default function cardRoom() {
                                     type="courseHeader"
                                     className="p-2 flex flex-row justify-center mb-2 cursor-pointer"
                                 >
-                                    Xem chi tiết
+                                    {t('OnlineLearning.Detail')}
                                 </Button>
                                 <Button
                                     type="courseHeader"
@@ -208,7 +210,7 @@ export default function cardRoom() {
                                     }}
                                     disabled={room?.status === "in_progress" ? false : true}
                                 >
-                                    Tham gia ngay
+                                    {t('OnlineLearning.Join')}
                                 </Button>
                             </div>
                         ))}
@@ -223,7 +225,7 @@ export default function cardRoom() {
                             objectFit="cover"
                         />
                         <Text type="defaultSemiBold">
-                            Hiện tại không có cuộc họp nào đang diễn ra
+                            {t('OnlineLearning.descriptionClass')}
                         </Text>
                     </div>
                 )}

@@ -60,6 +60,8 @@ export interface Course {
   updatedAt: string;
   video: string;
   view: number;
+  rating: number;
+  ratingCount: number;
   __v: number;
   _id: string;
 }
