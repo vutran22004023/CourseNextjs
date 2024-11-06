@@ -35,7 +35,7 @@ import {success, error} from "@/components/Message/Message";
 import {ref, uploadBytes, getDownloadURL} from "firebase/storage";
 import {imageDb} from "@/firebase/config";
 import {v4} from "uuid";
-import {FileUpload, ImageUpload} from "@/components/UpLoadImg/ImageUpload";
+import {FileUpload, ImageUpload, VideoUpload} from "@/components/UpLoadImg/ImageUpload";
 import slugify from "slugify";
 import {GetDetailCourses} from "@/apis/course";
 import {Course} from "@/types/course";
@@ -100,8 +100,9 @@ const videoSchema = z.object({
             return true; // Don't validate if videoType is not "video"
         }, "Chưa có đường dẫn video"),
     slug: z.string().optional(),
-    videoType: z.enum(["video", "exercise"]),
+    videoType: z.enum(["video", "exercise","videofile"]),
     file: z.instanceof(File).optional(),
+    videoFile: z.instanceof(File).optional(),
     quiz: z.array(questionSchema).optional(),
 });
 
@@ -194,6 +195,7 @@ const UpdateCourse: React.FC<UpdateProps> = ({data, isOpen, onClose}) => {
                 videos: chapter?.videos.map((video: any) => ({
                     ...video,
                     videoType: video.videoType,
+                    videoFile: video?.videoFile || null,
                 }))
             })),
         });
@@ -231,7 +233,13 @@ const UpdateCourse: React.FC<UpdateProps> = ({data, isOpen, onClose}) => {
                             const fileRef = ref(imageDb, `homeworkFile/${v4()}`);
                             const snapshot = await uploadBytes(fileRef, video.file);
                             const url = await getDownloadURL(snapshot.ref);
-                            video.file = url; // Cập nhật video.file thành URL
+                            video.file = url;
+                        }
+                        if(video.videoFile){
+                            const fileRef = ref(imageDb, `video/${v4()}`);
+                            const snapshot = await uploadBytes(fileRef, video.videoFile);
+                            const url = await getDownloadURL(snapshot.ref);
+                            video.videoFile = url;
                         }
                     }
                 }
@@ -502,6 +510,7 @@ function ChapterField({
                                             <SelectContent className="bg-[#ececec]">
                                                 <SelectItem value="video">Video</SelectItem>
                                                 <SelectItem value="exercise">Bài tập</SelectItem>
+                                                <SelectItem value="videofile">Truyền file video</SelectItem>
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
@@ -524,7 +533,25 @@ function ChapterField({
                                     </FormItem>
                                 )}
                             />
-                        ) : (
+                        ) : form.watch(
+                            `chapters.${chapterIndex}.videos.${videoIndex}.videoType`
+                        ) === "videofile" ? (
+                            <FormField
+                                control={control}
+                                name={`chapters.${chapterIndex}.videos.${videoIndex}.videoFile`}
+                                render={({ field: { onChange, value } }) => (
+                                    <FormItem>
+                                        <FormLabel>File video</FormLabel>
+                                        <VideoUpload
+                                            onVideoUpload={(file) => {
+                                                onChange(file);
+                                            }}
+                                        />
+                                        <FormMessage className="text-[red]" />
+                                    </FormItem>
+                                )}
+                            />
+                            ):(
                             <>
                                 <FormItem>
                                     <FormLabel>Loại thể loại</FormLabel>
