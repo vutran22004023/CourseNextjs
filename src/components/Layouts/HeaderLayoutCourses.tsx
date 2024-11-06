@@ -19,9 +19,11 @@ import {
 import { useAtoms } from "@/hooks/useAtom";
 import { AllNote } from "@/apis/usercourse";
 import { useMutationHook } from "@/hooks";
+import {useTranslation} from "react-i18next";
 
 export default function HeaderLayoutCourses() {
-  const { courseDetail } = useAtoms();
+  const { t } = useTranslation('common');
+  const { courseDetail,setRun } = useAtoms();
   const timeVideo = useSelector((state: RootState) => state.timesVideo);
   const [isNoteSheetOpen, setIsNoteSheetOpen] = useState(false);
   const [dataNote, setDataNote] = useState<any>();
@@ -95,10 +97,10 @@ export default function HeaderLayoutCourses() {
               ></path>
             </svg>
           </Link>
-          <p className="translate-x-2 pl-2 pt-[1px] md:pt-[6px] ">Trở về</p>
+          <p className="translate-x-2 pl-2 pt-[1px] md:pt-[6px] ">{t('return')}</p>
         </ButtonComponent>
         <p className="text-[16px] ml-[20px] flex items-center md:text-[24px] md:ml-[53px] font-medium">
-          HTML CSS từ ZERO đến HERO
+          {courseDetail?.nameVideo}
         </p>
       </div>
       <div className=" flex gap-2 items-center mr-3">
@@ -110,26 +112,25 @@ export default function HeaderLayoutCourses() {
             className="hidden md:block"
           />
           <div className="hidden md:block md:ml-2 md:text-[18px] font-normal">
-            {timeVideo?.totalcompletedVideo}/{timeVideo?.totalVideo} bài học
+            {timeVideo?.totalcompletedVideo}/{timeVideo?.totalVideo} {t('lesson')}
           </div>
         </div>
         <div className="hidden md:flex gap-2">
           <ButtonComponent
             onClick={handleOpenChange}
             type="notesheet"
-            className="h-[43px] flex items-center px-3 select-none"
+            className="h-[43px] flex items-center px-3 select-none step5"
           >
             <NotebookPen className="size-[20px] mr-1" />
-            Chú thích
+            {t('annotations')}
           </ButtonComponent>
           <ButtonComponent
             type="notesheet"
             className="h-[43px] flex items-center px-3 select-none"
+            onClick={()=> setRun(true)}
           >
-            <Link href="/my-courses" className="flex">
               <MessageCircleQuestion className="size-[20px] mr-1" />
-              Hướng dẫn
-            </Link>
+              {t('instruct')}
           </ButtonComponent>
         </div>
       </div>
@@ -149,7 +150,7 @@ export default function HeaderLayoutCourses() {
                 className="h-[35px] text-[12px] flex items-center px-3 select-none"
               >
                 <NotebookPen className="size-[20px] mr-1" />
-                Chú thích
+                {t('annotations')}
               </ButtonComponent>
             </DropdownMenuItem>
 
@@ -160,7 +161,7 @@ export default function HeaderLayoutCourses() {
               >
                 <Link href="/my-courses" className="flex">
                   <MessageCircleQuestion className="size-[20px] mr-1" />
-                  Hướng dẫn
+                  {t('instruct')}
                 </Link>
               </ButtonComponent>
             </DropdownMenuItem>

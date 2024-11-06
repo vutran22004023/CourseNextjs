@@ -7,6 +7,7 @@ import { useMutationHook } from "@/hooks";
 import { ForgotPassword } from "@/apis/auth";
 import { EmailProps } from "@/types";
 import { success, error, warning } from "@/components/Message/Message";
+import {useTranslation} from "react-i18next";
 
 interface ForPassword {
   status?: any;
@@ -15,7 +16,7 @@ interface ForPassword {
 
 export default function Forgotpassword() {
   const [email, setemail] = useState("");
-
+  const {t} = useTranslation('common');
   const hanleOchangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     setemail(e.target.value);
   };
@@ -30,9 +31,9 @@ export default function Forgotpassword() {
 
   useEffect(() => {
     if ((dataForPassword as ForPassword)?.status === 200) {
-      success("Đã gửi form để xác nhận email");
+      success(t('status.successForgotPass'));
     } else if ((dataForPassword as ForPassword)?.status === "ERR") {
-      error("Đặt lại mật khẩu thất bại");
+      error(t('status.errorForgotPass'));
     }
   }, [dataForPassword]);
   const handleButtonForPassword = () => {

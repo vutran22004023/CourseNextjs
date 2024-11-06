@@ -8,6 +8,7 @@ import { Register } from "@/apis/auth";
 import { Registers } from "@/types";
 import IsLoadingComponment from "@/components/Loading/Loading";
 import { success, error, warning } from "@/components/Message/Message";
+import {useTranslation} from "react-i18next";
 
 export default function RegisterComponment() {
   const [showConfirmPassword, setConfirmPassword] = useState(false);
@@ -22,6 +23,7 @@ export default function RegisterComponment() {
   const [isError, setIsError] = useState(false);
   const [isErrPass, setIsErrPass] = useState(false);
   const [isErrEmail, setIsErrEmail] = useState(false);
+  const {t} = useTranslation('common');
 
   const handleOnChangeregister = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -88,7 +90,7 @@ export default function RegisterComponment() {
 
   useEffect(() => {
     if ((dataRegister as { status?: number })?.status === 200) {
-      success("Đã đăng ký thành công");
+      success(t('successRegister'));
       setRegister({
         name: "",
         email: "",
@@ -96,7 +98,7 @@ export default function RegisterComponment() {
         confirmPassword: "",
       });
     } else if ((dataRegister as { status?: string })?.status === "ERR") {
-      error("Đăng ký thất bại");
+      error(t('errorRegister'));
     }
   }, [dataRegister]);
   const handleconfirmRegister = () => {
@@ -107,7 +109,7 @@ export default function RegisterComponment() {
     <div className="grid gap-1 py-4 overflow-y-auto ">
       <div className="text-left  grid gap-2">
         <Label htmlFor="name" className="text-[15px]">
-          Name
+          {t('name')}
         </Label>
         <Input
           name="name"
@@ -181,37 +183,37 @@ export default function RegisterComponment() {
             ></div>
           </div>
           <div className="text-right text-sm mt-1">
-            {passwordStrength === 0 && "Weak password"}
-            {passwordStrength === 1 && "Weak password"}
-            {passwordStrength === 2 && "Average Password"}
-            {passwordStrength === 3 && "Strong password"}
+            {passwordStrength === 0 && t('weakPassword')}
+            {passwordStrength === 1 && t('weakPassword')}
+            {passwordStrength === 2 && t('averagePassword')}
+            {passwordStrength === 3 && t('strongPassword')}
           </div>
           {!isError && !isErrPass ? (
             <div className="bg-[#eaeaea] rounded-sm p-1 text-[10px]">
               <div className="text-[red]">
-                Password and confirm password do not match
+                {t('passwordMismatchNotification')}
               </div>
             </div>
           ) : null}
 
           {!isError && !isErrEmail ? (
             <div className="bg-[#eaeaea] rounded-sm p-1 text-[10px]">
-              <div className="text-[red]">Email format is incorrect</div>
+              <div className="text-[red]">{t('emailFormatIsIncorrect')}</div>
             </div>
           ) : null}
 
           {isError && (
             <div className="bg-[#eaeaea] rounded-sm p-1 text-[10px]">
               <div className="text-[red]">
-                Please enter your full name, email, password, confirm password
+                {t('FillInTheInformationInTheNotification')}
               </div>
               <div className="text-[red]">
                 {passwordStrength === 0
-                  ? "Password must be at least 6 characters, contain at least one uppercase letter, and end with a special character."
+                  ? t('passwordErrorMessage')
                   : passwordStrength === 1
-                  ? "Password must contain at least one uppercase letter and end with a special character."
+                  ? t('passwordErrorMessage1')
                   : passwordStrength === 2
-                  ? "Password must end with a special character."
+                  ? t('passwordErrorMessage2')
                   : passwordStrength === 3
                   ? ""
                   : ""}
@@ -247,7 +249,7 @@ export default function RegisterComponment() {
         >
           <div className="font-bold">
             <IsLoadingComponment IsLoading={isLoadingdataRegister}>
-              Đăng ký ngay
+              {t('signUpNow')}
             </IsLoadingComponment>
           </div>
         </ButtonComponent>

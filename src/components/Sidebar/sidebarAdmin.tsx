@@ -11,10 +11,12 @@ import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
+import {useTranslation} from "react-i18next";
 interface SidebarProps {
   className?: string;
 }
 export default function SidebarAdminComponent({ className }: SidebarProps) {
+  const {t} = useTranslation('common');
   const pathname = usePathname();
   const router = useRouter();
   const user = useSelector((state: RootState) => state.user);
@@ -24,25 +26,25 @@ export default function SidebarAdminComponent({ className }: SidebarProps) {
   }
   const navigation = [
     {
-      name: "Dashboard",
+      name: t('Dashboard'),
       href: "/admin",
       icon: LayoutDashboard,
       current: pathname === "/admin",
     },
     {
-      name: "Thông tin pages",
+      name: t('SiteInformation'),
       href: "/admin/information-page",
       icon: SquareLibrary,
       current: pathname === "/admin/information-page",
     },
     {
-      name: "Khóa học",
+      name: t('Course'),
       href: "/admin/courses",
       icon: BookOpenText,
       current: pathname === "/admin/courses",
     },
     {
-      name: "Người dùng",
+      name: t('User'),
       href: "/admin/users",
       icon: Users,
       current: pathname === "/admin/users",

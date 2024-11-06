@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import SidebarHeader from "./sidebarHeader";
 import { Metadata } from "next";
 import ClientProviders from "@/components/ClientProviders";
+import { LanguageProvider } from "@/context/LanguageContext";
 const fontSans = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",
@@ -21,7 +22,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html suppressHydrationWarning>
       <body
         className={cn(
           "text-black bg-white font-sans",
@@ -29,7 +30,9 @@ export default function RootLayout({
         )}
       >
         <ClientProviders>
+          <LanguageProvider>
           <SidebarHeader>{children}</SidebarHeader>
+          </LanguageProvider>
         </ClientProviders>
       </body>
     </html>

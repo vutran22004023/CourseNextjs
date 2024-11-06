@@ -10,6 +10,7 @@ import {
   SquareUser,
   KeySquare,
 } from "lucide-react";
+import {useTranslation} from "react-i18next";
 
 interface SidebarProps {
   className?: string;
@@ -17,39 +18,40 @@ interface SidebarProps {
 
 export default function SidebarUser({ className }: SidebarProps) {
   const pathname = usePathname();
+  const {t} = useTranslation('common');
   const navigation = [
     {
-      name: "Trang cá nhân",
+      name: t('menu.personalPage'),
       href: "/profile",
       icon: User,
       current: pathname === "/profile",
     },
     {
-      name: "Viết Blog",
+      name: t('menu.blogWriting'),
       href: "/profile/posts-blog",
       icon: NotebookPen,
       current: pathname === "/profile/posts-blo",
     },
     {
-      name: "Bài viết của tôi",
+      name: t('menu.myArticle'),
       href: "/blog",
       icon: Album,
       current: pathname === "/blog",
     },
     {
-      name: "Bài viết đã lưu",
+      name: t('menu.savedArticles'),
       href: "/blog",
       icon: BookOpenText,
       current: pathname === "/blog",
     },
     {
-      name: "Thông tin người dùng",
+      name: t('menu.userInformation'),
       href: "/profile/information-user",
       icon: SquareUser,
       current: pathname === "/profile/information-user",
     },
     {
-      name: "Mật khẩu và bảo mật",
+      name: t('menu.PasswordsAndSecurity'),
       href: "/profile/password-and-security",
       icon: KeySquare,
       current: pathname === "/profile/password-and-security",

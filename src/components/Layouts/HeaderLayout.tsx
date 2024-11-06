@@ -44,21 +44,28 @@ import { GetCourseProgress } from "@/apis/usercourse";
 import logo from "@/assets/logo/brain 1.png";
 import Image from "next/image";
 import {useAtoms} from '@/hooks/useAtom';
+import { useTranslation } from 'react-i18next';
 export default function HeaderLayout() {
+  const { t } = useTranslation('common');
   const {pages} = useAtoms();
   const [courseProgress, setCourseProgress] = useState<CourseProgress[]>([]);
   const router = useRouter();
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.user);
   const [search, setSearch] = useState("");
-  const token = getTokenFromCookies();
-  const navigate = (path: string) => {
-    router.push(path);
-  };
+  const [token, setToken] = useState<any>();
 
   useEffect(() => {
     dispatch(Search({ search }));
   }, [search]);
+
+  useEffect(() => {
+    const gettoken = async () => {
+      const tokens = await getTokenFromCookies();
+      setToken(tokens);
+    }
+    gettoken();
+  }, []);
 
   const handleLogout = async () => {
     try {
@@ -103,22 +110,22 @@ export default function HeaderLayout() {
         <div className="hidden sm:flex gap-3">
           <Link href="/">
             <Text type="defaultSemiBold" className="nav-item">
-              Khóa học
+              {t('headers.course')}
             </Text>
           </Link>
           <Link href="/blog">
             <Text type="defaultSemiBold" className="nav-item">
-              Blog
+              {t('headers.blog')}
             </Text>
           </Link>
           <Link href="/online-learning">
             <Text type="defaultSemiBold" className="nav-item">
-              Học online
+              {t('headers.onlineLearning')}
             </Text>
           </Link>
           <Link href="/">
             <Text type="defaultSemiBold" className="nav-item">
-              Giải đấu
+              {t('headers.tournament')}
             </Text>
           </Link>
         </div>
@@ -146,16 +153,16 @@ export default function HeaderLayout() {
               <HoverCard>
                 <HoverCardTrigger asChild>
                   <div className="cursor-pointer text-black">
-                    Khóa học của tôi
+                    {t('myCourse')}
                   </div>
                 </HoverCardTrigger>
                 <HoverCardContent className="w-[30rem] h-[25rem] pt-1 flex flex-col mt-2 mr-20 text-black bg-[#f0efef] rounded">
                   <div className="p-2 flex justify-between">
                     <Text className="text-sm font-semibold text-center">
-                      Khóa học của tôi
+                      {t('myCourse')}
                     </Text>
                     <Text className="text-sm font-semibold text-center">
-                      Xem tất cả
+                      {t('viewAll')}
                     </Text>
                   </div>
                   <div className="overflow-y-auto flex-grow">
@@ -206,14 +213,14 @@ export default function HeaderLayout() {
                 </DropdownMenuTrigger>
 
                 <DropdownMenuContent className="w-56 mt-4 mr-7 p-2 bg-[#f0efef] rounded">
-                  <DropdownMenuLabel>Xin chào, {user.name}</DropdownMenuLabel>
+                  <DropdownMenuLabel>{t('welcome')}, {user.name}</DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <DropdownMenuGroup>
                     <Link href="/profile">
                       <DropdownMenuItem className="cursor-pointer">
                         <User className="mr-2 h-4 w-4" />
                         <span className="hover:text-[#a1a1a1]">
-                          Trang cá nhân
+                          {t('menu.personalPage')}
                         </span>
                       </DropdownMenuItem>
                     </Link>
@@ -221,19 +228,19 @@ export default function HeaderLayout() {
                     <Link href="/profile/posts-blog">
                       <DropdownMenuItem className="cursor-pointer">
                         <NotebookPen className="mr-2 h-4 w-4" />
-                        <span className="hover:text-[#a1a1a1]">Viết Blog</span>
+                        <span className="hover:text-[#a1a1a1]">{t('menu.blogWriting')}</span>
                       </DropdownMenuItem>
                     </Link>
                     <DropdownMenuItem className="cursor-pointer">
                       <Album className="mr-2 h-4 w-4" />
                       <span className="hover:text-[#a1a1a1]">
-                        Bài viết của tôi
+                        {t('menu.myArticle')}
                       </span>
                     </DropdownMenuItem>
                     <DropdownMenuItem className="cursor-pointer">
                       <BookOpenText className="mr-2 h-4 w-4" />
                       <span className="hover:text-[#a1a1a1]">
-                        Bài viết đã lưu
+                        {t('menu.savedArticles')}
                       </span>
                     </DropdownMenuItem>
                   </DropdownMenuGroup>
@@ -243,7 +250,7 @@ export default function HeaderLayout() {
                       <DropdownMenuItem className="cursor-pointer">
                         <Lock className="mr-2 h-4 w-4" />
                         <span className="hover:text-[#a1a1a1]">
-                          Thông tin trang web
+                          {t('menu.websiteInformation')}
                         </span>
                       </DropdownMenuItem>
                     </Link>
@@ -251,7 +258,7 @@ export default function HeaderLayout() {
                   <Link href="/profile/information-user">
                     <DropdownMenuItem className="cursor-pointer">
                       <Settings className="mr-2 h-4 w-4" />
-                      <span className="hover:text-[#a1a1a1]">Cài đặt</span>
+                      <span className="hover:text-[#a1a1a1]">{t('menu.setting')}</span>
                     </DropdownMenuItem>
                   </Link>
                   <DropdownMenuItem
@@ -259,7 +266,7 @@ export default function HeaderLayout() {
                     onClick={handleLogout}
                   >
                     <LogOut className="mr-2 h-4 w-4" />
-                    <span className="hover:text-[#a1a1a1]">Đăng xuất</span>
+                    <span className="hover:text-[#a1a1a1]">{t('menu.logOut')}</span>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>

@@ -5,8 +5,9 @@ import Footer from "@/components/Layouts/Footer";
 import usePageConfig from "@/hooks/usePageConfig";
 import LoadingPage from "../components/Loading/LoadingPage";
 import { usePathname } from "next/navigation";
-
-export default function SidebarHeader({
+import { appWithTranslation } from "next-i18next";
+import '@/../i18n';
+function SidebarHeader({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -51,3 +52,5 @@ export default function SidebarHeader({
     </>
   );
 }
+
+export default appWithTranslation(SidebarHeader);
