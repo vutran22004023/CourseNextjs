@@ -18,7 +18,6 @@ import {
 import { useLanguage } from "@/context/LanguageContext";
 export default function Footer() {
   const {pages,footer} = useAtoms();
-  console.log(footer)
   const { language, setLanguage } = useLanguage();
   return (
     <div className="bg-[#181821] w-full h-auto p-[80px] leading-6 md:flex gap-2 justify-center">
