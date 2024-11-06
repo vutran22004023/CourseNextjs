@@ -17,7 +17,8 @@
     "setting": "Cài đặt",
     "logOut": "Đăng xuất",
     "userInformation": "Thông tin người dùng",
-    "PasswordsAndSecurity": "Mật khẩu và Bảo mật"
+    "PasswordsAndSecurity": "Mật khẩu và Bảo mật",
+    "Suggestions": "Gợi ý"
   },
   "status": {
     "successForgotPass": "Đã gửi form để xác nhận email",
@@ -60,5 +61,29 @@
   "History": "Lịch sử",
   "Class": "Lớp",
   "AddImage": "Thêm ảnh",
-  "AddFile": "Thêm tệp"
+  "AddFile": "Thêm tệp",
+  "titleDelete": "Bạn có chắc chắn xóa blog ...",
+  "DescriptionDelete": "Bạn phải chắc chắn rằng bạn sẽ xóa blog này, nếu xóa thì dữ liệu mất vĩnh viễn.",
+  "DeleteBlog": "Xóa bài viết",
+  "blogFormSchema": {
+    "titleMin":"Tiêu đề blog phải ít nhất 2 kí tự",
+    "titleMax": "Tiêu đề blog phải tối đa 100 kí tự",
+    "content": "Nội dung blog phải ít nhất 10 kí tự"
+  },
+  "AddBlog": "Tạo blog mới",
+  "FormAddBlog": {
+    "titleBlog": "Tiêu đề blog",
+    "placeholderTitleBlog": "Nhập tiêu đề blog",
+    "ContentBlog": "Nội dung",
+    "placeholderContentBlog": "Nhập nội dung blog",
+    "Table": {
+      "selectAll": "Chọn tất cả",
+      "SelectRow": "Chọn hàng",
+      "title": "Tiêu đề",
+      "description": "Mô tả",
+      "createdAt": "Ngày tạo",
+      "updatedAt": "Ngày cập nhật",
+      "actions": "Actions"
+    }
+  }
 }

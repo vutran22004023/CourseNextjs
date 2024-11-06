@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, {useEffect} from "react";
 import Text from "@/components/Text/text";
 import ImageErr from "@/assets/Images/image.png";
 import Image from "next/image";
@@ -11,6 +11,7 @@ import {CalendarClock, CalendarCheck2, CalendarCog} from "lucide-react";
 import Button from "@/components/Button/Button";
 import {formatDateRoom} from "@/utils";
 import {useRouter} from "next/navigation";
+import {useAtoms} from "@/hooks/useAtom";
 
 const fetchShowUserTeacherRoom = async (id: any) => {
     try {
@@ -31,7 +32,7 @@ const fetchShowUserStudentRoom = async (id: any) => {
 export default function cardRoom() {
     const user = useSelector((state: RootState) => state.user);
     const router = useRouter();
-
+    const {setRoom} = useAtoms();
     const {data: dataRoom, isPending: isLoadingMessage} = useQuery({
         queryKey: ["fetchRoom"],
         queryFn: async () => {
@@ -45,7 +46,12 @@ export default function cardRoom() {
         retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
         refetchInterval: 5000,
     });
-    console.log(dataRoom)
+
+    useEffect(()=> {
+        if(dataRoom) {
+            setRoom(dataRoom?.data?.rooms);
+        }
+    },[dataRoom])
 
     const handleJoinRoom = (roomId: string) => {
         router.push(`/online-learning/${roomId}`);

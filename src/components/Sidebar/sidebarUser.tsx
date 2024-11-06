@@ -9,9 +9,10 @@ import {
   NotebookPen,
   SquareUser,
   KeySquare,
+  AlignLeft
 } from "lucide-react";
 import {useTranslation} from "react-i18next";
-
+import Text from '@/components/Text/text'
 interface SidebarProps {
   className?: string;
 }
@@ -63,21 +64,25 @@ export default function SidebarUser({ className }: SidebarProps) {
     <div className={cn("pb-12", className)}>
       <div className="space-y-4 py-3">
         <div className="px-3 py-2">
-          <div className="space-y-1">
+          <div className={cn(
+              "fixed z-40 transform bg-white shadow-lg transition-transform duration-300 ease-in-out md:relative md:translate-x-0 p-3 rounded-lg",
+          )}>
+
             {navigation.map((item, index) => (
               <Link
               key={item.name}
               href={item.href}
               className={cn(
-                "w-full hover:bg-[#ff5a00] hover:text-white mb-3 rounded-2xl h-[70px] flex flex-col justify-center items-center text-center",
-                item.current &&
-                  "bg-[#ff5a00] text-white shadow-xl border-2 border-[#00000061]]"
+                "w-full rounded-lg hover:bg-orange-500 hover:text-white transition-colors p-2 duration-200 flex flex-col justify-center items-center text-center mb-2",
+                  item.current
+                      ? "bg-orange-500 text-white shadow-md"
+                      : "text-gray-700"
               )}
             >
               <div className="flex justify-center items-center w-full mb-1">
                 <item.icon width={20} height={20} className="mr-1" />
               </div>
-              <span>{item.name}</span>
+              <div className="text-sm">{item.name}</div>
             </Link>
             ))}
           </div>

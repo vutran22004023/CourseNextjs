@@ -1,6 +1,7 @@
+"use client"
 import React from "react";
 import SidebarAdminComponent from "@/components/Sidebar/sidebarAdmin";
-
+import '@/../i18n';
 export default function SidebarAdmin({
   children,
 }: {

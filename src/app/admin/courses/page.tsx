@@ -24,7 +24,6 @@ export default function courses() {
     isLoading: isLoadingAllCourses,
     refetch,
   } = fetchTableData;
-  console.log(dataAllCourses);
   const handleRefetch = async () => {
     await refetch(); // Ignore the returned value
   };
