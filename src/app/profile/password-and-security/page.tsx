@@ -20,8 +20,10 @@ import {error, success} from "@/components/Message/Message";
 import {ResetPassProps} from "@/types";
 import {useMutationHook} from "@/hooks";
 import IsLoadingComponment from "@/components/Loading/Loading";
+import {useTranslation} from "react-i18next";
 
 export default function PasswordAndSecurity() {
+    const {t} = useTranslation('common');
     const [showConfirmPassword, setConfirmPassword] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [passwordStrength, setPasswordStrength] = useState<number>(0);
@@ -107,11 +109,11 @@ export default function PasswordAndSecurity() {
 
     return (
         <div className="container w-full">
-            <Text type="subtitle">Mật khẩu và bảo mật</Text>
+            <Text type="subtitle">{t('Profile.Password.Title')}</Text>
 
             <div>
-                <Text type="defaultSemiBold" className="mt-3">Đăng nhập & khôi phục</Text>
-                <p className="mb-10 text-[14px]">Quản lý mật khẩu và xác minh 2 bước</p>
+                <Text type="defaultSemiBold" className="mt-3">{t('Profile.Password.Basic')}</Text>
+                <p className="mb-10 text-[14px]">{t('Profile.Password.DescTitle')}</p>
             </div>
 
             <div className="w-full bg-slate-300" style={{borderRadius: "20px"}}>
@@ -122,8 +124,8 @@ export default function PasswordAndSecurity() {
                             style={{borderRadius: "20px 20px 0 0"}}
                         >
                             <div>
-                                <Text className="cactus-classical-serif-md">Đổi mật khẩu</Text>
-                                <Text className="">Chưa đổi mật khẩu</Text>
+                                <Text className="cactus-classical-serif-md">{t('Profile.Password.Change')}</Text>
+                                <Text className="">{t('Profile.Password.DetailChange')}</Text>
                             </div>
                             <div>
                                 <ArrowBigRight className="w-[50px] h-[50px]"/>
@@ -132,9 +134,9 @@ export default function PasswordAndSecurity() {
                     </DialogTrigger>
                     <DialogContent className="sm:max-w-[425px] bg-slate-50">
                         <DialogHeader>
-                            <DialogTitle>Cập nhật mật khẩu </DialogTitle>
+                            <DialogTitle>{t('Profile.Password.UpdatePassword')}</DialogTitle>
                             <DialogDescription>
-                                Thay đổi mật khẩu của bạn
+                                {t('Profile.Password.DescUpdate')}
                             </DialogDescription>
                         </DialogHeader>
                         <div className="grid gap-4 py-4">
@@ -268,8 +270,8 @@ export default function PasswordAndSecurity() {
                             style={{borderRadius: "0 0 20px 20px"}}
                         >
                             <div>
-                                <div className="cactus-classical-serif-md">Xác minh 2 bước</div>
-                                <div className="">Đang tắt</div>
+                                <div className="cactus-classical-serif-md">{t('Profile.Password.2step')}</div>
+                                <div className="">{t('Profile.Password.Desc2step')}</div>
                             </div>
                             <div>
                                 <ArrowBigRight className="w-[50px] h-[50px]"/>

@@ -66,7 +66,7 @@
   "DescriptionDelete": "Bạn phải chắc chắn rằng bạn sẽ xóa blog này, nếu xóa thì dữ liệu mất vĩnh viễn.",
   "DeleteBlog": "Xóa bài viết",
   "blogFormSchema": {
-    "titleMin":"Tiêu đề blog phải ít nhất 2 kí tự",
+    "titleMin": "Tiêu đề blog phải ít nhất 2 kí tự",
     "titleMax": "Tiêu đề blog phải tối đa 100 kí tự",
     "content": "Nội dung blog phải ít nhất 10 kí tự"
   },
@@ -85,5 +85,123 @@
       "updatedAt": "Ngày cập nhật",
       "actions": "Actions"
     }
+  },
+  "pagesBlog": {
+    "New": "Mới",
+    "AllPost": "Tất cả",
+    "FeaturedArticles": "Các bài viết nổi bật"
+  },
+  "CourseLogin": {
+    "Update": "Cập nhật",
+    "AddNote": "Thêm ghi chú",
+    "Q&A": "Hỏi đáp",
+    "descriptionCourse": "Tham gia các cộng đồng để cùng học hỏi, chia sẻ và thám thính xem F8 sắp có gì mới nhé!",
+    "LinkFB": "Fanpage: https://www.facebook.com/f8vnofficial",
+    "Previous": "Bài trước",
+    "Next": "Bài tiếp theo",
+    "Exit": "Hủy bỏ",
+    "CreateNote": "Tạo ghi chú",
+    "Note": "Ghi chú của tôi",
+    "Chapter1": "Trong chương hiện tại",
+    "Chapter2": "Chương sau",
+    "New": "Mới nhất",
+    "Old": "Cũ nhất",
+    "Edit": "Chỉnh sửa",
+    "Delete": "Xóa",
+    "Save": "Lưu"
+  },
+  "CourseNotLogin": {
+    "WillLearn": "Bạn sẽ học được gì?",
+    "CourseContent": "Nội dung khóa học",
+    "Chapter": "chương",
+    "Lesson": "bài học",
+    "Time": "Thời lượng",
+    "All": "Tất cả",
+    "Request": "Yêu cầu",
+    "Device": "Máy vi tính kết nối internet (Windows, Ubuntu hoặc MacOS)",
+    "Price": {
+      "free": "Miễn phí",
+      "paid": "Trả phí"
+    }
+  },
+  "Pay": {
+    "PaymentFailed": "Thanh toán thất bại",
+    "NotificationFailed": "Đơn hàng của bạn thanh toán thất bại, vui lòng bạn thử lại sau",
+    "HomePage": "Quay lại trang chủ",
+    "PaymentSuccessful": "Thanh toán thành công",
+    "NotificationSuccessful": "Đơn hàng của bạn thanh toán thành công, cảm ơn đã tin tưởng và mua khóa học của chúng tôi",
+    "myCourse": "Khóa học của tôi"
+  },
+  "OnlineLearning": {
+    "JoinClass": "Tham gia lớp học ngay",
+    "JoinRoom": "Tham gia Room ngay",
+    "CodeRoom": "Nhập mã Room",
+    "Join": "Tham gia ngay",
+    "CreateClass": "Tạo lớp học",
+    "AddClass": "Thêm lớp học mới",
+    "Content": "Nội dung:",
+    "FilterDate": "Lọc ngày: ",
+    "Member": "Người tham gia: ",
+    "Studying": "Đang diễn ra",
+    "Detail": "Xem chi tiết",
+    "descriptionClass": "Hiện tại không có lớp học nào đang diễn ra.",
+    "Complete": "Đã hoàn thành"
+  },
+  "Profile": {
+    "Introduce": "Giới thiệu",
+    "TimeJoin": "Thành viên của Courseniver - Học lập trình để đi làm từ",
+    "Recent": "Hoạt động gần đây",
+    "DescRecent": "Chưa có hoạt động gần đây",
+    "Course": "Các khóa học đã tham gia",
+    "User": {
+      "Title": "Thông tin người dùng",
+      "Basic": "Thông tin cơ bản",
+      "Description": "Quản lý tên hiển thị, tên người dùng, mô tả và avatar của bạn",
+      "UpdateEmail": "Cập nhật email của bạn",
+      "DescEmail": "Email sẽ được sử dụng để đăng nhập vào Couniverse",
+      "Update": "Cập nhật",
+      "UserName": "Tên người dùng",
+      "UpdateName": "Cập nhật tên của bạn",
+      "DescName": "Tên sẽ được hiển thị trên trang cá nhân, trong các bình luận và bài viết của bạn",
+      "Role": "Vai trò",
+      "UpdateRole": "Cập nhật vai trò",
+      "Image": "Ảnh đại diện",
+      "Social": "Thông tin mạng xã hội",
+      "DescSocial": "Quản lý liên kết tới các trang mạng xã hội của bạn",
+      "NotUpdate": "Chưa cập nhật"
+    },
+    "Password": {
+      "Title": "Mật khẩu và bảo mật",
+      "Basic": "Đăng nhập & khôi phục",
+      "DescTitle": "Quản lý mật khẩu và xác minh 2 bước",
+      "Change": "Đổi mật khẩu",
+      "DetailChange": "Chưa đổi mật khẩu",
+      "UpdatePassword": "Cập nhật mật khẩu",
+      "DescUpdate": "Thay đổi mật khẩu của bạn",
+      "2step": "Xác minh 2 bước",
+      "Desc2step": "Đang tắt"
+    }
+  },
+  "ResetPassword": {
+    "Reset": "Đặt lại mật khẩu",
+    "Hello": "Xin chào",
+    "Pls": "Vui lòng nhập mật khẩu mới và xác nhận lại mật khẩu mới",
+    "NewPass": "Mật khẩu mới",
+    "ConfirmPass": "Xác nhận mật khẩu mới",
+    "Check": "Mật khẩu mới và xác nhận mật khẩu không khớp",
+    "Alert": "Bạn sẽ được chuyển hướng sau"
+  },
+  "CourseList": {
+    "Title": "Khóa học Pro",
+    "Foundation": "Nền tảng cơ bản cho việc học lập trình",
+    "Title2": "Khóa học Free"
+  },
+  "ModalPay": {
+    "Title": "Mở khóa toàn bộ khóa học",
+    "Price": "Giá bán:",
+    "Description": "Học Javascript cơ bản phù hợp cho người chưa từng học lập trình. Với hơn 100 bài học và có bài tập thực hành sau mỗi bài học.",
+    "ZaloPay": "Thanh toán với ZaloPay",
+    "QR": "Thanh toán với QR",
+    "Learn": "Bạn sẽ học được gì"
   }
 }

@@ -1,10 +1,13 @@
+'use client'    
 import Anh1 from "@/assets/Images/hinh-dep.jpg";
 import CardComponentBlog from "@/components/Card/CardBlog";
 import Text from "@/components/Text/text";
 import { Users } from "lucide-react";
 import Image from "next/image";
+import {useTranslation} from "react-i18next";
 
 export default function PersonalPage() {
+  const {t} = useTranslation('common');
   return (
     <div className="container w-full" style={{ padding: "0 90px" }}>
       <div className="min-h-screen bg-gray-100">
@@ -32,30 +35,30 @@ export default function PersonalPage() {
           <div className="w-[300px] mr-3">
             <CardComponentBlog>
               <Text className="cactus-classical-serif-md text-[16px]  mb-3">
-                Giới thiệu
+                {t('Profile.Introduce')}
               </Text>
               <p className="mb-10 text-[12px] flex">
                 <Users />{" "}
                 <Text className="ml-1">
-                  Thành viên của F8 - Học lập trình để đi làm từ 2 năm trước
+                  {t('Profile.TimeJoin')} 2 năm trước
                 </Text>
               </p>
             </CardComponentBlog>
 
             <CardComponentBlog>
               <Text className="cactus-classical-serif-md text-[16px]  mb-3">
-                Hoạt động gần đây
+                {t('Profile.Recent')}
               </Text>
               <p className="mb-10 text-[12px] flex">
                 <Users />{" "}
-                <Text className="ml-1">Chưa có hoạt động gần đây</Text>
+                <Text className="ml-1">{t('Profile.DescRecent')}</Text>
               </p>
             </CardComponentBlog>
           </div>
           <div className="flex-1">
             <CardComponentBlog>
               <h2 className="cactus-classical-serif-md text-[16px] mb-3 ">
-                Các khóa học đã tham gia
+                {t('Profile.Course')}
               </h2>
               <div className="flex justify-between ">
                 <div>

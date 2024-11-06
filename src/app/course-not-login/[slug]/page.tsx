@@ -13,7 +13,10 @@ import { GetDetailCoursesNotLogin } from "@/apis/course";
 import React, { useEffect, useState } from "react";
 import Login_RegisterComponent from "@/components/Login-Register/Login";
 import Text from "@/components/Text/text";
+import {useTranslation} from "react-i18next";
+
 export default function CoursesNotLogin() {
+  const {t} = useTranslation('common');
   const [dataCourseDetail, setDataCourseDetail] = useState<any>();
   const [isLoadingDetail, setIsLoadingDetail] = useState(false);
   const { slug } = useParams<any>();
@@ -108,7 +111,7 @@ export default function CoursesNotLogin() {
 
           <div className="mb-5">
             <Text type="subtitle" className="mb-4 ">
-              Bạn sẽ học được gì?
+              {t('CourseNotLogin.WillLearn')}
             </Text>
             <div className="text-[15px] mb-7 flex justify-between">
               <div>
@@ -161,14 +164,13 @@ export default function CoursesNotLogin() {
 
           <div className="mb-5">
             <Text type="subtitle" className="mb-4">
-              Nội dung khóa học
+              {t('CourseNotLogin.CourseContent')}
             </Text>
             <div className="flex justify-between mb-3">
               <Text>
-                {dataCourseDetail?.chapters?.length} chương - {totalVideos} bài
-                học - Thời lượng {formattedTime}
+                {dataCourseDetail?.chapters?.length} {t('CourseNotLogin.Chapter')} - {totalVideos} {t('CourseNotLogin.Lesson')} - {t('CourseNotLogin.Time')} {formattedTime}
               </Text>
-              <Text className="text-[14px]">Mở rộng tất cả</Text>
+              <Text className="text-[14px]">{t('CourseNotLogin.All')}</Text>
             </div>
             <div>
               <Accordion type="single" collapsible className="w-full">
@@ -193,11 +195,11 @@ export default function CoursesNotLogin() {
           </div>
 
           <div className="mb-5">
-            <Text className="text-[20px] mb-4 ">Yêu cầu</Text>
+            <Text className="text-[20px] mb-4 ">{t('CourseNotLogin.Request')}</Text>
             <div className="flex mb-1">
               <CircleCheckBig className="w-[20px] h-[20px] mr-2" />
               <Text className="text-[14px]">
-                Máy vi tính kết nối internet (Windows, Ubuntu hoặc MacOS)
+                {t('CourseNotLogin.Device')}
               </Text>
             </div>
           </div>

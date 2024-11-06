@@ -22,6 +22,7 @@ import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { setItemPay } from "@/redux/Slides/itemPay";
 import Text from "@/components/Text/text";
+import {useTranslation} from "react-i18next";
 
 interface Props {
   isOpen: boolean;
@@ -30,6 +31,7 @@ interface Props {
 }
 
 export default function modalPay({ isOpen, setIsOpen, course }: Props) {
+  const {t} = useTranslation('common');
   const dispatch = useDispatch();
   const router = useRouter();
   const user = useSelector((state: RootState) => state.user);
@@ -109,7 +111,7 @@ export default function modalPay({ isOpen, setIsOpen, course }: Props) {
       contentHeader={
         <>
           <div className="text-center cactus-classical-serif-md text-[25px]">
-            Mở khóa toàn bộ khóa học
+            {t('ModalPay.Title')}
           </div>
         </>
       }
@@ -126,14 +128,13 @@ export default function modalPay({ isOpen, setIsOpen, course }: Props) {
                 {course?.name}
               </Text>
               <Text className="text-[#a2adbd]">
-                Giá bán:{" "}
+                {t('ModalPay.Price')}{" "}
                 <span className="cactus-classical-serif-md text-[25px] font-bold text-[#000]">
                   {formatCurrencyVND(course?.priceAmount)}
                 </span>
               </Text>
               <Text className="mb-7 ">
-                Học Javascript cơ bản phù hợp cho người chưa từng học lập trình.
-                Với hơn 100 bài học và có bài tập thực hành sau mỗi bài học.
+                {t('ModalPay.Description')}
               </Text>
               <Button
                 className="w-full p-5 rounded-xl bg-slate-800 text-[#fff] cactus-classical-serif-md text-[18px] uppercase relative mb-3 hover:bg-slate-600"
@@ -146,7 +147,7 @@ export default function modalPay({ isOpen, setIsOpen, course }: Props) {
                   className="absolute left-6"
                   alt="Zalopay"
                 />
-                <Text>Thanh toán với ZaloPay</Text>
+                <Text>{t('ModalPay.ZaloPay')}</Text>
               </Button>
               <Button
                 className="w-full p-5 rounded-xl bg-slate-800 text-[#fff] cactus-classical-serif-md text-[18px] uppercase relative mb-3 hover:bg-slate-600"
@@ -159,13 +160,13 @@ export default function modalPay({ isOpen, setIsOpen, course }: Props) {
                   className="absolute left-6 text-[#fff]"
                   alt="QR"
                 />
-                <Text>Thanh toán với QR</Text>
+                <Text>{t('ModalPay.QR')}</Text>
               </Button>
             </div>
           </div>
           <div className="mb-5 px-9">
             <Text className="cactus-classical-serif-md text-[20px] mb-4 ">
-              Bạn sẽ học được gì?
+              {t('CourseNotLogin.WillLearn')}
             </Text>
             <div className="text-[15px] mb-7 flex justify-between ">
               <div>
@@ -217,15 +218,14 @@ export default function modalPay({ isOpen, setIsOpen, course }: Props) {
           </div>
           <div className="mb-5">
             <div className="cactus-classical-serif-md text-[20px] mb-4 ">
-              Nội dung khóa học
+              {t('CourseNotLogin.CourseContent')}
             </div>
             <div className="flex justify-between mb-3">
               <div>
-                {course?.chapters?.length} chương - {totalVideos} bài học - Thời
-                lượng {formattedTime}
+                {course?.chapters?.length} {t('CourseNotLogin.Chapter')} - {totalVideos} {t('CourseNotLogin.Lesson')} - {t('CourseNotLogin.Time')} {formattedTime}
               </div>
               <div className="cactus-classical-serif-md text-[14px]">
-                Mở rộng tất cả
+                {t('CourseNotLogin.All')}
               </div>
             </div>
             <div className="px-9">

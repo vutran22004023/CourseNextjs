@@ -5,6 +5,7 @@ import { CreateNote } from "@/apis/usercourse";
 import { useMutationHook } from "@/hooks";
 import { success } from "@/components/Message/Message";
 import { Input } from "@/components/ui/input";
+import {useTranslation} from "react-i18next";
 interface Props {
   setIsModalOpenEdit: (value: boolean) => void;
   timeVideo: string;
@@ -20,6 +21,7 @@ export default function createNote({
   setIsModalOpenEdit,
   navbarRight,
 }: Props) {
+  const {t} = useTranslation('common');
   const [valueTitle, setValueTitle] = useState<string>("");
   const [valueWord, setValueWord] = useState<string>("");
   const mutationCreateNote = useMutationHook(async (data) => {
@@ -77,7 +79,7 @@ export default function createNote({
             onClick={() => setIsModalOpenEdit(false)}
             type="notesheet"
           >
-            Hủy bỏ
+            {t('CourseLogin.Exit')}
           </ButtonComponment>
           <ButtonComponment
             onClick={handleCreateNote}
@@ -87,7 +89,7 @@ export default function createNote({
               valueTitle.length > 0 && valueWord.length > 0 ? false : true
             }
           >
-            Tạo ghi chú
+            {t('CourseLogin.CreateNote')}
           </ButtonComponment>
         </div>
       </div>

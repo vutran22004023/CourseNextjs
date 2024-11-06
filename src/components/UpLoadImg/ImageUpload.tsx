@@ -5,8 +5,9 @@ import {useTranslation} from "react-i18next";
 interface ImageUploadProps {
   onImageUpload: (file: File) => void;
 }
-const {t} = useTranslation('common');
+
 export const ImageUpload: React.FC<ImageUploadProps> = ({ onImageUpload }) => {
+  const {t} = useTranslation('common');
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const onDrop = useCallback(
     (acceptedFiles: any) => {
@@ -41,6 +42,7 @@ interface FileUploadProps {
 }
 
 export const FileUpload: React.FC<FileUploadProps> = ({ onFileUpload }) => {
+  const {t} = useTranslation('common');
   const [fileName, setFileName] = useState<string | null>(null);
 
   const onDrop = useCallback(

@@ -25,6 +25,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { CreateRoomApi } from "@/apis/videoSDK";
 import { success } from "@/components/Message/Message";
+import {useTranslation} from "react-i18next";
 
 const { RangePicker } = DatePicker;
 
@@ -41,6 +42,7 @@ const RoomFormSchema = z.object({
 type RoomFormValues = z.infer<typeof RoomFormSchema>;
 
 export default function CreateRoom() {
+  const {t} = useTranslation('common');
   const user = useSelector((state: RootState) => state.user);
   const [openModalCreate, setOpenModalCreate] = useState<boolean>(false);
   const [openSelectSearch, setOpenSelectSearch] = useState(false);
@@ -126,10 +128,10 @@ export default function CreateRoom() {
             className="p-2 flex flex-row justify-center"
             onClick={() => setOpenModalCreate(true)}
           >
-            Tạo lớp học
+            {t('OnlineLearning.CreateClass')}
           </Button>
         }
-        contentHeader={<Text type="subtitle">Thêm khóa học mới</Text>}
+        contentHeader={<Text type="subtitle">{t('OnlineLearning.AddClass')}</Text>}
         contentBody={
           <Form {...form}>
             <form className="space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
@@ -138,7 +140,7 @@ export default function CreateRoom() {
                 name="title"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Nội dung:</FormLabel>
+                    <FormLabel>{t('OnlineLearning.Content')}</FormLabel>
                     <FormControl>
                       <Input
                         className="bg-white mt-2"
@@ -152,11 +154,11 @@ export default function CreateRoom() {
               />
 
               <FormItem className="flex flex-col">
-                <FormLabel className="mb-2">Lọc ngày: </FormLabel>
+                <FormLabel className="mb-2">{t('OnlineLearning.FilterDate')}</FormLabel>
                 <RangePicker showTime onChange={handleDateChange} />
               </FormItem>
               <FormItem className="flex flex-col">
-                <FormLabel className="mb-2">Người tham gia: </FormLabel>
+                <FormLabel className="mb-2">{t('OnlineLearning.Member')}</FormLabel>
                 <Selector
                   open={openSelectSearch}
                   setOpen={setOpenSelectSearch}
@@ -175,7 +177,7 @@ export default function CreateRoom() {
         }
         contentFooter={
           <ButtonUi type="submit" onClick={form.handleSubmit(onSubmit)}>
-            Tạo khóa học
+            {t('OnlineLearning.CreateClass')}
           </ButtonUi>
         }
       />
