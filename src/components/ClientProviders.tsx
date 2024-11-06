@@ -28,7 +28,7 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 const ClientProviders: React.FC<{ children: React.ReactNode }> = ({
   children
 }) => {
-  const {setToken,setPages, pages} = useAtoms();
+  const {setToken,setPages, pages,setFooter} = useAtoms();
   const pathname = usePathname();
   const [informationPage, setInformationPage] = useState<any>();
   useEffect(() => {
@@ -45,6 +45,7 @@ const ClientProviders: React.FC<{ children: React.ReactNode }> = ({
   useEffect(() => {
     if (pathname && informationPage) {
       setPages({logo: informationPage.logo, logoSmall: informationPage.logoSmall});
+      setFooter({contactInfo: informationPage?.contactInfo, footer: informationPage.footer, socialMediaLinks: informationPage.socialMediaLinks})
       const pathInfo = informationPage.paths.find(
         (path: any) => path.route === pathname
       );
