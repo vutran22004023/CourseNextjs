@@ -11,6 +11,12 @@ interface Page {
     logoSmall: string;
 }
 
+interface Footer {
+    contactInfo: any[],
+    footer: any[],
+    socialMediaLinks: any[]
+}
+
 const dataIdCourse = atom<IdCourse>({
     courseId: null,
     videoID: null,
@@ -26,6 +32,12 @@ const runAtom = atom<boolean | false>(false);
 
 const roomAtom = atom<any[]>([]);
 
+const footerAtom = atom<Footer>({
+    contactInfo: [],
+    footer: [],
+    socialMediaLinks: []
+});
+
 
 export const useAtoms = () => {
   const [courseDetail, setCourseDetail] = useAtom(dataIdCourse);
@@ -33,6 +45,7 @@ export const useAtoms = () => {
   const [pages, setPages] = useAtom(page);
   const [run, setRun] = useAtom(runAtom);
   const [room, setRoom] = useAtom(roomAtom)
+    const [footer, setFooter] = useAtom(footerAtom);
   return {
     courseDetail,
     setCourseDetail,
@@ -43,6 +56,8 @@ export const useAtoms = () => {
       run,
       setRun,
       room,
-      setRoom
+      setRoom,
+      setFooter,
+      footer
   };
 };
