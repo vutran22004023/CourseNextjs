@@ -25,7 +25,7 @@ import { CreateCourses } from "@/apis/course";
 import { useMutationHook } from "@/hooks";
 import { success, error } from "@/components/Message/Message";
 import { IfetchTable } from "@/types";
-import { ImageUpload, FileUpload } from "@/components/UpLoadImg/ImageUpload";
+import { ImageUpload, FileUpload,VideoUpload } from "@/components/UpLoadImg/ImageUpload";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import slugify from "slugify";
@@ -78,8 +78,9 @@ const videoSchema = z.object({
   childname: z.string().min(1, "Vui lòng nhập tên video"),
   video: z.string().url("Vui lòng nhập URL hợp lệ").optional(),
   slug: z.string().optional(),
-  videoType: z.enum(["video", "exercise"]),
+  videoType: z.enum(["video", "exercise","videofile"]),
   file: z.instanceof(File).optional(),
+  videoFile: z.instanceof(File).optional(),
   quiz: z.array(questionSchema).optional(),
 });
 
@@ -158,6 +159,10 @@ export default function NewCourses({ fetchTableData }: IfetchTable) {
             if (video.file) {
               const url = await uploadFile(video.file, "homeworkFile");
               video.file = url;
+            }
+            if(video.videoFile){
+              const url = await uploadFile(video.videoFile, "video");
+              video.videoFile = url;
             }
           }
         }
@@ -463,6 +468,7 @@ function ChapterField({
                       <SelectContent className="bg-[#ececec]">
                         <SelectItem value="video">Video</SelectItem>
                         <SelectItem value="exercise">Bài tập</SelectItem>
+                        <SelectItem value="videofile">Truyền file video</SelectItem>
                       </SelectContent>
                     </Select>
                   </FormControl>
@@ -485,7 +491,25 @@ function ChapterField({
                   </FormItem>
                 )}
               />
-            ) : (
+            ) : form.watch(
+                `chapters.${chapterIndex}.videos.${videoIndex}.videoType`
+            ) === "videofile" ? (
+                <FormField
+                    control={control}
+                    name={`chapters.${chapterIndex}.videos.${videoIndex}.videoFile`}
+                    render={({ field: { onChange, value } }) => (
+                        <FormItem>
+                          <FormLabel>File video</FormLabel>
+                          <VideoUpload
+                              onVideoUpload={(file) => {
+                                onChange(file);
+                              }}
+                          />
+                          <FormMessage className="text-[red]" />
+                        </FormItem>
+                    )}
+                />
+                ) : (
               <>
                 <FormItem>
                   <FormLabel>Loại thể loại</FormLabel>
