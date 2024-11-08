@@ -32,6 +32,7 @@ import { v4 } from "uuid";
 import { ImageUpload } from "@/components/UpLoadImg/ImageUpload";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
+import Image from 'next/image'
 // Schema validation using Zod
 const userFormSchema = z.object({
   name: z
@@ -221,8 +222,10 @@ export default function NewUsers({ fetchTableData }: IfetchTable) {
               />
               {imagePreview && (
                 <div className="mt-4">
-                  <img
+                  <Image
                     src={imagePreview}
+                    width='200'
+                    height='200'
                     alt="Image Preview"
                     className="w-[200px] h-[200px] object-cover rounded-lg"
                   />

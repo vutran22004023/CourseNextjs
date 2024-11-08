@@ -80,7 +80,7 @@ export const initializeUser = async (dispatch: AppDispatch) => {
                 if (userId) {
                     try {
                         const response = await GetDetailUser(userId, token);
-
+                        console.log(response)
                         if (response.status === 200) {
                             dispatch(
                                 updateUser({
@@ -90,7 +90,8 @@ export const initializeUser = async (dispatch: AppDispatch) => {
                                     _id: response.data._id || "",
                                     isAdmin: response.data.isAdmin || false,
                                     status: response.data.status || false,
-                                    role: response.data.role || null
+                                    role: response.data.role || null,
+                                    createdAt : response.data.createdAt || new Date(),
                                 })
                             );
                         }
