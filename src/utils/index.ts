@@ -47,3 +47,29 @@ export const formatDateRoom =(dateString: string) => {
   // Ghép thành chuỗi định dạng
   return `${hours}:${minutes} - ${day}/${month}/${year}`;
 }
+
+export const formatDateRoomUser = (updatedAt: string | Date): string => {
+  const currentDate = new Date();
+  const updatedDate = new Date(updatedAt);
+
+  // Tính chênh lệch thời gian tính bằng mili giây
+  const diffInMs = currentDate.getTime() - updatedDate.getTime();
+
+  // Chuyển đổi các đơn vị thời gian từ mili giây
+  const seconds = Math.floor(diffInMs / 1000);
+  const minutes = Math.floor(seconds / 60);
+  const hours = Math.floor(minutes / 60);
+  const days = Math.floor(hours / 24);
+  const months = Math.floor(days / 30);
+  const years = Math.floor(days / 365);
+
+  // Xác định đơn vị thời gian và trả về chuỗi phù hợp
+  if (years > 0) return `${years} năm trước`;
+  if (months > 0) return `${months} tháng trước`;
+  if (days > 0) return `${days} ngày trước`;
+  if (hours > 0) return `${hours} giờ trước`;
+  if (minutes > 0) return `${minutes} phút trước`;
+  if (seconds > 0) return `${seconds} giây trước`;
+
+  return "Vừa xong"; // Trường hợp dưới 1 giây
+};

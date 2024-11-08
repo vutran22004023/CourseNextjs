@@ -12,11 +12,11 @@ import { useEffect, useState } from "react";
 import CardHistory from "@/components/Card/CardHistory";
 import { getTokenFromCookies } from "@/utils/auth";
 import { GetCourseProgress } from "@/apis/usercourse";
+import {formatDateRoomUser} from '@/utils/index'
 
 export default function PersonalPage() {
   const { t } = useTranslation("common");
   const user = useSelector((state: RootState) => state.user);
-  console.log(user);
   const [courseProgress, setCourseProgress] = useState<CourseProgress[]>([]);
   const [token, setToken] = useState<any>();
 
@@ -39,13 +39,13 @@ export default function PersonalPage() {
 
 
   return (
-    <div className="container w-full" style={{ padding: "0 90px" }}>
-      <div className="min-h-screen bg-gray-100">
+    <div className="container w-full">
+      <div className="min-h-screen bg-gray-100 shadow-xl rounded-lg">
         <div className="relative w-full h-64">
           <Image
             src={Anh1}
             alt="Header"
-            className="w-full h-full object-cover rounded-b-2xl"
+            className="w-full h-full object-cover rounded-lg"
           />
         </div>
         <div className="container mx-auto p-4 flex justify-center">
@@ -70,7 +70,7 @@ export default function PersonalPage() {
               <p className="mb-10 text-[12px] flex">
                 <Users />{" "}
                 <Text className="ml-1">
-                  {t("Profile.TimeJoin")} 2 năm trước
+                  {t("Profile.TimeJoin")} {formatDateRoomUser(user.createdAt)}
                 </Text>
               </p>
             </CardComponentBlog>

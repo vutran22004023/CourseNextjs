@@ -9,9 +9,9 @@ export default function SidebarAdmin({
 }) {
   return (
       <div className="gap-5 flex">
-          <div className="w-[8%]"><SidebarAdminComponent className="hidden md:block gap-2 h-[80vh] fixed"/></div>
-          <div className="flex-1">
-              <div className="w-full mt-3">{children}</div>
+          <div className="w-[10%]"><SidebarAdminComponent className="hidden md:block gap-2 h-[80vh] fixed"/></div>
+          <div className="w-[88%] mt-3 mb-3 p-5 shadow-lg rounded-lg">
+              <div>{children}</div>
           </div>
       </div>
   );

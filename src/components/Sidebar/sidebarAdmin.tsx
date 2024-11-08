@@ -6,6 +6,7 @@ import {
   LayoutDashboard,
   SquareLibrary,
   Users,
+  BookMarked
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
@@ -48,6 +49,12 @@ export default function SidebarAdminComponent({ className }: SidebarProps) {
       href: "/admin/users",
       icon: Users,
       current: pathname === "/admin/users",
+    },
+    {
+      name: t('headers.blog'),
+      href: "/admin/blogs",
+      icon: BookMarked,
+      current: pathname === "/admin/blogs",
     },
   ];
 
