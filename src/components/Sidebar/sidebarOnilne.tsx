@@ -41,11 +41,11 @@ export default function SidebarOnline({ className }: SidebarProps) {
   ];
 
   return (
-      <div className={cn("pb-12", className)}>
+      <div className={cn("pb-12 fixed z-10", className)}>
         <div className="space-y-4 py-3">
           <div className="px-3 py-2">
             <div className={cn(
-                "fixed z-40 transform bg-white shadow-lg transition-transform duration-300 ease-in-out md:relative md:translate-x-0 p-3 rounded-lg",
+                " transform  bg-white shadow-lg transition-transform duration-300 ease-in-out md:relative md:translate-x-0 p-3 rounded-lg",
             )}>
 
               {navigation.map((item, index) => (

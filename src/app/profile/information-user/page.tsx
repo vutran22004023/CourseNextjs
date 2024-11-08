@@ -20,8 +20,10 @@ import {UpdateUser} from "@/apis/user";
 import {useMutationHook} from "@/hooks";
 import {useEffect, useState} from "react";
 import {success} from "@/components/Message/Message";
+import {useTranslation} from "react-i18next";
 
 export default function InformationUser() {
+    const {t} = useTranslation('common');
     const user = useSelector((state: RootState) => state.user);
     const [userData, setUserData] = useState({
         name: "",
@@ -69,13 +71,13 @@ export default function InformationUser() {
 
     return (
         <div className="container w-full">
-            <Text type="subtitle">Thông tin người dùng</Text>
+            <Text type="subtitle">{t('Profile.User.Title')}</Text>
             <div className="mt-3">
                 <Text type="defaultSemiBold">
-                    Thông tin cơ bản
+                    {t('Profile.User.Basic')}
                 </Text>
                 <Text className="mb-10 text-[14px]">
-                    Quản lý tên hiển thị, tên người dùng, mô tả và avatar của bạn
+                    {t('Profile.User.Description')}
                 </Text>
             </div>
 
@@ -95,9 +97,9 @@ export default function InformationUser() {
                     </DialogTrigger>
                     <DialogContent className="sm:max-w-[425px] bg-slate-50">
                         <DialogHeader>
-                            <DialogTitle>Cập nhật email của bạn</DialogTitle>
+                            <DialogTitle>{t('Profile.User.UpdateEmail')}</DialogTitle>
                             <DialogDescription>
-                                Email sẽ được sử dụng để đăng nhập vào Couniverse
+                             {t('Profile.User.DescEmail')}
                             </DialogDescription>
                         </DialogHeader>
                         <div className="grid gap-4 py-4">
@@ -118,7 +120,7 @@ export default function InformationUser() {
                                 className="flex justify-center p-3 rounded-2xl bg-[#FF5A00] hover:bg-[#FF5A00]"
                                 onClick={handleUpdateUser}
                             >
-                                Cập nhập
+                                {t('Profile.User.Update')}
                             </ButtonComponment>
                         </DialogFooter>
                     </DialogContent>
@@ -128,7 +130,7 @@ export default function InformationUser() {
                     <DialogTrigger asChild>
                         <div className="p-4 flex justify-between hover:bg-slate-200 cursor-pointer">
                             <div>
-                                <div className="cactus-classical-serif-md">Tên người dùng</div>
+                                <div className="cactus-classical-serif-md">{t('Profile.User.UserName')}</div>
                                 <div className="">{user.name || "Chưa cập nhật"}</div>
                             </div>
 
@@ -136,10 +138,9 @@ export default function InformationUser() {
                     </DialogTrigger>
                     <DialogContent className="sm:max-w-[425px] bg-slate-50">
                         <DialogHeader>
-                            <DialogTitle>Cập nhật tên của bạn</DialogTitle>
+                            <DialogTitle>{t('Profile.User.UpdateName')}</DialogTitle>
                             <DialogDescription>
-                                Tên sẽ được hiển thị trên trang cá nhân, trong các bình luận và
-                                bài viết của bạn
+                              {t('Profile.User.DescName')}
                             </DialogDescription>
                         </DialogHeader>
                         <div className="grid gap-4 py-4">
@@ -160,7 +161,7 @@ export default function InformationUser() {
                                 className="flex justify-center p-3 rounded-2xl bg-[#FF5A00] hover:bg-[#FF5A00]"
                                 onClick={handleUpdateUser}
                             >
-                                Cập nhập
+                                {t('Profile.User.Update')}
                             </ButtonComponment>
                         </DialogFooter>
                     </DialogContent>
@@ -170,7 +171,7 @@ export default function InformationUser() {
                     <DialogTrigger asChild>
                         <div className="p-4 flex justify-between hover:bg-slate-200 cursor-pointer">
                             <div>
-                                <div className="cactus-classical-serif-md">Vai trò</div>
+                                <div className="cactus-classical-serif-md">{t('Profile.User.Role')}</div>
                                 <div className="">{user.role || "Chưa cập nhật"}</div>
                             </div>
 
@@ -178,7 +179,7 @@ export default function InformationUser() {
                     </DialogTrigger>
                     <DialogContent className="sm:max-w-[425px] bg-slate-50">
                         <DialogHeader>
-                            <DialogTitle>Cập nhật vai trò</DialogTitle>
+                            <DialogTitle>{t('Profile.User.UpdateRole')}</DialogTitle>
                         </DialogHeader>
                         <div className="grid gap-4 py-4">
                             <div className="grid grid-cols-4 items-center gap-4">
@@ -198,7 +199,7 @@ export default function InformationUser() {
                                 className="flex justify-center p-3 rounded-2xl bg-[#FF5A00] hover:bg-[#FF5A00]"
                                 onClick={handleUpdateUser}
                             >
-                                Cập nhập
+                                {t('Profile.User.Update')}
                             </ButtonComponment>
                         </DialogFooter>
                     </DialogContent>
@@ -209,7 +210,7 @@ export default function InformationUser() {
                     style={{borderRadius: "0 0 20px 20px"}}
                 >
                     <div>
-                        <div className="cactus-classical-serif-md">Ảnh đại diện</div>
+                        <div className="cactus-classical-serif-md">{t('Profile.User.Image')}</div>
                         <div className="">
                             <Avatar>
                                 <AvatarImage
@@ -224,9 +225,9 @@ export default function InformationUser() {
             </div>
 
             <div>
-                <Text className="text-[20px] mt-9">Thông tin mạng xã hội</Text>
+                <Text className="text-[20px] mt-9">{t('Profile.User.Social')}</Text>
                 <Text className="mb-10 text-[14px]">
-                    Quản lý liên kết tới các trang mạng xã hội của bạn
+                 {t('Profile.User.DescSocial')}
                 </Text>
             </div>
 
@@ -237,21 +238,21 @@ export default function InformationUser() {
                 >
                     <div>
                         <Text className="cactus-classical-serif-md">GitHub</Text>
-                        <Text className="">Chưa cập nhật</Text>
+                        <Text className="">{t('Profile.User.NotUpdate')}</Text>
                     </div>
                 </div>
                 <hr/>
                 <div className="p-4 flex justify-between hover:bg-slate-200 cursor-pointer">
                     <div>
                         <Text className="cactus-classical-serif-md">Tên người dùng</Text>
-                        <Text className="">Chưa cập nhật</Text>
+                        <Text className="">{t('Profile.User.NotUpdate')}</Text>
                     </div>
                 </div>
                 <hr/>
                 <div className="p-4 flex justify-between hover:bg-slate-200 cursor-pointer">
                     <div>
                         <Text className="cactus-classical-serif-md">Giới thiệu</Text>
-                        <Text className="">Chưa cập nhật</Text>
+                        <Text className="">{t('Profile.User.NotUpdate')}</Text>
                     </div>
                 </div>
                 <hr/>
@@ -260,7 +261,7 @@ export default function InformationUser() {
                     style={{borderRadius: "0 0 20px 20px"}}
                 >
                     <div>
-                        <div className="cactus-classical-serif-md">Ảnh đại diện</div>
+                        <div className="cactus-classical-serif-md">{t('Profile.User.Image')}</div>
                         <div className="">
                             <Avatar>
                                 <AvatarImage

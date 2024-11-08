@@ -14,8 +14,10 @@ import {
 import { useMutationHook } from "@/hooks";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
+import {useTranslation} from "react-i18next";
 
 export default function page() {
+  const {t} = useTranslation('common');
   const idCourse = useSelector((state: RootState) => state.idItemPay);
   const user = useSelector((state: RootState) => state.user);
   const router = useRouter();
@@ -108,16 +110,16 @@ export default function page() {
             className="mb-3"
           />
           <Text type="title" className="text-center mb-2">
-            Thanh toán thất bại
+            {t('Pay.PaymentFailed')}
           </Text>
           <Text type="default" className="text-center mb-2">
-            Đơn hàng của bạn thanh toán thất bại, vui lòng bạn thử lại sau
+            {t('Pay.NotificationFailed')}
           </Text>
           <div
             className="flex justify-center gap-4 px-3 py-3"
             onClick={handButtonClose}
           >
-            <ButtonComponent>Quay lại trang chủ</ButtonComponent>
+            <ButtonComponent>{t('Pay.HomePage')}</ButtonComponent>
           </div>
         </div>
       ) : (
@@ -130,18 +132,17 @@ export default function page() {
             className="mb-3"
           />
           <Text type="title" className="text-center mb-2">
-            Thanh toán thành công
+            {t('Pay.PaymentSuccessful')}
           </Text>
           <Text type="default" className="text-center mb-2">
-            Đơn hàng của bạn thanh toán thành công, cảm ơn đã tin tưởng và mua
-            khóa học của chúng tôi
+            {t('Pay.NotificationSuccessful')}
           </Text>
           <div className="flex justify-center gap-4 ">
             <div className="px-3 py-3" onClick={handButtonClose}>
-              <ButtonComponent>Quay lại trang chủ</ButtonComponent>
+              <ButtonComponent>{t('Pay.HomePage')}</ButtonComponent>
             </div>
             <div className="px-3 py-3" onClick={handButtonClose}>
-              <ButtonComponent>Khóa học của tôi</ButtonComponent>
+              <ButtonComponent>{t('Pay.myCourse')}</ButtonComponent>
             </div>
           </div>
         </div>

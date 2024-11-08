@@ -8,8 +8,10 @@ import blogimg from "@/assets/Images/image 10.png";
 import Text from "@/components/Text/text";
 import Image from "next/image";
 import Link from "next/link";
+import {useTranslation} from "react-i18next";
 
 export default function BlogDetailPage() {
+  const {t} = useTranslation('common');
   const { slug } = useParams();
   const [blogs, setBlogs] = useState<any>([]);
   const [blog, setBlog] = useState<any>(null); // Initialize as null
@@ -90,7 +92,7 @@ export default function BlogDetailPage() {
 
       <div className="pl-[30px]">
         <div className="text-[32px] font-semibold h-[40px] flex items-center mb-[30px]">
-          Các bài viết nổi bật
+          {t('pagesBlog.FeaturedArticles')}
         </div>
         <div className="border-[2px] p-2 rounded-[20px]">
           {blogs?.map((blog:any) => (

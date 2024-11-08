@@ -3,15 +3,16 @@ import { useEffect, useState } from "react";
 import CardBlogComponent from "@/components/Card/CardBlog";
 import blogimg from "@/assets/Images/image 10.png"; //ảnh mẫu
 import logouser from "@/assets/Images/logouser.png"; //logouser mẫu
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useDispatch } from "react-redux";
 import Link from "next/link";
 import Image from "next/image";
 import { GetAllBlogs } from "@/apis/blog";
 import { Search as Search1, EllipsisVertical } from "lucide-react";
 import { Search } from "@/redux/Slides/searchSide";
+import {useTranslation} from "react-i18next";
 
 export default function Blog() {
+  const {t} = useTranslation('common');
   const [blogs, setBlogs] = useState<any>([]);
   console.log(blogs);
   const [loading, setLoading] = useState(true);
@@ -44,9 +45,9 @@ export default function Blog() {
     <div className=" m-0 pt-[70px] px-[50px] w-full grid grid-cols-3">
       <div className="col-span-2 pr-[10px]">
         <div className="flex h-[40px] mb-[30px]">
-          <div className="font-serif w-full flex text-[24px]">
-            <div className="w-[120px] flex justify-center">New</div>
-            <div className="w-[120px] flex justify-center">All post</div>
+          <div className="font-semibold w-full flex text-[24px]">
+            <div className="w-[120px] flex justify-center">{t('pagesBlog.New')}</div>
+            <div className="w-[120px] flex justify-center">{t('pagesBlog.AllPost')}</div>
             <div className="w-[120px] flex justify-center">Html/Css</div>
             <div className="w-[120px] flex justify-center">Javascript</div>
             <div className="w-[120px] flex justify-center">Reactjs</div>
@@ -109,7 +110,7 @@ export default function Blog() {
 
       <div className="pl-[30px]">
         <div className="text-[32px] font-semibold h-[40px] flex items-center mb-[30px]">
-          Các bài viết nổi bật
+          {t('pagesBlog.FeaturedArticles')}
         </div>
         <div className="border-[2px] p-2 rounded-[20px]">
           {blogs?.map((blog:any) => (

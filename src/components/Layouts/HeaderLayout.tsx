@@ -107,7 +107,7 @@ export default function HeaderLayout() {
   }, []);
 
   return (
-    <div className="w-full bg-white  z-10 border-b border-[#cfcdcd] text-white p-3 flex justify-between items-center ">
+    <div className="w-full bg-white z-40 border-b border-[#cfcdcd] text-white p-3 flex justify-between items-center ">
       <div className="flex gap-3 items-center">
         <Link href="/">
           <Image
@@ -160,7 +160,7 @@ export default function HeaderLayout() {
       </div>
       <div className="flex gap-4 items-center mr-4">
         {token && user.status === true ? (
-          <>
+            <>
             <div className="block">
               <HoverCard>
                 <HoverCardTrigger asChild>

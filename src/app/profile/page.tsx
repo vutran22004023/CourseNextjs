@@ -1,10 +1,43 @@
+"use client";
 import Anh1 from "@/assets/Images/hinh-dep.jpg";
 import CardComponentBlog from "@/components/Card/CardBlog";
 import Text from "@/components/Text/text";
 import { Users } from "lucide-react";
 import Image from "next/image";
+import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
+import { CourseProgress } from "@/types";
+import { useEffect, useState } from "react";
+import CardHistory from "@/components/Card/CardHistory";
+import { getTokenFromCookies } from "@/utils/auth";
+import { GetCourseProgress } from "@/apis/usercourse";
 
 export default function PersonalPage() {
+  const { t } = useTranslation("common");
+  const user = useSelector((state: RootState) => state.user);
+  console.log(user);
+  const [courseProgress, setCourseProgress] = useState<CourseProgress[]>([]);
+  const [token, setToken] = useState<any>();
+
+  useEffect(() => {
+    const gettoken = async () => {
+      const tokens = await getTokenFromCookies();
+      setToken(tokens);
+    };
+    gettoken();
+  }, []);
+  useEffect(() => {
+    GetCourseProgress()
+      .then((res) => {
+        setCourseProgress(res.data);
+      })
+      .catch((error) => {
+        console.error(error.message);
+      });
+  }, []);
+
+
   return (
     <div className="container w-full" style={{ padding: "0 90px" }}>
       <div className="min-h-screen bg-gray-100">
@@ -23,7 +56,7 @@ export default function PersonalPage() {
               </Text>
             </div>
             <div className=" text-center ">
-              <Text className="text-lg font-bold">Lê Vũ</Text>
+              <Text className="text-lg font-bold">{user.name}</Text>
             </div>
           </div>
         </div>
@@ -32,104 +65,45 @@ export default function PersonalPage() {
           <div className="w-[300px] mr-3">
             <CardComponentBlog>
               <Text className="cactus-classical-serif-md text-[16px]  mb-3">
-                Giới thiệu
+                {t("Profile.Introduce")}
               </Text>
               <p className="mb-10 text-[12px] flex">
                 <Users />{" "}
                 <Text className="ml-1">
-                  Thành viên của F8 - Học lập trình để đi làm từ 2 năm trước
+                  {t("Profile.TimeJoin")} 2 năm trước
                 </Text>
               </p>
             </CardComponentBlog>
 
             <CardComponentBlog>
               <Text className="cactus-classical-serif-md text-[16px]  mb-3">
-                Hoạt động gần đây
+                {t("Profile.Recent")}
               </Text>
               <p className="mb-10 text-[12px] flex">
                 <Users />{" "}
-                <Text className="ml-1">Chưa có hoạt động gần đây</Text>
+                <Text className="ml-1">{t("Profile.DescRecent")}</Text>
               </p>
             </CardComponentBlog>
           </div>
           <div className="flex-1">
             <CardComponentBlog>
               <h2 className="cactus-classical-serif-md text-[16px] mb-3 ">
-                Các khóa học đã tham gia
+                {t("Profile.Course")}
               </h2>
-              <div className="flex justify-between ">
-                <div>
-                  <Image
-                    src={Anh1}
-                    className="w-[200px] h-[100px]"
-                    style={{ borderRadius: "10px" }}
-                    alt="Anh"
-                  />
-                </div>
-                <div className="w-150px ml-2">
-                  <Text>Node & ExpressJS</Text>
-                  <Text>
-                    Học Back-end với Node & ExpressJS framework, hiểu các khái
-                    niệm khi làm Back-end và xây dựng RESTful API cho trang web.
-                  </Text>
-                </div>
-              </div>
-              <hr style={{ margin: "10px 0" }} />
-              <div className="flex justify-between ">
-                <div>
-                  <Image
-                    src={Anh1}
-                    className="w-[200px] h-[100px] "
-                    style={{ borderRadius: "10px" }}
-                    alt="anh"
-                  />
-                </div>
-                <div className="w-150px ml-2">
-                  <Text>Node & ExpressJS</Text>
-                  <Text>
-                    Học Back-end với Node & ExpressJS framework, hiểu các khái
-                    niệm khi làm Back-end và xây dựng RESTful API cho trang web.
-                  </Text>
-                </div>
-              </div>
-
-              <hr style={{ margin: "10px 0" }} />
-              <div className="flex justify-between ">
-                <div>
-                  <Image
-                    src={Anh1}
-                    className="w-[200px] h-[100px]"
-                    style={{ borderRadius: "10px" }}
-                    alt="anh"
-                  />
-                </div>
-                <div className="w-150px ml-2">
-                  <Text>Node & ExpressJS</Text>
-                  <Text>
-                    Học Back-end với Node & ExpressJS framework, hiểu các khái
-                    niệm khi làm Back-end và xây dựng RESTful API cho trang web.
-                  </Text>
-                </div>
-              </div>
-
-              <hr style={{ margin: "10px 0" }} />
-              <div className="flex justify-between ">
-                <div>
-                  <Image
-                    src={Anh1}
-                    className="w-[200px] h-[100px]"
-                    style={{ borderRadius: "10px" }}
-                    alt="anh"
-                  />
-                </div>
-                <div className="w-150px ml-2">
-                  <Text>Node & ExpressJS</Text>
-                  <Text>
-                    Học Back-end với Node & ExpressJS framework, hiểu các khái
-                    niệm khi làm Back-end và xây dựng RESTful API cho trang web.
-                  </Text>
-                </div>
-              </div>
+              {token && user.status === true ? (
+                <>
+                  <div className="overflow-y-auto flex-grow">
+                    {courseProgress.length > 0 &&
+                      courseProgress
+                        .sort((a, b) => b.updatedAt.localeCompare(a.updatedAt))
+                        .map((item) => (
+                          <CardHistory key={item._id} data={item} />
+                        ))}
+                  </div>
+                </>
+              ) : (
+                <div></div>
+              )}
             </CardComponentBlog>
           </div>
         </div>

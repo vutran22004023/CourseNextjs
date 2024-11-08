@@ -15,6 +15,7 @@ import ModalPay from "./modalPay";
 import Text from "@/components/Text/text";
 import { useRouter } from "next/navigation";
 import { CheckPaidCourse } from "@/apis/pay";
+import {useTranslation} from "react-i18next";
 
 const getAllCourses = async (search: string): Promise<DataAllCourses> => {
   const res = await GetAllCourses(search);
@@ -103,6 +104,7 @@ const CourseList: FC<{ courses: Course[]; isLoading: boolean; user: any }> = ({
 };
 
 const PageClient: FC = () => {
+  const {t} = useTranslation('common');
   const user = useSelector((state: RootState) => state.user);
   const search = useSelector((state: RootState) => state.searchs);
   const searchDebounced = useDebounce(search.search, 500);
@@ -124,7 +126,7 @@ const PageClient: FC = () => {
     <main>
       <div className="mb-[60px]">
         <Text type="subtitle" className="w-[170px] relative gap-2 mb-7">
-          Khóa học Pro
+          {t('CourseList.Title')}
           <Crown className="absolute text-yellow-400 top-[-10px] right-[-5px]" />
         </Text>
         <div className="flex gap-4 mt-5">
@@ -146,12 +148,7 @@ const PageClient: FC = () => {
           ))}
         </div>
         <div className="mt-3 rounded-xl border-2 border-[#000] p-3">
-          <Text type="defaultSemiBold">Nền tảng cơ bản cho phát triên web</Text>
-          <div className="p-2 bg-[#FF5A00] w-[180px] rounded-xl border-2 border-[#000] mt-2">
-            <Text type="defaultSemiBold" className="text-white">
-              Khám phá HTML/Css
-            </Text>
-          </div>
+          <Text type="defaultSemiBold">{t('CourseList.Foundation')}</Text>
           <CourseList
             courses={dataCoursePaid}
             isLoading={isLoadingAllCourses}
@@ -162,7 +159,7 @@ const PageClient: FC = () => {
 
       <div className="">
         <Text type="subtitle" className="w-[170px] mb-7">
-          Khóa học free
+          {t('CourseList.Title2')}
         </Text>
         <div className="flex gap-4 mt-5">
           {tabs.map((tab, index) => (
@@ -183,12 +180,7 @@ const PageClient: FC = () => {
           ))}
         </div>
         <div className="mt-3 rounded-xl border-2 border-[#000] p-3">
-          <Text type="defaultSemiBold">Nền tảng cơ bản cho phát triên web</Text>
-          <div className="p-2 bg-[#FF5A00] w-[180px] rounded-xl border-2 border-[#000] mt-2">
-            <Text type="defaultSemiBold" className="text-white">
-              Khám phá HTML/Css
-            </Text>
-          </div>
+          <Text type="defaultSemiBold">{t('CourseList.Foundation')}</Text>
           <CourseList
             courses={dataCourseFree}
             isLoading={isLoadingAllCourses}

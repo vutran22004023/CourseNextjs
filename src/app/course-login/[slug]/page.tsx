@@ -24,8 +24,11 @@ import Quiz from "./quiz";
 import Joyride from "react-joyride";
 import { steps } from "./step";
 import VideoPlayer from "@/components/VideoPlayer";
+import {useTranslation} from "react-i18next";
+
 
 export default function page() {
+  const {t} = useTranslation('common');
   const { setCourseDetail, run, setRun } = useAtoms();
   const { slug } = useParams();
   const dispatch = useDispatch();
@@ -351,7 +354,7 @@ export default function page() {
                         {dataVideo?.childname}
                       </p>
                       <div className="mb-3 md:mb-5">
-                        Cập nhật: {formatDate(dataVideo?.updatedAt)}
+                        {t('CourseLogin.Update')}: {formatDate(dataVideo?.updatedAt)}
                       </div>
                     </div>
                     <div>
@@ -371,7 +374,7 @@ export default function page() {
                     >
                       {" "}
                       <NotebookPen className="size-[20px] mr-1" />
-                      Thêm ghi chú
+                        {t('CourseLogin.AddNote')}
                     </ButtonComponment>
                     <ButtonComponment
                       type="notesheet"
@@ -379,7 +382,7 @@ export default function page() {
                       onClick={() => setIsModalMessage(true)}
                     >
                       <MessagesSquare className="mr-1" />
-                      <div>Hỏi đáp</div>
+                      <div>{t('CourseLogin.Q&A')}</div>
                     </ButtonComponment>
                   </div>
                   <SheetMessage
@@ -391,10 +394,9 @@ export default function page() {
                   />
                 </div>
                 <div className="mb-5">
-                  Tham gia các cộng đồng để cùng học hỏi, chia sẻ và "thám
-                  thính" xem F8 sắp có gì mới nhé!
+                  {t('CourseLogin.descriptionCourse')}
                 </div>
-                <div>Fanpage: https://www.facebook.com/f8vnofficial</div>
+                <div>{t('CourseLogin.LinkFB')}</div>
               </div>
             </>
           ) : dataVideo?.videoType === "exercise" ? (

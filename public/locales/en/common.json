@@ -40,6 +40,7 @@
   "backToLogin": "Back to Login",
   "orLoginWith": "or login with",
   "name": "Name",
+  "TimeStudy": "learned",
   "weakPassword": "Weak password",
   "averagePassword": "Average password",
   "strongPassword": "Strong password",
@@ -85,5 +86,122 @@
     "createdAt": "createdAt",
     "updatedAt": "updatedAt",
     "actions": "Actions"
+  },
+  "pagesBlog": {
+    "New": "New",
+    "AllPost": "All Post",
+    "FeaturedArticles": "Featured Post"
+  },
+  "CourseLogin": {
+    "Update": "Update",
+    "AddNote": "Add note",
+    "Q&A": "Q&A",
+    "descriptionCourse": "Join the communities to learn, share and find out what's new at CourseNiver!",
+    "LinkFB": "Fanpage: https://www.facebook.com/f8vnofficial",
+    "Previous": "Previous Lesson",
+    "Next": "Next Lesson",
+    "Exit": "Exit",
+    "CreateNote": "Create note",
+    "Note": "My notes",
+    "Chapter1": "In the current chapter",
+    "Chapter2": "Next Chapter",
+    "New": "Latest",
+    "Old": "Oldest",
+    "Edit": "Edit",
+    "Delete": "Delete",
+    "Save": "Save"
+  },
+  "CourseNotLogin": {
+    "WillLearn": "What will you learn?",
+    "CourseContent": "Course content",
+    "Chapter": "Chapter",
+    "Lesson": "Lesson",
+    "Time": "Duration",
+    "All": "All",
+    "Request": "Request",
+    "Device": "Computer with internet connection (Windows, Ubuntu or MacOS)",
+    "Price": {
+      "free": "Free",
+      "paid": "Paid"
+    }
+  },
+  "Pay": {
+    "PaymentFailed": "Payment Failed",
+    "NotificationFailed": "Your order payment failed, please try again later.",
+    "HomePage": "Back to home page",
+    "PaymentSuccessful": "Payment Successful",
+    "NotificationSuccessful": "Your order has been paid successfully, thank you for trusting and purchasing our course.",
+    "myCourse": "My course"
+  },
+  "OnlineLearning": {
+    "JoinClass": "Join the class now",
+    "JoinRoom": "Join Room Now",
+    "CodeRoom": "Enter Room Code",
+    "Join": "Join now",
+    "CreateClass": "Create a class",
+    "AddClass": "Add new class",
+    "Content": "Content:",
+    "FilterDate": "Filter date: ",
+    "Member": "Member: ",
+    "Studying": "Is going on",
+    "Detail": "See details",
+    "descriptionClass": "There are currently no meetings taking place.",
+    "Complete": "Has been completed"
+  },
+  "Profile": {
+    "Introduce": "Introduce",
+    "TimeJoin": "Member of Courseniver - Learn programming to work since",
+    "Recent": "Recent Activity",
+    "DescRecent": "No recent activity",
+    "Course": "Courses attended",
+    "User": {
+      "Title": "User Information",
+      "Basic": "Basic information",
+      "Description": "Manage your display name, username, description, and avatar",
+      "UpdateEmail": "Update your email",
+      "DescEmail": "Email will be used to log in to Couniverse",
+      "Update": "Update",
+      "UserName": "User name",
+      "UpdateName": "Update your username",
+      "DescName": "The name will be displayed on your profile, in comments and posts.",
+      "Role": "Role",
+      "UpdateRole": "Update role",
+      "Image": "Avatar",
+      "Social": "Social media information",
+      "DescSocial": "Manage links to your social media pages",
+      "NotUpdate": "Not updated yet"
+    },
+    "Password": {
+      "Title": "Passwords and Security",
+      "Basic": "Login & Recovery",
+      "DescTitle": "Password management and 2-step verification",
+      "Change": "Change password",
+      "DetailChange": "Password not changed",
+      "UpdatePassword": "Update Password",
+      "DescUpdate": "Change your password",
+      "2step": "2-Step Verification",
+      "Desc2step": "Off"
+    }
+  },
+  "ResetPassword": {
+    "Reset": "Reset Password",
+    "Hello": "Hello",
+    "Pls": "Please enter new password and confirm new password",
+    "NewPass": "New Password",
+    "ConfirmPass": "Confirm new password",
+    "Check": "New password and confirm password do not match",
+    "Alert": "You will be redirected in"
+  },
+  "CourseList": {
+    "Title": "Pro Course",
+    "Foundation": "Basic foundation for learning programming",
+    "Title2": "Free Course"
+  },
+  "ModalPay": {
+    "Title": "Unlock the entire course",
+    "Price": "Price:",
+    "Description": "Learn Basic Javascript suitable for people who have never learned programming. With more than 100 lessons and practice exercises after each lesson.",
+    "ZaloPay": "Pay with ZaloPay",
+    "QR": "Pay with QR"
   }
 }

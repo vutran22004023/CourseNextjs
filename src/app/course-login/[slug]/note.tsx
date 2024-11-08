@@ -24,6 +24,7 @@ import { useMutationHook } from "@/hooks";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { success } from "@/components/Message/Message";
+import {useTranslation} from "react-i18next";
 
 interface Props {
   isOpen: boolean;
@@ -45,6 +46,7 @@ export default function NoteSheet({
   courseId,
   videoId,
 }: Props) {
+  const {t} = useTranslation('common');
   const user = useSelector((state: RootState) => state.user);
   const [detailNote, setDetailNote] = useState<any>();
   const [valueTitle, setValueTitle] = useState<string>("");
@@ -93,7 +95,7 @@ export default function NoteSheet({
     <Sheet open={isOpen} onOpenChange={onOpenChange}>
       <SheetTrigger asChild></SheetTrigger>
       {detailNote ? (
-        <SheetContent className="bg-white pr-[20px] w-full md:w-[40%] step6">
+        <SheetContent className="bg-white pr-[20px] w-full md:w-[40%]">
           <div className="flex w-full justify-between">
             <Button
               className="p-2 rounded-2xl bg-[#FF5A00] hover:bg-[#FF5A00] flex w-[75px] justify-center"
@@ -130,32 +132,32 @@ export default function NoteSheet({
         <SheetContent className="bg-white pr-[20px] w-full md:w-[40%]">
           <div className="flex md:space-x-20">
             <div className="text-[18px] md:text-2xl pt-1 md:pt-0 font-semibold">
-              Ghi chú của tôi
+              {t('CourseLogin.Note')}
             </div>
             <div className="flex gap-4">
               <Select onValueChange={(value) => setSelectedChapter(value)}>
                 <SelectTrigger className="w-[120px] text md:w-[180px]">
-                  <SelectValue placeholder="Trong chương hiện tại" />
+                  <SelectValue placeholder= {t('CourseLogin.Chapter1')} />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
                     <SelectLabel></SelectLabel>
                     <SelectItem value="current">
-                      Trong chương hiện tại
+                      {t('CourseLogin.Chapter1')}
                     </SelectItem>
-                    <SelectItem value="next">Chương sau</SelectItem>
+                    <SelectItem value="next">{t('CourseLogin.Chapter2')}</SelectItem>
                   </SelectGroup>
                 </SelectContent>
               </Select>
               <Select onValueChange={(value) => setSelectedSortOrder(value)}>
                 <SelectTrigger className="w-[110px]">
-                  <SelectValue placeholder="Mới nhất" />
+                  <SelectValue placeholder={t('CourseLogin.New')} />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
                     <SelectLabel></SelectLabel>
-                    <SelectItem value="newest">Mới nhất</SelectItem>
-                    <SelectItem value="oldest">Cũ nhất</SelectItem>
+                    <SelectItem value="newest">{t('CourseLogin.New')}</SelectItem>
+                    <SelectItem value="oldest">{t('CourseLogin.Old')}</SelectItem>
                   </SelectGroup>
                 </SelectContent>
               </Select>

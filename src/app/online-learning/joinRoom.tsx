@@ -8,8 +8,10 @@ import { Label } from "@/components/ui/label"
 import {Button as ButtonUi} from "@/components/ui/button";
 import {useAtoms} from "@/hooks/useAtom";
 import {useRouter} from "next/navigation";
+import {useTranslation} from "react-i18next";
 
 const JoinRoom = () => {
+    const {t} = useTranslation('common');
     const [openModal, setOpenModal] = React.useState(false);
     const [roomCode, setRoomCode] = React.useState("");
     const router = useRouter();
@@ -35,13 +37,13 @@ const JoinRoom = () => {
                     type="courseHeader"
                     className="p-2 flex flex-row justify-center mt-2"
                 >
-                    Tham gia lớp học ngày
+                    {t('OnlineLearning.JoinClass')}
                 </Button>
             }
-            contentHeader={<Text type="subtitle">Tham gia Room ngay</Text>}
+            contentHeader={<Text type="subtitle">{t('OnlineLearning.JoinRoom')}</Text>}
             contentBody={
                 <div className="grid w-full max-w-sm items-center gap-1.5">
-                    <Label htmlFor="email">Nhập mã Room</Label>
+                    <Label htmlFor="email">{t('OnlineLearning.CodeRoom')}</Label>
                     <Input
                         type="text"
                         id="roomCode"
@@ -53,7 +55,7 @@ const JoinRoom = () => {
             }
             contentFooter={
                 <ButtonUi onClick={handleJoinRoom}>
-                    Tham gia ngay
+                    {t('OnlineLearning.CodeRoom')}
                 </ButtonUi>
             }
         />
