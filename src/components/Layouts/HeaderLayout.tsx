@@ -97,13 +97,15 @@ export default function HeaderLayout() {
   };
 
   useEffect(() => {
-    GetCourseProgress()
-      .then((res) => {
-        setCourseProgress(res.data);
-      })
-      .catch((error) => {
-        console.error(error.message);
-      });
+    if(user?.email || user?.status) {
+      GetCourseProgress()
+          .then((res) => {
+            setCourseProgress(res.data);
+          })
+          .catch((error) => {
+            console.error(error.message);
+          });
+    }
   }, []);
 
   return (
