@@ -27,6 +27,7 @@
     "successRegister": "Registered successfully",
     "errorRegister": "Registration failed"
   },
+  "HoverCard": "View course",
   "annotations": "Annotations",
   "instruct": "Instruct",
   "return": "Return",

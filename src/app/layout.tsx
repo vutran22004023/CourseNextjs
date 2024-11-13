@@ -31,7 +31,7 @@ export default function RootLayout({
       >
         <ClientProviders>
           <LanguageProvider>
-          <SidebarHeader>{children}</SidebarHeader>
+            <SidebarHeader>{children}</SidebarHeader>
           </LanguageProvider>
         </ClientProviders>
       </body>
