@@ -4,32 +4,40 @@ import { usePathname } from "next/navigation";
 
 const usePageConfig = () => {
   const pageConfig = useMemo(
-    () => ({
-      hideFooter: ["/course-login", "/online-learning/[param]", "/admin"],
-      hideHeader: ["/course-login", "/online-learning/[param]"],
-    }),
-    []
+      () => ({
+        hideFooter: ["/course-login", "/online-learning/[param]", "/admin"],
+        hideHeader: ["/course-login", "/online-learning/[param]"],
+      }),
+      []
   );
 
   const pathname = usePathname();
 
-  // Check if the path contains parameters
-  const isPathWithParams = useMemo(() => {
-    return pathname.includes("/[param]") || pathname.split("/").length > 2;
-  }, [pathname]);
+  // Function to match dynamic paths like [param]
+  const matchesDynamicPath = (pattern) => {
+    const patternParts = pattern.split("/").filter(Boolean);
+    const pathParts = pathname.split("/").filter(Boolean);
 
-  // Condition to hide the header
-  const hideHeader = useMemo(() => {
-    return pageConfig.hideHeader.some((page) => pathname.startsWith(page));
-  }, [pathname, pageConfig.hideHeader, isPathWithParams]);
+    if (patternParts.length !== pathParts.length) return false;
 
-  // Condition to hide the footer
-  const hideFooter = useMemo(() => {
-    return (
-      pageConfig.hideFooter.some((page) => pathname.startsWith(page)) ||
-      isPathWithParams
+    return patternParts.every((part, index) =>
+        part.startsWith("[") && part.endsWith("]")
+            ? true // Matches dynamic segment like [param]
+            : part === pathParts[index]
     );
-  }, [pathname, pageConfig.hideFooter, isPathWithParams]);
+  };
+
+  const hideHeader = useMemo(() => {
+    return pageConfig.hideHeader.some((page) =>
+        matchesDynamicPath(page)
+    );
+  }, [pathname, pageConfig.hideHeader]);
+
+  const hideFooter = useMemo(() => {
+    return pageConfig.hideFooter.some((page) =>
+        matchesDynamicPath(page)
+    );
+  }, [pathname, pageConfig.hideFooter]);
 
   return { hideHeader, hideFooter };
 };

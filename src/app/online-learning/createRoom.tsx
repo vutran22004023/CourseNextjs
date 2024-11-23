@@ -15,7 +15,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
-import { DatePicker } from "antd";
+import { DatePicker,TimePicker  } from "antd";
+import type { DatePickerProps, TimePickerProps } from 'antd';
 import { Input } from "@/components/ui/input";
 import Selector from "@/components/SelectSearch";
 import { SearchUser } from "@/apis/user";
@@ -26,6 +27,7 @@ import { RootState } from "@/redux/store";
 import { CreateRoomApi } from "@/apis/videoSDK";
 import { success } from "@/components/Message/Message";
 import {useTranslation} from "react-i18next";
+import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
 
 const { RangePicker } = DatePicker;
 
@@ -36,9 +38,22 @@ const RoomFormSchema = z.object({
     .max(30, "Tên khóa học phải tối đa 30 kí tự"),
   startTime: z.string().datetime(),
   endTime: z.string().datetime(),
+  timeRoom: z.string().datetime(),
   userIdZoom: z.string(),
-  permissions: z.array(z.string()),
-});
+  statusPrice: z.enum(["free", "paid"]),
+  price: z.string().optional(),
+})  .refine(
+    (data) => {
+      if (data.statusPrice === "paid") {
+        return !!data.price;
+      }
+      return true;
+    },
+    {
+      message: "Vui lòng nhập số tiền cho khóa học trả phí",
+      path: ["price"],
+    }
+);
 type RoomFormValues = z.infer<typeof RoomFormSchema>;
 
 export default function CreateRoom() {
@@ -55,7 +70,7 @@ export default function CreateRoom() {
     resolver: zodResolver(RoomFormSchema),
     mode: "onChange",
   });
-
+  console.log(form.getValues())
   const handleDateChange = (dates: any) => {
     if (dates) {
       const [start, end] = dates;
@@ -64,6 +79,15 @@ export default function CreateRoom() {
     } else {
       form.setValue("startTime", "");
       form.setValue("endTime", "");
+    }
+  };
+
+  const handleTimeChange = (dates: any) => {
+    if (dates) {
+      const isoTime = dates.toISOString();
+      form.setValue("timeRoom", isoTime);
+    } else {
+      form.setValue("timeRoom", "");
     }
   };
 
@@ -95,9 +119,6 @@ export default function CreateRoom() {
     }
   }, [openSelectSearch, searchDebounced]);
 
-  useEffect(() => {
-    form.setValue("permissions", selectedSearchId);
-  }, [selectedSearchId, form]);
 
   useEffect(() => {
     form.setValue("userIdZoom", user?.id);
@@ -117,6 +138,13 @@ export default function CreateRoom() {
       },
     });
   };
+
+  useEffect(() => {
+    if (form.watch("statusPrice") === "free") {
+      form.setValue("price", "");
+    }
+  }, [form.watch("statusPrice")]);
+
   return (
     <>
       <Modal
@@ -153,25 +181,71 @@ export default function CreateRoom() {
                 )}
               />
 
+              <FormField
+                  control={form.control}
+                  name="statusPrice"
+                  render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Giá khóa học</FormLabel>
+                        <FormControl >
+                          <Select
+                              {...field}
+                              onValueChange={field.onChange}
+                              defaultValue={field.value}
+                          >
+                            <SelectTrigger>
+                              <SelectValue placeholder="Chọn giá khóa học" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="free">Free</SelectItem>
+                              <SelectItem value="paid">Paid</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </FormControl>
+                        <FormMessage className="text-[red]" />
+                      </FormItem>
+                  )}
+              />
+
+              {form.watch("statusPrice") === "paid" && (
+                  <FormField
+                      control={form.control}
+                      name="price"
+                      render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Số tiền</FormLabel>
+                            <FormControl>
+                              <Input className="bg-white" placeholder="Nhập số tiền" {...field} />
+                            </FormControl>
+                            <FormMessage className="text-[red]" />
+                          </FormItem>
+                      )}
+                  />
+              )}
+
               <FormItem className="flex flex-col">
                 <FormLabel className="mb-2">{t('OnlineLearning.FilterDate')}</FormLabel>
                 <RangePicker showTime onChange={handleDateChange} />
               </FormItem>
               <FormItem className="flex flex-col">
-                <FormLabel className="mb-2">{t('OnlineLearning.Member')}</FormLabel>
-                <Selector
-                  open={openSelectSearch}
-                  setOpen={setOpenSelectSearch}
-                  selected={selectedSearch}
-                  setSelected={setSelectedSearch}
-                  data={AllUserSearch}
-                  setData={setAllUserSearch}
-                  inputValue={inputSearch}
-                  setInputValue={setInputSearch}
-                  selectedSearchId={selectedSearchId}
-                  setSelectedSearchId={setSelectedSearchId}
-                />
+                <FormLabel className="mb-2">Thời gian bắt đầu mỗi buổi học</FormLabel>
+                <DatePicker picker="time" onChange={handleTimeChange} />
               </FormItem>
+              {/*<FormItem className="flex flex-col">*/}
+              {/*  <FormLabel className="mb-2">{t('OnlineLearning.Member')}</FormLabel>*/}
+              {/*  <Selector*/}
+              {/*    open={openSelectSearch}*/}
+              {/*    setOpen={setOpenSelectSearch}*/}
+              {/*    selected={selectedSearch}*/}
+              {/*    setSelected={setSelectedSearch}*/}
+              {/*    data={AllUserSearch}*/}
+              {/*    setData={setAllUserSearch}*/}
+              {/*    inputValue={inputSearch}*/}
+              {/*    setInputValue={setInputSearch}*/}
+              {/*    selectedSearchId={selectedSearchId}*/}
+              {/*    setSelectedSearchId={setSelectedSearchId}*/}
+              {/*  />*/}
+              {/*</FormItem>*/}
             </form>
           </Form>
         }
