@@ -36,6 +36,7 @@ import {ref, uploadBytes, getDownloadURL} from "firebase/storage";
 import {imageDb} from "@/firebase/config";
 import {v4} from "uuid";
 import {ImageUpload} from "@/components/UpLoadImg/ImageUpload";
+import Image from 'next/image'
 
 interface UpdateProps {
     data: any;
@@ -240,8 +241,10 @@ const UpdateUser: React.FC<UpdateProps> = ({data, isOpen, onClose}) => {
                             />
                             {imagePreview && (
                                 <div className="mt-4">
-                                    <img
+                                    <Image
                                         src={imagePreview}
+                                        width="200"
+                                        height="200"
                                         alt="Image Preview"
                                         className="w-[200px] h-[200px] object-cover rounded-lg"
                                     />

@@ -31,7 +31,7 @@ export default function SidebarUser({ className }: SidebarProps) {
       name: t('menu.blogWriting'),
       href: "/profile/posts-blog",
       icon: NotebookPen,
-      current: pathname === "/profile/posts-blo",
+      current: pathname === "/profile/posts-blog",
     },
     {
       name: t('menu.myArticle'),

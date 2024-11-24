@@ -44,7 +44,7 @@ export default function InformationUser() {
             });
         }
     }, [user]);
-    const mutationUpdateUser = useMutationHook(async (data) => {
+    const mutationUpdateUser = useMutationHook(async (data: any) => {
         try {
             const res = await UpdateUser(user?.id, data);
             return res?.data;

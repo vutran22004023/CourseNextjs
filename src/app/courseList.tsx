@@ -123,72 +123,84 @@ const PageClient: FC = () => {
     dataAllCourses?.data.filter((course) => course.price === "paid") || [];
 
   return (
-    <main>
-      <div className="mb-[60px]">
-        <Text type="subtitle" className="w-[170px] relative gap-2 mb-7">
-          {t('CourseList.Title')}
-          <Crown className="absolute text-yellow-400 top-[-10px] right-[-5px]" />
-        </Text>
-        <div className="flex gap-4 mt-5">
-          {tabs.map((tab, index) => (
-            <div
-              key={index}
-              onClick={() => setActiveTab(tab)}
-              className="flex flex-col items-center cursor-pointer"
-            >
+      <main>
+        <div className="mb-[60px]">
+          <Text type="subtitle" className="w-[170px] relative gap-2 mb-7">
+            {t('CourseList.Title')}
+            <Crown className="absolute text-yellow-400 top-[-10px] right-[-5px]"/>
+          </Text>
+          <div className="flex gap-4 mt-5">
+            {tabs.map((tab, index) => (
+                <div
+                    key={index}
+                    onClick={() => setActiveTab(tab)}
+                    className="flex flex-col items-center cursor-pointer"
+                >
               <span
-                className={`text-lg ${activeTab === tab ? "font-bold" : ""}`}
+                  className={`text-lg ${activeTab === tab ? "font-bold" : ""}`}
               >
                 {tab}
               </span>
-              {activeTab === tab && (
-                <div className="h-1 bg-orange-500 w-full mt-1"></div>
-              )}
-            </div>
-          ))}
+                  {activeTab === tab && (
+                      <div className="h-1 bg-orange-500 w-full mt-1"></div>
+                  )}
+                </div>
+            ))}
+          </div>
+          <div className="mt-3 rounded-xl border-2 shadow-xl p-3">
+            <Text type="defaultSemiBold">{t('CourseList.Foundation')}</Text>
+            <CourseList
+                courses={dataCoursePaid}
+                isLoading={isLoadingAllCourses}
+                user={user}
+            />
+          </div>
         </div>
-        <div className="mt-3 rounded-xl border-2 border-[#000] p-3">
-          <Text type="defaultSemiBold">{t('CourseList.Foundation')}</Text>
-          <CourseList
-            courses={dataCoursePaid}
-            isLoading={isLoadingAllCourses}
-            user={user}
-          />
-        </div>
-      </div>
 
-      <div className="">
-        <Text type="subtitle" className="w-[170px] mb-7">
-          {t('CourseList.Title2')}
-        </Text>
-        <div className="flex gap-4 mt-5">
-          {tabs.map((tab, index) => (
-            <div
-              key={index}
-              onClick={() => setActiveTab(tab)}
-              className="flex flex-col items-center cursor-pointer"
-            >
+        <div className="">
+          <Text type="subtitle" className="w-[170px] mb-7">
+            {t('CourseList.Title2')}
+          </Text>
+          <div className="flex gap-4 mt-5">
+            {tabs.map((tab, index) => (
+                <div
+                    key={index}
+                    onClick={() => setActiveTab(tab)}
+                    className="flex flex-col items-center cursor-pointer"
+                >
               <span
-                className={`text-lg ${activeTab === tab ? "font-bold" : ""}`}
+                  className={`text-lg ${activeTab === tab ? "font-bold" : ""}`}
               >
                 {tab}
               </span>
-              {activeTab === tab && (
-                <div className="h-1 bg-orange-500 w-full mt-1"></div>
-              )}
-            </div>
-          ))}
+                  {activeTab === tab && (
+                      <div className="h-1 bg-orange-500 w-full mt-1"></div>
+                  )}
+                </div>
+            ))}
+          </div>
+          <div className="mt-3 rounded-xl border-2 shadow-xl p-3">
+            <Text type="defaultSemiBold">{t('CourseList.Foundation')}</Text>
+            <CourseList
+                courses={dataCourseFree}
+                isLoading={isLoadingAllCourses}
+                user={user}
+            />
+          </div>
         </div>
-        <div className="mt-3 rounded-xl border-2 border-[#000] p-3">
-          <Text type="defaultSemiBold">{t('CourseList.Foundation')}</Text>
-          <CourseList
-            courses={dataCourseFree}
-            isLoading={isLoadingAllCourses}
-            user={user}
-          />
+        <div className="mt-8">
+          <Text type="subtitle" className="w-[200px] relative gap-2 mb-7">
+            Bài viết nổi bật
+          </Text>
+          <div className="mt-3 rounded-xl border-2 shadow-xl p-3">
+            <CourseList
+                courses={dataCourseFree}
+                isLoading={isLoadingAllCourses}
+                user={user}
+            />
+          </div>
         </div>
-      </div>
-    </main>
+      </main>
   );
 };
 

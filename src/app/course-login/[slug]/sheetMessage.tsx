@@ -50,15 +50,17 @@ export default function sheetmessage({
   const [editMessageId, setEditMessageId] = useState<string | null>(null);
   const [showActionsId, setShowActionsId] = useState<string | null>(null);
 
-  const getMessageApi = async () => {
+  const getMessageApi =  useMutationHook(async(data: any) => {
+    const {courseId,chapterId,videoId,page} = data
+    console.log(videoId,chapterId,videoId)
     const res = await GetMessage(
-      dataVideo?._id,
-      dataChapter[0]._id,
-      dataChapVideo?._id,
-      page
-    );
+        courseId,
+        chapterId,
+        videoId,
+        page
+      );
     return res;
-  };
+  })
 
   const mutationPostMessage = useMutationHook(async (data) => {
     const res = await PostMessage(data);
@@ -86,25 +88,7 @@ export default function sheetmessage({
     );
     return res;
   });
-
-  const { data: dataMessage, isPending: isLoadingMessage } = useQuery({
-    queryKey: [
-      "message",
-      dataVideo?._id,
-      dataChapter[0]?._id,
-      dataChapVideo?._id,
-      page,
-    ],
-    queryFn: getMessageApi,
-    enabled:
-      !!dataVideo?._id &&
-      !!dataChapter[0]?._id &&
-      !!dataChapVideo?._id &&
-      isOpen,
-    retry: 3,
-    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
-    refetchInterval: 1000,
-  });
+  const {data: dataMessage} = getMessageApi
 
   useEffect(() => {
     if (page === 1) {
@@ -131,6 +115,12 @@ export default function sheetmessage({
       {
         onSuccess: () => {
           setText("");
+          getMessageApi.mutate({
+            courseId: dataVideo._id,
+            chapterId: dataChapter[0]._id,
+            videoId: dataChapVideo._id,
+            page
+          });
         },
         onError: (error) => {
           console.error("Error posting message:", error.message);
@@ -140,18 +130,16 @@ export default function sheetmessage({
     setText("");
   };
 
-  const handleScroll = useCallback(
-    (event: React.UIEvent<HTMLDivElement>) => {
-      const target = event.currentTarget;
-      if (
-        target.scrollHeight - target.scrollTop === target.clientHeight &&
-        page < dataMessage?.totalPages
-      ) {
-        setPage((prevPage) => prevPage + 1);
-      }
-    },
-    [page, dataMessage?.totalPages]
-  );
+  useEffect(() => {
+    if (dataVideo?._id && dataChapter[0]?._id && dataChapVideo?._id && isOpen) {
+      getMessageApi.mutate({
+        courseId: dataVideo._id,
+        chapterId: dataChapter[0]._id,
+        videoId: dataChapVideo._id,
+        page
+      });
+    }
+  }, [isOpen]);
 
   const handleEditClick = (message: any) => {
     setEditingMessageId(message._id);
@@ -174,6 +162,12 @@ export default function sheetmessage({
   useEffect(() => {
     if (dataUpdate?.message === "Message updated successfully.") {
       setEditMessageId(null);
+      getMessageApi.mutate({
+        courseId: dataVideo._id,
+        chapterId: dataChapter[0]._id,
+        videoId: dataChapVideo._id,
+        page
+      });
     }
   }, [dataUpdate]);
 

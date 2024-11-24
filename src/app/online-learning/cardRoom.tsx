@@ -62,7 +62,7 @@ export default function cardRoom() {
     const completedItems = dataRoom?.data?.rooms?.filter((item: any) => item.status === "completed");
     return (
         <div className="my-3">
-            <div className="shadow-xl p-5 rounded-xl">
+            <div className="shadow-xl p-5 rounded-xl border-2">
                 <Text type="subtitle" className="mb-2">
                     {t('OnlineLearning.Studying')}
                 </Text>
@@ -96,7 +96,7 @@ export default function cardRoom() {
                                     <div className="rounded-full p-1 border-[#000] border-2 items-center">
                                         <CalendarCheck2 size={20} color="#000"/>
                                     </div>
-                                    <Text>{formatDateRoom(room?.startTime)}</Text>
+                                    <Text>{formatDateRoom(room?.endTime)}</Text>
                                 </div>
                                 <div className="flex gap-2 mb-2 items-center">
                                     <div className="rounded-full p-1 border-[#000] border-2 items-center">
@@ -110,12 +110,6 @@ export default function cardRoom() {
                                                 : "Đang diễn ra"}
                                     </Text>
                                 </div>
-                                <Button
-                                    type="courseHeader"
-                                    className="p-2 flex flex-row justify-center mb-2 cursor-pointer"
-                                >
-                                    {t('OnlineLearning.Detail')}
-                                </Button>
                                 <Button
                                     type="courseHeader"
                                     className="p-2 flex flex-row justify-center cursor-pointer"
@@ -146,7 +140,7 @@ export default function cardRoom() {
                     </div>
                 )}
             </div>
-            <div className="shadow-xl p-5 rounded-xl mt-5">
+            <div className="shadow-xl p-5 rounded-xl mt-5 border-2">
                 <Text type="subtitle" className="mb-2">
                     {t('OnlineLearning.Complete')}
                 </Text>

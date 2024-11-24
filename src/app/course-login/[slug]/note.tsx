@@ -19,12 +19,22 @@ import {
 import { Trash2, Pencil, ArrowBigLeft, PencilLine } from "lucide-react";
 import Button from "@/components/Button/Button";
 import WordPost from "@/components/WordPost/wordPost";
-import { UpdateNote } from "@/apis/usercourse";
+import { UpdateNote , DeleteNote} from "@/apis/usercourse";
+
 import { useMutationHook } from "@/hooks";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { success } from "@/components/Message/Message";
 import {useTranslation} from "react-i18next";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription, DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger
+} from "@/components/ui/dialog";
+import ButtonComponent from "@/components/Button/Button";
 
 interface Props {
   isOpen: boolean;
@@ -49,8 +59,11 @@ export default function NoteSheet({
   const {t} = useTranslation('common');
   const user = useSelector((state: RootState) => state.user);
   const [detailNote, setDetailNote] = useState<any>();
+  console.log(detailNote);
   const [valueTitle, setValueTitle] = useState<string>("");
   const [valueWord, setValueWord] = useState<string>("");
+  const [isOpenDeleteNote, setIsOpenDeleteNote] = useState<boolean>(false);
+  const [isOpenUpdateNote, setIsOpenUpdateNote] = useState<boolean>(false);
 
   useEffect(() => {
     if (detailNote) {
@@ -61,9 +74,22 @@ export default function NoteSheet({
   const handleClose = () => {
     setDetailNote(null);
   };
+  const handleOpenUpdateNote = (item: any) => {
+    setDetailNote(item);
+    setIsOpenUpdateNote(true);
+  }
   const mutationUpdateNote = useMutationHook(async (data) => {
     try {
       const res = await UpdateNote(data);
+      return res;
+    } catch (err) {
+      console.log(err);
+    }
+  });
+
+  const mutationDeleteNote = useMutationHook(async (data) => {
+    try {
+      const res = await DeleteNote(data);
       return res;
     } catch (err) {
       console.log(err);
@@ -91,10 +117,35 @@ export default function NoteSheet({
       );
     }
   };
+
+  const handleOpenModalDelete = (item: any) => {
+    setIsOpenDeleteNote(true);
+    setDetailNote(item);
+  }
+  const handleButtonDelete = () => {
+    if (detailNote) {
+      mutationDeleteNote.mutate(
+          {
+            userId: user.id,
+            courseId: courseId,
+            videoId: videoId,
+            noteId: detailNote?._id
+          },
+          {
+            onSuccess(data, variables, context) {
+              success("Xóa thành công");
+              setIsOpenDeleteNote(false);
+              setDetailNote(null);
+            },
+          }
+      );
+    }
+  }
   return (
+      <>
     <Sheet open={isOpen} onOpenChange={onOpenChange}>
       <SheetTrigger asChild></SheetTrigger>
-      {detailNote ? (
+      {detailNote && isOpenUpdateNote ? (
         <SheetContent className="bg-white pr-[20px] w-full md:w-[40%]">
           <div className="flex w-full justify-between">
             <Button
@@ -176,10 +227,10 @@ export default function NoteSheet({
                         {item?.time}
                       </div>
                       <div className="flex gap-3">
-                        <button onClick={() => setDetailNote(item)}>
+                        <button onClick={() => handleOpenUpdateNote(item)}>
                           <Pencil />
                         </button>
-                        <button>
+                        <button onClick={() => handleOpenModalDelete(item)}>
                           <Trash2 />
                         </button>
                       </div>
@@ -193,5 +244,27 @@ export default function NoteSheet({
         </SheetContent>
       )}
     </Sheet>
+        <Dialog open={isOpenDeleteNote} onOpenChange={() => setIsOpenDeleteNote(!isOpenDeleteNote)}>
+          <DialogTrigger asChild></DialogTrigger>
+          <DialogContent className="sm:max-w-[425px] bg-[#fff]">
+            <DialogHeader>
+              <DialogTitle>Bạn có chắc chắn xóa khóa học ...</DialogTitle>
+              <DialogDescription>
+                Bạn phải chắc chắn rằng bạn sẽ xóa note này, nếu xóa thì dữ liệu
+                mất vĩnh viễn.
+              </DialogDescription>
+            </DialogHeader>
+            <DialogFooter>
+              <ButtonComponent
+                  type="courseHeader"
+                  className="p-2"
+                  onClick={handleButtonDelete}
+              >
+                Xóa note
+              </ButtonComponent>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      </>
   );
 }

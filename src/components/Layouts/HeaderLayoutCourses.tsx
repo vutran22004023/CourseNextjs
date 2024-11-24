@@ -63,11 +63,7 @@ export default function HeaderLayoutCourses() {
       );
     }
   }, [
-    isNoteSheetOpen,
-    courseDetail,
-    dataNote,
-    selectedChapter,
-    selectedSortOrder,
+    isNoteSheetOpen
   ]);
 
   return (
