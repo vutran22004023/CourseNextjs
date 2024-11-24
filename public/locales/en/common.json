@@ -89,6 +89,7 @@
     "actions": "Actions"
   },
   "pagesBlog": {
+    "Post": "Featured Posts",
     "New": "New",
     "AllPost": "All Post",
     "FeaturedArticles": "Featured Post"
