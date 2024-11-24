@@ -62,7 +62,7 @@ export default function cardRoom() {
     const completedItems = dataRoom?.data?.rooms?.filter((item: any) => item.status === "completed");
     return (
         <div className="my-3">
-            <div className="shadow-xl p-5 rounded-xl">
+            <div className="shadow-xl p-5 rounded-xl border-2">
                 <Text type="subtitle" className="mb-2">
                     {t('OnlineLearning.Studying')}
                 </Text>
@@ -140,7 +140,7 @@ export default function cardRoom() {
                     </div>
                 )}
             </div>
-            <div className="shadow-xl p-5 rounded-xl mt-5">
+            <div className="shadow-xl p-5 rounded-xl mt-5 border-2">
                 <Text type="subtitle" className="mb-2">
                     {t('OnlineLearning.Complete')}
                 </Text>
