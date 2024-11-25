@@ -93,9 +93,7 @@ const chapterSchema = z.object({
 const courseFormSchema = z
   .object({
     name: z
-      .string()
-      .min(2, "Tên khóa học phải ít nhất 2 kí tự")
-      .max(30, "Tên khóa học phải tối đa 30 kí tự"),
+      .string(),
     price: z.enum(["free", "paid"]),
     priceAmount: z.string().optional(),
     video: z.string().url("Vui lòng nhập URL hợp lệ").optional(),
@@ -133,6 +131,8 @@ export default function NewCourses({ fetchTableData }: IfetchTable) {
     mode: "onChange",
   });
 
+  const{getValues} = form;
+  console.log(getValues());
   const {
     fields: chapterFields,
     append: appendChapter,

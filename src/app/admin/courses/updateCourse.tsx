@@ -39,6 +39,7 @@ import {FileUpload, ImageUpload, VideoUpload} from "@/components/UpLoadImg/Image
 import slugify from "slugify";
 import {GetDetailCourses} from "@/apis/course";
 import {Course} from "@/types/course";
+import {useFirebaseStorage} from "@/hooks/useFirebaseStorage";
 
 interface UpdateProps {
     data: any;
@@ -102,7 +103,7 @@ const videoSchema = z.object({
     slug: z.string().optional(),
     videoType: z.enum(["video", "exercise","videofile"]),
     file: z.instanceof(File).optional(),
-    videoFile: z.instanceof(File).optional(),
+    videoFile: z.instanceof(File).optional().nullable(),
     quiz: z.array(questionSchema).optional(),
 });
 
@@ -121,7 +122,7 @@ const courseFormSchema = z
         price: z.enum(["free", "paid"]),
         priceAmount: z.string().optional(),
         video: z.string().url("Vui lòng nhập URL hợp lệ").optional(),
-        image: z.string().url("Please enter a valid image URL").optional(),
+        image: z.instanceof(File).optional(),
         chapters: z.array(chapterSchema),
         slug: z.string().optional(),
     })
@@ -150,6 +151,12 @@ const fetchData = async (slug: string) => {
 };
 
 const UpdateCourse: React.FC<UpdateProps> = ({data, isOpen, onClose}) => {
+    const {
+        uploadedFiles,
+        uploadFile,
+        setUploadedFiles,
+        deleteFileFromFirebase,
+    } = useFirebaseStorage();
     const [imagePreview, setImagePreview] = useState<string | null>(null);
     const [dataDetailCourse, setDataDetailCourse] = useState<Course>();
     useEffect(() => {
@@ -182,7 +189,8 @@ const UpdateCourse: React.FC<UpdateProps> = ({data, isOpen, onClose}) => {
         },
         mode: "onChange",
     });
-
+    const {errors} = form.formState;
+    console.log(errors);
     useEffect(() => {
         if (dataDetailCourse?.image) {
             setImagePreview(dataDetailCourse?.image);
@@ -211,18 +219,15 @@ const UpdateCourse: React.FC<UpdateProps> = ({data, isOpen, onClose}) => {
     });
 
     const handleImageUpload = (file: File) => {
-        form.setValue("image", URL.createObjectURL(file));
+        form.setValue("image", file);
         setImagePreview(URL.createObjectURL(file));
     };
 
     const mutationUpdate = useMutationHook(async (dataForm: any) => {
-        if (dataForm.image && dataForm.image instanceof File) {
-            const imgRef = ref(imageDb, `files/${v4()}`);
-            const snapshot = await uploadBytes(imgRef, dataForm.image);
-            const url = await getDownloadURL(snapshot.ref);
+        if (dataForm.image) {
+            const url = await uploadFile(dataForm.image, "files");
+            console.log(url)
             dataForm.image = url; // Thay thế đối tượng File bằng URL
-        } else if (!dataForm.image && data.image) {
-            dataForm.image = data.image; // Giữ URL hình ảnh cũ nếu không có hình ảnh mới
         }
 
         if (dataForm?.chapters) {
@@ -262,9 +267,19 @@ const UpdateCourse: React.FC<UpdateProps> = ({data, isOpen, onClose}) => {
     useEffect(() => {
         if (dataUpdateCourses?.status === 200) {
             success(`${dataUpdateCourses?.message}`);
+            setUploadedFiles([]);
             onClose();
         } else if (dataUpdateCourses?.status === "ERR") {
             error(`${dataUpdateCourses?.message}`);
+            const deletePromises = uploadedFiles.map((fileUrl) =>
+                deleteFileFromFirebase(fileUrl)
+            );
+            Promise.all(deletePromises)
+                .then(() => {
+                    console.log("All uploaded files deleted successfully.");
+                    setUploadedFiles([]);
+                })
+                .catch((err) => console.error("Error while deleting files:", err));
         }
     }, [dataUpdateCourses]);
 
