@@ -2,12 +2,16 @@ import Anh1 from "@/assets/Images/hinh-dep.jpg";
 import { Course } from "@/types";
 import { Users } from "lucide-react";
 import Image from "next/image";
+import {useTranslation} from "react-i18next";
 
 // Định nghĩa kiểu dữ liệu cho props
 interface Idata {
   course: Course;
 }
 export default function Cart({ course }: Idata) {
+  const {t} = useTranslation('common');
+  console.log(course);
+
   return (
     <div className="relative group rounded-xl border  hover:border-none transition-all duration-300 hover:shadow-[0_8px_16px_rgba(255,90,0,0.6)] hover:translate-y-[-8px]">
       <div className="overflow-hidden relative h-[190px]">
@@ -22,7 +26,7 @@ export default function Cart({ course }: Idata) {
         <div className="absolute h-[190px] inset-0 bg-black bg-opacity-0 rounded-t-xl group-hover:bg-opacity-50 flex items-center justify-center transition-all duration-300">
           <div className="opacity-0 transform translate-y-10 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0">
             <span className="text-black px-4 py-2 bg-white bg-opacity-0 p-3 group-hover:bg-opacity-50 transition-all duration-300 rounded-xl">
-              Xem khóa học
+              {t('HoverCard')}
             </span>
           </div>
         </div>

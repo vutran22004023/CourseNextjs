@@ -27,6 +27,7 @@
     "successRegister": "Registered successfully",
     "errorRegister": "Registration failed"
   },
+  "HoverCard": "View course",
   "annotations": "Annotations",
   "instruct": "Instruct",
   "return": "Return",
@@ -88,6 +89,7 @@
     "actions": "Actions"
   },
   "pagesBlog": {
+    "Post": "Featured Posts",
     "New": "New",
     "AllPost": "All Post",
     "FeaturedArticles": "Featured Post"

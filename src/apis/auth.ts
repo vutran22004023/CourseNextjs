@@ -139,6 +139,6 @@ export const LoginGoogle = async (data: any) => {
         );
         return response.data;
     } catch {
-        throw new Error("Error login");
+        // throw new Error("Error login");
     }
 };
