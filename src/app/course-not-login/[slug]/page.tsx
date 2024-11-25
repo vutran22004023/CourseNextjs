@@ -21,8 +21,9 @@ export default function CoursesNotLogin() {
   const [isLoadingDetail, setIsLoadingDetail] = useState(false);
   const { slug } = useParams<any>();
   const parseTime = (time: string) => {
-    const timeArray = time.split(":").map(Number);
-    switch (timeArray.length) {
+    const timeArray = time?.split(":").map(Number);
+    if(timeArray?.length === 0) return 0;
+    switch (timeArray?.length) {
       case 3: {
         const [hh, mm, ss] = timeArray;
         return hh * 3600 + mm * 60 + ss;

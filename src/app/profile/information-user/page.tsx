@@ -16,7 +16,7 @@ import ButtonComponment from "@/components/Button/Button";
 import {useSelector} from "react-redux";
 import {RootState} from "@/redux/store";
 import Text from "@/components/Text/text";
-import {UpdateUser} from "@/apis/user";
+import {UpdateUser, FormTeacher} from "@/apis/user";
 import {useMutationHook} from "@/hooks";
 import {useEffect, useState} from "react";
 import {success} from "@/components/Message/Message";
@@ -32,7 +32,15 @@ export default function InformationUser() {
         avatar: "",
         role: "",
     });
-    console.log("dữ liệu user", userData);
+
+    const [formTeacher, setFormTeacher] = useState<any>({
+        name: "",
+        qualifications: "",
+        experienceYears: "",
+        subjects: []
+    })
+
+
     useEffect(() => {
         if (user) {
             setUserData({
@@ -52,9 +60,27 @@ export default function InformationUser() {
             console.log(err);
         }
     });
+
+    const mutationUpdateTeacher = useMutationHook(async (data: any) => {
+        try {
+            const res = await FormTeacher({userId:user?.id,...data});
+            return res?.data;
+        } catch (err) {
+            console.log(err);
+        }
+    })
+
     const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const {id, value} = e.target;
         setUserData((prevData) => ({
+            ...prevData,
+            [id]: value,
+        }));
+    };
+
+    const handleOnChangeTeacher = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const {id, value} = e.target;
+        setFormTeacher((prevData: any) => ({
             ...prevData,
             [id]: value,
         }));
@@ -64,10 +90,17 @@ export default function InformationUser() {
         mutationUpdateUser.mutate(userData, {
             onSuccess(data, variables, context) {
                 success("Cập nhập thành công");
-                location.reload();
             },
         });
     };
+
+    const handleSubmitFormTeacher = () => {
+        mutationUpdateTeacher.mutate(formTeacher, {
+            onSuccess(data, variables, context) {
+                success("Đã gửi form tới admin");
+            }
+        })
+    }
 
     return (
         <div className="container w-full">
@@ -184,22 +217,56 @@ export default function InformationUser() {
                         <div className="grid gap-4 py-4">
                             <div className="grid grid-cols-4 items-center gap-4">
                                 <Label htmlFor="name" className="text-right">
-                                    Role
+                                    Họ và tên đầy đủ
                                 </Label>
                                 <Input
-                                    id="role"
-                                    value={userData.role || "Chưa cập nhật"}
+                                    id="name"
+                                    value={formTeacher.name}
                                     className="col-span-3"
-                                    onChange={handleOnChange}
+                                    onChange={handleOnChangeTeacher}
+                                />
+                            </div>
+
+                            <div className="grid grid-cols-4 items-center gap-4">
+                                <Label htmlFor="qualifications" className="text-right">
+                                    Trình độ
+                                </Label>
+                                <Input
+                                    id="qualifications"
+                                    value={formTeacher.qualifications}
+                                    className="col-span-3"
+                                    onChange={handleOnChangeTeacher}
+                                />
+                            </div>
+                            <div className="grid grid-cols-4 items-center gap-4">
+                                <Label htmlFor="experienceYears" className="text-right">
+                                    Năm kinh nghiệm
+                                </Label>
+                                <Input
+                                    id="experienceYears"
+                                    value={formTeacher.experienceYears }
+                                    className="col-span-3"
+                                    onChange={handleOnChangeTeacher}
+                                />
+                            </div>
+                            <div className="grid grid-cols-4 items-center gap-4">
+                                <Label htmlFor="subjects" className="text-right">
+                                    Môn học
+                                </Label>
+                                <Input
+                                    id="subjects"
+                                    value={formTeacher.subjects}
+                                    className="col-span-3"
+                                    onChange={handleOnChangeTeacher}
                                 />
                             </div>
                         </div>
                         <DialogFooter>
                             <ButtonComponment
                                 className="flex justify-center p-3 rounded-2xl bg-[#FF5A00] hover:bg-[#FF5A00]"
-                                onClick={handleUpdateUser}
+                                onClick={handleSubmitFormTeacher}
                             >
-                                {t('Profile.User.Update')}
+                                Gửi tới admin
                             </ButtonComponment>
                         </DialogFooter>
                     </DialogContent>

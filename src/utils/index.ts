@@ -5,9 +5,11 @@ export const formatCurrencyVND = (number: number): string => {
   });
 };
 
-export const parseTime = (time: string) => {
+export const parseTime = (time?: string) => {
+  if (!time) return 0;
+
   const [minutes, seconds] = time.split(":").map(Number);
-  return minutes * 60 + seconds;
+  return (minutes || 0) * 60 + (seconds || 0);
 };
 export const formatTime = (totalSeconds: number) => {
   const hours = Math.floor(totalSeconds / 3600);
