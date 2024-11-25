@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
     ContentState,
     EditorState,
@@ -18,12 +18,17 @@ import { CreateBlogs } from "@/apis/blog";
 import { useSelector, useDispatch } from "react-redux";
 import { success, error } from "@/components/Message/Message";
 import useScreenWindow from "@/hooks/useScreenWindow";
+import { ImageUpload, FileUpload,VideoUpload } from "@/components/UpLoadImg/ImageUpload";
+import Image from "next/image";
+import {useFirebaseStorage} from "@/hooks/useFirebaseStorage";
 export default function PostsBlog() {
     const user = useSelector((state: RootState) => state.user);
     const note = {
         id: "9999",
         content: "<p></p>",
     };
+    const [imagePreview, setImagePreview] = useState<string>();
+    const[fileImage, setFileImage] = useState<File>();
 
     const [editorState, setEditorState] = useState(() =>
         EditorState.createEmpty()
@@ -31,6 +36,19 @@ export default function PostsBlog() {
     const [rawHTML, setRawHTML] = useState(note.content);
     const [valueHeader, setValueHeader] = useState<string>();
     const [isMounted, setIsMounted] = useState(false);
+
+    const {
+        uploadedFiles,
+        uploadFile,
+        setUploadedFiles,
+        deleteFileFromFirebase,
+    } = useFirebaseStorage();
+
+    const handleImageUpload = (file: File) => {
+        setImagePreview(URL.createObjectURL(file));
+        setFileImage(file);
+    };
+
     const { width: ScreenWidth, height:ScreenHeight } = useScreenWindow();
     useEffect(() => {
         setIsMounted(true);
@@ -73,18 +91,35 @@ export default function PostsBlog() {
         }
     });
 
-    const handleButtonCreateBlog = () => {
-        mutationBlog.mutate({ title: valueHeader, content: rawHTML });
+    const handleButtonCreateBlog = async () => {
+        if(imagePreview) {
+            const url = await uploadFile(fileImage, "files/blogs");
+            if(url) {
+                await mutationBlog.mutate({ title: valueHeader, content: rawHTML, image: url });
+            }
+        }
     };
 
     const { data: dataBlog } = mutationBlog;
     useEffect(() => {
         if (dataBlog?.status === 200) {
             success(`${dataBlog.message}`);
+            setImagePreview("");
+            setFileImage(undefined);
             setValueHeader("");
             setRawHTML("");
+            setUploadedFiles([]);
         } else if (dataBlog?.status === "ERR") {
             error(`${dataBlog.message}`);
+            const deletePromises = uploadedFiles.map((fileUrl) =>
+                deleteFileFromFirebase(fileUrl)
+            );
+            Promise.all(deletePromises)
+                .then(() => {
+                    console.log("All uploaded files deleted successfully.");
+                    setUploadedFiles([]);
+                })
+                .catch((err) => console.error("Error while deleting files:", err));
         }
     }, [dataBlog]);
 
@@ -110,6 +145,12 @@ export default function PostsBlog() {
                         Đăng bài
                     </ButtonComponent>
                 </div>
+            </div>
+            <div className="mb-2">
+                <ImageUpload onImageUpload={handleImageUpload} />
+                {imagePreview && (
+                    <Image src={imagePreview} alt="imagePreview" width={150} height={150} className="rounded-md mt-2" />
+                )}
             </div>
             <div style={{height: ScreenHeight- 250,width: ScreenWidth - 300, overflowY: 'auto' }}>
                 <Editor

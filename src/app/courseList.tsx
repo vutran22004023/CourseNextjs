@@ -19,8 +19,6 @@ import Text from "@/components/Text/text";
 import { useRouter } from "next/navigation";
 import { CheckPaidCourse } from "@/apis/pay";
 import { useTranslation } from "react-i18next";
-import blogimg from "@/assets/Images/image 10.png"; //ảnh mẫu
-import logouser from "@/assets/Images/logouser.png"; //logouser mẫu
 
 const getAllCourses = async (search: string): Promise<DataAllCourses> => {
   const res = await GetAllCourses(search);
@@ -150,7 +148,9 @@ const BlogList: FC<{ user: any }> = ({ user }) => {
             >
               <div className="bg-black rounded-t-xl">
                 <Image
-                  src={blogimg}
+                  src={blog.image}
+                  width={600}
+                  height={300}
                   alt="blogimg"
                   className="w-full h-[190px] mr-[20px] object-fill"
                 />
@@ -159,7 +159,9 @@ const BlogList: FC<{ user: any }> = ({ user }) => {
                 <p className="font-medium text-[20px] truncate mb-1">{blog.title}</p>
                 <div className="flex items-center ">
                   <Image
-                    src={logouser}
+                    src={blog.image}
+                    width={600}
+                    height={300}
                     alt="logouser"
                     className="w-[40px] h-[40px] mr-[10px] rounded-full"
                   />

@@ -78,15 +78,19 @@ export default function Blog() {
               className="flex h-[180px] w-full mb-3 rounded-[20px] border-[2px] p-[10px] relative"
             >
               <Image
-                src={blogimg}
+                src={blog.image}
                 alt="blogimg"
+                width={600}
+                height={300}
                 className="w-[230px] h-full mr-[20px]"
                 style={{ borderRadius: "15px" }}
               />
               <div>
                 <div className="flex items-center ">
                   <Image
-                    src={logouser}
+                    src={blog.image}
+                    width={600}
+                    height={300}
                     alt="logouser"
                     className="w-[40px] h-[40px] mr-[10px] rounded-full"
                   />
@@ -96,9 +100,6 @@ export default function Blog() {
                   </div>
                 </div>
                 <p className="font-medium text-[24px]">{blog.title}</p>
-                <p className="pr-2 leading-5 opacity-70 line-clamp-4">
-                  {blog.content}
-                </p>
               </div>
               <div className="absolute right-2 top-3">
                 <EllipsisVertical />
@@ -120,7 +121,9 @@ export default function Blog() {
             className="flex h-[120px] w-full rounded-[15px] border-[2px] p-[5px] mb-2"
           >
             <Image
-              src={blogimg}
+                src={blog.image}
+                width={600}
+                height={300}
               alt="blogimg"
               className="w-[160px] h-full mr-[10px]"
               style={{ borderRadius: "15px" }}
@@ -131,7 +134,9 @@ export default function Blog() {
               </p>
               <div className="flex items-center absolute bottom-1">
                 <Image
-                  src={logouser}
+                    src={blog.image}
+                    width={600}
+                    height={300}
                   alt="logouser"
                   className="w-[30px] h-[30px] mr-[10px] rounded-full"
                 />
