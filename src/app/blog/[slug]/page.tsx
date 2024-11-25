@@ -77,16 +77,16 @@ export default function BlogDetailPage() {
         <div>
           <div className="flex mb-[30px]">
             <Image
-              src={logouser}
-              alt="logouser"
-              className="w-[55px] h-[55px] mr-[10px] rounded-full"
+                src={logouser}
+                alt="logouser"
+                className="w-[55px] h-[55px] mr-[10px] rounded-full"
             ></Image>
             <div>
               <div>{blog?.author}</div>
               <div>{blog?.date}</div>
             </div>
           </div>
-          <div>{blog?.content}</div>
+          <div dangerouslySetInnerHTML={{__html: blog?.content}}/>
         </div>
       </div>
 

@@ -10,7 +10,25 @@ import {
   type CarouselApi,
 } from "@/components/ui/carousel";
 import Anh1 from "@/assets/Images/hinh-dep.jpg";
+import anh1 from "@/assets/Images/anh1.png";
+import anh2 from "@/assets/Images/anh2.png";
+import anh3 from "@/assets/Images/anh3.png";
 import Image from "next/image";
+
+const data = [
+  {
+    id: 1,
+    image: anh1,
+  },
+  {
+    id: 2,
+    image: anh2,
+  },
+  {
+    id: 3,
+    image: anh3,
+  }
+]
 
 export default function CustomCarousel() {
   const [api, setApi] = React.useState<CarouselApi>();
@@ -43,15 +61,16 @@ export default function CustomCarousel() {
           onMouseLeave={() => plugin.current.reset()}
         >
           <CarouselContent>
-            {Array.from({ length: 5 }).map((_, index) => (
+            {data.map((item, index) => (
               <CarouselItem key={index}>
                 <div className="p-1 w-full flex justify-center">
                   <div className="rounded-xl">
                     <Image
-                      src={Anh1}
+                      src={item.image}
                       alt="@shadcn"
-                      className="w-[1500px] h-[150px] md:h-[300px] rounded-xl"
-                      objectFit="cover"
+                      width={2000}
+                      height={1000}
+                      className="w-[2000px] h-[150px] md:h-[300px] rounded-xl border-black border-2"
                     />
                   </div>
                 </div>
