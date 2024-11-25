@@ -129,3 +129,45 @@ export const SearchUser = async (search: string) => {
         throw new Error("Error delete many user");
     }
 };
+
+export const FormTeacher = async (
+    data: any
+) => {
+    try {
+        const response: AxiosResponse = await axiosInstance.put(
+            `/api/user/form-teacher-user`,
+            data
+        );
+        return response.data;
+    } catch {
+        throw new Error("Error update user");
+    }
+};
+
+export const getApplicantsStatus = async (
+    status: string
+) => {
+    try {
+        const response: AxiosResponse = await axiosInstance.get(
+            `/api/user/teacher-applicants/status/${status}`,
+        );
+        return response.data;
+    } catch {
+        throw new Error("Error update user");
+    }
+};
+
+export const approveTeacher = async (
+    userId: any,
+    approvalStatus: any
+) => {
+    try {
+        const response: AxiosResponse = await axiosInstance.put(
+            `/api/user/approve-teacher/${userId}`,
+            {approvalStatus}
+        );
+        return response.data;
+    } catch {
+        throw new Error("Error update user");
+    }
+};

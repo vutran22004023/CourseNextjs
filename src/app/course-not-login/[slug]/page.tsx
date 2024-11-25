@@ -23,7 +23,7 @@ export default function CoursesNotLogin() {
   const parseTime = (time: string) => {
     const timeArray = time?.split(":").map(Number);
     if(timeArray?.length === 0) return 0;
-    switch (timeArray.length) {
+    switch (timeArray?.length) {
       case 3: {
         const [hh, mm, ss] = timeArray;
         return hh * 3600 + mm * 60 + ss;
