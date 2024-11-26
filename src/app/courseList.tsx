@@ -152,11 +152,11 @@ const BlogList: FC<{ user: any }> = ({ user }) => {
                   width={600}
                   height={300}
                   alt="blogimg"
-                  className="w-full h-[190px] mr-[20px] object-fill"
+                  className="w-full h-[190px] mr-[20px] rounded-xl object-fill"
                 />
               </div>
               <div className="p-2">
-                <p className="font-medium text-[20px] truncate mb-1">{blog.title}</p>
+                <p className="font-medium text-[16px] truncate mb-1">{blog.title}</p>
                 <div className="flex items-center ">
                   <Image
                     src={blog.image}

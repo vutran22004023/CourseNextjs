@@ -75,17 +75,17 @@ export default function Blog() {
             <Link
               href={`/blog/${blog.slug}`}
               key={blog.slug}
-              className="flex h-[180px] w-full mb-3 rounded-[20px] border-[2px] p-[10px] relative"
+              className="grid grid-cols-10 h-[180px] w-full mb-3 rounded-[20px] border-[2px] p-[10px] relative"
             >
               <Image
                 src={blog.image}
                 alt="blogimg"
-                width={600}
+                width={230}
                 height={300}
-                className="w-[230px] h-full mr-[20px]"
+                className="w-[230px] h-[156.8px] mr-[20px] col-span-3"
                 style={{ borderRadius: "15px" }}
               />
-              <div>
+              <div className="col-span-7">
                 <div className="flex items-center ">
                   <Image
                     src={blog.image}
@@ -99,7 +99,8 @@ export default function Blog() {
                     <p className="leading-4 opacity-60">{blog.date}</p>
                   </div>
                 </div>
-                <p className="font-medium text-[24px]">{blog.title}</p>
+                <p className="font-medium text-[20px]">{blog.title}</p>
+                
               </div>
               <div className="absolute right-2 top-3">
                 <EllipsisVertical />
@@ -118,17 +119,17 @@ export default function Blog() {
             <Link
             href={`/blog/${blog.slug}`}
             key={blog.slug}
-            className="flex h-[120px] w-full rounded-[15px] border-[2px] p-[5px] mb-2"
+            className="grid grid-cols-3 h-[120px] w-full rounded-[15px] border-[2px] p-[5px] mb-2"
           >
             <Image
                 src={blog.image}
                 width={600}
                 height={300}
               alt="blogimg"
-              className="w-[160px] h-full mr-[10px]"
+              className="w-[160px] h-[106.8px] mr-[10px] col-span-1"
               style={{ borderRadius: "15px" }}
             />
-            <div className="relative">
+            <div className="relative col-span-2 pl-3 h-[106.8px]">
               <p className="font-medium text-[18px] pr-2 leading-[18px]">
                 {blog.title}
               </p>
