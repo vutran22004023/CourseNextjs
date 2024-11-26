@@ -137,7 +137,7 @@ export default function modalPay({ isOpen, setIsOpen, course }: Props) {
                 {t('ModalPay.Description')}
               </Text>
               <Button
-                className="w-full p-5 rounded-xl bg-slate-800 text-[#fff] cactus-classical-serif-md text-[18px] uppercase relative mb-3 hover:bg-slate-600"
+                className="w-full p-5 rounded-xl bg-[#ff5a00] text-[#fff] cactus-classical-serif-md text-[18px] uppercase relative mb-3 hover:bg-slate-600"
                 onClick={handZaloPay}
               >
                 <Image
@@ -147,10 +147,10 @@ export default function modalPay({ isOpen, setIsOpen, course }: Props) {
                   className="absolute left-6"
                   alt="Zalopay"
                 />
-                <Text>{t('ModalPay.ZaloPay')}</Text>
+                <Text className="text-white">{t('ModalPay.ZaloPay')}</Text>
               </Button>
               <Button
-                className="w-full p-5 rounded-xl bg-slate-800 text-[#fff] cactus-classical-serif-md text-[18px] uppercase relative mb-3 hover:bg-slate-600"
+                className="w-full p-5 rounded-xl bg-[#ff5a00] text-[#fff] cactus-classical-serif-md text-[18px] uppercase relative mb-3 hover:bg-slate-600"
                 onClick={handPayOs}
               >
                 <Image
@@ -160,7 +160,7 @@ export default function modalPay({ isOpen, setIsOpen, course }: Props) {
                   className="absolute left-6 text-[#fff]"
                   alt="QR"
                 />
-                <Text>{t('ModalPay.QR')}</Text>
+                <Text className="text-white">{t('ModalPay.QR')}</Text>
               </Button>
             </div>
           </div>

@@ -10,7 +10,6 @@ interface Idata {
 }
 export default function Cart({ course }: Idata) {
   const {t} = useTranslation('common');
-  console.log(course);
 
   return (
     <div className="relative group rounded-xl border  hover:border-none transition-all duration-300 hover:shadow-[0_8px_16px_rgba(255,90,0,0.6)] hover:translate-y-[-8px]">
