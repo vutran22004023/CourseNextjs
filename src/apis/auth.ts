@@ -50,7 +50,7 @@ export const getRefreshTokenFromApi = async (): Promise<token | null> => {
 export const Register = async (data: Registers): Promise<Registers> => {
     try {
         const response: AxiosResponse<Registers> = await axios.post(
-            `$/api/register`,
+            `/api/register`,
             data
         );
         return response.data;
@@ -71,7 +71,7 @@ export const LoginOut = async (): Promise<User> => {
 export const ForgotPassword = async (data: EmailProps): Promise<EmailProps> => {
     try {
         const response: AxiosResponse<EmailProps> = await axios.post(
-            `$/api/forgot-password`,
+            `/api/forgot-password`,
             data
         );
         return response.data;
