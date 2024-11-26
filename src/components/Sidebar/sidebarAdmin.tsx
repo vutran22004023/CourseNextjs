@@ -58,7 +58,7 @@ export default function SidebarAdminComponent({ className }: SidebarProps) {
       current: pathname === "/admin/blogs",
     },
     {
-      name: t('headers.blog'),
+      name: 'Xác nhận giáo viên',
       href: "/admin/teacher-authentication",
       icon: Contact,
       current: pathname === "/admin/teacher-authentication",
