@@ -251,10 +251,12 @@ export default function sheetmessage({
                           className="min-w-[400px]"
                         />
                         <div className="flex gap-2">
-                          <ButtonComponent onClick={handleSaveEdit}>
+                          <ButtonComponent type="notesheet" className="px-2 py-1" onClick={handleSaveEdit}>
                           {t('CourseLogin.Save')}
                           </ButtonComponent>
                           <ButtonComponent
+                            type="notesheet"
+                            className="px-2 py-1"
                             onClick={() => setEditMessageId(null)}
                           >
                             {t('CourseLogin.Exit')}

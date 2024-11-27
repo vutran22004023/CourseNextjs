@@ -31,7 +31,7 @@ export default function Cart({ course }: Idata) {
         </div>
       </div>
       <div className="bg-white text-black p-4 rounded-b-xl">
-        <div className="mb-1 font-bold">{course?.name}</div>
+        <div className="mb-1 font-bold truncate">{course?.name}</div>
         <div className="flex gap-2 text-[14px]">
           <Users className="text-[12px] text-[#ff5a00]" />
           <span className="font-bold text-[16px] text-[#ff5a00]">{course.view}</span>
